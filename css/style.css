@@ -684,8 +684,6 @@ header nav ul li a:hover {
   padding: 6px 15px;
   -webkit-border-radius: 15px;
   border-radius: 15px;
-  background: #ddd;
-  color: #817c7c;
   text-decoration: none;
 }
 #main article.post-expand .article-more-link a:hover {
@@ -1159,12 +1157,12 @@ article .article-content table {
 }
 article .article-content table th {
   font-weight: bold;
-  border-bottom: 2px solid #dbdbdb;
+  border: 1px solid #dbdbdb;
   padding: 0.5em;
   line-height: 1.3em;
 }
 article .article-content table td {
-  border-bottom: 1px solid #dbdbdb;
+  border: 1px solid #dbdbdb;
   padding: 0.5em;
   line-height: 1.3em;
 }

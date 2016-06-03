@@ -20,7 +20,7 @@ ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&a
 <meta property="og:description" content="&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]
 ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x53C2;&amp;#x6570;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x53EF;&amp;#x4EE5;&amp;#">
 <meta property="og:image" content="http://linuxcommand.org/images/permissions_diagram.gif">
-<meta property="og:updated_time" content="2016-06-02T14:37:40.000Z">
+<meta property="og:updated_time" content="2016-06-03T12:41:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 命令学习-每日一贴之ls">
 <meta name="twitter:description" content="&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]
@@ -116,8 +116,63 @@ ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&a
 <p>&#x5339;&#x914D;0~N&#x4E2A;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#x3002;</p>
 <p> <strong>?&#xFF08;&#x95EE;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
 <p>&#x5339;&#x914D;1&#x4E2A;&#x4EFB;&#x610F;unicode&#x5B57;&#x7B26;&#x3002;</p>
-<p><strong>[] &#xFF08;&#x65B9;&#x62EC;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
+<p><strong>[char] &#xFF08;&#x65B9;&#x62EC;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
 <p>&#x5339;&#x914D;1&#x4E2A;&#x65B9;&#x62EC;&#x53F7;&#x5185;&#x4EFB;&#x610F;&#x7684;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x3002;</p>
+<p>&#x62EC;&#x53F7;&#x4E2D;&#x7684;&#x5B57;&#x6BCD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;POSIX &#x5B57;&#x7B26;&#x96C6;&#xFF08;POSIX Character Classes&#xFF09;&#xFF0C;&#x5305;&#x542B;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x3002;&#x6211;&#x53EA;&#x5217;&#x51FA;&#x4E86;&#x8BA4;&#x4E3A;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#xFF0C;&#x8BE6;&#x89C1;<a href="http://man7.org/linux/man-pages/man7/glob.7.html" target="_blank" rel="external">http://man7.org/linux/man-pages/man7/glob.7.html</a></p>
+<table>
+<thead>
+<tr>
+<th>&#x8868;&#x8FBE;&#x5F0F;</th>
+<th>&#x89E3;&#x91CA;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[a-z]</code></td>
+<td>&#x5C0F;&#x5199;a&#x5230;z</td>
+</tr>
+<tr>
+<td><code>[A-Z]</code></td>
+<td>&#x5927;&#x5199;a&#x5230;z</td>
+</tr>
+<tr>
+<td><code>[0-9]</code></td>
+<td>&#x6570;&#x5B57;0&#x5230;9</td>
+</tr>
+<tr>
+<td><code>[:alnum:]</code></td>
+<td>Alphanumeric&#x5B57;&#x7B26;&#xFF0C;&#x8868;&#x793A;&#x62C9;&#x4E01;&#x6587;&#x548C;&#x963F;&#x62C9;&#x4F2F;&#x6570;&#x5B57;<sup>[4]</sup></td>
+</tr>
+<tr>
+<td><code>[:alpha:]</code></td>
+<td>Alphabetic characters&#xFF0C;&#x62C9;&#x4E01;&#x6587;</td>
+</tr>
+<tr>
+<td><code>[:digit:]</code></td>
+<td>&#x6570;&#x5B57;</td>
+</tr>
+<tr>
+<td><code>[:upper:]</code></td>
+<td>&#x5927;&#x5199;&#x7684;&#x62C9;&#x4E01;&#x6587;</td>
+</tr>
+<tr>
+<td><code>[:lower:]</code></td>
+<td>&#x5C0F;&#x5199;&#x7684;&#x62C9;&#x4E01;&#x6587;</td>
+</tr>
+<tr>
+<td><code>[:blank:]</code></td>
+<td>ASCII &#x7A7A;&#x683C;&#x6216;&#x5236;&#x8868;&#x7B26;</td>
+</tr>
+<tr>
+<td><code>[:space:]</code></td>
+<td>ASCII &#x7A7A;&#x683C;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x4F7F;&#x7528;&#x65B9;&#x6CD5;</p>
+<p><code>[[:alpha:]]*</code>&#xFF0C;&#x5339;&#x914D;&#x4EE5;&#x5B57;&#x6BCD;&#x5F00;&#x5934;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<p><strong>[!char]&#xFF08;&#x65B9;&#x62EC;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
+<p>&#x901A;&#x8FC7;&#x5728;&#x7B2C;&#x4E00;&#x4F4D;&#x52A0;<code>!</code>&#x8868;&#x793A;&#x5339;&#x914D;&#x4E0D;&#x5305;&#x542B;&#x65B9;&#x62EC;&#x53F7;&#x4E4B;&#x5185;&#x7684;&#x5B57;&#x7B26;</p>
 <h2 id="&#x5E38;&#x7528;&#x529F;&#x80FD;"><a href="#&#x5E38;&#x7528;&#x529F;&#x80FD;" class="headerlink" title="&#x5E38;&#x7528;&#x529F;&#x80FD;"></a>&#x5E38;&#x7528;&#x529F;&#x80FD;</h2><p><code>-A</code> - &#x5217;&#x51FA;&#x76EE;&#x5F55;&#x4E0B;&#x9664;&#x4E86;<code>.</code>&#x548C;<code>..</code>&#x4EE5;&#x5916;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x3002;<br><code>-a</code> - &#x5217;&#x51FA;&#x76EE;&#x5F55;&#x4E0B;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x62EC;&#x76EE;&#x5F55;&#x4EE5;<code>.</code>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-d</code> - &#x4EC5;&#x6253;&#x5370;&#x51FA;&#x76EE;&#x5F55;&#x540D;&#x5B57;&#xFF0C;&#x4E0D;&#x53BB;&#x6253;&#x5370;&#x5185;&#x90E8;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-l</code> - &#x6253;&#x5370;&#x957F;&#x683C;&#x5F0F;&#xFF0C;&#x5305;&#x542B;<br><code>-G</code> - &#x5F69;&#x8272;&#x8F93;&#x51FA;&#x3002;<br><code>-p</code> - &#x5982;&#x679C;&#x4E3A;&#x76EE;&#x5F55;&#xFF0C;&#x5728;&#x663E;&#x793A;&#x540D;&#x79F0;&#x540E;&#x9762;&#x6253;&#x5370;&#x4E00;&#x4E2A;&#x2019;/&#x2018;<br><code>-r</code> - &#x6839;&#x636E;&#x76EE;&#x524D;&#x8F93;&#x51FA;&#x9ED8;&#x8BA4;&#x7684;&#x6392;&#x5E8F;&#x9006;&#x5E8F;&#x3002;<br><code>-O</code> - &#x6253;&#x5370;&#x51FA;File Flag</p>
 <p><strong>&#x957F;&#x683C;&#x5F0F;</strong></p>
 <pre><code>I            II  III      IV       V  VI           VII
@@ -141,7 +196,13 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 <p><code>ls -l -t -T (&#x65B0;&#x4FEE;&#x6539;&#x7684;&#x5728;&#x524D;)</code><br><code>ls -l -t -T -r&#xFF08;&#x8001;&#x4FEE;&#x6539;&#x7684;&#x5728;&#x524D;&#xFF09;</code></p>
 <p><strong>&#x6839;&#x636E;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x6392;&#x5E8F;</strong></p>
 <p><code>ls -l -S &#xFF08;&#x4ECE;&#x5927;&#x5230;&#x5C0F;&#xFF09;</code></p>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><p>[1]&#xFF1A;<a href="http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/" target="_blank" rel="external">&#x201C;ls&#x201D; on Mac and extended file attributes</a><br>[2]&#xFF1A;<a href="http://linuxcommand.org/images/permissions_diagram.gif" target="_blank" rel="external">http://linuxcommand.org/images/permissions_diagram.gif</a><br><a href="http://www.linfo.org/wildcard.html" target="_blank" rel="external">http://www.linfo.org/wildcard.html</a></p>
+<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<li><a href="http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/" target="_blank" rel="external">&#x201C;ls&#x201D; on Mac and extended file attributes</a></li>
+<li><a href="http://linuxcommand.org/images/permissions_diagram.gif" target="_blank" rel="external">permission gif</a></li>
+<li><a href="http://www.linfo.org/wildcard.html" target="_blank" rel="external">Wildcard - 1</a></li>
+<li><a href="http://linuxcommand.org/lc3_lts0050.php" target="_blank" rel="external">Wildcard - 2</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Alphanumeric" target="_blank" rel="external">Alphanumeric - Wikipedia</a></li>
+</ol>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -301,18 +362,6 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
 			
 		
@@ -330,6 +379,18 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 		
 			
 				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
 			
 		
 		</ul>

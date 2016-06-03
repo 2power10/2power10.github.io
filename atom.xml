@@ -382,7 +382,7 @@
     <link href="http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/"/>
     <id>http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/</id>
     <published>2016-05-24T12:53:30.000Z</published>
-    <updated>2016-06-02T14:37:40.000Z</updated>
+    <updated>2016-06-03T12:41:49.000Z</updated>
     
     <content type="html">&lt;h2 id=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;a href=&quot;#&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;/a&gt;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&lt;/h2&gt;&lt;p&gt;&lt;code&gt;ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x53C2;&amp;#x6570;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x540D;&amp;#x3002;&lt;/p&gt;
@@ -391,8 +391,63 @@
 &lt;p&gt;&amp;#x5339;&amp;#x914D;0~N&amp;#x4E2A;&amp;#x4EFB;&amp;#x610F;&amp;#x5B57;&amp;#x7B26;&amp;#x3002;&lt;/p&gt;
 &lt;p&gt; &lt;strong&gt;?&amp;#xFF08;&amp;#x95EE;&amp;#x53F7;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#xFF09;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&amp;#x5339;&amp;#x914D;1&amp;#x4E2A;&amp;#x4EFB;&amp;#x610F;unicode&amp;#x5B57;&amp;#x7B26;&amp;#x3002;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;[] &amp;#xFF08;&amp;#x65B9;&amp;#x62EC;&amp;#x53F7;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#xFF09;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;[char] &amp;#xFF08;&amp;#x65B9;&amp;#x62EC;&amp;#x53F7;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#xFF09;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&amp;#x5339;&amp;#x914D;1&amp;#x4E2A;&amp;#x65B9;&amp;#x62EC;&amp;#x53F7;&amp;#x5185;&amp;#x4EFB;&amp;#x610F;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x5B57;&amp;#x7B26;&amp;#x3002;&lt;/p&gt;
+&lt;p&gt;&amp;#x62EC;&amp;#x53F7;&amp;#x4E2D;&amp;#x7684;&amp;#x5B57;&amp;#x6BCD;&amp;#x53EF;&amp;#x4EE5;&amp;#x4F7F;&amp;#x7528;POSIX &amp;#x5B57;&amp;#x7B26;&amp;#x96C6;&amp;#xFF08;POSIX Character Classes&amp;#xFF09;&amp;#xFF0C;&amp;#x5305;&amp;#x542B;&amp;#x4EE5;&amp;#x4E0B;&amp;#x51E0;&amp;#x79CD;&amp;#x3002;&amp;#x6211;&amp;#x53EA;&amp;#x5217;&amp;#x51FA;&amp;#x4E86;&amp;#x8BA4;&amp;#x4E3A;&amp;#x6BD4;&amp;#x8F83;&amp;#x5E38;&amp;#x7528;&amp;#x7684;&amp;#xFF0C;&amp;#x8BE6;&amp;#x89C1;&lt;a href=&quot;http://man7.org/linux/man-pages/man7/glob.7.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://man7.org/linux/man-pages/man7/glob.7.html&lt;/a&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&amp;#x8868;&amp;#x8FBE;&amp;#x5F0F;&lt;/th&gt;
+&lt;th&gt;&amp;#x89E3;&amp;#x91CA;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[a-z]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&amp;#x5C0F;&amp;#x5199;a&amp;#x5230;z&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[A-Z]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&amp;#x5927;&amp;#x5199;a&amp;#x5230;z&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[0-9]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&amp;#x6570;&amp;#x5B57;0&amp;#x5230;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[:alnum:]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Alphanumeric&amp;#x5B57;&amp;#x7B26;&amp;#xFF0C;&amp;#x8868;&amp;#x793A;&amp;#x62C9;&amp;#x4E01;&amp;#x6587;&amp;#x548C;&amp;#x963F;&amp;#x62C9;&amp;#x4F2F;&amp;#x6570;&amp;#x5B57;&lt;sup&gt;[4]&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[:alpha:]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Alphabetic characters&amp;#xFF0C;&amp;#x62C9;&amp;#x4E01;&amp;#x6587;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[:digit:]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&amp;#x6570;&amp;#x5B57;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[:upper:]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&amp;#x5927;&amp;#x5199;&amp;#x7684;&amp;#x62C9;&amp;#x4E01;&amp;#x6587;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[:lower:]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&amp;#x5C0F;&amp;#x5199;&amp;#x7684;&amp;#x62C9;&amp;#x4E01;&amp;#x6587;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[:blank:]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ASCII &amp;#x7A7A;&amp;#x683C;&amp;#x6216;&amp;#x5236;&amp;#x8868;&amp;#x7B26;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[:space:]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ASCII &amp;#x7A7A;&amp;#x683C;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&amp;#x4F7F;&amp;#x7528;&amp;#x65B9;&amp;#x6CD5;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;[[:alpha:]]*&lt;/code&gt;&amp;#xFF0C;&amp;#x5339;&amp;#x914D;&amp;#x4EE5;&amp;#x5B57;&amp;#x6BCD;&amp;#x5F00;&amp;#x5934;&amp;#x7684;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32;&amp;#x3002;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;[!char]&amp;#xFF08;&amp;#x65B9;&amp;#x62EC;&amp;#x53F7;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#xFF09;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x901A;&amp;#x8FC7;&amp;#x5728;&amp;#x7B2C;&amp;#x4E00;&amp;#x4F4D;&amp;#x52A0;&lt;code&gt;!&lt;/code&gt;&amp;#x8868;&amp;#x793A;&amp;#x5339;&amp;#x914D;&amp;#x4E0D;&amp;#x5305;&amp;#x542B;&amp;#x65B9;&amp;#x62EC;&amp;#x53F7;&amp;#x4E4B;&amp;#x5185;&amp;#x7684;&amp;#x5B57;&amp;#x7B26;&lt;/p&gt;
 &lt;h2 id=&quot;&amp;#x5E38;&amp;#x7528;&amp;#x529F;&amp;#x80FD;&quot;&gt;&lt;a href=&quot;#&amp;#x5E38;&amp;#x7528;&amp;#x529F;&amp;#x80FD;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x5E38;&amp;#x7528;&amp;#x529F;&amp;#x80FD;&quot;&gt;&lt;/a&gt;&amp;#x5E38;&amp;#x7528;&amp;#x529F;&amp;#x80FD;&lt;/h2&gt;&lt;p&gt;&lt;code&gt;-A&lt;/code&gt; - &amp;#x5217;&amp;#x51FA;&amp;#x76EE;&amp;#x5F55;&amp;#x4E0B;&amp;#x9664;&amp;#x4E86;&lt;code&gt;.&lt;/code&gt;&amp;#x548C;&lt;code&gt;..&lt;/code&gt;&amp;#x4EE5;&amp;#x5916;&amp;#x7684;&amp;#x6240;&amp;#x6709;&amp;#x6587;&amp;#x4EF6;&amp;#x3002;&lt;br&gt;&lt;code&gt;-a&lt;/code&gt; - &amp;#x5217;&amp;#x51FA;&amp;#x76EE;&amp;#x5F55;&amp;#x4E0B;&amp;#x6240;&amp;#x6709;&amp;#x6587;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5305;&amp;#x62EC;&amp;#x76EE;&amp;#x5F55;&amp;#x4EE5;&lt;code&gt;.&lt;/code&gt;&amp;#x5F00;&amp;#x5934;&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x3002;&lt;br&gt;&lt;code&gt;-d&lt;/code&gt; - &amp;#x4EC5;&amp;#x6253;&amp;#x5370;&amp;#x51FA;&amp;#x76EE;&amp;#x5F55;&amp;#x540D;&amp;#x5B57;&amp;#xFF0C;&amp;#x4E0D;&amp;#x53BB;&amp;#x6253;&amp;#x5370;&amp;#x5185;&amp;#x90E8;&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x3002;&lt;br&gt;&lt;code&gt;-l&lt;/code&gt; - &amp;#x6253;&amp;#x5370;&amp;#x957F;&amp;#x683C;&amp;#x5F0F;&amp;#xFF0C;&amp;#x5305;&amp;#x542B;&lt;br&gt;&lt;code&gt;-G&lt;/code&gt; - &amp;#x5F69;&amp;#x8272;&amp;#x8F93;&amp;#x51FA;&amp;#x3002;&lt;br&gt;&lt;code&gt;-p&lt;/code&gt; - &amp;#x5982;&amp;#x679C;&amp;#x4E3A;&amp;#x76EE;&amp;#x5F55;&amp;#xFF0C;&amp;#x5728;&amp;#x663E;&amp;#x793A;&amp;#x540D;&amp;#x79F0;&amp;#x540E;&amp;#x9762;&amp;#x6253;&amp;#x5370;&amp;#x4E00;&amp;#x4E2A;&amp;#x2019;/&amp;#x2018;&lt;br&gt;&lt;code&gt;-r&lt;/code&gt; - &amp;#x6839;&amp;#x636E;&amp;#x76EE;&amp;#x524D;&amp;#x8F93;&amp;#x51FA;&amp;#x9ED8;&amp;#x8BA4;&amp;#x7684;&amp;#x6392;&amp;#x5E8F;&amp;#x9006;&amp;#x5E8F;&amp;#x3002;&lt;br&gt;&lt;code&gt;-O&lt;/code&gt; - &amp;#x6253;&amp;#x5370;&amp;#x51FA;File Flag&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&amp;#x957F;&amp;#x683C;&amp;#x5F0F;&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;I            II  III      IV       V  VI           VII
@@ -416,7 +471,13 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 &lt;p&gt;&lt;code&gt;ls -l -t -T (&amp;#x65B0;&amp;#x4FEE;&amp;#x6539;&amp;#x7684;&amp;#x5728;&amp;#x524D;)&lt;/code&gt;&lt;br&gt;&lt;code&gt;ls -l -t -T -r&amp;#xFF08;&amp;#x8001;&amp;#x4FEE;&amp;#x6539;&amp;#x7684;&amp;#x5728;&amp;#x524D;&amp;#xFF09;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&amp;#x6839;&amp;#x636E;&amp;#x6587;&amp;#x4EF6;&amp;#x5927;&amp;#x5C0F;&amp;#x6392;&amp;#x5E8F;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;ls -l -S &amp;#xFF08;&amp;#x4ECE;&amp;#x5927;&amp;#x5230;&amp;#x5C0F;&amp;#xFF09;&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;a href=&quot;#&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;/a&gt;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&lt;/h2&gt;&lt;p&gt;[1]&amp;#xFF1A;&lt;a href=&quot;http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&amp;#x201C;ls&amp;#x201D; on Mac and extended file attributes&lt;/a&gt;&lt;br&gt;[2]&amp;#xFF1A;&lt;a href=&quot;http://linuxcommand.org/images/permissions_diagram.gif&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://linuxcommand.org/images/permissions_diagram.gif&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;http://www.linfo.org/wildcard.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.linfo.org/wildcard.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;a href=&quot;#&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;/a&gt;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&amp;#x201C;ls&amp;#x201D; on Mac and extended file attributes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://linuxcommand.org/images/permissions_diagram.gif&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;permission gif&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.linfo.org/wildcard.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wildcard - 1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://linuxcommand.org/lc3_lts0050.php&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wildcard - 2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Alphanumeric&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Alphanumeric - Wikipedia&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
 </content>
     
     <summary type="html">
@@ -441,7 +502,7 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
     <link href="http://zhengyi.me/2016/05/23/learning-shell-in-mac/"/>
     <id>http://zhengyi.me/2016/05/23/learning-shell-in-mac/</id>
     <published>2016-05-23T14:53:35.000Z</published>
-    <updated>2016-06-02T15:38:23.000Z</updated>
+    <updated>2016-06-03T12:44:42.000Z</updated>
     
     <content type="html">&lt;h2 id=&quot;&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&quot;&gt;&lt;a href=&quot;#&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&quot;&gt;&lt;/a&gt;&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&lt;/h2&gt;&lt;p&gt;&amp;#x5207;&amp;#x6362;&amp;#x5230;mac&amp;#x4E0B;&amp;#x5DE5;&amp;#x4F5C;&amp;#x6709;&amp;#x4E00;&amp;#x6BB5;&amp;#x65F6;&amp;#x95F4;&amp;#x4E86;&amp;#xFF0C;&amp;#x96BE;&amp;#x514D;&amp;#x8981;&amp;#x5728;&amp;#x7EC8;&amp;#x7AEF;&amp;#x4E2D;&amp;#x505A;&amp;#x4E00;&amp;#x4E0B;&amp;#x64CD;&amp;#x4F5C;&amp;#xFF0C;&amp;#x76EE;&amp;#x524D;&amp;#x638C;&amp;#x63E1;&amp;#x7684;&amp;#x4E00;&amp;#x4E9B;&amp;#x6BD4;&amp;#x8F83;&amp;#x7B80;&amp;#x5355;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#x884C;&amp;#x6709;&amp;#x65F6;&amp;#x5DF2;&amp;#x7ECF;&amp;#x96BE;&amp;#x4EE5;&amp;#x9A7E;&amp;#x9A6D;&amp;#x4E00;&amp;#x4E9B;&amp;#x6BD4;&amp;#x8F83;&amp;#x590D;&amp;#x6742;&amp;#x7684;&amp;#x64CD;&amp;#x4F5C;&amp;#x4E86;&amp;#x3002;&amp;#x6709;&amp;#x5FC5;&amp;#x8981;&amp;#x7CFB;&amp;#x7EDF;&amp;#x5F97;&amp;#x8FC7;&amp;#x4E00;&amp;#x904D;&amp;#x4E3B;&amp;#x8981;&amp;#x7684;&amp;#x4E00;&amp;#x4E9B;&amp;#x547D;&amp;#x4EE4;&amp;#x3002;&lt;/p&gt;
 &lt;p&gt;&amp;#x9664;&amp;#x4E86;&amp;#x88C5;&amp;#x903C;&amp;#x610F;&amp;#x5916;&amp;#xFF0C;&amp;#x547D;&amp;#x4EE4;&amp;#x884C;&amp;#x8FD8;&amp;#x5728;&amp;#x6709;&amp;#x5F88;&amp;#x591A;&amp;#x597D;&amp;#x5904;&amp;#xFF1A;&lt;/p&gt;
@@ -467,7 +528,7 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 &lt;li&gt;&lt;a href=&quot;/2016/05/24/learning-shell-in-mac-ls/&quot; title=&quot;cat&quot;&gt;cat&lt;/a&gt;  - &lt;em&gt;2016&amp;#x5E74;5&amp;#x6708;30&amp;#x53F7;&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2016/06/02/learning-shell-chflags/&quot; title=&quot;chflags&quot;&gt;chflags&lt;/a&gt; - &lt;em&gt;2016&amp;#x5E74;6&amp;#x6708;2&amp;#x53F7;&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;ln&lt;/li&gt;
-&lt;li&gt;rm&lt;/li&gt;
+&lt;li&gt; - &lt;em&gt;2016&amp;#x5E74;6&amp;#x6708;3&amp;#x53F7;&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&quot;&gt;&lt;a href=&quot;#&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;-&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;/&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&quot;&gt;&lt;/a&gt;&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;/&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;sort&lt;/li&gt;
@@ -487,10 +548,16 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 &lt;h3 id=&quot;&amp;#x76F8;&amp;#x5173;&amp;#x6982;&amp;#x5FF5;&quot;&gt;&lt;a href=&quot;#&amp;#x76F8;&amp;#x5173;&amp;#x6982;&amp;#x5FF5;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x76F8;&amp;#x5173;&amp;#x6982;&amp;#x5FF5;&quot;&gt;&lt;/a&gt;&amp;#x76F8;&amp;#x5173;&amp;#x6982;&amp;#x5FF5;&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&amp;#x8F6F;&amp;#x94FE;&amp;#x63A5; vs &amp;#x786C;&amp;#x94FE;&amp;#x63A5;&lt;/li&gt;
 &lt;li&gt;File flag&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;/2016/05/31/unix-standard-input-output-redirection/&quot; title=&quot;&amp;#x6807;&amp;#x51C6;&amp;#x8F93;&amp;#x5165;&amp;#x8F93;&amp;#x51FA;&amp;#x91CD;&amp;#x5B9A;&amp;#x5411;&amp;#xFF08;Redirection&amp;#xFF09;&quot;&gt;&amp;#x6807;&amp;#x51C6;&amp;#x8F93;&amp;#x5165;&amp;#x8F93;&amp;#x51FA;&amp;#x91CD;&amp;#x5B9A;&amp;#x5411;&amp;#xFF08;Redirection&amp;#xFF09;&lt;/a&gt; 
+&lt;li&gt;&lt;a href=&quot;/2016/05/31/unix-standard-input-output-redirection/&quot; title=&quot;&amp;#x6807;&amp;#x51C6;&amp;#x8F93;&amp;#x5165;&amp;#x8F93;&amp;#x51FA;&amp;#x91CD;&amp;#x5B9A;&amp;#x5411;&amp;#xFF08;Redirection&amp;#xFF09;&quot;&gt;&amp;#x6807;&amp;#x51C6;&amp;#x8F93;&amp;#x5165;&amp;#x8F93;&amp;#x51FA;&amp;#x91CD;&amp;#x5B9A;&amp;#x5411;&amp;#xFF08;Redirection&amp;#xFF09;&lt;/a&gt; &lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2016/05/24/learning-shell-in-mac-ls/&quot; title=&quot;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&quot;&gt;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&lt;/a&gt; 
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;a href=&quot;#&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;/a&gt;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&lt;/h2&gt;&lt;p&gt;[1]: &lt;a href=&quot;http://stackoverflow.com/questions/8051145/what-are-the-differences-between-using-the-terminal-on-a-mac-vs-linux&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;What are the differences between using the terminal on a mac vs linux?&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;a href=&quot;#&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;/a&gt;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/8051145/what-are-the-differences-between-using-the-terminal-on-a-mac-vs-linux&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;What are the differences between using the terminal on a mac vs linux?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://linuxcommand.org/index.php&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Linux Command&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 </content>
     
     <summary type="html">
