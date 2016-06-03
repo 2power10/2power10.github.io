@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhengyi.me/"/>
-  <updated>2016-06-02T15:32:38.000Z</updated>
+  <updated>2016-06-03T14:27:57.000Z</updated>
   <id>http://zhengyi.me/</id>
   
   <author>
@@ -14,6 +14,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mac 命令学习 - mv, rm, mkdir</title>
+    <link href="http://zhengyi.me/2016/06/03/learning-shell-rm-mv-mkdir/"/>
+    <id>http://zhengyi.me/2016/06/03/learning-shell-rm-mv-mkdir/</id>
+    <published>2016-06-03T14:25:48.000Z</published>
+    <updated>2016-06-03T14:27:57.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;mv-move&quot;&gt;&lt;a href=&quot;#mv-&amp;#xFF08;move&amp;#xFF09;&quot; class=&quot;headerlink&quot; title=&quot;mv &amp;#xFF08;move&amp;#xFF09;&quot;&gt;&lt;/a&gt;mv &amp;#xFF08;move&amp;#xFF09;&lt;/h2&gt;&lt;p&gt;mv&amp;#x662F;&amp;#x7528;&amp;#x4E8E;&amp;#x79FB;&amp;#x52A8;&amp;#x6587;&amp;#x4EF6;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;mac&amp;#x4E0B;&amp;#x6CA1;&amp;#x6709;&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6240;&amp;#x4EE5;&amp;#x5F88;&amp;#x591A;&amp;#x65F6;&amp;#x5019;mv&amp;#x4E5F;&amp;#x7528;&amp;#x6765;&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x6587;&amp;#x4EF6;&amp;#x3002;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#x5E38;&amp;#x7528;&amp;#x53C2;&amp;#x6570;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-f&lt;/code&gt; - &amp;#x5F3A;&amp;#x5236;&amp;#x8986;&amp;#x76D6;&amp;#x4E0D;&amp;#x63D0;&amp;#x9192;&lt;br&gt;&lt;code&gt;-i&lt;/code&gt; - &amp;#x8986;&amp;#x76D6;&amp;#x76EE;&amp;#x6807;&amp;#x6587;&amp;#x4EF6;&amp;#x524D;&amp;#x63D0;&amp;#x9192;&lt;br&gt;&lt;code&gt;-n&lt;/code&gt; - &amp;#x4E0D;&amp;#x8986;&amp;#x76D6;&amp;#x76EE;&amp;#x6807;&amp;#x6587;&amp;#x4EF6;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#x5C06;n&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x79FB;&amp;#x52A8;&amp;#x5230;&amp;#x67D0;&amp;#x4E2A;&amp;#x76EE;&amp;#x5F55;&amp;#x4E0B;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mv file1 file2 file3 dir&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x5982;&amp;#x679C;&amp;#x76EE;&amp;#x5F55;&amp;#x4E0D;&amp;#x5B58;&amp;#x5728;&amp;#xFF0C;&amp;#x4F1A;&amp;#x62A5;&amp;#x9519;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#x91CD;&amp;#x547D;&amp;#x540D;/&amp;#x79FB;&amp;#x52A8;&amp;#x6587;&amp;#x4EF6;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mv file1 file2&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x5982;&amp;#x679C;file2&amp;#x4E0D;&amp;#x5B58;&amp;#x5728;&amp;#x5219;&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x4E3A;file2&amp;#xFF0C;&amp;#x5982;&amp;#x679C;&amp;#x5B58;&amp;#x5728;&amp;#x5219;&amp;#x8986;&amp;#x76D6;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#x79FB;&amp;#x52A8;&amp;#x76EE;&amp;#x5F55;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mv dir1 dir2&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x5C06;dir1&amp;#x79FB;&amp;#x52A8;&amp;#x5230;dir2&amp;#x76EE;&amp;#x5F55;&amp;#x4E0B;&amp;#xFF0C;&amp;#x5982;&amp;#x679C;dir2&amp;#x4E0D;&amp;#x5B58;&amp;#x5728;&amp;#x5219;&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x7684;&amp;#x6548;&amp;#x679C;&lt;/p&gt;
+&lt;h2 id=&quot;rmremove&quot;&gt;&lt;a href=&quot;#rm&amp;#xFF08;remove&amp;#xFF09;&quot; class=&quot;headerlink&quot; title=&quot;rm&amp;#xFF08;remove&amp;#xFF09;&quot;&gt;&lt;/a&gt;rm&amp;#xFF08;remove&amp;#xFF09;&lt;/h2&gt;&lt;p&gt;&amp;#x6B64;&amp;#x547D;&amp;#x4EE4;&amp;#x7528;&amp;#x4E8E;&amp;#x5220;&amp;#x9664;&amp;#x6587;&amp;#x4EF6;&amp;#x548C;&amp;#x76EE;&amp;#x5F55;&amp;#xFF0C;&amp;#x4E0E;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#x7ED3;&amp;#x5408;&amp;#x4F7F;&amp;#x7528;&amp;#x65F6;&amp;#x7834;&amp;#x574F;&amp;#x5F88;&amp;#x5927;&amp;#xFF0C;&amp;#x7A0D;&amp;#x6709;&amp;#x4E0D;&amp;#x614E;&amp;#x5C06;&amp;#x917F;&amp;#x6210;&amp;#x5927;&amp;#x9519;&amp;#x540E;&amp;#x6094;&amp;#x83AB;&amp;#x53CA;&amp;#x3002;&lt;/p&gt;
+&lt;p&gt;&amp;#x666E;&amp;#x901A;&amp;#x7684;&amp;#x5220;&amp;#x9664;&amp;#x53EA;&amp;#x662F;&amp;#x5C06;&amp;#x6587;&amp;#x4EF6;&amp;#x4ECE;&amp;#x6587;&amp;#x4EF6;&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;&amp;#x79FB;&amp;#x9664;&amp;#xFF0C;&amp;#x78C1;&amp;#x76D8;&amp;#x4E0A;&amp;#x7684;&amp;#x90A3;&amp;#x5757;&amp;#x7A7A;&amp;#x95F4;&amp;#x5E76;&amp;#x4E0D;&amp;#x4F1A;&amp;#x53BB;&amp;#x52A8;&amp;#x5B83;&amp;#x3002;&amp;#x6240;&amp;#x4EE5;&amp;#x5982;&amp;#x679C;&amp;#x8BEF;&amp;#x5220;&amp;#x9664;&amp;#x7684;&amp;#x8BDD;&amp;#xFF0C;&amp;#x901A;&amp;#x8FC7;&amp;#x67D0;&amp;#x4E00;&amp;#x4E9B;&amp;#x8FD8;&amp;#x539F;&amp;#x5DE5;&amp;#x5177;&amp;#x662F;&amp;#x6709;&amp;#x53EF;&amp;#x80FD;&amp;#x627E;&amp;#x56DE;&amp;#x6765;&amp;#x7684;&amp;#x3002;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Linux&amp;#x5E76;&amp;#x6CA1;&amp;#x6709;&amp;#x64A4;&amp;#x9500;&amp;#x5220;&amp;#x9664;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x4E00;&amp;#x65E6;&amp;#x4F60;&amp;#x7528;&lt;code&gt;rm&lt;/code&gt;&amp;#x547D;&amp;#x4EE4;&amp;#x5C06;&amp;#x67D0;&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x5220;&amp;#x9664;&amp;#xFF0C;&amp;#x4F60;&amp;#x5C06;&amp;#x5F88;&amp;#x96BE;&amp;#x6062;&amp;#x590D;&amp;#xFF08;mac&amp;#x53EF;&amp;#x4EE5;&amp;#x901A;&amp;#x8FC7;&amp;#x7279;&amp;#x6B8A;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x8FD8;&amp;#x539F;&amp;#x5DE5;&amp;#x5177;&amp;#xFF09;&amp;#x3002;&amp;#x5982;&amp;#x679C;&amp;#x9519;&amp;#x8BEF;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;&lt;code&gt;rm&lt;/code&gt;&amp;#xFF0C;&amp;#x7279;&amp;#x522B;&amp;#x662F;&amp;#x8DDF;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#x7ED3;&amp;#x5408;&amp;#x4F7F;&amp;#x7528;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#xFF0C;&amp;#x5C06;&amp;#x6709;&amp;#x53EF;&amp;#x80FD;&amp;#x9020;&amp;#x6210;&amp;#x6781;&amp;#x5927;&amp;#x7684;&amp;#x5371;&amp;#x5BB3;&amp;#x3002;&lt;br&gt;&amp;#x5728;&lt;code&gt;rm&lt;/code&gt;&amp;#x4E2D;&amp;#x4F7F;&amp;#x7528;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#x4E4B;&amp;#x524D;&amp;#xFF0C;&amp;#x6709;&amp;#x4E00;&amp;#x4E2A;&amp;#x6709;&amp;#x7528;&amp;#x7684;&amp;#x5C0F;&amp;#x8BC0;&amp;#x7A8D;&amp;#xFF1A;&amp;#x5148;&amp;#x5C06;&amp;#x4F60;&amp;#x7684;&amp;#x901A;&amp;#x914D;&amp;#x7B26;&amp;#x7528;&lt;code&gt;ls&lt;/code&gt;&amp;#x547D;&amp;#x4EE4;&amp;#x8BD5;&amp;#x8BD5;&amp;#x770B;&amp;#xFF0C;&amp;#x770B;&amp;#x4E00;&amp;#x4E0B;&amp;#x6240;&amp;#x5F71;&amp;#x54CD;&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x3002;&amp;#x5F53;&amp;#x4F60;&amp;#x7528;&lt;code&gt;ls&lt;/code&gt;&amp;#x6D4B;&amp;#x8BD5;&amp;#x8FC7;&amp;#x6CA1;&amp;#x95EE;&amp;#x9898;&amp;#x4EE5;&amp;#x540E;&amp;#xFF0C;&amp;#x4F60;&amp;#x53EF;&amp;#x4EE5;&amp;#x76F4;&amp;#x63A5;&amp;#x628A;&lt;code&gt;ls&lt;/code&gt;&amp;#x7279;&amp;#x6362;&amp;#x6210;&lt;code&gt;rm&lt;/code&gt;&amp;#x3002;&lt;sup&gt;&lt;strong&gt;[1]&lt;/strong&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;a href=&quot;#&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;/a&gt;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&lt;/h3&gt;&lt;p&gt;&lt;code&gt;rm [-dfiPRrvW] file ...&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-f&lt;/code&gt; - &amp;#x5F3A;&amp;#x5236;&amp;#x5220;&amp;#x9664;&amp;#xFF0C;&amp;#x6CA1;&amp;#x6709;&amp;#x63D0;&amp;#x793A;&lt;br&gt;&lt;code&gt;-i&lt;/code&gt; - &amp;#x5220;&amp;#x9664;&amp;#x67D0;&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x524D;&amp;#x8BF7;&amp;#x6C42;&amp;#x786E;&amp;#x8BA4;&lt;br&gt;&lt;code&gt;-P&lt;/code&gt; - &amp;#x7C89;&amp;#x788E;&amp;#x6027;&amp;#x5220;&amp;#x9664;&amp;#x3002;&amp;#x5220;&amp;#x9664;&amp;#x6587;&amp;#x4EF6;&amp;#x524D;&amp;#x91CD;&amp;#x65B0;&amp;#x590D;&amp;#x5199;&amp;#x6574;&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5F80;&amp;#x6587;&amp;#x4EF6;&amp;#x91CC;&amp;#x4E0D;&amp;#x505C;&amp;#x5199;&amp;#x5165;&lt;code&gt;0xff&lt;/code&gt;&amp;#x548C;&lt;code&gt;0x00&lt;/code&gt;&amp;#x3002;&amp;#x8FD9;&amp;#x6837;&amp;#x5220;&amp;#x9664;&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x65E0;&amp;#x6CD5;&amp;#x6062;&amp;#x590D;&amp;#x3002;&lt;br&gt;&lt;code&gt;-R&lt;/code&gt; - &amp;#x9012;&amp;#x5F52;&amp;#x5220;&amp;#x9664;&amp;#x3002;&amp;#x5982;&amp;#x679C;&amp;#x6307;&amp;#x5B9A;&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x4E3A;&amp;#x76EE;&amp;#x5F55;&amp;#xFF0C;&amp;#x5219;&amp;#x5220;&amp;#x9664;&amp;#x76EE;&amp;#x5F55;&amp;#x4E0B;&amp;#x6240;&amp;#x6709;&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x53CA;&amp;#x5176;&amp;#x5B50;&amp;#x76EE;&amp;#x5F55;&amp;#x3002;&lt;/p&gt;
+&lt;h2 id=&quot;rmdirremove-directory&quot;&gt;&lt;a href=&quot;#rmdir&amp;#xFF08;remove-directory&amp;#xFF09;&quot; class=&quot;headerlink&quot; title=&quot;rmdir&amp;#xFF08;remove directory&amp;#xFF09;&quot;&gt;&lt;/a&gt;rmdir&amp;#xFF08;remove directory&amp;#xFF09;&lt;/h2&gt;&lt;p&gt;&amp;#x4E0D;&amp;#x8981;&amp;#x88AB;&amp;#x8FD9;&amp;#x8D27;&amp;#x7684;&amp;#x540D;&amp;#x5B57;&amp;#x8FF7;&amp;#x60D1;&amp;#x4E86;&amp;#xFF0C;&amp;#x8FD9;&amp;#x4E2A;&amp;#x547D;&amp;#x4EE4;&amp;#x552F;&amp;#x4E00;&amp;#x7684;&amp;#x7528;&amp;#x9014;&amp;#x5C31;&amp;#x662F;&amp;#x5220;&amp;#x9664;&amp;#x4E00;&amp;#x4E2A;&amp;#x7A7A;&amp;#x767D;&amp;#x7684;&amp;#x6587;&amp;#x4EF6;&amp;#x5939;&amp;#x3002;&amp;#x5982;&amp;#x679C;&amp;#x6587;&amp;#x4EF6;&amp;#x5939;&amp;#x975E;&amp;#x7A7A;&amp;#x8FD8;&amp;#x662F;&amp;#x8981;&amp;#x7528;&lt;code&gt;rm -r&lt;/code&gt;&amp;#x6765;&amp;#x5220;&amp;#x9664;&amp;#xFF0C;&amp;#x4E0D;&amp;#x77E5;&amp;#x9053;&amp;#x5B83;&amp;#x5B58;&amp;#x5728;&amp;#x7684;&amp;#x610F;&amp;#x4E49;&amp;#x662F;&amp;#x4EC0;&amp;#x4E48;&amp;#x3002;&lt;/p&gt;
+&lt;h2 id=&quot;mkdirmake-directory&quot;&gt;&lt;a href=&quot;#mkdir&amp;#xFF08;make-directory&amp;#xFF09;&quot; class=&quot;headerlink&quot; title=&quot;mkdir&amp;#xFF08;make directory&amp;#xFF09;&quot;&gt;&lt;/a&gt;mkdir&amp;#xFF08;make directory&amp;#xFF09;&lt;/h2&gt;&lt;p&gt;&amp;#x987E;&amp;#x540D;&amp;#x601D;&amp;#x4E49;&amp;#xFF0C;&amp;#x521B;&amp;#x5EFA;&amp;#x6587;&amp;#x4EF6;&amp;#x5939;&amp;#x4F7F;&amp;#x7528;&amp;#x3002;&lt;/p&gt;
+&lt;h3 id=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;a href=&quot;#&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;-1&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;/a&gt;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&lt;/h3&gt;&lt;p&gt;&lt;code&gt;-p&lt;/code&gt; &amp;#x521B;&amp;#x5EFA;&amp;#x4E2D;&amp;#x95F4;&amp;#x76EE;&amp;#x5F55;&amp;#xFF0C;&amp;#x6BD4;&amp;#x5982;&lt;code&gt;mkdir /path/with/many/layer&lt;/code&gt;&amp;#x4F1A;&amp;#x5E2E;&amp;#x4F60;&amp;#x5427;layer&amp;#x4E4B;&amp;#x524D;&amp;#x7684;&amp;#x6240;&amp;#x6709;&amp;#x5C42;&amp;#x7EA7;&amp;#x7684;&amp;#x76EE;&amp;#x5F55;&amp;#x90FD;&amp;#x521B;&amp;#x5EFA;&amp;#x51FA;&amp;#x6765;&amp;#x3002;&lt;br&gt;&lt;code&gt;-m&lt;/code&gt; &amp;#x5236;&amp;#x5B9A;&amp;#x6587;&amp;#x4EF6;&amp;#x5939;&amp;#x7684;&amp;#x6743;&amp;#x9650;&amp;#xFF0C;&amp;#x8BE6;&amp;#x89C1;chmod&amp;#x3002;&lt;/p&gt;
+&lt;h2 id=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;a href=&quot;#&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&quot;&gt;&lt;/a&gt;&amp;#x53C2;&amp;#x8003;&amp;#x8D44;&amp;#x6599;&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;http://linuxcommand.org/lc3_lts0050.php&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Manipulating Files&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#x9605;&amp;#x8BFB;&amp;#x66F4;&amp;#x591A;&lt;/strong&gt;&lt;/p&gt;
+&lt;a href=&quot;/2016/05/23/learning-shell-in-mac/&quot; title=&quot;Mac/Linux &amp;#x547D;&amp;#x4EE4;&amp;#x5B66;&amp;#x4E60;&quot;&gt;Mac/Linux &amp;#x547D;&amp;#x4EE4;&amp;#x5B66;&amp;#x4E60;&lt;/a&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;mv-move&quot;&gt;&lt;a href=&quot;#mv-&amp;#xFF08;move&amp;#xFF09;&quot; class=&quot;headerlink&quot; title=&quot;mv &amp;#xFF08;move&amp;#xFF09;&quot;&gt;&lt;/a&gt;mv &amp;#xFF08;move&amp;#xFF09;&lt;/h2&gt;&lt;p&gt;mv
+    
+    </summary>
+    
+      <category term="编程工具" scheme="http://zhengyi.me/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="shell" scheme="http://zhengyi.me/tags/shell/"/>
+    
+      <category term="mac" scheme="http://zhengyi.me/tags/mac/"/>
+    
+      <category term="terminal" scheme="http://zhengyi.me/tags/terminal/"/>
+    
+  </entry>
   
   <entry>
     <title>Mac 命令学习 - chflags</title>
@@ -156,7 +209,7 @@
     <link href="http://zhengyi.me/2016/05/31/unix-standard-input-output-redirection/"/>
     <id>http://zhengyi.me/2016/05/31/unix-standard-input-output-redirection/</id>
     <published>2016-05-31T15:00:02.000Z</published>
-    <updated>2016-06-02T15:37:34.000Z</updated>
+    <updated>2016-06-03T14:28:45.000Z</updated>
     
     <content type="html">&lt;h2 id=&quot;&amp;#x9884;&amp;#x5907;&amp;#x77E5;&amp;#x8BC6;&quot;&gt;&lt;a href=&quot;#&amp;#x9884;&amp;#x5907;&amp;#x77E5;&amp;#x8BC6;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x9884;&amp;#x5907;&amp;#x77E5;&amp;#x8BC6;&quot;&gt;&lt;/a&gt;&amp;#x9884;&amp;#x5907;&amp;#x77E5;&amp;#x8BC6;&lt;/h2&gt;&lt;h3 id=&quot;&amp;#x6587;&amp;#x4EF6;&amp;#x63CF;&amp;#x8FF0;&amp;#x7B26;-file-descriptor&quot;&gt;&lt;a href=&quot;#&amp;#x6587;&amp;#x4EF6;&amp;#x63CF;&amp;#x8FF0;&amp;#x7B26;-File-Descriptor&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x6587;&amp;#x4EF6;&amp;#x63CF;&amp;#x8FF0;&amp;#x7B26;( File Descriptor )&quot;&gt;&lt;/a&gt;&amp;#x6587;&amp;#x4EF6;&amp;#x63CF;&amp;#x8FF0;&amp;#x7B26;( File Descriptor )&lt;/h3&gt;&lt;p&gt;&amp;#x5728;Unix &amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;&amp;#x6587;&amp;#x4EF6;&amp;#x63CF;&amp;#x8FF0;&amp;#x7B26;&amp;#x662F;&amp;#x7528;&amp;#x4E8E;&amp;#x8BBF;&amp;#x95EE;&amp;#x6587;&amp;#x4EF6;&amp;#x3001;&amp;#x8F93;&amp;#x5165;&amp;#x8F93;&amp;#x51FA;&amp;#x3001;&amp;#x7BA1;&amp;#x9053;&amp;#x3001;&amp;#x7F51;&amp;#x7EDC;&amp;#x5957;&amp;#x63A5;&amp;#x5B57;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x62BD;&amp;#x8C61;&amp;#x6982;&amp;#x5FF5;&lt;sup&gt;[3]&lt;/sup&gt;&amp;#x3002;&amp;#x6587;&amp;#x4EF6;&amp;#x63CF;&amp;#x8FF0;&amp;#x7B26;&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x975E;&amp;#x8D1F;&amp;#x7684;&amp;#x6B63;&amp;#x6574;&amp;#x6570;&amp;#xFF0C;&amp;#x6BCF;&amp;#x4E00;&amp;#x4E2A;Unix&amp;#x8FDB;&amp;#x7A0B;&amp;#x4E2D;&amp;#x90FD;&amp;#x4F1A;&amp;#x6709;&amp;#x4E09;&amp;#x4E2A;&amp;#x4E0E;&lt;a href=&quot;https://www.wikiwand.com/en/Standard_streams&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&amp;#x6807;&amp;#x51C6;&amp;#x6D41;&lt;/a&gt;&amp;#x6240;&amp;#x5BF9;&amp;#x5E94;&amp;#x7684;&amp;#x7684;POSIX&amp;#x6587;&amp;#x4EF6;&amp;#x63CF;&amp;#x8FF0;&amp;#x7B26;&amp;#xFF0C;&amp;#x5206;&amp;#x522B;&amp;#x4E3A;&amp;#xFF1A;&lt;/p&gt;
 &lt;ol&gt;
@@ -190,6 +243,8 @@
 &lt;li&gt;&lt;a href=&quot;http://linuxcommand.org/lc3_lts0070.php&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;I/O Redirection&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.wikiwand.com/en/File_descriptor&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wikipedia - File Descriptor&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;&amp;#x9605;&amp;#x8BFB;&amp;#x66F4;&amp;#x591A;&lt;/strong&gt;&lt;/p&gt;
+&lt;a href=&quot;/2016/05/23/learning-shell-in-mac/&quot; title=&quot;Mac/Linux &amp;#x547D;&amp;#x4EE4;&amp;#x5B66;&amp;#x4E60;&quot;&gt;Mac/Linux &amp;#x547D;&amp;#x4EE4;&amp;#x5B66;&amp;#x4E60;&lt;/a&gt;
 </content>
     
     <summary type="html">
@@ -382,7 +437,7 @@
     <link href="http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/"/>
     <id>http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/</id>
     <published>2016-05-24T12:53:30.000Z</published>
-    <updated>2016-06-03T12:41:49.000Z</updated>
+    <updated>2016-06-03T14:28:03.000Z</updated>
     
     <content type="html">&lt;h2 id=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;a href=&quot;#&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&quot;&gt;&lt;/a&gt;&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;&lt;/h2&gt;&lt;p&gt;&lt;code&gt;ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x53C2;&amp;#x6570;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x540D;&amp;#x3002;&lt;/p&gt;
@@ -478,7 +533,8 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 &lt;li&gt;&lt;a href=&quot;http://linuxcommand.org/lc3_lts0050.php&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wildcard - 2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Alphanumeric&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Alphanumeric - Wikipedia&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
-</content>
+&lt;p&gt;&lt;strong&gt;&amp;#x9605;&amp;#x8BFB;&amp;#x66F4;&amp;#x591A;&lt;/strong&gt;&lt;/p&gt;
+&lt;a href=&quot;/2016/05/23/learning-shell-in-mac/&quot; title=&quot;Mac/Linux &amp;#x547D;&amp;#x4EE4;&amp;#x5B66;&amp;#x4E60;&quot;&gt;Mac/Linux &amp;#x547D;&amp;#x4EE4;&amp;#x5B66;&amp;#x4E60;&lt;/a&gt;</content>
     
     <summary type="html">
     
@@ -528,7 +584,7 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 &lt;li&gt;&lt;a href=&quot;/2016/05/24/learning-shell-in-mac-ls/&quot; title=&quot;cat&quot;&gt;cat&lt;/a&gt;  - &lt;em&gt;2016&amp;#x5E74;5&amp;#x6708;30&amp;#x53F7;&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;/2016/06/02/learning-shell-chflags/&quot; title=&quot;chflags&quot;&gt;chflags&lt;/a&gt; - &lt;em&gt;2016&amp;#x5E74;6&amp;#x6708;2&amp;#x53F7;&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;ln&lt;/li&gt;
-&lt;li&gt; - &lt;em&gt;2016&amp;#x5E74;6&amp;#x6708;3&amp;#x53F7;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2016/06/03/learning-shell-rm-mv-mkdir/&quot; title=&quot;rm,mv,mkdir&quot;&gt;rm,mv,mkdir&lt;/a&gt; - &lt;em&gt;2016&amp;#x5E74;6&amp;#x6708;3&amp;#x53F7;&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&quot;&gt;&lt;a href=&quot;#&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;-&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&quot; class=&quot;headerlink&quot; title=&quot;&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;/&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&quot;&gt;&lt;/a&gt;&amp;#x6587;&amp;#x672C;&amp;#x64CD;&amp;#x4F5C;/&amp;#x8FC7;&amp;#x6EE4;&amp;#x5668;&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;sort&lt;/li&gt;

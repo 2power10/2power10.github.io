@@ -2,23 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://zhengyi.me/2016/05/23/learning-shell-in-mac/</loc>
+    <loc>http://zhengyi.me/2016/05/31/unix-standard-input-output-redirection/</loc>
     
-    <lastmod>2016-06-03T12:44:42.000Z</lastmod>
+    <lastmod>2016-06-03T14:28:45.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/</loc>
     
-    <lastmod>2016-06-03T12:41:49.000Z</lastmod>
+    <lastmod>2016-06-03T14:28:03.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://zhengyi.me/2016/05/31/unix-standard-input-output-redirection/</loc>
+    <loc>http://zhengyi.me/2016/06/03/learning-shell-rm-mv-mkdir/</loc>
     
-    <lastmod>2016-06-02T15:37:34.000Z</lastmod>
+    <lastmod>2016-06-03T14:27:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2016/05/23/learning-shell-in-mac/</loc>
+    
+    <lastmod>2016-06-03T12:44:42.000Z</lastmod>
     
   </url>
   
