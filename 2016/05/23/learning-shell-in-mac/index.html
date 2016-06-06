@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://zhengyi.me/2016/05/23/learning-shell-in-mac/index.html">
 <meta property="og:site_name" content="yi's weblog">
 <meta property="og:description" content="&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&amp;#x5207;&amp;#x6362;&amp;#x5230;mac&amp;#x4E0B;&amp;#x5DE5;&amp;#x4F5C;&amp;#x6709;&amp;#x4E00;&amp;#x6BB5;&amp;#x65F6;&amp;#x95F4;&amp;#x4E86;&amp;#xFF0C;&amp;#x96BE;&amp;#x514D;&amp;#x8981;&amp;#x5728;&amp;#x7EC8;&amp;#x7A">
-<meta property="og:updated_time" content="2016-06-03T12:44:42.000Z">
+<meta property="og:updated_time" content="2016-06-06T13:45:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac/Linux 命令学习">
 <meta name="twitter:description" content="&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&amp;#x5207;&amp;#x6362;&amp;#x5230;mac&amp;#x4E0B;&amp;#x5DE5;&amp;#x4F5C;&amp;#x6709;&amp;#x4E00;&amp;#x6BB5;&amp;#x65F6;&amp;#x95F4;&amp;#x4E86;&amp;#xFF0C;&amp;#x96BE;&amp;#x514D;&amp;#x8981;&amp;#x5728;&amp;#x7EC8;&amp;#x7A">
@@ -100,7 +100,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#干嘛要学命令"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何学命令"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小技巧"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#每日一贴"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录操作"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本操作过滤器"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">4.5.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#干嘛要学命令"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何学命令"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小技巧"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#每日一贴"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录操作"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本操作过滤器"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">4.5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">4.6.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		
 		</div>
 		
@@ -129,11 +129,12 @@
 <li><a href="/2016/06/02/learning-shell-chflags/" title="chflags">chflags</a> - <em>2016&#x5E74;6&#x6708;2&#x53F7;</em></li>
 <li>ln</li>
 <li><a href="/2016/06/03/learning-shell-rm-mv-mkdir/" title="rm,mv,mkdir">rm,mv,mkdir</a> - <em>2016&#x5E74;6&#x6708;3&#x53F7;</em></li>
+<li>find</li>
 </ul>
 <h3 id="&#x6587;&#x672C;&#x64CD;&#x4F5C;&#x8FC7;&#x6EE4;&#x5668;"><a href="#&#x6587;&#x672C;&#x64CD;&#x4F5C;-&#x8FC7;&#x6EE4;&#x5668;" class="headerlink" title="&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;"></a>&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;</h3><ul>
 <li>sort</li>
 <li>uniq</li>
-<li>grep</li>
+<li><a href="/2016/06/06/learning-shell-grep/" title="grep">grep</a> - <em>2016&#x5E74;6&#x6708;6&#x53F7;</em></li>
 <li>fmt</li>
 <li>pr</li>
 <li>head</li>
@@ -144,6 +145,9 @@
 </ul>
 <h3 id="&#x8C03;&#x8BD5;"><a href="#&#x8C03;&#x8BD5;" class="headerlink" title="&#x8C03;&#x8BD5;"></a>&#x8C03;&#x8BD5;</h3><ul>
 <li>dtruss</li>
+</ul>
+<h3 id="&#x5176;&#x4ED6;"><a href="#&#x5176;&#x4ED6;" class="headerlink" title="&#x5176;&#x4ED6;"></a>&#x5176;&#x4ED6;</h3><ul>
+<li>xargs</li>
 </ul>
 <h3 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h3><ul>
 <li>&#x8F6F;&#x94FE;&#x63A5; vs &#x786C;&#x94FE;&#x63A5;</li>
@@ -226,7 +230,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#干嘛要学命令"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何学命令"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小技巧"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#每日一贴"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录操作"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本操作过滤器"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">4.5.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#干嘛要学命令"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何学命令"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小技巧"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#每日一贴"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录操作"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本操作过滤器"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">4.5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">4.6.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
  
   </div>
 
@@ -256,7 +260,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>9</sup></a></li>
+			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>10</sup></a></li>
 		  
 		
 		  
@@ -277,15 +281,15 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/shell/" title="shell">shell<sup>8</sup></a></li>
+				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mac/" title="mac">mac<sup>8</sup></a></li>
+				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>8</sup></a></li>
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			

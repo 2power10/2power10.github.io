@@ -1,0 +1,635 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Mac 命令学习 - grep | yi&#39;s weblog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Yi">
+    
+
+    
+    <meta name="description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;grep&amp;#x662F;linux&amp;#x4E2D;&amp;#x5E38;&amp;#x7528;&amp;#x7684;&amp;#x6587;&amp;#x672C;&amp;#x5904;&amp;#x7406;&amp;#x7684;&amp;#x5DE5;&amp;#x5177;&amp;#xFF0C;&amp;#x4E0E;&amp;#x4E4B;&amp;#x7C7B;&amp;#x4F3C;&amp;#x7684;&amp;#x5DE5;&amp;#x5177">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac 命令学习 - grep">
+<meta property="og:url" content="http://zhengyi.me/2016/06/06/learning-shell-grep/index.html">
+<meta property="og:site_name" content="yi's weblog">
+<meta property="og:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;grep&amp;#x662F;linux&amp;#x4E2D;&amp;#x5E38;&amp;#x7528;&amp;#x7684;&amp;#x6587;&amp;#x672C;&amp;#x5904;&amp;#x7406;&amp;#x7684;&amp;#x5DE5;&amp;#x5177;&amp;#xFF0C;&amp;#x4E0E;&amp;#x4E4B;&amp;#x7C7B;&amp;#x4F3C;&amp;#x7684;&amp;#x5DE5;&amp;#x5177">
+<meta property="og:updated_time" content="2016-06-06T13:58:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac 命令学习 - grep">
+<meta name="twitter:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;grep&amp;#x662F;linux&amp;#x4E2D;&amp;#x5E38;&amp;#x7528;&amp;#x7684;&amp;#x6587;&amp;#x672C;&amp;#x5904;&amp;#x7406;&amp;#x7684;&amp;#x5DE5;&amp;#x5177;&amp;#xFF0C;&amp;#x4E0E;&amp;#x4E4B;&amp;#x7C7B;&amp;#x4F3C;&amp;#x7684;&amp;#x5DE5;&amp;#x5177">
+
+    
+    <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="yi&#39;s weblog" title="yi&#39;s weblog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="yi&#39;s weblog">yi&#39;s weblog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/douban">读书</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/atom.xml">RSS</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:zhengyi.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/06/learning-shell-grep/" title="Mac 命令学习 - grep" itemprop="url">Mac 命令学习 - grep</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-06T13:45:02.000Z" itemprop="datePublished"> 发表于 2016-06-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景知识"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#grep-vs-sed-vs-awk"><span class="toc-number">1.1.</span> <span class="toc-text">grep vs sed vs awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.2.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep的种类"><span class="toc-number">1.3.</span> <span class="toc-text">grep的种类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例学习"><span class="toc-number">3.</span> <span class="toc-text">案例学习</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"><a href="#&#x80CC;&#x666F;&#x77E5;&#x8BC6;" class="headerlink" title="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"></a>&#x80CC;&#x666F;&#x77E5;&#x8BC6;</h2><p>grep&#x662F;linux&#x4E2D;&#x5E38;&#x7528;&#x7684;&#x6587;&#x672C;&#x5904;&#x7406;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x4E0E;&#x4E4B;&#x7C7B;&#x4F3C;&#x7684;&#x5DE5;&#x5177;&#x6709;sed&#x548C;awk&#xFF0C;&#x5B83;&#x4EEC;&#x5206;&#x522B;&#x9002;&#x7528;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x573A;&#x666F;&#x3002;&#x540C;&#x65F6;&#x8981;&#x60F3;&#x5F88;&#x597D;&#x7684;&#x4F7F;&#x7528;grep&#x7B49;&#x6587;&#x672C;&#x5904;&#x7406;&#x5DE5;&#x5177;&#xFF0C;&#x9700;&#x8981;&#x5BF9;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x4E86;&#x89E3;&#x3002;</p>
+<h3 id="grep-vs-sed-vs-awk"><a href="#grep-vs-sed-vs-awk" class="headerlink" title="grep vs sed vs awk"></a>grep vs sed vs awk</h3><p>grep&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5BF9;&#x6587;&#x672C;&#x3001;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#xFF0C;&#x67E5;&#x627E;&#x51FA;&#x7B26;&#x5408;&#x8981;&#x6C42;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5E76;&#x8F93;&#x51FA;&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#x3002;</p>
+<p>sed&#x548C;awk&#x5219;&#x662F;&#x66F4;&#x5F3A;&#x5927;&#x6587;&#x672C;&#x5904;&#x7406;&#x5DE5;&#x5177;&#xFF0C;&#x9002;&#x7528;&#x4E8E;&#x66F4;&#x590D;&#x6742;&#x7684;&#x573A;&#x666F;&#x3002;sed&#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;&#x5B57;&#x7B26;&#x6D41;&#x7684;&#x5904;&#x7406;&#x5DE5;&#x5177;&#xFF08;stream editor&#xFF09;&#xFF0C;&#x4E0D;&#x4EC5;&#x53EF;&#x4EE5;&#x67E5;&#x627E;&#x6587;&#x5B57;&#x8FD8;&#x53EF;&#x4EE5;&#x5BF9;&#x6587;&#x672C;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x4FEE;&#x6539;&#x3001;&#x5220;&#x9664;&#x3001;&#x63D2;&#x5165;&#x7B49;&#x3002;awk&#x5219;&#x662F;&#x66F4;&#x52A0;&#x5F3A;&#x5927;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x5B83;&#x672C;&#x8EAB;&#x662F;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x5BF9;&#x6570;&#x636E;&#x7684;&#x63D0;&#x53D6;&#x5904;&#x7406;&#x7136;&#x540E;&#x751F;&#x6210;&#x4E00;&#x4E9B;&#x62A5;&#x8868;&#xFF0C;&#x4E3B;&#x8981;&#x9488;&#x5BF9;&#x7C7B;csv&#x683C;&#x5F0F;&#x7684;&#x6587;&#x4EF6;&#x3002;</p>
+<h3 id="&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;"><a href="#&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;" class="headerlink" title="&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;"></a>&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</h3><p>to be written</p>
+<h3 id="grep&#x7684;&#x79CD;&#x7C7B;"><a href="#grep&#x7684;&#x79CD;&#x7C7B;" class="headerlink" title="grep&#x7684;&#x79CD;&#x7C7B;"></a>grep&#x7684;&#x79CD;&#x7C7B;</h3><ul>
+<li><strong>grep</strong> | grep&#x4F7F;&#x7528;&#x7B80;&#x5355;&#x7684;&#x6A21;&#x5F0F;&#x548C;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#x3002;</li>
+<li><strong>egrep</strong> | egrep&#x4F7F;&#x7528;&#x62D3;&#x5C55;&#x7248;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5305;&#x542B;&#x66F4;&#x591A;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x529F;&#x80FD;&#x3002;</li>
+<li><strong>fgrep</strong> | fgrep&#x662F;&#x52A0;&#x901F;&#x7248;&#x7684;grep&#xFF0C;&#x4E3B;&#x8981;&#x9002;&#x7528;&#x4E8E;&#x7B80;&#x5355;&#x7684;&#x6A21;&#x5F0F;&#x5339;&#x914D;&#x3002;</li>
+<li><strong>zgrep, zegrep, zfgrep</strong> | &#x4E0E;grep, egrep, fgrep &#x6548;&#x679C;&#x76F8;&#x540C;&#xFF0C;&#x53EA;&#x662F;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x4E00;&#x4E2A;&#x7531;compress&#x6216;gzip&#x538B;&#x7F29;&#x51FA;&#x6765;&#x7684;&#x538B;&#x7F29;&#x5305;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#x3002;&#x5728;&#x73B0;&#x5728;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x591A;&#x79CD;&#x7684;grep&#x4F7F;&#x7528;&#x7684;&#x662F;&#x540C;&#x4E00;&#x4E2A;binary&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4E0D;&#x540C;&#x7684;binary&#x3002;&#x6BD4;&#x5982;&#x8BF4;<code>grep -E</code>&#x5176;&#x5B9E;&#x7B49;&#x6548;&#x4E8E;egrep&#xFF0C;<code>grep -F</code>&#x7B49;&#x6548;&#x4E8E;fgrep&#x3002;</li>
+</ul>
+<h2 id="&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>&#x5E38;&#x7528;&#x53C2;&#x6570;</h2><p><code>-A num, --after-context=num</code> - &#x6253;&#x5370;&#x51FA;&#x627E;&#x5230;&#x7684;&#x5339;&#x914D;&#x884C;&#x540E;num&#x884C;&#x3002;&#x8FD9;&#x4E2A;&#x8DDF;<code>-B</code>&#xFF0C;<code>-C</code>&#x7C7B;&#x4F3C;&#x529F;&#x80FD;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x67E5;&#x770B;&#x4E0A;&#x4E0B;&#x6587;&#x3002;</p>
+<p><code>-B num, --before-context=num</code> - &#x6253;&#x5370;&#x51FA;&#x627E;&#x5230;&#x7684;&#x5339;&#x914D;&#x884C;&#x524D;num&#x884C;&#x3002;</p>
+<p><code>-C[num, --context=num]</code> - &#x6253;&#x5370;&#x51FA;&#x627E;&#x5230;&#x7684;&#x5339;&#x914D;&#x884C;&#x524D;&#x540E;num&#x884C;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;<code>-A num -B num</code>&#x3002;</p>
+<p><code>-c, --count</code> - &#x7EDF;&#x8BA1;&#x51FA;&#x5339;&#x914D;&#x7684;&#x603B;&#x884C;&#x6570;&#xFF0C;&#x540C;&#x4E00;&#x884C;&#x6709;&#x4E24;&#x4E2A;&#x5339;&#x914D;&#x4E5F;&#x53EA;&#x7B97;&#x4E00;&#x884C;&#x3002;</p>
+<p><code>--colour=[when, --color=[when]]</code> - &#x5C06;&#x5339;&#x914D;&#x7684;&#x5B57;&#x7B26;&#x6807;&#x8BB0;&#x4E3A;&#x5F69;&#x8272;&#xFF0C;when&#x53EF;&#x4EE5;&#x662F;&#x2019;never&#x2019;&#xFF0C;&#x2018;auto&#x2019;&#x6216;&#x2019;always&#x2019;&#x3002;</p>
+<p><code>-e pattern, --regexp=pattern</code> - &#x5236;&#x5B9A;&#x5728;&#x641C;&#x7D22;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#xFF0C;&#x591A;&#x7528;&#x4E8E;&#x6307;&#x5B9A;&#x591A;&#x4E2A;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
+<p><code>-H</code> - &#x5728;&#x6BCF;&#x4E00;&#x884C;&#x524D;&#x9762;&#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5728;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x8FD9;&#x4E2A;&#x662F;&#x9ED8;&#x8BA4;&#x9009;&#x9879;&#x3002;</p>
+<p><code>-h</code> - &#x5728;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x4E0D;&#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x3002;</p>
+<p><code>-n</code> - &#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x6240;&#x5728;&#x884C;&#x7684;&#x884C;&#x6570;&#x3002;</p>
+<p><code>-i, --ignore-case</code> - &#x67E5;&#x627E;&#x65F6;&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;&#x3002;</p>
+<p><code>-R, -r, --recursive</code> - &#x9012;&#x5F52;&#x7684;&#x53BB;&#x67E5;&#x627E;&#x5B50;&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#x3002;</p>
+<p><code>-v, --invert-match</code> - &#x6253;&#x5370;&#x51FA;&#x4E0D;&#x5339;&#x914D;&#x7684;&#x884C;&#x3002;</p>
+<p><code>-w, --word-regexp</code> - &#x53EA;&#x5339;&#x914D;&#x6574;&#x4E2A;&#x5355;&#x8BCD;&#x3002;</p>
+<h2 id="&#x6848;&#x4F8B;&#x5B66;&#x4E60;"><a href="#&#x6848;&#x4F8B;&#x5B66;&#x4E60;" class="headerlink" title="&#x6848;&#x4F8B;&#x5B66;&#x4E60;"></a>&#x6848;&#x4F8B;&#x5B66;&#x4E60;</h2><p>&#x5B9E;&#x9A8C;&#x6587;&#x4EF6;&#xFF0C;&#x968F;&#x4FBF;&#x627E;&#x4E86;&#x4E00;&#x4E2A;&#x838E;&#x58EB;&#x6BD4;&#x4E9A;&#x7684;&#x5341;&#x56DB;&#x884C;&#x8BD7;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ cat demofile</span><br><span class="line">sonnet 18</span><br><span class="line"></span><br><span class="line">Shall I compare thee to a summer&apos;s day? </span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">Rough winds do shake the darling buds of May, </span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line"></span><br><span class="line">Sometime too hot the eye of heaven shines, </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d </span><br><span class="line"></span><br><span class="line">But thy eternal summer shall not fade </span><br><span class="line">Nor lose possession of that fair thou owest; </span><br><span class="line">Nor shall Death brag thou wander&apos;st in his shade, </span><br><span class="line">When in eternal lines to time thou growest: </span><br><span class="line"></span><br><span class="line">So long as men can breathe or eyes can see, </span><br><span class="line">So long lives this and this gives life to thee.</span><br><span class="line">$ cp demofile demofile2</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x641C;&#x7D22;&#x67D0;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">Nor shall Death brag thou wander&apos;st in his shade, </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5339;&#x914D;&#x6574;&#x4E2A;&#x5355;&#x8BCD;&#x3002;</p>
+<p> &#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#x641C;&#x7D22;and&#x8FD9;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x5339;&#x914D;&#x4E86;wander&#x8FD9;&#x4E2A;&#x5355;&#x8BCD;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x53EA;&#x60F3;&#x641C;and&#x8FD9;&#x4E2A;&#x5355;&#x8BCD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>-w</code>&#x53C2;&#x6570;&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -w &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ grep -i -w &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x4F7F;&#x7528;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</p>
+<p> &#x53EA;&#x8981;&#x628A;&#x5339;&#x914D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6362;&#x6210;&#x9700;&#x8981;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x5373;&#x53EF;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#x9700;&#x8981;&#x641C;&#x7D22;&#x4EE5;And&#x5F00;&#x5934;&#x7684;&#x884C;&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;^And&quot; demofile</span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x663E;&#x793A;&#x4E0A;&#x4E0B;&#x6587;</p>
+<p> &#x6709;&#x65F6;&#x5019;&#x641C;&#x51FA;&#x6765;&#x9700;&#x8981;&#x770B;&#x770B;&#x4E0A;&#x4E0B;&#x6587;&#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x4E0A;&#x9762;&#x63D0;&#x5230;&#x7684;<code>-B</code>&#xFF0C;<code>-A</code>&#x548C;<code>-C</code>&#x6765;&#x5B9E;&#x73B0;&#x3002;</p>
+<p> &#x6BD4;&#x5982;&#x60F3;&#x8981;&#x627E;&#x51FA;&#x5305;&#x542B;&#x201D;nature&#x201D;&#x7684;&#x53E5;&#x5B50;&#x5E76;&#x6253;&#x5370;&#x51FA;&#x4E0A;&#x4E0B;&#x4E24;&#x884C;&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ grep -C2 &quot;nature&quot; demofile</span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d </span><br><span class="line"></span><br><span class="line">But thy eternal summer shall not fade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7EDF;&#x8BA1;&#x51FA;&#x5339;&#x914D;&#x7684;&#x603B;&#x884C;&#x6570;</p>
+<p> &#x6BD4;&#x5982;&#x8BF4;&#x60F3;&#x8981;&#x7EDF;&#x8BA1;&#x51FA;&#x73B0;&#x201D;to&#x201D;&#x7684;&#x884C;&#x6570;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -c &quot;to&quot; demofile</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+<p>&#x5982;&#x679C;&#x60F3;&#x8981;&#x7EDF;&#x8BA1;&#x51FA;&#x73B0;&#x7684;&#x603B;&#x6B21;&#x6570;&#x7684;&#x8BDD;&#xFF0C;grep&#x672C;&#x8EAB;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x6EE1;&#x8DB3;&#x8FD9;&#x4E2A;&#x9700;&#x6C42;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;sed&#x6216;awk&#x6765;&#x5B9E;&#x73B0;&#x3002;&#x6216;&#x8005;&#x7ED3;&#x5408;wc&#x6765;&#x5B9E;&#x73B0;&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -o &quot;to&quot; demofile| wc -l</span><br><span class="line">       5</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x9AD8;&#x4EAE;&#x5339;&#x914D;&#x6587;&#x5B57;</p>
+<p> &#x9AD8;&#x4EAE;&#x5339;&#x914D;&#x6587;&#x5B57;&#x53EF;&#x4EE5;&#x8BA9;&#x8089;&#x773C;&#x53EF;&#x4EE5;&#x7B2C;&#x4E00;&#x65F6;&#x95F4;&#x7684;&#x770B;&#x5230;&#x5339;&#x914D;&#x7ED3;&#x679C;&#xFF0C;&#x5229;&#x7528;&#x2013;color=auto/always&#x6765;&#x5B9E;&#x73B0;&#x3002;&#x6B64;&#x5904;nature&#x9AD8;&#x4EAE;&#x72B6;&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep --color=auto &quot;nature&quot; demofile</span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7B80;&#x5355;&#x5339;&#x914D;&#x591A;&#x4E2A;&#x6A21;&#x5F0F;</p>
+<p> &#x67E5;&#x627E;&#x591A;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>|</code>&#x5B57;&#x7B26;&#x6765;&#x8FDB;&#x884C;&#x7B80;&#x5355;&#x7684;&#x5339;&#x914D;&#x3002;&#x6BD4;&#x5982;&#x8BF4;<code>&quot;heaven|nature&quot;</code>&#x8868;&#x793A;&#x5339;&#x914D;heaven&#x6216;&#x8005;nature&#x3002;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x662F;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x62D3;&#x5C55;&#x90E8;&#x5206;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x4F7F;&#x7528;<code>-E</code>&#x6216;&#x8005;egrep&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -E &quot;heaven|nature&quot; demofile</span><br><span class="line">Sometime too hot the eye of heaven shines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x590D;&#x6742;&#x5339;&#x914D;&#x591A;&#x4E2A;&#x6A21;&#x5F0F;</p>
+<p> &#x9700;&#x8981;&#x627E;&#x51FA;&#x7B26;&#x5408;&#x591A;&#x4E2A;&#x6A21;&#x5F0F;&#x7684;&#x5339;&#x914D;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;&#x627E;&#x51FA;&#x4EE5;&#x201D;When&#x201D;&#x5F00;&#x5934;&#x6216;&#x8005;&#x5305;&#x542B;&#x201D;fade&#x201D;&#x7684;&#x884C;&#x3002;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; demofile</span><br><span class="line">But thy eternal summer shall not fade </span><br><span class="line">When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x627E;&#x51FA;&#x4E0D;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;&#x5339;&#x914D;</p>
+<p>&#x5728;&#x4E00;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x627E;&#x51FA;&#x4E0D;&#x6EE1;&#x8DB3;&#x67D0;&#x4E2A;&#x6761;&#x4EF6;&#x7684;&#x884C;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5C31;&#x53EF;&#x4EE5;&#x7528;<code>-v</code>&#x6765;&#x5B9E;&#x73B0;&#x4E86;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#x8BF4;&#x60F3;&#x627E;&#x51FA;&#x9996;&#x5B57;&#x6BCD;&#x4E0D;&#x662F;&#x5927;&#x5199;&#x5B57;&#x6BCD;&#x7684;&#x884C;&#x3002;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -v &quot;^[A-Z]&quot; demofile</span><br><span class="line">sonnet 18</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x6240;&#x5728;&#x884C;&#x7684;&#x884C;&#x6570;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; -n demofile</span><br><span class="line">13:But thy eternal summer shall not fade </span><br><span class="line">16:When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x6253;&#x5370;&#x51FA;&#x6587;&#x4EF6;&#x540D;</p>
+<p>&#x8FDB;&#x884C;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x641C;&#x7D22;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x9ED8;&#x8BA4;&#x4F1A;&#x6253;&#x5370;&#x51FA;&#x6587;&#x4EF6;&#x540D;&#x3002;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; demofile demofile2</span><br><span class="line">demofile:But thy eternal summer shall not fade </span><br><span class="line">demofile:When in eternal lines to time thou growest: </span><br><span class="line">demofile2:But thy eternal summer shall not fade </span><br><span class="line">demofile2:When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>[EOF]</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zhengyi.me/2016/06/06/learning-shell-grep/" data-title="Mac 命令学习 - grep | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/06/03/learning-shell-rm-mv-mkdir/"  title="Mac 命令学习 - mv, rm, mkdir">
+ <strong>下一篇：</strong><br/> 
+ <span>Mac 命令学习 - mv, rm, mkdir
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景知识"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#grep-vs-sed-vs-awk"><span class="toc-number">1.1.</span> <span class="toc-text">grep vs sed vs awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.2.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep的种类"><span class="toc-number">1.3.</span> <span class="toc-text">grep的种类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例学习"><span class="toc-number">3.</span> <span class="toc-text">案例学习</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  <div class="linkslist">
+  <p class="asidetitle">公众号</p>
+  <img width="100%" src="/img/wechat.logo.jpg" alt="ArmstrongNotes"/> 
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/思考讨论/" title="思考讨论">思考讨论<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/阅读相关/" title="阅读相关">阅读相关<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考方法/" title="思考方法">思考方法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考/" title="思考">思考<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.vicoder.com/" target="_blank" title="Victor Jiang">Victor Jiang</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m 10000000000 <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Yi">Yi</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = '2power10';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-8661588-8', 'zhengyi.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

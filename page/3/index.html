@@ -85,6 +85,126 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux 命令学习" itemprop="url">Mac/Linux 命令学习</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-23T14:53:35.000Z" itemprop="datePublished"> 发表于 2016-05-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;"><a href="#&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;" class="headerlink" title="&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;"></a>&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;</h2><p>&#x5207;&#x6362;&#x5230;mac&#x4E0B;&#x5DE5;&#x4F5C;&#x6709;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x4E86;&#xFF0C;&#x96BE;&#x514D;&#x8981;&#x5728;&#x7EC8;&#x7AEF;&#x4E2D;&#x505A;&#x4E00;&#x4E0B;&#x64CD;&#x4F5C;&#xFF0C;&#x76EE;&#x524D;&#x638C;&#x63E1;&#x7684;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x6709;&#x65F6;&#x5DF2;&#x7ECF;&#x96BE;&#x4EE5;&#x9A7E;&#x9A6D;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#x7684;&#x64CD;&#x4F5C;&#x4E86;&#x3002;&#x6709;&#x5FC5;&#x8981;&#x7CFB;&#x7EDF;&#x5F97;&#x8FC7;&#x4E00;&#x904D;&#x4E3B;&#x8981;&#x7684;&#x4E00;&#x4E9B;&#x547D;&#x4EE4;&#x3002;</p>
+<p>&#x9664;&#x4E86;&#x88C5;&#x903C;&#x610F;&#x5916;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x8FD8;&#x5728;&#x6709;&#x5F88;&#x591A;&#x597D;&#x5904;&#xFF1A;</p>
+<ol>
+<li>&#x6253;&#x5B57;&#x7684;&#x901F;&#x5EA6;&#x548C;&#x51C6;&#x786E;&#x6027;&#x8FDC;&#x8FDC;&#x9AD8;&#x4E8E;&#x9F20;&#x6807;&#xFF0C;&#x9891;&#x7E41;&#x7684;&#x5207;&#x6362;&#x9F20;&#x6807;&#x548C;&#x952E;&#x76D8;&#x662F;&#x4E00;&#x4EF6;&#x633A;&#x9EBB;&#x70E6;&#x7684;&#x4E8B;&#x60C5;&#x3002;</li>
+<li>&#x547D;&#x4EE4;&#x884C;&#x53EF;&#x4EE5;&#x5199;&#x6210;&#x811A;&#x672C;&#x81EA;&#x52A8;&#x5316;&#x4E00;&#x4E9B;&#x64CD;&#x4F5C;&#xFF0C;&#x61D2;&#x4EBA;&#x7684;&#x798F;&#x97F3;&#x3002;</li>
+<li>&#x5728;&#x4E00;&#x4E9B;&#x670D;&#x52A1;&#x5668;&#x7684;&#x73AF;&#x5883;&#x4E0B;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x3002;</li>
+</ol>
+<h2 id="&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;"><a href="#&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;" class="headerlink" title="&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;"></a>&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;</h2><p>Learning by doing &#x662F;&#x6700;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x5BF9;&#x8FD9;&#x79CD;&#x5B9E;&#x7528;&#x6027;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x4E0D;&#x52A8;&#x52A8;&#x624B;&#x662F;&#x7EDD;&#x5BF9;&#x4E0D;&#x884C;&#x7684;&#x3002;&#x6211;&#x89C9;&#x5F97;&#x5B66;&#x4E60;&#x547D;&#x4EE4;&#x884C;&#x6BD4;&#x8F83;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#xFF1A;</p>
+<ol>
+<li>&#x901A;&#x8BFB;&#x4E00;&#x904D;man&#xFF0C;&#x77E5;&#x9053;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x80FD;&#x591F;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x5373;&#x4F7F;&#x8BB0;&#x4E0D;&#x4F4F;&#x4E5F;&#x6CA1;&#x5173;&#x7CFB;&#xFF0C;&#x81F3;&#x5C11;&#x77E5;&#x9053;&#x53EF;&#x4EE5;&#x505A;&#xFF0C;&#x7B49;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x518D;&#x770B;&#x5177;&#x4F53;&#x7684;&#x7EC6;&#x8282;&#x4E5F;&#x4E0D;&#x8FDF;&#x3002;&#x7EC8;&#x7AEF;&#x4E0B;&#x7684;man&#x4E0D;&#x65B9;&#x4FBF;&#x9605;&#x8BFB;&#x7684;&#x8BDD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;Dash&#x7B49;&#x5DE5;&#x5177;&#x6765;&#x9605;&#x8BFB;&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;&#x5E73;&#x65F6;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x7684;&#xFF0C;&#x81EA;&#x5DF1;&#x52A8;&#x624B;&#x6572;&#x4E00;&#x904D;&#x770B;&#x770B;&#x6548;&#x679C;&#x3002;</li>
+<li>&#x8BBE;&#x60F3;&#x51E0;&#x4E2A;&#x53EF;&#x80FD;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x7136;&#x540E;&#x5229;&#x7528;&#x547D;&#x4EE4;&#x6765;&#x5B8C;&#x6210;&#x8FD9;&#x4E9B;&#x4EFB;&#x52A1;&#x3002;&#x4EE5;&#x540E;&#x78B0;&#x5230;&#x8FD9;&#x51E0;&#x4E2A;&#x573A;&#x666F;&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x67E5;&#x9605;&#x56DE;&#x5FC6;&#x3002;</li>
+</ol>
+<p>&#x7B2C;&#x4E09;&#x70B9;&#x5176;&#x5B9E;&#x662F;&#x501F;&#x9274;&#x4E86;<a href="https://github.com/tldr-pages/tldr" target="_blank" rel="external">tldr</a>&#xFF08;too long don&#x2019;t read&#xFF09;&#x5177;&#xFF0C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5316;&#x7248;&#x7684;man&#x3002;</p>
+<p>Mac 10.3+ &#x7CFB;&#x7EDF;&#x4E0B;&#x9ED8;&#x8BA4;&#x7684;shell&#x662F;bash<sup>[1]</sup>&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x547D;&#x4EE4;&#x7684;&#x6548;&#x679C;&#x548C;linux&#x4E0B;&#x9762;&#x76F8;&#x540C;&#xFF0C;&#x67D0;&#x4E00;&#x4E9B;&#x547D;&#x4EE4;&#x7684;&#x5177;&#x4F53;&#x53C2;&#x6570;&#x548C;&#x884C;&#x4E3A;&#x6709;&#x6240;&#x5DEE;&#x5F02;&#x3002;</p>
+<h2 id="&#x5C0F;&#x6280;&#x5DE7;"><a href="#&#x5C0F;&#x6280;&#x5DE7;" class="headerlink" title="&#x5C0F;&#x6280;&#x5DE7;"></a>&#x5C0F;&#x6280;&#x5DE7;</h2><h2 id="&#x6BCF;&#x65E5;&#x4E00;&#x8D34;"><a href="#&#x6BCF;&#x65E5;&#x4E00;&#x8D34;" class="headerlink" title="&#x6BCF;&#x65E5;&#x4E00;&#x8D34;"></a>&#x6BCF;&#x65E5;&#x4E00;&#x8D34;</h2><h3 id="&#x76EE;&#x5F55;&#x64CD;&#x4F5C;"><a href="#&#x76EE;&#x5F55;&#x64CD;&#x4F5C;" class="headerlink" title="&#x76EE;&#x5F55;&#x64CD;&#x4F5C;"></a>&#x76EE;&#x5F55;&#x64CD;&#x4F5C;</h3><ul>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>  - <em>2016&#x5E74;5&#x6708;24&#x53F7;</em></li>
+<li><a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="cat,pushd,popd">cat,pushd,popd</a> - <em>2016&#x5E74;6&#x6708;2&#x53F7;</em></li>
+</ul>
+<h3 id="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"><a href="#&#x6587;&#x4EF6;&#x64CD;&#x4F5C;" class="headerlink" title="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"></a>&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</h3><ul>
+<li><a href="/2016/05/25/learning-shell-in-mac-cp/" title="cp">cp</a>  - <em>2016&#x5E74;5&#x6708;25&#x53F7;</em></li>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="cat">cat</a>  - <em>2016&#x5E74;5&#x6708;30&#x53F7;</em></li>
+<li><a href="/2016/06/02/learning-shell-chflags/" title="chflags">chflags</a> - <em>2016&#x5E74;6&#x6708;2&#x53F7;</em></li>
+<li>ln</li>
+<li><a href="/2016/06/03/learning-shell-rm-mv-mkdir/" title="rm,mv,mkdir">rm,mv,mkdir</a> - <em>2016&#x5E74;6&#x6708;3&#x53F7;</em></li>
+<li>find</li>
+</ul>
+<h3 id="&#x6587;&#x672C;&#x64CD;&#x4F5C;&#x8FC7;&#x6EE4;&#x5668;"><a href="#&#x6587;&#x672C;&#x64CD;&#x4F5C;-&#x8FC7;&#x6EE4;&#x5668;" class="headerlink" title="&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;"></a>&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;</h3><ul>
+<li>sort</li>
+<li>uniq</li>
+<li><a href="/2016/06/06/learning-shell-grep/" title="grep">grep</a> - <em>2016&#x5E74;6&#x6708;6&#x53F7;</em></li>
+<li>fmt</li>
+<li>pr</li>
+<li>head</li>
+<li>tail</li>
+<li>tr</li>
+<li>sed</li>
+<li>awk</li>
+</ul>
+<h3 id="&#x8C03;&#x8BD5;"><a href="#&#x8C03;&#x8BD5;" class="headerlink" title="&#x8C03;&#x8BD5;"></a>&#x8C03;&#x8BD5;</h3><ul>
+<li>dtruss</li>
+</ul>
+<h3 id="&#x5176;&#x4ED6;"><a href="#&#x5176;&#x4ED6;" class="headerlink" title="&#x5176;&#x4ED6;"></a>&#x5176;&#x4ED6;</h3><ul>
+<li>xargs</li>
+</ul>
+<h3 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h3><ul>
+<li>&#x8F6F;&#x94FE;&#x63A5; vs &#x786C;&#x94FE;&#x63A5;</li>
+<li>File flag</li>
+<li><a href="/2016/05/31/unix-standard-input-output-redirection/" title="&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;&#xFF08;Redirection&#xFF09;">&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;&#xFF08;Redirection&#xFF09;</a> </li>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="&#x901A;&#x914D;&#x7B26;">&#x901A;&#x914D;&#x7B26;</a> 
+</li>
+</ul>
+<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<li><p><a href="http://stackoverflow.com/questions/8051145/what-are-the-differences-between-using-the-terminal-on-a-mac-vs-linux" target="_blank" rel="external">What are the differences between using the terminal on a mac vs linux?</a></p>
+</li>
+<li><p><a href="http://linuxcommand.org/index.php" target="_blank" rel="external">Linux Command</a></p>
+</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/23/learning-shell-in-mac/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/14/some-thought-about-reading/" title="读书方法的一些思考" itemprop="url">读书方法的一些思考</a>
   </h1>
   <p class="article-author">By
@@ -431,74 +551,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/04/04/restart-bloging/" title="重新开始写博客" itemprop="url">重新开始写博客</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-04-04T15:13:44.000Z" itemprop="datePublished"> 发表于 2016-04-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>&#x79BB;&#x4E0A;&#x6B21;&#x5199;&#x535A;&#x5BA2;&#x5DF2;&#x7ECF;&#x662F;&#x5F88;&#x4E45;&#x7684;&#x4E8B;&#x60C5;&#x4E86;&#xFF0C;&#x8BB0;&#x5F97;&#x5F88;&#x65E9;&#x4EE5;&#x524D;&#x5C31;&#x770B;&#x8FC7;&#x5173;&#x4E8E;&#x5199;&#x535A;&#x5BA2;&#x7684;&#x597D;&#x5904;&#xFF0C;&#x4E5F;&#x81EA;&#x5DF1;&#x5199;&#x8FC7;&#x6587;&#x7AE0;&#x9610;&#x8FF0;&#x8FC7;&#x5199;&#x4F5C;&#x7684;&#x5404;&#x79CD;&#x597D;&#x5904;&#x3002;&#x4F46;&#x662F;&#x6700;&#x7EC8;&#x8FD8;&#x662F;&#x6CA1;&#x6709;&#x575A;&#x6301;&#x4E0B;&#x6765;&#xFF0C;&#x5176;&#x5B9E;&#x56DE;&#x5934;&#x60F3;&#x60F3;&#x4F46;&#x662F;&#x4E5F;&#x5E76;&#x6CA1;&#x6709;&#x8BF4;&#x60F3;&#x8981;&#x575A;&#x6301;&#x5199;&#x4F5C;&#xFF0C;&#x53EA;&#x662F;&#x89C9;&#x5F97;&#x5199;&#x6587;&#x7AE0;&#x786E;&#x5B9E;&#x662F;&#x4E00;&#x4E2A;&#x5E2E;&#x52A9;&#x6574;&#x7406;&#x601D;&#x8DEF;&#x7684;&#x597D;&#x529E;&#x6CD5;&#x3002;</p>
-<p>&#x8FD9;&#x4E2A;&#x65F6;&#x4EE3;&#x662F;&#x4FE1;&#x606F;&#x6CDB;&#x6EE5;&#x7684;&#x4E00;&#x4E2A;&#x65F6;&#x4EE3;&#xFF0C;&#x5F88;&#x591A;&#x9053;&#x7406;&#x6211;&#x6CA1;&#x4F1A;&#x5728;&#x5404;&#x79CD;&#x5404;&#x6837;&#x4E0D;&#x4E00;&#x6837;&#x7684;&#x573A;&#x5408;&#x770B;&#x5230;&#xFF0C;&#x4F46;&#x662F;&#x5E76;&#x6CA1;&#x6709;&#x5375;&#x7528;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#xFF1F;&#x56E0;&#x4E3A;&#x9053;&#x7406;&#x5F80;&#x5F80;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x4F60;&#x5176;&#x5B9E;&#x505A;&#x4E0D;&#x5230;&#x3002;&#x8FD9;&#x4E2A;&#x8DDF;&#x65C5;&#x6E38;&#x5F88;&#x50CF;&#xFF0C;&#x5F53;&#x4F60;&#x8FD8;&#x6CA1;&#x53BB;&#x4E00;&#x4E2A;&#x5730;&#x65B9;&#x7684;&#x65F6;&#x5019;&#x770B;&#x8FC7;&#x5F88;&#x591A;&#x7167;&#x7247;&#xFF0C;&#x770B;&#x8FC7;&#x5F88;&#x591A;&#x6E38;&#x8BB0;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x89C9;&#x5F97;&#x4F60;&#x5DF2;&#x7ECF;&#x5F88;&#x4E86;&#x89E3;&#x8FD9;&#x4E2A;&#x5730;&#x65B9;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x5F53;&#x4F60;&#x771F;&#x6B63;&#x53BB;&#x5230;&#x90A3;&#x4E2A;&#x5730;&#x65B9;&#x7684;&#x65F6;&#x5019;&#x4F60;&#x4F1A;&#x4F60;&#x81EA;&#x5DF1;&#x7684;&#x611F;&#x53D7;&#x3002;&#x8FD9;&#x79CD;&#x611F;&#x53D7;&#x4E0D;&#x662F;&#x4F60;&#x770B;&#x518D;&#x591A;&#x7167;&#x7247;&#xFF0C;&#x8BFB;&#x518D;&#x591A;&#x6E38;&#x8BB0;&#x80FD;&#x591F;&#x611F;&#x53D7;&#x5230;&#x7684;&#x3002;&#x8FD9;&#x5C31;&#x8DDF;&#x4F60;&#x770B;&#x518D;&#x591A;&#x522B;&#x4EBA;&#x603B;&#x7ED3;&#x51FA;&#x6765;&#x7684;&#x9053;&#x7406;&#x548C;&#x7ECF;&#x9A8C;&#x90FD;&#x662F;&#x6CA1;&#x7528;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x4F60;&#x6CA1;&#x6709;&#x81EA;&#x5DF1;&#x4EB2;&#x8EAB;&#x5B9E;&#x8DF5;&#x8FC7;&#x90A3;&#x4E9B;&#x9053;&#x7406;&#x548C;&#x7ECF;&#x9A8C;&#x5C31;&#x4E0D;&#x662F;&#x4F60;&#x81EA;&#x5DF1;&#x7684;&#x3002;</p>
-<p>&#x5E9F;&#x8BDD;&#x4E0D;&#x591A;&#x8BF4;&#xFF0C;&#x4E5F;&#x4E0D;&#x505A;&#x65E0;&#x7528;&#x7684;&#x8BA1;&#x5212;&#xFF0C;just do it&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4F1A;&#x575A;&#x6301;&#x5199;&#x4E00;&#x4E9B;&#x6280;&#x672F;&#x4E0A;&#x7684;&#x5B66;&#x4E60;&#x5FC3;&#x5F97;&#xFF0C;&#x7FFB;&#x8BD1;&#x4E00;&#x4E9B;&#x6709;&#x8DA3;&#x7684;&#x5916;&#x6587;&#x6587;&#x7AE0;&#xFF0C;&#x8BFB;&#x4E66;&#x7B14;&#x8BB0;&#xFF0C;&#x751F;&#x6D3B;&#x4E0A;&#x7684;&#x4E00;&#x4E9B;&#x60F3;&#x6CD5;&#x7B49;&#x7B49;&#x3002;&#x901A;&#x8FC7;&#x8F93;&#x51FA;&#x7684;&#x65B9;&#x5F0F;&#x5012;&#x903C;&#x81EA;&#x5DF1;&#x505A;&#x66F4;&#x591A;&#x7684;&#x8F93;&#x5165;&#xFF0C;&#x505A;&#x66F4;&#x591A;&#x7684;&#x601D;&#x8003;&#xFF0C;&#x628A;&#x4E00;&#x4E9B;&#x65E0;&#x5E8F;&#x7684;&#x601D;&#x8003;&#x8F6C;&#x5316;&#x6210;&#x6709;&#x6548;&#x7684;&#x601D;&#x8003;&#xFF0C;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x601D;&#x8003;&#x66F4;&#x52A0;&#x7684;&#x6709;&#x6DF1;&#x5EA6;&#x3002;</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/思考讨论/">思考讨论</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/写作/">写作</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/04/04/restart-bloging/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
@@ -530,7 +585,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>9</sup></a></li>
+			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>10</sup></a></li>
 		  
 		
 		  
@@ -551,15 +606,15 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/shell/" title="shell">shell<sup>8</sup></a></li>
+				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mac/" title="mac">mac<sup>8</sup></a></li>
+				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>8</sup></a></li>
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			

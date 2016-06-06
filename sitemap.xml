@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhengyi.me/2016/06/06/learning-shell-grep/</loc>
+    
+    <lastmod>2016-06-06T13:58:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2016/05/23/learning-shell-in-mac/</loc>
+    
+    <lastmod>2016-06-06T13:45:50.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhengyi.me/2016/05/31/unix-standard-input-output-redirection/</loc>
     
     <lastmod>2016-06-03T14:28:45.000Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>http://zhengyi.me/2016/06/03/learning-shell-rm-mv-mkdir/</loc>
     
     <lastmod>2016-06-03T14:27:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://zhengyi.me/2016/05/23/learning-shell-in-mac/</loc>
-    
-    <lastmod>2016-06-03T12:44:42.000Z</lastmod>
     
   </url>
   
