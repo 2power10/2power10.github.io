@@ -85,6 +85,89 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="Mac 命令学习 - cd, pwd, pushd, popd" itemprop="url">Mac 命令学习 - cd, pwd, pushd, popd</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-02T13:43:06.000Z" itemprop="datePublished"> 发表于 2016-06-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="cd-change-directory"><a href="#cd-change-directory" class="headerlink" title="cd (change directory)"></a>cd (change directory)</h2><p><strong>&#x5207;&#x6362;&#x5230;&#x67D0;&#x4E2A;&#x76EE;&#x5F55;</strong></p>
+<p><code>cd /to/path</code></p>
+<p><strong>&#x56DE;&#x5230;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;</strong></p>
+<p><code>cd</code></p>
+<p><strong>&#x8FD4;&#x56DE;&#x524D;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;</strong></p>
+<p>&#x53EA;&#x4F1A;&#x8BB0;&#x5F55;&#x4E00;&#x4E2A;&#x524D;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x7684;&#x8BB0;&#x5F55;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x8BB0;&#x5F55;&#x6240;&#x6709;&#x7684;&#x8BB0;&#x5F55;&#x3002;</p>
+<p><code>cd -</code></p>
+<h2 id="pwd-present-working-directory"><a href="#pwd-present-working-directory" class="headerlink" title="pwd (present working directory)"></a>pwd (present working directory)</h2><p>&#x67E5;&#x770B;&#x5F53;&#x524D;&#x76EE;&#x5F55;</p>
+<h2 id="pushd-popd-push-to-directory-pop-back"><a href="#pushd-amp-popd-push-to-directory-pop-back" class="headerlink" title="pushd &amp; popd (push to directory, pop back)"></a>pushd &amp; popd (push to directory, pop back)</h2><p><code>cd</code>&#x6709;&#x4E00;&#x4E2A;&#x7F3A;&#x70B9;&#x5C31;&#x662F;&#x5B83;&#x65E0;&#x6CD5;&#x4FDD;&#x5B58;&#x5BFC;&#x822A;&#x7684;&#x8BB0;&#x5F55;&#xFF0C;&#x5982;&#x679C;&#x5207;&#x6362;&#x5230;&#x67D0;&#x51E0;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#x4E4B;&#x540E;&#x60F3;&#x56DE;&#x5230;&#x4E4B;&#x524D;&#x7684;&#x8DEF;&#x5F84;&#x5C31;&#x6709;&#x70B9;&#x56F0;&#x96BE;&#x3002;&#x7279;&#x522B;&#x662F;&#x5728;&#x5199;&#x67D0;&#x4E00;&#x4E9B;&#x811A;&#x672C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5207;&#x6362;&#x5230;&#x67D0;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x6267;&#x884C;&#x4E00;&#x4E9B;&#x4EFB;&#x52A1;&#x4EE5;&#x540E;&#x5E0C;&#x671B;&#x80FD;&#x591F;&#x56DE;&#x5230;&#x4E4B;&#x524D;&#x7684;&#x76EE;&#x5F55;&#x3002;</p>
+<p><code>pushd</code>&#x53EF;&#x4EE5;&#x5F88;&#x7B80;&#x5355;&#x7684;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;<code>pushd</code>&#x547D;&#x4EE4;&#x5C06;&#x5BFC;&#x822A;&#x7684;&#x5386;&#x53F2;&#x8BB0;&#x5F55;&#x5229;&#x7528;&#x6808;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x8FDB;&#x884C;&#x5B58;&#x50A8;&#xFF0C;&#x53EF;&#x4EE5;push n&#x5C42;&#x76EE;&#x5F55;&#xFF0C;&#x7136;&#x540E;&#x9010;&#x7EA7;&#x7684;pop&#x51FA;&#x6765;&#x3002;</p>
+<p><strong>push&#x5230;&#x67D0;&#x4E2A;&#x76EE;&#x5F55;</strong></p>
+<p><code>pushd /to/path</code></p>
+<p><strong>pop&#x4F1A;&#x5BFC;&#x822A;&#x6808;&#x4E2D;&#x4E0A;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;</strong></p>
+<p><code>popd</code></p>
+<p><strong>&#x4EA4;&#x6362;&#x6808;&#x4E0A;&#x6700;&#x4E0A;&#x9762;&#x7684;&#x4E24;&#x4E2A;&#x8DEF;&#x52B2;</strong></p>
+<p><code>pushd</code></p>
+<p><strong>&#x65CB;&#x8F6C;&#x5BFC;&#x822A;&#x6808;</strong><sup>[1]</sup></p>
+<p><code>pushd +2</code></p>
+<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<li><a href="https://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29" target="_blank" rel="external">Stack Wikipedia</a></li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/31/unix-standard-input-output-redirection/" title="Mac 命令学习 - 标准输入输出重定向" itemprop="url">Mac 命令学习 - 标准输入输出重定向</a>
   </h1>
   <p class="article-author">By
@@ -390,84 +473,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/25/learning-shell-in-mac-cp/" title="Mac 命令学习-每日一贴之cp" itemprop="url">Mac 命令学习-每日一贴之cp</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-25T13:53:30.000Z" itemprop="datePublished"> 发表于 2016-05-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h2><h3 id="symbolic-links"><a href="#Symbolic-links" class="headerlink" title="Symbolic links"></a>Symbolic links</h3><p>Symbolic links/soft links&#x53EF;&#x4EE5;<anchor>&#x7406;&#x89E3;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x5FEB;&#x6377;&#x65B9;&#x5F0F;</anchor>&#xFF0C;&#x8DDF;mac GUI&#x53F3;&#x51FB;&#x51FA;&#x6765;&#x7684;alias&#x6709;&#x7740;&#x5F88;&#x7C7B;&#x4F3C;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x662F;&#x6BD4;alias&#x8981;&#x66F4;&#x52A0;&#x7684;&#x5E95;&#x5C42;&#x4E00;&#x4E9B;&#x3002;Softlink &#x5373;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x4E5F;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x5939;&#x8FDB;&#x884C;&#x521B;&#x5EFA;&#x3002;</p>
-<p>&#x901A;&#x8FC7;<code>ln  -s target/file/or/dir link/path</code>&#x6765;&#x521B;&#x5EFA;&#x3002;&#x6211;&#x521B;&#x5EFA;&#x4E86;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x548C;&#x6587;&#x4EF6;&#x5939;&#x7684;softlink&#x548C;alias&#xFF0C;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x89C2;&#x5BDF;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;&#x3002;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ ls -lo@</span><br><span class="line">total 3024</span><br><span class="line">-rwxr-xr-x  1 zhengyi    2723 May 24 08:20 build.sh</span><br><span class="line">-rw-r--r--@ 1 zhengyi  257136 May 25 20:49 build.sh.alias</span><br><span class="line">	com.apple.FinderInfo	     32 </span><br><span class="line">lrwxr-xr-x  1 zhengyi       8 May 25 20:49 build.sh.link -&gt; build.sh</span><br><span class="line">drwxr-xr-x  9 zhengyi     306 May 25 20:24 src</span><br><span class="line">-rw-r--r--@ 1 zhengyi 1268908 May 25 20:40 src_alias</span><br><span class="line">	com.apple.FinderInfo	     32 </span><br><span class="line">lrwxr-xr-x  1 zhengyi       4 May 25 20:39 src_link -&gt; src/</span><br></pre></td></tr></table></figure>
-<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;softlink&#x662F;&#x901A;&#x8FC7;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#x6765;&#x8BC6;&#x522B;&#x7684;&#xFF0C;&#x800C;alias&#x662F;&#x901A;&#x8FC7;&#x62D3;&#x5C55;&#x5C5E;&#x6027;&#x6765;&#x8FDB;&#x884C;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;alias&#x53EA;&#x6709;&#x5728;apple &#x7684;Finder&#x4E0B;&#x6709;&#x7528;&#xFF0C;&#x5728;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x4ED6;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x7684;&#x6587;&#x4EF6;&#x3002;    </p>
-<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x94FE;&#x63A5;&#x5230;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;alias&#x56E0;&#x4E3A;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x81EA;&#x7136;&#x4E0D;&#x80FD;&#x591F;cd&#x8FDB;&#x53BB;&#xFF0C;&#x800C;softlink&#x662F;&#x53EF;&#x4EE5;cd&#x8FDB;&#x53BB;&#x7684;&#x3002;</p>
-<h3 id="hard-link"><a href="#Hard-link" class="headerlink" title="Hard link"></a>Hard link</h3><p>&#x4E0E;softlink&#x76F8;&#x5BF9;&#x5E94;&#xFF0C;&#x4E0E;softlink&#x4E0D;&#x540C;&#xFF0C;hardlink&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x201C;&#x5FEB;&#x6377;&#x65B9;&#x5F0F;&#x201D;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x4E2A;&#x771F;&#x5B9E;&#x5B58;&#x5728;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x78C1;&#x76D8;&#x4E0A;&#x4E00;&#x5757;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x6211;&#x4EEC;&#x5728;&#x7EC8;&#x7AEF;&#x548C;GUI&#x770B;&#x5230;&#x7684;&#x201C;&#x6587;&#x4EF6;&#x201D;&#x53EA;&#x662F;&#x6307;&#x5411;&#x4E86;&#x90A3;&#x5757;&#x5185;&#x5B58;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x201D;&#x6587;&#x4EF6;&#x201D;&#x6307;&#x5411;&#x540C;&#x4E00;&#x5757;&#x5185;&#x5B58;&#x3002;&#x8FD9;&#x5C31;&#x662F;hardlink&#x5E72;&#x7684;&#x4E8B;&#x60C5;&#x3002;hardlink&#x662F;&#x4E0D;&#x5141;&#x8BB8;&#x9488;&#x5BF9;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x521B;&#x5EFA;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x6837;&#x4F1A;&#x7834;&#x574F;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x7ED3;&#x6784;&#x3002;</p>
-<h2 id="&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>&#x5E38;&#x7528;&#x53C2;&#x6570;</h2><p><code>-f</code> - &#x5C06;&#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4E0D;&#x505A;&#x63D0;&#x793A;&#x3002;<br><code>-n</code> - &#x4E0D;&#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x3002;<br><code>-r</code> - &#x8FD9;&#x4E2A;&#x662F;<anchor>&#x5386;&#x53F2;&#x7248;&#x672C;&#x7684;&#x9012;&#x5F52;&#x62F7;&#x8D1D;</anchor>&#xFF0C;&#x4E0D;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x3002;<br><code>-R</code> - &#x5982;&#x679C;&#x6E90;&#x6587;&#x4EF6;&#x662F;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;&#x9012;&#x5F52;&#x62F7;&#x8D1D;&#x5230;&#x76EE;&#x6807;&#x8DEF;&#x5F84;&#x3002;&#x5982;&#x679C;&#x6E90;&#x6587;&#x4EF6;&#x4EE5;<code>/</code>&#x7ED3;&#x5C3E;&#xFF0C;&#x90A3;&#x4E48;&#x6E90;&#x6587;&#x4EF6;&#x5939;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x5C06;&#x88AB;&#x62F7;&#x8D1D;&#x5230;&#x76EE;&#x6807;&#x8DEF;&#x5F84;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x6307;&#x5B9A;&#x5219;&#x662F;&#x62F7;&#x8D1D;&#x6574;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#x3002;<br><code>-H</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x4FDD;&#x6301;&#x539F;&#x6709;&#x7684;softlink&#x3002;<br><code>-P</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x4FDD;&#x6301;&#x539F;&#x6709;&#x7684;softlink&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x9012;&#x5F52;&#x62F7;&#x8D1D;&#x7684;&#x65F6;&#x5019;&#x9ED8;&#x8BA4;&#x7684;&#x9009;&#x9879;&#x3002;<br><code>-v</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x6253;&#x5370;&#x51FA;&#x6240;&#x6709;&#x88AB;&#x62F7;&#x8D1D;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-p</code> - &#x5C06;&#x4FDD;&#x62A4;&#x539F;&#x59CB;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x3001;&#x8BBF;&#x95EE;&#x65F6;&#x95F4;&#x3001;flie flag&#xFF0C;&#x6587;&#x4EF6;&#x6A21;&#x5F0F;&#x7B49;&#x4FE1;&#x606F;&#x3002;</p>
-<h2 id="&#x5177;&#x4F53;&#x573A;&#x666F;"><a href="#&#x5177;&#x4F53;&#x573A;&#x666F;" class="headerlink" title="&#x5177;&#x4F53;&#x573A;&#x666F;"></a>&#x5177;&#x4F53;&#x573A;&#x666F;</h2><p><strong>&#x62F7;&#x8D1D;&#x5355;&#x4E2A;&#x6587;&#x4EF6;</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp file1.txt ../file2.txt</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x591A;&#x4E2A;&#x6587;&#x4EF6;</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp file1.txt file2.cpp file3.cs test/src</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x7B26;&#x5408;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x89C4;&#x5219;&#x7684;&#x6587;&#x4EF6;</strong></p>
-<p>cp&#x652F;&#x6301;&#x7B80;&#x5355;&#x7684;&#x901A;&#x914D;&#x7B26;&#x3002;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp *.zip package</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x6574;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x5305;&#x62EC;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x7EF4;&#x6301;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x4E0D;&#x53D8;</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -RpH dir1 dir2/src</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/25/learning-shell-in-mac-cp/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -506,7 +511,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>1</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
 		  
 		
 		  
@@ -539,6 +544,14 @@
 			
 		
 			
+				<li><a href="/tags/C/" title="C++">C++<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/心理学/" title="心理学">心理学<sup>2</sup></a></li>
 			
 		
@@ -551,10 +564,6 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
 			
 		
@@ -563,11 +572,11 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
 			
 		
 			
@@ -583,15 +592,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
 			
 		
 			
