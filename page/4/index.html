@@ -85,6 +85,98 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/04/05/some-thought-about-git-workflow/" title="Git workflow的一些想法" itemprop="url">Git workflow的一些想法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-05T15:19:09.000Z" itemprop="datePublished"> 发表于 2016-04-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>&#x4ECA;&#x5929;&#x8BFB;&#x5230;&#x4E86;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;<a href="http://insights.thoughtworkers.org/gitflow-consider-harmful/" target="_blank" rel="external">&#x300A;Gitflow&#x6709;&#x5BB3;&#x8BBA;&#x300B;</a>&#xFF0C; &#x867D;&#x7136;&#x6587;&#x7AE0;&#x7684;&#x6807;&#x9898;&#x6709;&#x70B9;&#x6781;&#x7AEF;&#xFF0C;&#x4F46;&#x662F;&#x5176;&#x4E2D;&#x7684;&#x89C2;&#x70B9;&#x8FD8;&#x662F;&#x5F88;&#x6709;&#x4EF7;&#x503C;&#x7684;&#x3002;&#x7ED3;&#x5408;&#x5DE5;&#x4F5C;&#x4E2D;&#x4F7F;&#x7528;git&#x7684;&#x4E00;&#x4E9B;&#x611F;&#x60F3;&#xFF0C;&#x8C08;&#x4E00;&#x8C08;&#x6211;&#x5BF9;&#x4E8E;&#x4F7F;&#x7528;git&#x7684;workflow&#x7684;&#x4E00;&#x4E9B;&#x60F3;&#x6CD5;&#x3002;</p>
+<h2 id="gitflow"><a href="#Gitflow" class="headerlink" title="Gitflow"></a>Gitflow</h2><p><img src="https://farm2.staticflickr.com/1627/26186579461_61597a4f0d_b.jpg" alt="gitflow"></p>
+<p>&#x5728;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x4E4B;&#x524D;&#x5E76;&#x6CA1;&#x6709;&#x8BA4;&#x771F;&#x7684;&#x770B;&#x8FC7;Gitflow&#x7684;&#x6574;&#x4E2A;&#x6D41;&#x7A0B;&#xFF0C;&#x4E00;&#x5F00;&#x59CB;&#x4F7F;&#x7528;git&#x7684;&#x65F6;&#x5019;&#x770B;&#x5230;&#x8FC7;&#x8FD9;&#x4E2A;&#x6D41;&#x7A0B;&#xFF0C;&#x4F46;&#x662F;&#x7531;&#x4E8E;&#x8FC7;&#x4E8E;&#x590D;&#x6742;&#x800C;&#x4E14;&#x5927;&#x5BB6;&#x5BF9;git&#x90FD;&#x4E0D;&#x5927;&#x719F;&#x6089;&#xFF0C;&#x6240;&#x4EE5;&#x6CA1;&#x6709;&#x91C7;&#x7528;&#x8FD9;&#x4E2A;&#x6D41;&#x7A0B;&#x3002;</p>
+<p>&#x4ECE;&#x6211;&#x4E2A;&#x4EBA;&#x7684;&#x7ECF;&#x9A8C;&#x6765;&#x770B;&#x8FD9;&#x4E2A;Gitflow&#xFF0C;&#x6709;&#x4E0B;&#x9762;&#x51E0;&#x4E2A;&#x5F88;&#x660E;&#x663E;&#x7684;&#x5751;&#x3002;</p>
+<ol>
+<li>&#x67D0;&#x4E00;&#x4E9B;feature&#x5206;&#x652F;&#x7684;&#x65F6;&#x95F4;&#x8DE8;&#x5EA6;&#x592A;&#x5927;&#xFF0C;&#x8FD9;&#x4F1A;&#x5BFC;&#x81F4;&#x4E00;&#x4E2A;&#x5F88;&#x4E25;&#x91CD;&#x7684;&#x95EE;&#x9898;&#x5C31;&#x662F;&#x5F53;&#x8FD9;&#x4E2A;feature&#x5206;&#x652F;&#x56DE;&#x5230;develop&#x7684;&#x65F6;&#x5019;&#x53EF;&#x80FD;&#x4F1A;&#x4EA7;&#x751F;&#x5F88;&#x591A;&#x51B2;&#x7A81;&#x3002;&#x800C;&#x4E14;&#x8FD9;&#x4E9B;&#x51B2;&#x7A81;&#x53EF;&#x80FD;&#x6D89;&#x53CA;&#x5230;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x5C42;&#x9762;&#xFF0C;&#x9700;&#x8981;&#x989D;&#x5916;&#x7684;&#x5DE5;&#x4F5C;&#x91CF;&#x53BB;fix&#x3002;&#x800C;&#x4E14;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5F80;&#x5F80;&#x5F88;&#x7EA0;&#x7ED3;&#x4E14;&#x5BB9;&#x6613;&#x51FA;&#x9519;&#x3002;2. </li>
+<li>feature&#x65F6;&#x95F4;&#x8DE8;&#x5EA6;&#x592A;&#x5927;&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x574F;&#x5904;&#x5C31;&#x662F;pull request&#x4F1A;&#x53D8;&#x5F97;&#x5F88;&#x5927;&#xFF0C;&#x4E00;&#x4E2A;&#x5F88;&#x5927;&#x7684;pull request&#x5F80;&#x5F80;&#x4F1A;&#x8BA9;review&#x7684;&#x4EBA;&#x5F88;&#x5934;&#x75BC;&#x3002;&#x5F88;&#x5BB9;&#x6613;&#x8BA9;&#x4EE3;&#x7801;review&#x7684;&#x4EBA;&#x5FFD;&#x7565;&#x5176;&#x4E2D;&#x9690;&#x85CF;&#x7684;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#x3002;</li>
+</ol>
+<p>&#x9664;&#x4E86;&#x8FD9;&#x4E24;&#x4E2A;&#x6BD4;&#x8F83;&#x5927;&#x7684;&#x5751;&#x4EE5;&#x5916;&#xFF0C;&#x5173;&#x4E8E;release branch&#x548C;master branch&#x7684;&#x5206;&#x5DE5;&#xFF0C;&#x6211;&#x89C9;&#x5F97;&#x6DFB;&#x52A0;&#x4E86;&#x5F88;&#x591A;&#x5DE5;&#x4F5C;&#x91CF;&#x548C;&#x590D;&#x6742;&#x5EA6;&#xFF0C;&#x4F46;&#x5E76;&#x6CA1;&#x6709;&#x5E26;&#x6765;&#x660E;&#x663E;&#x7684;&#x597D;&#x5904;&#x3002;</p>
+<h2 id="github-&#x7684;flow"><a href="#Github-&#x7684;flow" class="headerlink" title="Github &#x7684;flow"></a>Github &#x7684;flow</h2><p>github&#x7684;flow&#x5176;&#x5B9E;&#x975E;&#x5E38;&#x7684;&#x7B80;&#x5355;&#xFF0C;&#x8BE6;&#x89C1;&#xFF1A;<a href="https://guides.github.com/introduction/flow/" target="_blank" rel="external">Understanding the GitHub Flow</a>&#xFF0C;<a href="http://scottchacon.com/2011/08/31/github-flow.html" target="_blank" rel="external">GitHub Flow</a>&#x3002;</p>
+<p>&#x4ECE;&#x6587;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x8FD9;&#x4E2A;workflow&#x91CC;&#x53EA;&#x6709;&#x4E24;&#x79CD;&#x5206;&#x652F;&#x3002;&#x4E00;&#x79CD;&#x662F;master &#x5206;&#x652F;&#xFF0C;&#x8FD9;&#x4E2A;&#x5206;&#x652F;&#x662F;&#x9AD8;&#x8D28;&#x91CF;&#x53EF;&#x4EE5;&#x968F;&#x65F6;&#x90E8;&#x7F72;&#x7684;&#x5206;&#x652F;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x5219;&#x662F;feature&#x5206;&#x652F;&#xFF0C;&#x5373;&#x529F;&#x80FD;&#x5F00;&#x53D1;&#x7684;&#x5206;&#x652F;&#x3002;&#x5F00;&#x53D1;&#x5B8C;&#x4EE5;&#x540E;&#x76F4;&#x63A5;&#x901A;&#x8FC7;Pull Request&#x7684;&#x5F62;&#x5F0F;&#x56DE;&#x5230;master&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x51FA;github&#x7684;flow&#x975E;&#x5E38;&#x7684;&#x7B80;&#x6D01;&#x660E;&#x4E86;&#x3002;&#x4F46;&#x662F;&#x6211;&#x89C9;&#x5F97;&#x91C7;&#x7528;&#x8FD9;&#x79CD;flow&#x6709;&#x4E24;&#x4E2A;&#x5927;&#x524D;&#x63D0;&#xFF1A;</p>
+<ol>
+<li><p>CI&#x80FD;&#x591F;&#x5728;Pull Request&#x9636;&#x6BB5;&#x8986;&#x76D6;&#x5927;&#x90E8;&#x5206;&#x7684;&#x6D4B;&#x8BD5;&#x6848;&#x4F8B;&#x3002;</p>
+</li>
+<li><p>&#x9879;&#x76EE;&#x5FC5;&#x987B;&#x662F;&#x7C7B;&#x4F3C;&#x4E8E;github&#x8FD9;&#x79CD;web&#x7684;&#x9879;&#x76EE;&#xFF0C;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x9891;&#x7E41;&#x7684;&#x4EA7;&#x54C1;&#x90E8;&#x7F72;&#x3002;&#x5E76;&#x4E14;&#x80FD;&#x591F;&#x8FC5;&#x901F;&#x7684;&#x4FEE;&#x590D;&#x53D1;&#x73B0;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+</li>
+</ol>
+<h2 id="&#x6211;&#x8BA4;&#x4E3A;&#x7406;&#x60F3;&#x7684;git-workflow"><a href="#&#x6211;&#x8BA4;&#x4E3A;&#x7406;&#x60F3;&#x7684;git-workflow" class="headerlink" title="&#x6211;&#x8BA4;&#x4E3A;&#x7406;&#x60F3;&#x7684;git workflow"></a>&#x6211;&#x8BA4;&#x4E3A;&#x7406;&#x60F3;&#x7684;git workflow</h2><p>&#x6211;&#x8BA4;&#x4E3A;&#x6CA1;&#x6709;&#x4E00;&#x79CD;&#x653E;&#x4E4B;&#x56DB;&#x6D77;&#x800C;&#x7686;&#x51C6;&#x7684;workflow&#xFF0C;&#x4E00;&#x4E2A;&#x9879;&#x76EE;&#x6240;&#x91C7;&#x7528;&#x7684;workflow&#x5176;&#x5B9E;&#x4E3B;&#x8981;&#x53D6;&#x51B3;&#x4E8E;&#x7EC4;&#x7EC7;&#x7684;&#x6587;&#x5316;&#x548C;&#x4EA7;&#x54C1;&#x7684;&#x7279;&#x70B9;&#x3002;</p>
+<p>&#x6211;&#x8BA4;&#x4E3A;&#x4E00;&#x4E2A;&#x597D;&#x7684;workflow&#x5E94;&#x8BE5;&#x6EE1;&#x8DB3;&#x4E00;&#x4E0B;&#x51E0;&#x4E2A;&#x6761;&#x4EF6;&#xFF1A;</p>
+<ol>
+<li>&#x53EA;&#x6709;&#x4E00;&#x4E2A;master&#x5206;&#x652F;&#xFF0C;&#x4E0D;&#x9700;&#x8981;develop&#x5206;&#x652F;&#x3002;</li>
+<li>&#x6709;&#x4E00;&#x4E2A;&#x826F;&#x597D;&#x7684;&#x6301;&#x7EED;&#x96C6;&#x6210;&#x73AF;&#x5883;&#xFF0C;&#x80FD;&#x591F;&#x5BF9;&#x6BCF;&#x4E00;&#x4E2A;pull request&#x8FDB;&#x884C;&#x9A8C;&#x8BC1;&#xFF0C;&#x786E;&#x4FDD;&#x5176;&#x901A;&#x8FC7;&#x6240;&#x6709;&#x7684;&#x6D4B;&#x8BD5;&#x3002;</li>
+<li>feature&#x5206;&#x652F;&#x8981;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x5C0F;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x529E;&#x6CD5;&#x786E;&#x5B9E;&#x9700;&#x8981;&#x505A;&#x5F88;&#x591A;&#x6539;&#x52A8;&#x7684;&#x8BDD;&#x3002;&#x90A3;&#x4E48;&#x5C31;&#x5F53;&#x5B8C;&#x6210;&#x4E00;&#x90E8;&#x5206;&#x53EF;&#x4EE5;work&#x7684;&#x4EE3;&#x7801;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53D1;&#x51FA;Pull Request&#x3002;&#x5C06;&#x8FD9;&#x4E00;&#x90E8;&#x5206;&#x5148;&#x56DE;&#x5230;master&#x3002;&#x8FD9;&#x4E2A;&#x4E3B;&#x8981;&#x662F;&#x4E3A;&#x4E86;&#x8BA9;Pull Request&#x66F4;&#x7CBE;&#x7B80;&#xFF0C;&#x8BA9;&#x4EE3;&#x7801;&#x51B2;&#x7A81;&#x66F4;&#x65E9;&#x7684;&#x66B4;&#x9732;&#x5E76;&#x89E3;&#x51B3;&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x5E94;&#x7528;&#xFF0C;release&#x5206;&#x652F;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#x3002;&#x62C9;&#x51FA;release&#x5206;&#x652F;&#x7684;&#x65F6;&#x5019;&#x5982;&#x679C;&#x6709;&#x4E00;&#x4E9B;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x529F;&#x80FD;&#x6216;&#x672A;&#x5B8C;&#x6210;&#x7684;&#x529F;&#x80FD;&#x901A;&#x8FC7;&#x4E00;&#x4E9B;&#x6280;&#x672F;&#xFF08;Feature Toggle&#xFF0C;Branch by Abstraction&#xFF09;&#x6765;&#x5C06;&#x5176;&#x5C4F;&#x853D;&#x3002;</li>
+<li>&#x5F53;release&#x5206;&#x652F;&#x4E2D;&#x6709;bug&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5728;master&#x4E0A;&#x505A;&#x4FEE;&#x590D;&#xFF0C;&#x5E76;cherry pick&#x5230;release&#x5206;&#x652F;&#x3002;&#x5982;&#x679C;&#x65E0;&#x6CD5;cherry pick&#xFF0C;&#x5219;&#x624B;&#x52A8;&#x4FEE;&#x6539;&#x3002;</li>
+<li>release&#x7248;&#x672C;&#x540E;&#x5728;release&#x5206;&#x652F;&#x4E0A;&#x6253;&#x4E0A;tag&#x4EE5;&#x4FBF;&#x65E5;&#x540E;&#x7684;hotfix&#x3002;</li>
+</ol>
+<p>&#x6211;&#x8FD9;&#x91CC;&#x63D0;&#x5230;&#x7684;&#x8FD9;&#x4E9B;&#x70B9;&#x8DDF;<a href="http://insights.thoughtworkers.org/gitflow-consider-harmful/" target="_blank" rel="external">&#x300A;Gitflow&#x6709;&#x5BB3;&#x8BBA;&#x300B;</a>&#x6587;&#x4E2D;&#x63D0;&#x5230;&#x7684;Trunk Based Development&#x5DE5;&#x4F5C;&#x6D41;&#x5176;&#x5B9E;&#x6709;&#x70B9;&#x50CF;&#x3002;&#x4F46;&#x662F;&#x6211;&#x5BF9;&#x4E8E;&#x8FD9;&#x4E2A;Trunk Based Development&#x8FD8;&#x6CA1;&#x6709;&#x7814;&#x7A76;&#x900F;&#xFF0C;&#x4E0D;&#x6562;&#x5984;&#x4E0B;&#x7ED3;&#x8BBA;&#x3002;</p>
+<p>&#x6587;&#x4E2D;&#x8FD8;&#x63D0;&#x5230;&#x4E86;&#x4E00;&#x4E0B;&#x6280;&#x672F;&#xFF1A;Feature Toggle&#xFF0C;Branch by Abstraction&#x3002;&#x770B;&#x4E86;&#x7ED9;&#x51FA;&#x7684;&#x94FE;&#x63A5;&#xFF0C;&#x6709;&#x70B9;&#x7C97;&#x6D45;&#x7684;&#x8BA4;&#x8BC6;&#xFF0C;&#x6539;&#x5929;&#x6DF1;&#x5165;&#x7684;&#x53BB;&#x4ED4;&#x7EC6;&#x9605;&#x8BFB;&#x4E00;&#x4E9B;&#x8FD9;&#x4E9B;&#x6280;&#x672F;&#x3002;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/gitflow/">gitflow</a><a href="/tags/项目控制/">项目控制</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/04/05/some-thought-about-git-workflow/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/04/restart-bloging/" title="重新开始写博客" itemprop="url">重新开始写博客</a>
   </h1>
   <p class="article-author">By
@@ -182,6 +274,10 @@
 		  
 		
 		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
 		  
 		
@@ -199,15 +295,15 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			
@@ -223,10 +319,6 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
 			
 		
@@ -235,27 +327,15 @@
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -268,6 +348,30 @@
 		
 			
 				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
 			
 		
 		</ul>
