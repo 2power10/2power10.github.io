@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhengyi.me/2016/07/06/effective-cpp-reading-notes-3/</loc>
+    
+    <lastmod>2016-07-06T13:14:07.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhengyi.me/2016/06/28/effective-cpp-reading-notes-2/</loc>
     
     <lastmod>2016-06-28T13:56:01.000Z</lastmod>

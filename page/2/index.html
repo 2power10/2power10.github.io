@@ -85,6 +85,131 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/02/learning-shell-chflags/" title="Mac 命令学习 - chflags" itemprop="url">Mac 命令学习 - chflags</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-02T15:20:25.000Z" itemprop="datePublished"> 发表于 2016-06-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"><a href="#&#x80CC;&#x666F;&#x77E5;&#x8BC6;" class="headerlink" title="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"></a>&#x80CC;&#x666F;&#x77E5;&#x8BC6;</h2><p>&#x5728;<a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>&#x547D;&#x4EE4;&#x4E2D;&#x6709;&#x51FA;&#x73B0;&#x8FC7;&#x4E00;&#x4E2A;<code>-O</code>&#x7684;&#x9009;&#x9879;&#xFF0C;&#x5373;&#x5217;&#x51FA;&#x6587;&#x4EF6;&#x7684;file flag&#x3002;&#x8FD9;&#x4E2A;File flag&#x6240;&#x4E3A;&#x4F55;&#x7269;&#xFF1F;</p>
+<p>File flag&#x662F;&#x5728;BSD Unix&#x4E2D;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x8DDF;Linux&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;attr&#x662F;&#x5DEE;&#x4E0D;&#x591A;&#x7684;&#x4E00;&#x4E2A;&#x6982;&#x5FF5;&#xFF0C;&#x662F;&#x6587;&#x4EF6;&#x7684;&#x4E00;&#x4E9B;&#x6807;&#x5FD7;&#x4F4D;&#x6765;&#x5B58;&#x653E;&#x6587;&#x4EF6;&#x7684;&#x67D0;&#x4E9B;&#x5C5E;&#x6027;&#x3002;chflags&#x5C31;&#x662F;&#x6765;&#x4FEE;&#x6539;&#x8FD9;&#x4E2A;file flag&#x7684;&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x662F;&#x8DDF;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x76F8;&#x5173;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E0A;&#x7684;&#x652F;&#x6301;&#x7A0B;&#x5EA6;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x4F53;&#x73B0;&#x5728;&#x67D0;&#x4E00;&#x4E9B;flag&#x5728;&#x4E00;&#x4E9B;&#x7279;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E0A;&#x6CA1;&#x6709;&#x3002;<sup>[1]</sup></p>
+<p>&#x6240;&#x6709;&#x7684;&#x5C5E;&#x6027;&#x90FD;&#x53EF;&#x4EE5;&#x88AB;&#x8D85;&#x7EA7;&#x7BA1;&#x7406;&#x5458;&#x4FEE;&#x6539;&#xFF0C;&#x6709;&#x4E00;&#x4E9B;&#x53EF;&#x4EE5;&#x88AB;&#x6587;&#x4EF6;&#x7684;&#x6240;&#x6709;&#x8005;&#x4FEE;&#x6539;&#x3002;&#x4EE5;&#x4E0B;&#x5217;&#x51FA;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#x51E0;&#x4E2A;&#x5C5E;&#x6027;<sup>[1]</sup>&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th>&#x5C5E;&#x6027;</th>
+<th>ls&#x4E2D;&#x663E;&#x793A;</th>
+<th>chflags&#x4E2D;&#x4F7F;&#x7528;</th>
+<th>&#x6587;&#x4EF6;&#x6240;&#x6709;&#x8005;&#x80FD;&#x5426;&#x4FEE;&#x6539;&#xFF1F;</th>
+<th>&#x8BE6;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&#x9690;&#x85CF;</td>
+<td>hidden</td>
+<td>hidden</td>
+<td>&#x80FD;</td>
+<td>&#x8BBE;&#x7F6E;&#x4EE5;&#x540E;&#x5728;GUI&#x4E0A;&#x770B;&#x4E0D;&#x5230;&#xFF0C;ls&#x4F9D;&#x7136;&#x53EF;&#x4EE5;&#x770B;&#x5230;d</td>
+</tr>
+<tr>
+<td>&#x7CFB;&#x7EDF;&#x7EA7;&#x53EA;&#x80FD;&#x6DFB;&#x52A0;</td>
+<td>sappnd</td>
+<td>sappnd, sappend</td>
+<td>&#x5426;</td>
+<td>&#x8BBE;&#x7F6E;&#x4EE5;&#x540E;&#x6B64;&#x6587;&#x4EF6;&#x4E0D;&#x80FD;&#x591F;&#x622A;&#x65AD;&#x6216;&#x8005;&#x590D;&#x5199;(overwrite)&#xFF0C;&#x53EA;&#x80FD;&#x901A;&#x8FC7;append&#x6A21;&#x5F0F;&#x6DFB;&#x52A0;&#x5185;&#x5BB9;</td>
+</tr>
+<tr>
+<td>&#x7528;&#x6237;&#x7EA7;&#x53EA;&#x80FD;&#x6DFB;&#x52A0;</td>
+<td>uappnd</td>
+<td>uappnd, uappend</td>
+<td>&#x80FD;</td>
+<td>&#x8BBE;&#x7F6E;&#x4EE5;&#x540E;&#x6B64;&#x6587;&#x4EF6;&#x4E0D;&#x80FD;&#x591F;&#x622A;&#x65AD;&#x6216;&#x8005;&#x590D;&#x5199;(overwrite)&#xFF0C;&#x53EA;&#x80FD;&#x901A;&#x8FC7;append&#x6A21;&#x5F0F;&#x6DFB;&#x52A0;&#x5185;&#x5BB9;</td>
+</tr>
+<tr>
+<td>&#x7CFB;&#x7EDF;&#x7EA7;&#x53EA;&#x8BFB;</td>
+<td>schg</td>
+<td>schg, schange, simmutable</td>
+<td>&#x5426;</td>
+<td>&#x4E0D;&#x80FD;&#x591F;&#x91CD;&#x547D;&#x540D;&#x3001;&#x79FB;&#x52A8;&#x3001;&#x5220;&#x9664;&#x3001;&#x66F4;&#x6539;&#x5185;&#x5BB9;</td>
+</tr>
+<tr>
+<td>&#x7528;&#x6237;&#x7EA7;&#x53EA;&#x8BFB;</td>
+<td>uchg</td>
+<td>uchg, uchange, uimmutable</td>
+<td>&#x80FD;</td>
+<td>&#x4E0D;&#x80FD;&#x591F;&#x66F4;&#x6539;&#x5185;&#x5BB9;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;"><a href="#&#x57FA;&#x672C;&#x7528;&#x6CD5;" class="headerlink" title="&#x57FA;&#x672C;&#x7528;&#x6CD5;"></a>&#x57FA;&#x672C;&#x7528;&#x6CD5;</h2><p><code>chflags [-fhv] [-R [-H | -L | -P]] flags file</code></p>
+<h2 id="&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>&#x5E38;&#x7528;&#x53C2;&#x6570;</h2><p><code>-R</code> &#x9012;&#x5F52;&#x4FEE;&#x6539;&#x53C2;&#x6570;&#x4E2D;&#x6587;&#x4EF6;&#x5939;&#x4E0B;&#x9762;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x548C;&#x6587;&#x4EF6;&#x5939;&#x7684;&#x5C5E;&#x6027;</p>
+<h2 id="&#x5177;&#x4F53;&#x6848;&#x4F8B;"><a href="#&#x5177;&#x4F53;&#x6848;&#x4F8B;" class="headerlink" title="&#x5177;&#x4F53;&#x6848;&#x4F8B;"></a>&#x5177;&#x4F53;&#x6848;&#x4F8B;</h2><p><strong>&#x4E3A;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;</strong></p>
+<p><code>chflags uchg file</code></p>
+<p><strong>&#x4E3A;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;</strong></p>
+<p><code>chflags nouchg file</code></p>
+<p>&#x5728;&#x5C5E;&#x6027;&#x540D;&#x5B57;&#x524D;&#x9762;&#x6DFB;&#x52A0;no&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x5C5E;&#x6027;&#x5220;&#x9664;&#xFF0C;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x672C;&#x8EAB;&#x5DF2;no&#x5F00;&#x5934;&#xFF08;&#x6BD4;&#x5982;nodump&#xFF09;&#x5219;&#x53BB;&#x6389;no&#x3002;</p>
+<p><strong>&#x5C06;&#x6587;&#x4EF6;&#x5939;&#x53CA;&#x5176;&#x6587;&#x4EF6;&#x5939;&#x4E0B;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x8FDB;&#x884C;&#x4FEE;&#x6539;</strong></p>
+<p><code>chflags -R uchg directory</code></p>
+<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<li><a href="https://en.wikipedia.org/wiki/Chattr" target="_blank" rel="external">chattr - Wikipedia</a></li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/02/learning-shell-chflags/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="Mac 命令学习 - cd, pwd, pushd, popd" itemprop="url">Mac 命令学习 - cd, pwd, pushd, popd</a>
   </h1>
   <p class="article-author">By
@@ -395,84 +520,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/27/unity-of-knowlede-and-action/" title="“知行合一”" itemprop="url">“知行合一”</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-27T12:50:23.000Z" itemprop="datePublished"> 发表于 2016-05-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>&#x77E5;&#x8BC6;&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x4EBA;&#x6709;&#x4E09;&#x79CD;&#x72B6;&#x6001;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x7684;&#xFF0C;&#x77E5;&#x9053;&#x7684;&#xFF0C;&#x505A;&#x5230;&#x7684;&#x3002;&#x672C;&#x6587;&#x4E0D;&#x8BA8;&#x8BBA;&#x4E0D;&#x77E5;&#x9053;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<p><img src="/img/know_vs_action.png" alt="&#x77E5;&#x884C;&#x5408;&#x4E00;"></p>
-<p>&#x6211;&#x8BA4;&#x4E3A;&#x5927;&#x591A;&#x6570;&#x7684;&#x77E5;&#x8BC6;&#x505C;&#x7559;&#x5728;&#x77E5;&#x9053;&#x8FD9;&#x4E2A;&#x5C42;&#x9762;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5F88;&#x591A;&#x9014;&#x5F84;&#x5B66;&#x4E60;&#x3001;&#x5438;&#x6536;&#x77E5;&#x8BC6;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x5728;&#x505A;&#x4E00;&#x4EF6;&#x4E8B;&#x60C5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9A71;&#x52A8;&#x6211;&#x4EEC;&#x7684;&#x4E0D;&#x662F;&#x8FD9;&#x4E9B;&#x77E5;&#x8BC6;&#xFF0C;&#x800C;&#x662F;&#x4E60;&#x60EF;&#x548C;&#x6F5C;&#x610F;&#x8BC6;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#x5B66;&#x6253;&#x7FBD;&#x6BDB;&#x7403;&#xFF0C;&#x4E00;&#x4E2A;&#x65B0;&#x624B;&#x901A;&#x8FC7;&#x770B;&#x89C6;&#x9891;&#x3001;&#x770B;&#x52A8;&#x4F5C;&#x8981;&#x9886;&#x7B49;&#x5B66;&#x4E60;&#x5230;&#x4E86;&#x5F88;&#x591A;&#x5173;&#x4E8E;&#x6253;&#x7FBD;&#x6BDB;&#x7403;&#x7684;&#x8981;&#x9886;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x8DDF;&#x6253;&#x597D;&#x7FBD;&#x6BDB;&#x7403;&#x5176;&#x5B9E;&#x5E76;&#x6CA1;&#x6709;&#x76F4;&#x63A5;&#x7684;&#x5173;&#x7CFB;&#x3002;&#x53EA;&#x80FD;&#x8BF4;&#x638C;&#x63E1;&#x4E86;&#x8FD9;&#x4E9B;&#x77E5;&#x8BC6;&#x53EF;&#x80FD;&#x80FD;&#x8BA9;&#x4F60;&#x5B66;&#x6253;&#x7FBD;&#x6BDB;&#x7403;&#x7684;&#x8FC7;&#x7A0B;&#x53D8;&#x5F97;&#x7B80;&#x5355;&#x4E00;&#x4E9B;&#xFF0C;&#x7B49;&#x4F60;&#x6700;&#x7EC8;&#x5B66;&#x4F1A;&#x4E86;&#x6253;&#x7FBD;&#x6BDB;&#x7403;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x8111;&#x5B50;&#x91CC;&#x60F3;&#x7684;&#x7EDD;&#x5BF9;&#x4E0D;&#x662F;&#x52A8;&#x4F5C;&#x8981;&#x9886;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E9B;&#x590D;&#x6742;&#x7684;&#x52A8;&#x4F5C;&#x5DF2;&#x7ECF;&#x8F6C;&#x5316;&#x6210;&#x4F60;&#x8111;&#x5B50;&#x91CC;&#x7684;&#x4E00;&#x4E2A;memory chunk&#x3002;&#x6240;&#x4EE5;&#x4ECE;&#x5C0F;&#x5230;&#x5927;&#x4ECE;&#x4E66;&#x672C;&#x4E0A;&#x5B66;&#x5230;&#x4E86;&#x5F88;&#x591A;&#x5927;&#x9053;&#x7406;&#xFF0C;&#x77E5;&#x9053;&#x4E86;&#x5F88;&#x591A;&#x52B1;&#x5FD7;&#x7684;&#x6545;&#x4E8B;&#xFF0C;&#x4F46;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x4EC5;&#x4EC5;&#x53EA;&#x662F;&#x505C;&#x7559;&#x5728;&#x77E5;&#x9053;&#x7684;&#x5C42;&#x9762;&#x4E0A;&#x3002;</p>
-<p>&#x6211;&#x4EEC;&#x505A;&#x4E00;&#x4EF6;&#x4E8B;&#x60C5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5F88;&#x591A;&#x65F6;&#x5019;&#x662F;&#x5E26;&#x7740;&#x4E00;&#x79CD;&#x60EF;&#x6027;&#x53BB;&#x505A;&#x7684;&#x3002;&#x4E00;&#x4E2A;&#x5728;&#x67D0;&#x4E00;&#x65B9;&#x9762;&#x5F88;&#x725B;&#x903C;&#x7684;&#x4EBA;&#xFF0C;&#x4F60;&#x5982;&#x679C;&#x95EE;&#x4ED6;&#x4F60;&#x4E3A;&#x4EC0;&#x4E48;&#x8FD9;&#x4E48;&#x725B;&#xFF1F;&#x4ED6;&#x53EF;&#x80FD;&#x4F1A;&#x8DDF;&#x4F60;&#x8BF4;&#x51FA;&#x5F88;&#x591A;&#x70B9;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x5E76;&#x4E0D;&#x610F;&#x5473;&#x7740;&#x4F60;&#x77E5;&#x9053;&#x4E86;&#x8FD9;&#x4E9B;&#x70B9;&#x4F60;&#x5C31;&#x80FD;&#x6210;&#x4E3A;&#x8DDF;&#x4ED6;&#x4E00;&#x6837;&#x7684;&#x4EBA;&#x3002;&#x4E00;&#x662F;&#x56E0;&#x4E3A;&#x4F60;&#x89C9;&#x7684;&#x5F88;&#x725B;&#x903C;&#x4E8B;&#x60C5;&#xFF0C;&#x5728;&#x4ED6;&#x770B;&#x6765;&#x53EF;&#x80FD;&#x53EA;&#x662F;&#x4E00;&#x4EF6;&#x968F;&#x968F;&#x4FBF;&#x4FBF;&#x5C31;&#x80FD;&#x505A;&#x5230;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x4ED6;&#x80CC;&#x540E;&#x5305;&#x542B;&#x7684;&#x662F;&#x4ED6;&#x957F;&#x671F;&#x4EE5;&#x6765;&#x5F62;&#x6210;&#x7684;&#x60EF;&#x6027;&#x3002;&#x800C;&#x4ED6;&#x7ED9;&#x51FA;&#x7684;&#x4E00;&#x4E9B;&#x70B9;&#x5F80;&#x5F80;&#x53EA;&#x662F;&#x4ED6;&#x505A;&#x51FA;&#x6765;&#x7684;&#x4E00;&#x4E2A;&#x4E0D;&#x5B8C;&#x5168;&#x7684;&#x603B;&#x7ED3;&#xFF0C;&#x4F60;&#x4E0D;&#x53EF;&#x80FD;&#x5B8C;&#x5168;&#x91CD;&#x590D;&#x4ED6;&#x7684;&#x6210;&#x957F;&#x8F68;&#x8FF9;&#x3002;</p>
-<p>&#x5F80;&#x5F80;&#x8D8A;&#x9AD8;&#x5C42;&#x6B21;&#x7684;&#x4EBA;&#x7ED9;&#x51FA;&#x7684;&#x4E00;&#x4E9B;&#x5EFA;&#x8BAE;&#x7EA6;&#x7CBE;&#x70BC;&#x3002;&#x5982;&#x679C;&#x4F60;&#x95EE;&#x4F60;&#x7684;manager&#x8BA9;&#x4ED6;&#x7ED9;&#x4F60;&#x4E00;&#x4E9B;&#x5EFA;&#x8BAE;&#xFF0C;&#x4ED6;&#x53EF;&#x80FD;&#x4F1A;&#x8DDF;&#x4F60;&#x8BF4;&#x4E00;&#x5806;&#x5982;&#x679C;&#x5728;&#x5DE5;&#x4F5C;&#x4E2D;&#x505A;&#x597D;&#x7684;&#x4E00;&#x4E9B;&#x6280;&#x5DE7;&#x3002;&#x5982;&#x679C;&#x4F60;&#x95EE;&#x4F60;&#x4EEC;&#x516C;&#x53F8;&#x8001;&#x677F;&#xFF0C;&#x4ED6;&#x53EF;&#x80FD;&#x4F1A;&#x8DDF;&#x4F60;&#x8BF4;&#x4E00;&#x4E9B;&#x4EBA;&#x751F;&#x5C0F;&#x5EFA;&#x8BAE;&#xFF0C;&#x800C;&#x4E0D;&#x6D89;&#x53CA;&#x5230;&#x4E00;&#x4E9B;&#x5177;&#x4F53;&#x7684;&#x4E1C;&#x897F;&#x3002;&#x800C;&#x5982;&#x679C;&#x4F60;&#x53BB;&#x95EE;&#x4E54;&#x5E03;&#x65AF;&#xFF0C;&#x4ED6;&#x53EF;&#x80FD;&#x5C31;&#x8DDF;&#x4F60;&#x8BF4;&#x4E00;&#x53E5;&#x8BDD;&#xFF0C;&#x201C;Stay Hungry Stay Foolish&#x201D;&#x3002;</p>
-<p>&#x4ECE;&#x77E5;&#x9053;&#x5230;&#x505A;&#x5230;&#x662F;&#x6709;&#x4E00;&#x4E2A;&#x5DE8;&#x5927;&#x7684;&#x9E3F;&#x6C9F;&#x7684;&#xFF0C;&#x800C;&#x4ECE;&#x505A;&#x5230;&#x5230;&#x77E5;&#x9053;&#x5F80;&#x5F80;&#x53EA;&#x6709;&#x54AB;&#x5C3A;&#x4E4B;&#x9065;&#x3002;</p>
-<p>&#x90A3;&#x662F;&#x4E0D;&#x662F;&#x8BF4;&#x77E5;&#x9053;&#x8FD9;&#x4E2A;&#x5C42;&#x9762;&#x5C31;&#x4E0D;&#x91CD;&#x8981;&#x5462;&#xFF1F;&#x5E76;&#x4E0D;&#x7136;&#x3002;&#x6211;&#x4EEC;&#x7684;&#x884C;&#x4E3A;&#x7CFB;&#x7EDF;&#x662F;&#x9700;&#x8981;&#x77E5;&#x8BC6;&#x7CFB;&#x7EDF;&#x652F;&#x6491;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4EC0;&#x4E48;&#x90FD;&#x4E0D;&#x77E5;&#x9053;&#x4F60;&#x80FD;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x5176;&#x5B9E;&#x5F88;&#x5C11;&#x3002;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x505A;&#x7684;&#x5C31;&#x662F;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x628A;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x7684;&#x5185;&#x5316;&#x6210;&#x6211;&#x4EEC;&#x81EA;&#x5DF1;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x878D;&#x5165;&#x5230;&#x6211;&#x4EEC;&#x7684;&#x884C;&#x4E3A;&#x5F53;&#x4E2D;&#x3002;&#x5C4A;&#x65F6;&#xFF0C;&#x5373;&#x4F7F;&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x6240;&#x6709;&#x7684;&#x6280;&#x5DE7;&#x77E5;&#x8BC6;&#x90FD;&#x5FD8;&#x4E86;&#xFF0C;&#x4F60;&#x4F9D;&#x7136;&#x53EF;&#x80FD;&#x968F;&#x65F6;&#x4ECE;&#x4F60;&#x7684;&#x5927;&#x8111;&#x6DF1;&#x5904;&#x53EC;&#x5524;&#x51FA;&#x6765;&#x3002;&#x8FD9;&#x5C31;&#x50CF;&#x501A;&#x5929;&#x5C60;&#x9F99;&#x8BB0;&#x91CC;&#x9762;&#x5F20;&#x4E09;&#x4E30;&#x6559;&#x5F20;&#x65E0;&#x5FCC;&#x592A;&#x6781;&#x5251;&#x6CD5;&#xFF0C;&#x6559;&#x5B8C;&#x95EE;&#x5176;&#x8BB0;&#x5F97;&#x4E48;&#xFF1F;&#x5F53;&#x5F20;&#x65E0;&#x5FCC;&#x8BF4;&#x5168;&#x5FD8;&#x4E86;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4ED6;&#x5168;&#x90E8;&#x878D;&#x4F1A;&#x8D2F;&#x901A;&#x7684;&#x65F6;&#x5019;&#x3002;</p>
-<p>&#x7EB5;&#x7136;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x5F20;&#x65E0;&#x5FCC;&#x8FD9;&#x822C;&#x5929;&#x8D4B;&#x5F02;&#x7980;&#xFF0C;&#x4F46;&#x6211;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x591A;&#x7EC3;&#x4E60;&#x548C;&#x601D;&#x8003;&#x6162;&#x6162;&#x7684;&#x53BB;&#x5FD8;&#x6389;&#x90A3;&#x4E9B;&#x8BA8;&#x4EBA;&#x538C;&#x7684;&#x5404;&#x79CD;&#x6280;&#x5DE7;&#x3001;&#x5404;&#x79CD;&#x9053;&#x7406;&#x3002; &#x6211;&#x89C9;&#x5F97;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x4FEE;&#x70BC;&#xFF1A;</p>
-<ol>
-<li>&#x5F53;&#x4F60;&#x5728;&#x505A;&#x4E00;&#x4EF6;&#x4F60;&#x9700;&#x8981;&#x63D0;&#x9AD8;&#x7684;&#x4E8B;&#x60C5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7ED9;&#x81EA;&#x5DF1;&#x63D0;&#x4E00;&#x4E9B;&#x66F4;&#x9AD8;&#x7684;&#x8981;&#x6C42;&#xFF0C;&#x5E76;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x53BB;&#x601D;&#x8003;&#x5982;&#x4F55;&#x624D;&#x80FD;&#x505A;&#x5F97;&#x66F4;&#x597D;&#x3002;&#x53EF;&#x4EE5;&#x89C2;&#x5BDF;&#x81EA;&#x8EAB;&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x70B9;&#x4E60;&#x60EF;&#x4E2D;&#x627E;&#x5230;&#x8FDB;&#x6B65;&#x7684;&#x70B9;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x53BB;&#x56DE;&#x60F3;&#x4F60;&#x6240;&#x77E5;&#x9053;&#x7684;&#x77E5;&#x8BC6;&#x4E2D;&#x6709;&#x54EA;&#x4E00;&#x4E9B;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x4F60;&#x63D0;&#x9AD8;&#x3002;</li>
-<li>&#x5728;&#x505A;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x4EE5;&#x53CA;&#x505A;&#x5B8C;&#x4E4B;&#x540E;&#x8981;&#x7ECF;&#x5E38;&#x7684;&#x7528;&#x4E00;&#x4E2A;&#x201C;&#x4E0A;&#x5E1D;&#x89C6;&#x89D2;&#x201D;&#x770B;&#x770B;&#x4F60;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x3002;&#x6709;&#x54EA;&#x4E9B;&#x505A;&#x7684;&#x4E0D;&#x597D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x505A;&#x4E0D;&#x597D;&#xFF1F;&#x662F;&#x56E0;&#x4E3A;&#x65E7;&#x7684;&#x4E60;&#x60EF;&#x8FD8;&#x662F;&#x8BF4;&#x67D0;&#x4E9B;&#x77E5;&#x8BC6;&#x7684;&#x7F3A;&#x4E4F;&#x3002;</li>
-<li>&#x901A;&#x8FC7;&#x9605;&#x8BFB;&#x7B49;&#x65B9;&#x6CD5;&#x62D3;&#x5BBD;&#x81EA;&#x5DF1;&#x77E5;&#x8BC6;&#x4F53;&#x7CFB;&#xFF0C;&#x5E76;&#x79EF;&#x6781;&#x5C06;&#x5176;&#x8DDF;&#x81EA;&#x5DF1;&#x7684;&#x5B9E;&#x8DF5;&#x7ED3;&#x5408;&#x8D77;&#x6765;&#x601D;&#x8003;&#x3002;&#x5982;&#x679C;&#x4F60;&#x5728;&#x4E0B;&#x4E00;&#x6B21;&#x505A;&#x8FD9;&#x4E2A;&#x4E8B;&#x60C5;&#x7684;&#x65F6;&#x5019;&#x80FD;&#x591F;&#x6CE8;&#x610F;&#x5230;&#x8FD9;&#x4E2A;&#x70B9;&#x8FD9;&#x5C31;&#x591F;&#x4E86;&#x3002;&#x4F55;&#x51B5;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x8BA9;&#x6211;&#x4EEC;&#x7AD9;&#x5728;&#x524D;&#x4EBA;&#x7684;&#x80A9;&#x8180;&#x4E0A;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x5462;&#xFF1F;</li>
-</ol>
-<p>&#x6211;&#x4E0D;&#x77E5;&#x9053;&#x738B;&#x9633;&#x660E;&#x5F53;&#x65F6;&#x63D0;&#x51FA;&#x201C;&#x77E5;&#x884C;&#x5408;&#x4E00;&#x201D;&#x7684;&#x539F;&#x610F;&#x662F;&#x4EC0;&#x4E48;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x7406;&#x89E3;&#x7684;&#x201C;&#x77E5;&#x884C;&#x5408;&#x4E00;&#x201D;&#x662F;&#x901A;&#x8FC7;&#x884C;&#x52A8;&#x5C06;&#x4F60;&#x77E5;&#x9053;&#x7684;&#x548C;&#x4F60;&#x80FD;&#x505A;&#x5230;&#x7684;&#x8FDB;&#x884C;&#x7EDF;&#x4E00;&#xFF0C;&#x4ECE;&#x800C;&#x8FBE;&#x5230;&#x4E00;&#x4E2A;&#x201D;&#x5FD8;&#x8BB0;&#x201D;&#x7684;&#x5883;&#x754C;&#x3002;</p>
-<p>[end]</p>
-<hr>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/思考讨论/">思考讨论</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/思考/">思考</a><a href="/tags/行动/">行动</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/27/unity-of-knowlede-and-action/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -511,7 +558,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>3</sup></a></li>
 		  
 		
 		  
@@ -536,27 +583,19 @@
 			
 		
 			
-				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>2</sup></a></li>
+				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>2</sup></a></li>
+				<li><a href="/tags/C/" title="C++">C++<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/心理学/" title="心理学">心理学<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/思考方法/" title="思考方法">思考方法<sup>2</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>3</sup></a></li>
 			
 		
 			
@@ -564,11 +603,15 @@
 			
 		
 			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/思考方法/" title="思考方法">思考方法<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
+				<li><a href="/tags/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
 			
 		
 			
@@ -576,7 +619,15 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
@@ -592,11 +643,7 @@
 			
 		
 			
-				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
 			
 		
 			
