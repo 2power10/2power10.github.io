@@ -84,6 +84,117 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/06/effective-cpp-reading-notes-3/" title="《Effective C++》读书笔记(3)" itemprop="url">《Effective C++》读书笔记(3)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-06T13:13:10.000Z" itemprop="datePublished"> 发表于 2016-07-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款05了解c默默编写并调用哪些函数">条款05：了解C++默默编写并调用哪些函数</span></h3><blockquote>
+<p>编译器可以暗自为class创建<em>default</em>构造函数、<em>copy</em>构造函数、<em>copy assignment</em>操作符，以及析构函数。</p>
+</blockquote>
+<p>定义一个啥也没有的类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>编译器有可能会帮你生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123;</span><br><span class="line">public:</span><br><span class="line">  Empty() &#123;...&#125;     //默认构造函数</span><br><span class="line">  Empty(const Empty&amp; rhs) &#123;...&#125; //拷贝构造函数</span><br><span class="line">  ~Empty()&#123;...&#125;     //析构函数</span><br><span class="line">  Empty&amp; operator=(const Empty&amp; rhs) &#123;...&#125; // copy assignment操作符</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是否生成这些方法取决于使用的时候是否需要，比如下面这段代码就用到了这些函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Empty e1;		//默认构造函数</span><br><span class="line">				//析构函数</span><br><span class="line">Empty e2(e1);	//拷贝构造函数</span><br><span class="line">e2 = e1;		//copy assignment操作符</span><br></pre></td></tr></table></figure>
+<h3><span id="条款06若不想使用编译器自动生成的函数就该明确拒绝">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></h3><blockquote>
+<ul>
+<li>为驳回编译器自动（暗自）提供的机能，可将相应的成员函数声明为private并且不予实现。使用像<code>Uncopyable</code>这样的base class也是一种做法。</li>
+</ul>
+</blockquote>
+<p>正如条款5中提到的，即使你自己没有显示定义，编译器默认会为我们创建一些函数。而在某一些条件下，这些函数所带来的行为并不是你想要的。</p>
+<p>那么这个时候你就应该把你想要隐藏的方法声明为private并不提供任何的定义，这样任何尝试去使用的人都会收到一个链接错误。</p>
+<p><strong><em>什么的场景下可能需要使用这种方法？</em></strong></p>
+<ul>
+<li>private 构造函数<br>当你希望用户不能够随意的自己去创建实例而是通过某种方法获得一个实例的时候。比如说单例模式。</li>
+<li>private 析构函数<br>当你希望一个实例的生命周期由另一个类来管理的时候使用。比如说，你需要你的实例使用引用计数，如果不是0则不能够析构。这个时候你就需要提供比如说：Acquire，Release的方法。我觉得如果只是reference count的话，利用shared_ptr也能够实现类似的功能。<br>参考链接：<a href="https://blogs.msdn.microsoft.com/larryosterman/2005/07/01/private-destructors/" target="_blank" rel="external">Private Destructors</a></li>
+<li>private 拷贝构造函数和copy assignment 操作符<br>当你希望一个对象是不可拷贝的时候。<br>Example: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Class Uncopyable &#123;</span><br><span class="line">...</span><br><span class="line">private:</span><br><span class="line">    Uncopyable(const Uncopyable&amp;);</span><br><span class="line">    ~Uncopyable&amp; operator=(const Uncopyable&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3><span id="条款07为多态基类声明virtual析构函数">条款07：为多态基类声明virtual析构函数</span></h3><blockquote>
+<ul>
+<li>polymoriphic（带多态性质的）base classes应该声明一个virtual析构函数。如果class带有任何virtual函数，它就应该拥有一个virtual析构函数</li>
+<li>Classes的设计目的如果不是作为base classes使用，或者不是为了具备多态性（polymorphically），就不该声明virtual析构函数。</li>
+</ul>
+</blockquote>
+<p><strong><em>为什么带有多态性质的基类应该声明一个virtual析构函数？</em></strong></p>
+<p>带有多态性质的基类意味着一个基类的指针可能存放着子类的实例。在这种情况下如果析构函数没有声明为virtual的话，delete一个基类指针不能够正确的调用到子类的析构函数。这就意味着会造成资源的泄露。</p>
+<p>但是如果一个类设计的时候没有想让别的类继承，如果另一个类继承了，就可能会出现资源的泄露。因为C++在语言层面没有提供类似于C# seal的语法，所以没有办法杜绝这种情况。如果发现一个类的析构函数不是virtual的那么就不应该去继承它。</p>
+<p>反过来看就更简单了，如果一个类设计的目的不是作为基类使用，也就意味着它的指针不可能指向一个子类的对象。那么声明成virtual的就没有太大必要，反而会因为virtual而增长了这个对象的内存大小。</p>
+<h3><span id="条款08别让异常逃离析构函数">条款08：别让异常逃离析构函数</span></h3><blockquote>
+<ul>
+<li>析构函数绝对不要吐出异常。如果一个被析构函数调用的函数可能抛出异常，析构函数应该捕捉任何异常，然后吞下它们（不传播）或者结束程序。</li>
+<li>如果客户需要对某个操作函数运行期间抛出的异常做出反应，那么class应该提供一个普通函数（而非在析构函数中）执行该操作。</li>
+</ul>
+</blockquote>
+<p><strong><em>为什么析构函数中抛出异常不好？</em></strong></p>
+<ol>
+<li>析构函数被调用的地方不好控制，而且不好对其进行处理。因为任何对象都有析构函数，你不可能在任何地方对异常进行捕捉。（自己补充的）</li>
+<li>如果析构函数中所抛出异常未处理会导致未定义行为。</li>
+</ol>
+<p>所以如果在析构函数中有可能执行到一些会抛异常的方法，需要对其进行捕捉。如果你认为异常可以忍受则默默吞下，记下log，否则记下log然后直接结束程序。</p>
+<p><strong><em>有什么更好的办法？</em></strong></p>
+<p>如果在析构函数里需要进行某个可能抛出异常的方法，那么就应该提供一个普通方法允许用户自己调用。这样子用户就有机会自己对其进行处理。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     db.close();   //bad, may throw exception</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   void close() &#123;</span><br><span class="line">     db.close();</span><br><span class="line">     closed = true;</span><br><span class="line">   &#125;</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     if (!closed) &#123;</span><br><span class="line">       try &#123;</span><br><span class="line">	     db.close();   //good, catch exception and provide normal method to close</span><br><span class="line">	   &#125;</span><br><span class="line">	   catch (...) &#123;</span><br><span class="line">		   //log</span><br><span class="line">	   &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/06/effective-cpp-reading-notes-3/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/28/effective-cpp-reading-notes-2/" title="《Effective C++》读书笔记(2)" itemprop="url">《Effective C++》读书笔记(2)</a>
   </h1>
   <p class="article-author">By
@@ -503,131 +614,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/02/learning-shell-chflags/" title="Mac 命令学习 - chflags" itemprop="url">Mac 命令学习 - chflags</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-02T15:20:25.000Z" itemprop="datePublished"> 发表于 2016-06-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="背景知识">背景知识</span></h2><p>在<a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>命令中有出现过一个<code>-O</code>的选项，即列出文件的file flag。这个File flag所为何物？</p>
-<p>File flag是在BSD Unix中的概念，跟Linux系统中的attr是差不多的一个概念，是文件的一些标志位来存放文件的某些属性。chflags就是来修改这个file flag的。这个文件属性是跟文件系统相关的，所以这个命令在不同的文件系统上的支持程度不一样，体现在某一些flag在一些特定的文件系统上没有。<sup>[1]</sup></p>
-<p>所有的属性都可以被超级管理员修改，有一些可以被文件的所有者修改。以下列出比较常用的几个属性<sup>[1]</sup>。</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>ls中显示</th>
-<th>chflags中使用</th>
-<th>文件所有者能否修改？</th>
-<th>详述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>隐藏</td>
-<td>hidden</td>
-<td>hidden</td>
-<td>能</td>
-<td>设置以后在GUI上看不到，ls依然可以看到d</td>
-</tr>
-<tr>
-<td>系统级只能添加</td>
-<td>sappnd</td>
-<td>sappnd, sappend</td>
-<td>否</td>
-<td>设置以后此文件不能够截断或者复写(overwrite)，只能通过append模式添加内容</td>
-</tr>
-<tr>
-<td>用户级只能添加</td>
-<td>uappnd</td>
-<td>uappnd, uappend</td>
-<td>能</td>
-<td>设置以后此文件不能够截断或者复写(overwrite)，只能通过append模式添加内容</td>
-</tr>
-<tr>
-<td>系统级只读</td>
-<td>schg</td>
-<td>schg, schange, simmutable</td>
-<td>否</td>
-<td>不能够重命名、移动、删除、更改内容</td>
-</tr>
-<tr>
-<td>用户级只读</td>
-<td>uchg</td>
-<td>uchg, uchange, uimmutable</td>
-<td>能</td>
-<td>不能够更改内容</td>
-</tr>
-</tbody>
-</table>
-<h2><span id="基本用法">基本用法</span></h2><p><code>chflags [-fhv] [-R [-H | -L | -P]] flags file</code></p>
-<h2><span id="常用参数">常用参数</span></h2><p><code>-R</code> 递归修改参数中文件夹下面的所有文件和文件夹的属性</p>
-<h2><span id="具体案例">具体案例</span></h2><p><strong>为一个文件添加一个属性</strong></p>
-<p><code>chflags uchg file</code></p>
-<p><strong>为一个文件删除一个属性</strong></p>
-<p><code>chflags nouchg file</code></p>
-<p>在属性名字前面添加no就可以将属性删除，如果这个属性本身已no开头（比如nodump）则去掉no。</p>
-<p><strong>将文件夹及其文件夹下所有文件属性进行修改</strong></p>
-<p><code>chflags -R uchg directory</code></p>
-<h2><span id="参考资料">参考资料</span></h2><ol>
-<li><a href="https://en.wikipedia.org/wiki/Chattr" target="_blank" rel="external">chattr - Wikipedia</a></li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/02/learning-shell-chflags/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -666,7 +652,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>5</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
 		  
 		
 		  
@@ -687,6 +673,10 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
 			
 		
@@ -695,15 +685,11 @@
 			
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+				<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>5</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
 			
 		
 			
@@ -719,15 +705,7 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/源码阅读/" title="源码阅读">源码阅读<sup>1</sup></a></li>
 			
 		
 			
@@ -735,7 +713,23 @@
 			
 		
 			
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
 			
 		
 			
@@ -755,15 +749,7 @@
 			
 		
 			
-				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -816,7 +802,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

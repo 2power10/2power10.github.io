@@ -84,6 +84,101 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/12/28/how-shared-ptr-void-works/" title="std::shared_ptr&lt;void&gt;的工作原理" itemprop="url">std::shared_ptr&lt;void&gt;的工作原理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2017-12-28T15:13:59.000Z" itemprop="datePublished"> 发表于 2017-12-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2><span id="前戏">前戏</span></h2><p>先抛出两个问题</p>
+<ul>
+<li>如果<code>delete</code>一个指针，但是它真实的类型和指针类型不一样会发生什么？</li>
+<li>是谁调用了析构函数？ </li>
+</ul>
+<p>下面这段代码会发生什么有趣的事情？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// delete_diff_type.cpp</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Foo() &#123; cout &lt;&lt; &quot;Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~Foo() &#123; cout &lt;&lt; &quot;~Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class FakeFoo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    FakeFoo() &#123; cout &lt;&lt; &quot;FakeFoo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~FakeFoo() &#123; cout &lt;&lt; &quot;~FakeFoo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    </span><br><span class="line">    void* vptr = new Foo();</span><br><span class="line">    delete vptr;    // warning</span><br><span class="line">    </span><br><span class="line">//    FakeFoo* ffptr = static_cast&lt;FakeFoo*&gt;(new Foo()); // error</span><br><span class="line">    FakeFoo* ffptr = reinterpret_cast&lt;FakeFoo*&gt;(new Foo());</span><br><span class="line">    delete ffptr;</span><br><span class="line">    </span><br><span class="line">    Foo* fptr = new Foo();</span><br><span class="line">    delete fptr;</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输出:</span><br><span class="line">Foo()</span><br><span class="line">Foo()</span><br><span class="line">~FakeFoo()</span><br><span class="line">Foo()</span><br><span class="line">~Foo()</span><br></pre></td></tr></table></figure>
+<p>看一下汇编代码可以看到<code>main</code>函数主要做了下面这几件事</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br><span class="line"></span><br><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; FakeFoo::~FakeFoo at delete_diff_type.cpp:16</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br><span class="line"></span><br><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; Foo::~Foo at delete_diff_type.cpp:9</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br></pre></td></tr></table></figure>
+<p>从汇编中可以看出，构造造函数和析构函数是编译器根据指针的类型生成的调用代码。而且编译器是不允许没有继承关系的指针之间进行转换的，<code>void*</code> 是个例外，只要不作死用<code>reinterpret_cast</code>把指针转换成不相关的类型是不会有问题的。</p>
+<p>所以上面两个问题大概就有答案了。<code>delete</code>语句会至少产生两个动作，一个是调用指针对应类型的析构函数，然后去调用<code>operator delete</code>释放内存。所以如果<code>delete</code>的指针和其指向的真实类型不一样的时候，编译器只会调用指针类型的析构函数，这也就为什么基类的析构函数需要声明称虚函数才能够保证<code>delete</code>基类指针的时候子类析构函数能够被正确的调用。<br><code>operator delete</code>是都会被调用到的，所以指针指向的那块内存是能够“正常的”被释放掉用。</p>
+<h2><span id="stdshared_ptrltvoidgt-的行为"><code>std::shared_ptr&lt;void&gt;</code> 的行为</span></h2><p>那么这个跟<code>std::shared_ptr&lt;void&gt;</code> 有什么关系呢？</p>
+<p>先看一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Foo() &#123; cout &lt;&lt; &quot;Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~Foo() &#123; cout &lt;&lt; &quot;~Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    shared_ptr&lt;void&gt; vptr = shared_ptr&lt;Foo&gt;(new Foo);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出：</span><br><span class="line">Foo()</span><br><span class="line">~Foo()</span><br></pre></td></tr></table></figure>
+<p>与第一段代码中类似，不过把<code>void*</code>换成了<code>std::shared_ptr&lt;void&gt;</code>，那么<code>shared_ptr&lt;void&gt;</code>为什么能够调用到正确的析构函数呢？一定是<code>shared_ptr</code>里面搞了什么鬼。</p>
+<h2><span id="stdshared_ptrltvoidgt-为啥能正常工作"><code>std::shared_ptr&lt;void&gt;</code> 为啥能正常工作</span></h2><p>那么就看看源代码看看到底为啥这货能够工作，下面是<em>libcxx</em>中<code>shared_ptr</code>的部分源码，把关键的部分抠出来了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">/** C1. shared_ptr 构造函数 **/</span><br><span class="line"></span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">template&lt;class _Yp&gt;</span><br><span class="line">shared_ptr&lt;_Tp&gt;::shared_ptr(_Yp* __p,</span><br><span class="line">                            typename enable_if&lt;is_convertible&lt;_Yp*, element_type*&gt;::value, __nat&gt;::type)</span><br><span class="line">    : __ptr_(__p)</span><br><span class="line">&#123;</span><br><span class="line">    unique_ptr&lt;_Yp&gt; __hold(__p);</span><br><span class="line">    typedef typename __shared_ptr_default_allocator&lt;_Yp&gt;::type _AllocT;</span><br><span class="line">    typedef __shared_ptr_pointer&lt;_Yp*, default_delete&lt;_Yp&gt;, _AllocT &gt; _CntrlBlk;</span><br><span class="line">    __cntrl_ = new _CntrlBlk(__p, default_delete&lt;_Yp&gt;(), _AllocT());</span><br><span class="line">    __hold.release();</span><br><span class="line">    __enable_weak_this(__p, __p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C2. shared_ptr 拷贝构造 **/</span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">inline</span><br><span class="line">shared_ptr&lt;_Tp&gt;::shared_ptr(const shared_ptr&amp; __r) _NOEXCEPT</span><br><span class="line">    : __ptr_(__r.__ptr_),</span><br><span class="line">      __cntrl_(__r.__cntrl_)</span><br><span class="line">&#123;</span><br><span class="line">    if (__cntrl_)</span><br><span class="line">        __cntrl_-&gt;__add_shared();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C3. shared_ptr::__cntrl_ 类型 **/</span><br><span class="line">__shared_weak_count* __cntrl_;</span><br><span class="line"></span><br><span class="line">/** C4. shared_ptr 析构函数 **/</span><br><span class="line"></span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">shared_ptr&lt;_Tp&gt;::~shared_ptr()</span><br><span class="line">&#123;</span><br><span class="line">    if (__cntrl_)</span><br><span class="line">        __cntrl_-&gt;__release_shared();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C5. __shared_weak_count::__release_shared **/</span><br><span class="line"></span><br><span class="line">bool __release_shared() _NOEXCEPT &#123;</span><br><span class="line">    if (__libcpp_atomic_refcount_decrement(__shared_owners_) == -1) &#123;</span><br><span class="line">    __on_zero_shared();</span><br><span class="line">    return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C6. __shared_ptr_pointer::__release_shared **/</span><br><span class="line">template &lt;class _Tp, class _Dp, class _Alloc&gt;</span><br><span class="line">/* 重点 !!! virtual !!! */</span><br><span class="line">void</span><br><span class="line">__shared_ptr_pointer&lt;_Tp, _Dp, _Alloc&gt;::__on_zero_shared() _NOEXCEPT</span><br><span class="line">&#123;</span><br><span class="line">    // __data__ 是 内部工具类__compressed_pair</span><br><span class="line">    // __data_.first().second()是 deleter</span><br><span class="line">    // __data_.first().first() 是 shared_ptr&lt;T&gt; 中T类型的指针</span><br><span class="line">    __data_.first().second()(__data_.first().first());</span><br><span class="line">    __data_.first().second().~_Dp();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/** C7. default deleter **/</span><br><span class="line"></span><br><span class="line">template &lt;class _Tp&gt;</span><br><span class="line">struct _LIBCPP_TEMPLATE_VIS default_delete &#123;</span><br><span class="line">    // ... 此处省略若干行</span><br><span class="line">  void operator()(_Tp* __ptr) const _NOEXCEPT &#123;</span><br><span class="line">    delete __ptr;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>不要慌，给你慢慢道来。</p>
+<p>这个故事简单得说是这样的：</p>
+<ul>
+<li>每一个<code>shared_ptr</code> 内部有一个<code>control block</code>，里面会存放一个要维护的指针，一个计数，一个删除器(<code>deleter</code>)，一个分配(<code>allocator</code>)。这里我们要关心的是删除器。顾名思义，它是用来删除指针的。</li>
+<li><code>shared_ptr</code>中的 有一个<code>__cntrl_</code>即<code>control block</code>。字段的类型是<code>__shared_weak_count</code>指针，这个类是一个非模板类。<code>shared_ptr&lt;T&gt;</code>创建的<code>control block</code>的类型是一个类模板<code>template &lt;class _Tp, class _Dp, class _Alloc&gt; __shared_ptr_pointer</code>继承自<code>__shared_weak_count</code>。 见<strong>代码C3</strong>。</li>
+<li>当创建一个新的<code>shared_ptr</code>的时候，构建一个新的<code>control block</code>。见<strong>代码C1</strong>。</li>
+<li>当一个<code>shared_ptr</code> A赋值或者拷贝构造给另一个<code>shared_ptr</code>B的时候（当然是在类型能够转换的前提下），B会把A的<code>__cntrl_</code>拷一份，同时将其引用加一。注意，这个时候拷贝的是指针，<code>__cntrl_</code>还是指向最初创建的那个对象。见<strong>代码C2</strong>。</li>
+<li>当<code>shared_ptr</code>被析构或者重置的时候会调用<code>__cntrl_-&gt;__release_shared()</code>。见<strong>代码C4</strong>。</li>
+<li><code>__cntrl_-&gt;__release_shared()</code>如果发现当前的计数为-1的时候，调用<code>__on_zero_shared()</code>。见<strong>代码C5</strong>。</li>
+<li><code>__on_zero_shared</code>是一个虚方法，那么它就会调用到最初创建的<code>__shared_ptr_pointer</code>的实现。</li>
+<li><code>__shared_ptr_pointer</code>的实现中是有完整的类型和删除器的信息的。见<strong>代码C6</strong>。</li>
+<li>默认的删除器很简单的执行了<code>delete __ptr</code>操作，因为类型是已知的所以能够正确的调用到析构函数。见<strong>代码C7</strong>。</li>
+</ul>
+<h2><span id="这种实现方式给shared_ptr带来额外好处">这种实现方式给<code>shared_ptr</code>带来额外好处</span></h2><p><em>Effective C++</em>  条款07告诉我们“要为多态基类声明 virtual 析构函数”。当然我认为建议依然有效，但是用了<code>shared_ptr</code>以后带来的一个额外好处就是即便你的析构函数忘记写成<code>virtual</code>也能帮你正确的调用析构函数。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/C-11/">C++11</a><a href="/tags/源码阅读/">源码阅读</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/12/28/how-shared-ptr-void-works/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/10/05/udacity-responsive-web-design-notes/" title="[学习笔记] Udacity - Responsive Web Design Fundamentals?" itemprop="url">[学习笔记] Udacity - Responsive Web Design Fundamentals?</a>
   </h1>
   <p class="article-author">By
@@ -553,117 +648,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/06/effective-cpp-reading-notes-3/" title="《Effective C++》读书笔记(3)" itemprop="url">《Effective C++》读书笔记(3)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-06T13:13:10.000Z" itemprop="datePublished"> 发表于 2016-07-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款05了解c默默编写并调用哪些函数">条款05：了解C++默默编写并调用哪些函数</span></h3><blockquote>
-<p>编译器可以暗自为class创建<em>default</em>构造函数、<em>copy</em>构造函数、<em>copy assignment</em>操作符，以及析构函数。</p>
-</blockquote>
-<p>定义一个啥也没有的类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123; &#125;</span><br></pre></td></tr></table></figure>
-<p>编译器有可能会帮你生成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123;</span><br><span class="line">public:</span><br><span class="line">  Empty() &#123;...&#125;     //默认构造函数</span><br><span class="line">  Empty(const Empty&amp; rhs) &#123;...&#125; //拷贝构造函数</span><br><span class="line">  ~Empty()&#123;...&#125;     //析构函数</span><br><span class="line">  Empty&amp; operator=(const Empty&amp; rhs) &#123;...&#125; // copy assignment操作符</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>是否生成这些方法取决于使用的时候是否需要，比如下面这段代码就用到了这些函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Empty e1;		//默认构造函数</span><br><span class="line">				//析构函数</span><br><span class="line">Empty e2(e1);	//拷贝构造函数</span><br><span class="line">e2 = e1;		//copy assignment操作符</span><br></pre></td></tr></table></figure>
-<h3><span id="条款06若不想使用编译器自动生成的函数就该明确拒绝">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></h3><blockquote>
-<ul>
-<li>为驳回编译器自动（暗自）提供的机能，可将相应的成员函数声明为private并且不予实现。使用像<code>Uncopyable</code>这样的base class也是一种做法。</li>
-</ul>
-</blockquote>
-<p>正如条款5中提到的，即使你自己没有显示定义，编译器默认会为我们创建一些函数。而在某一些条件下，这些函数所带来的行为并不是你想要的。</p>
-<p>那么这个时候你就应该把你想要隐藏的方法声明为private并不提供任何的定义，这样任何尝试去使用的人都会收到一个链接错误。</p>
-<p><strong><em>什么的场景下可能需要使用这种方法？</em></strong></p>
-<ul>
-<li>private 构造函数<br>当你希望用户不能够随意的自己去创建实例而是通过某种方法获得一个实例的时候。比如说单例模式。</li>
-<li>private 析构函数<br>当你希望一个实例的生命周期由另一个类来管理的时候使用。比如说，你需要你的实例使用引用计数，如果不是0则不能够析构。这个时候你就需要提供比如说：Acquire，Release的方法。我觉得如果只是reference count的话，利用shared_ptr也能够实现类似的功能。<br>参考链接：<a href="https://blogs.msdn.microsoft.com/larryosterman/2005/07/01/private-destructors/" target="_blank" rel="external">Private Destructors</a></li>
-<li>private 拷贝构造函数和copy assignment 操作符<br>当你希望一个对象是不可拷贝的时候。<br>Example: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Class Uncopyable &#123;</span><br><span class="line">...</span><br><span class="line">private:</span><br><span class="line">    Uncopyable(const Uncopyable&amp;);</span><br><span class="line">    ~Uncopyable&amp; operator=(const Uncopyable&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3><span id="条款07为多态基类声明virtual析构函数">条款07：为多态基类声明virtual析构函数</span></h3><blockquote>
-<ul>
-<li>polymoriphic（带多态性质的）base classes应该声明一个virtual析构函数。如果class带有任何virtual函数，它就应该拥有一个virtual析构函数</li>
-<li>Classes的设计目的如果不是作为base classes使用，或者不是为了具备多态性（polymorphically），就不该声明virtual析构函数。</li>
-</ul>
-</blockquote>
-<p><strong><em>为什么带有多态性质的基类应该声明一个virtual析构函数？</em></strong></p>
-<p>带有多态性质的基类意味着一个基类的指针可能存放着子类的实例。在这种情况下如果析构函数没有声明为virtual的话，delete一个基类指针不能够正确的调用到子类的析构函数。这就意味着会造成资源的泄露。</p>
-<p>但是如果一个类设计的时候没有想让别的类继承，如果另一个类继承了，就可能会出现资源的泄露。因为C++在语言层面没有提供类似于C# seal的语法，所以没有办法杜绝这种情况。如果发现一个类的析构函数不是virtual的那么就不应该去继承它。</p>
-<p>反过来看就更简单了，如果一个类设计的目的不是作为基类使用，也就意味着它的指针不可能指向一个子类的对象。那么声明成virtual的就没有太大必要，反而会因为virtual而增长了这个对象的内存大小。</p>
-<h3><span id="条款08别让异常逃离析构函数">条款08：别让异常逃离析构函数</span></h3><blockquote>
-<ul>
-<li>析构函数绝对不要吐出异常。如果一个被析构函数调用的函数可能抛出异常，析构函数应该捕捉任何异常，然后吞下它们（不传播）或者结束程序。</li>
-<li>如果客户需要对某个操作函数运行期间抛出的异常做出反应，那么class应该提供一个普通函数（而非在析构函数中）执行该操作。</li>
-</ul>
-</blockquote>
-<p><strong><em>为什么析构函数中抛出异常不好？</em></strong></p>
-<ol>
-<li>析构函数被调用的地方不好控制，而且不好对其进行处理。因为任何对象都有析构函数，你不可能在任何地方对异常进行捕捉。（自己补充的）</li>
-<li>如果析构函数中所抛出异常未处理会导致未定义行为。</li>
-</ol>
-<p>所以如果在析构函数中有可能执行到一些会抛异常的方法，需要对其进行捕捉。如果你认为异常可以忍受则默默吞下，记下log，否则记下log然后直接结束程序。</p>
-<p><strong><em>有什么更好的办法？</em></strong></p>
-<p>如果在析构函数里需要进行某个可能抛出异常的方法，那么就应该提供一个普通方法允许用户自己调用。这样子用户就有机会自己对其进行处理。</p>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     db.close();   //bad, may throw exception</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   void close() &#123;</span><br><span class="line">     db.close();</span><br><span class="line">     closed = true;</span><br><span class="line">   &#125;</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     if (!closed) &#123;</span><br><span class="line">       try &#123;</span><br><span class="line">	     db.close();   //good, catch exception and provide normal method to close</span><br><span class="line">	   &#125;</span><br><span class="line">	   catch (...) &#123;</span><br><span class="line">		   //log</span><br><span class="line">	   &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/06/effective-cpp-reading-notes-3/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -702,7 +686,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>5</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
 		  
 		
 		  
@@ -723,6 +707,10 @@
 		<ul class="clearfix">
 		
 			
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
 			
 		
@@ -731,15 +719,11 @@
 			
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+				<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>5</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
 			
 		
 			
@@ -755,15 +739,7 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/源码阅读/" title="源码阅读">源码阅读<sup>1</sup></a></li>
 			
 		
 			
@@ -771,7 +747,23 @@
 			
 		
 			
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
 			
 		
 			
@@ -791,15 +783,7 @@
 			
 		
 			
-				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -852,7 +836,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

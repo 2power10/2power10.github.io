@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhengyi.me/2017/12/28/how-shared-ptr-void-works/</loc>
+    
+    <lastmod>2018-02-23T14:45:09.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhengyi.me/2016/10/05/udacity-responsive-web-design-notes/</loc>
     
     <lastmod>2016-10-05T13:59:23.000Z</lastmod>
