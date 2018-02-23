@@ -11,22 +11,18 @@
     
 
     
-    <meta name="description" content="&amp;#x8BA9;&amp;#x81EA;&amp;#x5DF1;&amp;#x4E60;&amp;#x60EF;C++&amp;#x6761;&amp;#x6B3E;01&amp;#xFF1A;&amp;#x89C6;C++&amp;#x4E3A;&amp;#x4E00;&amp;#x4E2A;&amp;#x8BED;&amp;#x8A00;&amp;#x8054;&amp;#x90A6;
-
-C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp;#x662F;&amp;#">
+    <meta name="description" content="让自己习惯C++条款01：视C++为一个语言联邦  C++ 高效编程守则是状况而变化，取决于你使用C++的哪一个部分。   C++并不是一个单一范式编程语言，它同时支持过程形式（procedural），面向对象设计（object-oriented）、函数形式（functional）、泛型形式（generic），元编程形式（meta-programming）。 所以作者认为并不是每一个规则都是适用于">
+<meta name="keywords" content="C++,编程语言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Effective C++》读书笔记(1)">
 <meta property="og:url" content="http://zhengyi.me/2016/06/24/effective-cpp-reading-notes-1/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x8BA9;&amp;#x81EA;&amp;#x5DF1;&amp;#x4E60;&amp;#x60EF;C++&amp;#x6761;&amp;#x6B3E;01&amp;#xFF1A;&amp;#x89C6;C++&amp;#x4E3A;&amp;#x4E00;&amp;#x4E2A;&amp;#x8BED;&amp;#x8A00;&amp;#x8054;&amp;#x90A6;
-
-C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp;#x662F;&amp;#">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="让自己习惯C++条款01：视C++为一个语言联邦  C++ 高效编程守则是状况而变化，取决于你使用C++的哪一个部分。   C++并不是一个单一范式编程语言，它同时支持过程形式（procedural），面向对象设计（object-oriented）、函数形式（functional）、泛型形式（generic），元编程形式（meta-programming）。 所以作者认为并不是每一个规则都是适用于">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-06-28T13:53:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Effective C++》读书笔记(1)">
-<meta name="twitter:description" content="&amp;#x8BA9;&amp;#x81EA;&amp;#x5DF1;&amp;#x4E60;&amp;#x60EF;C++&amp;#x6761;&amp;#x6B3E;01&amp;#xFF1A;&amp;#x89C6;C++&amp;#x4E3A;&amp;#x4E00;&amp;#x4E2A;&amp;#x8BED;&amp;#x8A00;&amp;#x8054;&amp;#x90A6;
-
-C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp;#x662F;&amp;#">
+<meta name="twitter:description" content="让自己习惯C++条款01：视C++为一个语言联邦  C++ 高效编程守则是状况而变化，取决于你使用C++的哪一个部分。   C++并不是一个单一范式编程语言，它同时支持过程形式（procedural），面向对象设计（object-oriented）、函数形式（functional）、泛型形式（generic），元编程形式（meta-programming）。 所以作者认为并不是每一个规则都是适用于">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -63,8 +59,6 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -106,57 +100,57 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#让自己习惯c"><span class="toc-number">1.</span> <span class="toc-text">让自己习惯C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款01视c为一个语言联邦"><span class="toc-number">1.1.</span> <span class="toc-text">条款01：视C++为一个语言联邦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款02尽量以constenuminline替换define"><span class="toc-number">1.2.</span> <span class="toc-text">条款02：尽量以const，enum，inline替换#define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款3尽可能使用const"><span class="toc-number">1.3.</span> <span class="toc-text">条款3：尽可能使用const</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bitwise-constness-vs-logical-constness"><span class="toc-number">1.3.1.</span> <span class="toc-text">bitwise constness vs logical constness</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">让自己习惯C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款01：视C++为一个语言联邦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款02：尽量以const，enum，inline替换#define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款3：尽可能使用const</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.1.</span> <span class="toc-text">bitwise constness vs logical constness</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="&#x8BA9;&#x81EA;&#x5DF1;&#x4E60;&#x60EF;c"><a href="#&#x8BA9;&#x81EA;&#x5DF1;&#x4E60;&#x60EF;C" class="headerlink" title="&#x8BA9;&#x81EA;&#x5DF1;&#x4E60;&#x60EF;C++"></a>&#x8BA9;&#x81EA;&#x5DF1;&#x4E60;&#x60EF;C++</h2><h3 id="&#x6761;&#x6B3E;01&#x89C6;c&#x4E3A;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x8054;&#x90A6;"><a href="#&#x6761;&#x6B3E;01&#xFF1A;&#x89C6;C-&#x4E3A;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x8054;&#x90A6;" class="headerlink" title="&#x6761;&#x6B3E;01&#xFF1A;&#x89C6;C++&#x4E3A;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x8054;&#x90A6;"></a>&#x6761;&#x6B3E;01&#xFF1A;&#x89C6;C++&#x4E3A;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x8054;&#x90A6;</h3><blockquote>
+		<h2><span id="让自己习惯c">让自己习惯C++</span></h2><h3><span id="条款01视c为一个语言联邦">条款01：视C++为一个语言联邦</span></h3><blockquote>
 <ul>
-<li>C++ &#x9AD8;&#x6548;&#x7F16;&#x7A0B;&#x5B88;&#x5219;&#x662F;&#x72B6;&#x51B5;&#x800C;&#x53D8;&#x5316;&#xFF0C;&#x53D6;&#x51B3;&#x4E8E;&#x4F60;&#x4F7F;&#x7528;C++&#x7684;&#x54EA;&#x4E00;&#x4E2A;&#x90E8;&#x5206;&#x3002;</li>
+<li>C++ 高效编程守则是状况而变化，取决于你使用C++的哪一个部分。</li>
 </ul>
 </blockquote>
-<p>C++&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x8303;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#xFF0C;&#x5B83;&#x540C;&#x65F6;&#x652F;&#x6301;&#x8FC7;&#x7A0B;&#x5F62;&#x5F0F;&#xFF08;procedural&#xFF09;&#xFF0C;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x8BBE;&#x8BA1;&#xFF08;object-oriented&#xFF09;&#x3001;&#x51FD;&#x6570;&#x5F62;&#x5F0F;&#xFF08;functional&#xFF09;&#x3001;&#x6CDB;&#x578B;&#x5F62;&#x5F0F;&#xFF08;generic&#xFF09;&#xFF0C;&#x5143;&#x7F16;&#x7A0B;&#x5F62;&#x5F0F;&#xFF08;meta-programming&#xFF09;&#x3002;</p>
-<p>&#x6240;&#x4EE5;&#x4F5C;&#x8005;&#x8BA4;&#x4E3A;&#x5E76;&#x4E0D;&#x662F;&#x6BCF;&#x4E00;&#x4E2A;&#x89C4;&#x5219;&#x90FD;&#x662F;&#x9002;&#x7528;&#x4E8E;&#x6240;&#x6709;&#x7684;&#x8FD9;&#x4E9B;&#x8303;&#x5F0F;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5C06;C++&#x8BED;&#x8A00;&#x5206;&#x4E3A;&#x4E00;&#x4E0B;&#x51E0;&#x79CD;&#x6B21;&#x8BED;&#x8A00;&#xFF1A;</p>
+<p>C++并不是一个单一范式编程语言，它同时支持过程形式（procedural），面向对象设计（object-oriented）、函数形式（functional）、泛型形式（generic），元编程形式（meta-programming）。</p>
+<p>所以作者认为并不是每一个规则都是适用于所有的这些范式的，那么我们可以将C++语言分为一下几种次语言：</p>
 <ul>
 <li>C</li>
 <li>Object-Oriented C++</li>
 <li>Template C++</li>
 <li>STL</li>
 </ul>
-<h3 id="&#x6761;&#x6B3E;02&#x5C3D;&#x91CF;&#x4EE5;constenuminline&#x66FF;&#x6362;define"><a href="#&#x6761;&#x6B3E;02&#xFF1A;&#x5C3D;&#x91CF;&#x4EE5;const&#xFF0C;enum&#xFF0C;inline&#x66FF;&#x6362;-define" class="headerlink" title="&#x6761;&#x6B3E;02&#xFF1A;&#x5C3D;&#x91CF;&#x4EE5;const&#xFF0C;enum&#xFF0C;inline&#x66FF;&#x6362;#define"></a>&#x6761;&#x6B3E;02&#xFF1A;&#x5C3D;&#x91CF;&#x4EE5;const&#xFF0C;enum&#xFF0C;inline&#x66FF;&#x6362;#define</h3><blockquote>
+<h3><span id="条款02尽量以constenuminline替换define">条款02：尽量以const，enum，inline替换#define</span></h3><blockquote>
 <ul>
-<li>&#x5BF9;&#x4E8E;&#x5355;&#x7EAF;&#x5E38;&#x91CF;&#xFF0C;&#x6700;&#x597D;&#x4EE5;const&#x5BF9;&#x8C61;&#x6216;enums&#x66FF;&#x6362;#define</li>
-<li>&#x5BF9;&#x4E8E;&#x5F62;&#x4F3C;&#x51FD;&#x6570;&#x7684;&#x5B8F;&#xFF08;macros&#xFF09;&#xFF0C;&#x6700;&#x597D;&#x6539;&#x7528;inline&#x51FD;&#x6570;&#x66FF;&#x6362;#define</li>
+<li>对于单纯常量，最好以const对象或enums替换#define</li>
+<li>对于形似函数的宏（macros），最好改用inline函数替换#define</li>
 </ul>
 </blockquote>
-<p><strong>#define&#x7684;&#x7F3A;&#x70B9;&#xFF1A;</strong></p>
+<p><strong>#define的缺点：</strong></p>
 <ol>
-<li>define &#x5B9A;&#x4E49;&#x7684;&#x503C;&#x65E0;&#x6CD5;&#x88AB;&#x7F16;&#x8BD1;&#x5668;&#x548C;&#x8C03;&#x8BD5;&#x5668;&#x770B;&#x5230;&#xFF0C;&#x51FA;&#x95EE;&#x9898;&#x4E86;&#x5F88;&#x9EBB;&#x70E6;&#x3002;</li>
-<li>&#x6CA1;&#x6709;&#x826F;&#x597D;&#x7684;&#x5C01;&#x88C5;&#x65B0;&#xFF0C;&#x4E0D;&#x80FD;&#x63A7;&#x5236;&#x4F5C;&#x7528;&#x57DF;&#x3002;</li>
+<li>define 定义的值无法被编译器和调试器看到，出问题了很麻烦。</li>
+<li>没有良好的封装新，不能控制作用域。</li>
 </ol>
 <p><strong>const</strong></p>
-<p>&#x4F7F;&#x7528;const&#x6211;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x58F0;&#x660E;&#x4E00;&#x4E2A;&#x5E38;&#x91CF;&#xFF1A;</p>
+<p>使用const我可以这样声明一个常量：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const std::string ProductName(&quot;Mango Game&quot;);</span><br><span class="line">const double Pi = 3.1415;</span><br></pre></td></tr></table></figure>
-<p>&#x8FD8;&#x53EF;&#x4EE5;&#x58F0;&#x660E;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x4E13;&#x5C5E;&#x5E38;&#x91CF;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//Header</span><br><span class="line">class Game {</span><br><span class="line">private:</span><br><span class="line">	static const int MaxGamePlayer ;</span><br><span class="line">...</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line">//cpp file</span><br><span class="line">const int Game::MaxGamePlayer = 5;</span><br></pre></td></tr></table></figure>
+<p>还可以声明一个类的专属常量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//Header</span><br><span class="line">class Game &#123;</span><br><span class="line">private:</span><br><span class="line">	static const int MaxGamePlayer ;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//cpp file</span><br><span class="line">const int Game::MaxGamePlayer = 5;</span><br></pre></td></tr></table></figure>
 <p><strong>enum hack</strong></p>
-<p>&#x5982;&#x679C;&#x9700;&#x8981;&#x7F16;&#x8BD1;&#x65F6;&#x4F7F;&#x7528;&#x5230;&#x5E38;&#x91CF;&#x5C31;&#x9700;&#x8981;enum hack&#x8FD9;&#x4E2A;&#x6280;&#x5DE7;&#xFF0C;&#x5B9E;&#x73B0;&#x5982;&#x4E0B;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class GamePlayer {</span><br><span class="line">private:</span><br><span class="line">    enum { NumTurns = 5}</span><br><span class="line">    int scores[NumTruns];</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<p>如果需要编译时使用到常量就需要enum hack这个技巧，实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class GamePlayer &#123;</span><br><span class="line">private:</span><br><span class="line">    enum &#123; NumTurns = 5&#125;</span><br><span class="line">    int scores[NumTruns];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p><strong>inline function</strong></p>
-<p>&#x6709;&#x4E00;&#x4E9B;&#x5B8F;&#x957F;&#x5F97;&#x5F88;&#x50CF;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x79CD;&#x5B8F;&#x6709;&#x7C7B;&#x578B;&#x5B89;&#x5168;&#x95EE;&#x9898;&#x548C;&#x4E0D;&#x53EF;&#x9884;&#x6599;&#x884C;&#x4E3A;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#x3002;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;inline function&#x6765;&#x66FF;&#x4EE3;&#x3002;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//&#x8FD9;&#x4E2A;MAX&#x5B8F;&#x5F88;&#x4E0D;&#x597D;&#xFF0C;&#x4F1A;&#x51FA;&#x73B0;&#x5947;&#x602A;&#x7684;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#x4E14;&#x65E0;&#x6CD5;&#x8C03;&#x8BD5;</span><br><span class="line">#define MAX(a,b) ((a) &gt; (b) ? (a) : (b))</span><br><span class="line"></span><br><span class="line">//Good</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">inline T Max(const T&amp; a, const T&amp; b)</span><br><span class="line">{</span><br><span class="line">    return (a &gt; b ? a : b);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<h3 id="&#x6761;&#x6B3E;3&#x5C3D;&#x53EF;&#x80FD;&#x4F7F;&#x7528;const"><a href="#&#x6761;&#x6B3E;3&#xFF1A;&#x5C3D;&#x53EF;&#x80FD;&#x4F7F;&#x7528;const" class="headerlink" title="&#x6761;&#x6B3E;3&#xFF1A;&#x5C3D;&#x53EF;&#x80FD;&#x4F7F;&#x7528;const"></a>&#x6761;&#x6B3E;3&#xFF1A;&#x5C3D;&#x53EF;&#x80FD;&#x4F7F;&#x7528;const</h3><blockquote>
+<p>有一些宏长得很像函数，这种宏有类型安全问题和不可预料行为两个问题。可以使用inline function来替代。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//这个MAX宏很不好，会出现奇怪的一些问题且无法调试</span><br><span class="line">#define MAX(a,b) ((a) &gt; (b) ? (a) : (b))</span><br><span class="line"></span><br><span class="line">//Good</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">inline T Max(const T&amp; a, const T&amp; b)</span><br><span class="line">&#123;</span><br><span class="line">    return (a &gt; b ? a : b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="条款3尽可能使用const">条款3：尽可能使用const</span></h3><blockquote>
 <ul>
-<li>&#x5C06;&#x67D0;&#x4E9B;&#x4E1C;&#x897F;&#x58F0;&#x660E;&#x4E3A;const&#x53EF;&#x5E2E;&#x52A9;&#x7F16;&#x8BD1;&#x5668;&#x4FA6;&#x6D4B;&#x51FA;&#x9519;&#x8BEF;&#x7528;&#x6CD5;&#x3002;const&#x53EF;&#x88AB;&#x65BD;&#x52A0;&#x4E8E;&#x4EFB;&#x4F55;&#x4F5C;&#x7528;&#x57DF;&#x5185;&#x7684;&#x5BF9;&#x8C61;&#x3001;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x3001;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x3001;&#x6210;&#x5458;&#x51FD;&#x6570;&#x672C;&#x4F53;&#x3002;</li>
-<li>&#x7F16;&#x8BD1;&#x5668;&#x5F3A;&#x5236;&#x5B9E;&#x65BD;bitwise constness&#xFF0C;&#x4F46;&#x4F60;&#x7F16;&#x5199;&#x7A0B;&#x5E8F;&#x65F6;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x201C;&#x6982;&#x5FF5;&#x4E0A;&#x7684;&#x5E38;&#x91CF;&#x6027;&#x201D;&#xFF08;conceptual constness&#xFF09;&#x3002;</li>
-<li>&#x5F53;const&#x548C;non-const&#x6210;&#x5458;&#x51FD;&#x6570;&#x6709;&#x7740;&#x5B9E;&#x8D28;&#x7B49;&#x4EF7;&#x7684;&#x5B9E;&#x73B0;&#x65F6;&#xFF0C;&#x4EE4;non-const&#x7248;&#x672C;&#x8C03;&#x7528;const&#x7248;&#x672C;&#x53EF;&#x907F;&#x514D;&#x4EE3;&#x7801;&#x91CD;&#x590D;&#x3002;</li>
+<li>将某些东西声明为const可帮助编译器侦测出错误用法。const可被施加于任何作用域内的对象、函数参数、函数返回类型、成员函数本体。</li>
+<li>编译器强制实施bitwise constness，但你编写程序时应该使用“概念上的常量性”（conceptual constness）。</li>
+<li>当const和non-const成员函数有着实质等价的实现时，令non-const版本调用const版本可避免代码重复。</li>
 </ul>
 </blockquote>
-<p>const&#x63D0;&#x4F9B;&#x4E00;&#x79CD;&#x8BED;&#x4E49;&#x4E0A;&#x7684;&#x7EA6;&#x675F;&#xFF0C;&#x5B83;&#x80FD;&#x591F;&#x7EA6;&#x675F;&#x53D8;&#x91CF;&#x4F7F;&#x7528;&#x8005;&#x7684;&#x884C;&#x4E3A;&#x3002;&#x5F53;&#x5B83;&#x4F5C;&#x7528;&#x4E8E;&#x9488;&#x3001;&#x667A;&#x80FD;&#x6307;&#x9488;&#x3001;&#x8FED;&#x4EE3;&#x5668;&#x4E0A;&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x6307;&#x5411;&#x6307;&#x9488;&#x672C;&#x8EAB;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x6307;&#x9488;&#x6307;&#x5411;&#x7269;&#x3002;&#x4F5C;&#x8005;&#x63D0;&#x51FA;&#x4E86;&#x4E00;&#x4E2A;&#x8BC6;&#x522B;&#x7684;&#x6280;&#x5DE7;&#xFF1A;<em>&#x5982;&#x679C;&#x5173;&#x952E;&#x5B57;const&#x51FA;&#x73B0;&#x5728;&#x661F;&#x53F7;&#x5DE6;&#x8FB9;&#xFF0C;&#x8868;&#x793A;&#x88AB;&#x6307;&#x7269;&#x662F;&#x5E38;&#x91CF;&#xFF1B;&#x5982;&#x679C;&#x51FA;&#x73B0;&#x5728;&#x661F;&#x53F7;&#x53F3;&#x8FB9;&#xFF0C;&#x8868;&#x793A;&#x6307;&#x9488;&#x672C;&#x8EAB;&#x662F;&#x5E38;&#x91CF;&#x3002;</em></p>
-<p>&#x4F8B;&#x5B50;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">char greeting[] = &quot;Hello&quot;</span><br><span class="line">char *p = greeting;			//non const point, const data</span><br><span class="line">const char * p = greeting;	//non const point, const data </span><br><span class="line">char const * p = greeting;	//non const point, const data</span><br><span class="line">char * const p = greeting;	//const point, non const data</span><br><span class="line">const char* const p = greeting; //const point, const data</span><br><span class="line"></span><br><span class="line">const std::vector&lt;int&gt;::iterator it;		// --&gt; T * const p</span><br><span class="line">*it = 10; 	//&#x5408;&#x6CD5;</span><br><span class="line">it++;		//&#x4E0D;&#x5408;&#x6CD5;</span><br><span class="line">std::vector&lt;int&gt;::const_iterator it;		// --&gt; const T * p</span><br><span class="line">it = 10;	//&#x4E0D;&#x5408;&#x6CD5;</span><br><span class="line">it++;		//&#x5408;&#x6CD5;</span><br><span class="line"></span><br><span class="line">std::shared&lt;T&gt; p1;</span><br><span class="line">std::shared&lt;const T&gt; p;	// --&gt; const T *p</span><br><span class="line">p = p1;			//&#x5408;&#x6CD5;</span><br><span class="line">*p.get() = x;	//&#x4E0D;&#x5408;&#x6CD5;</span><br><span class="line">const std::shared&lt;T&gt; p; // --&gt; T* const p</span><br><span class="line">p = p1;			//&#x4E0D;&#x5408;&#x6CD5;</span><br><span class="line">*p.get() = x;	//&#x5408;&#x6CD5;</span><br></pre></td></tr></table></figure>
-<p>&#x6709;&#x70B9;&#x5934;&#x6655;&#xFF0C;&#x6211;&#x6709;&#x4E00;&#x4E2A;&#x4E0D;&#x662F;&#x5F88;&#x6070;&#x5F53;&#x5730;&#x8BB0;&#x5FC6;&#x65B9;&#x6CD5;&#x3002;&#x53EF;&#x4EE5;&#x628A;<code>const</code>&#x770B;&#x6210;&#x4FEE;&#x9970;&#x5B83;&#x53F3;&#x8FB9;&#x6240;&#x6709;&#x5185;&#x5BB9;&#x7684;&#xFF0C;&#x4EE5;<code>const char* p</code>&#x4E3A;&#x4F8B;&#xFF0C;&#x628A;<code>p</code>&#x770B;&#x6210;&#x4E00;&#x4E2A;&#x6307;&#x9488;&#xFF0C;&#x800C;<code>*p</code>&#x5219;&#x662F;&#x6570;&#x636E;&#xFF0C;&#x6240;&#x4EE5;<code>const</code>&#x662F;&#x4FEE;&#x9970;&#x6570;&#x636E;&#x7684;&#x3002;&#x800C;<code>char * const p</code>&#x4E2D;&#xFF0C;<code>const</code>&#x53F3;&#x8FB9;&#x53EA;&#x6709;<code>p</code>&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x53EA;&#x662F;&#x9650;&#x5236;&#x6307;&#x9488;&#x672C;&#x8EAB;&#x7684;&#x3002;</p>
-<h4 id="bitwise-constness-vs-logical-constness"><a href="#bitwise-constness-vs-logical-constness" class="headerlink" title="bitwise constness vs logical constness"></a>bitwise constness vs logical constness</h4><p>&#x5F53;&#x9650;&#x5236;&#x4E00;&#x4E2A;&#x6210;&#x5458;&#x51FD;&#x6570;&#x4E3A;const&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x4F1A;&#x6267;&#x884C;bitwise constness&#xFF0C;&#x5373;&#x68C0;&#x67E5;&#x51FD;&#x6570;&#x5185;&#x90E8;&#x662F;&#x5426;&#x4FEE;&#x6539;&#x4E86;&#x7C7B;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x3002;&#x4F46;&#x662F;&#x5199;&#x4EE3;&#x7801;&#x7684;&#x65F6;&#x5019;&#x5E94;&#x8BE5;&#x6CE8;&#x610F;&#x903B;&#x8F91;&#x4E0A;&#x7684;&#x5E38;&#x91CF;&#x9650;&#x5236;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x4E00;&#x4E2A;&#x4F60;&#x8FD4;&#x56DE;&#x4E86;&#x4E00;&#x4E2A;&#x6307;&#x5411;&#x5185;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x6307;&#x9488;&#xFF0C;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x867D;&#x7136;&#x7B26;&#x5408;&#x7F16;&#x8BD1;&#x5668;&#x7684;const&#x9650;&#x5236;&#x4F46;&#x5374;&#x4E0D;&#x662F;&#x5F88;&#x597D;&#x7684;&#x4E00;&#x4E2A;&#x5199;&#x6CD5;&#x3002;</p>
+<p>const提供一种语义上的约束，它能够约束变量使用者的行为。当它作用于针、智能指针、迭代器上的时候可以指向指针本身也可以是指针指向物。作者提出了一个识别的技巧：<em>如果关键字const出现在星号左边，表示被指物是常量；如果出现在星号右边，表示指针本身是常量。</em></p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">char greeting[] = &quot;Hello&quot;</span><br><span class="line">char *p = greeting;			//non const point, const data</span><br><span class="line">const char * p = greeting;	//non const point, const data </span><br><span class="line">char const * p = greeting;	//non const point, const data</span><br><span class="line">char * const p = greeting;	//const point, non const data</span><br><span class="line">const char* const p = greeting; //const point, const data</span><br><span class="line"></span><br><span class="line">const std::vector&lt;int&gt;::iterator it;		// --&gt; T * const p</span><br><span class="line">*it = 10; 	//合法</span><br><span class="line">it++;		//不合法</span><br><span class="line">std::vector&lt;int&gt;::const_iterator it;		// --&gt; const T * p</span><br><span class="line">it = 10;	//不合法</span><br><span class="line">it++;		//合法</span><br><span class="line"></span><br><span class="line">std::shared&lt;T&gt; p1;</span><br><span class="line">std::shared&lt;const T&gt; p;	// --&gt; const T *p</span><br><span class="line">p = p1;			//合法</span><br><span class="line">*p.get() = x;	//不合法</span><br><span class="line">const std::shared&lt;T&gt; p; // --&gt; T* const p</span><br><span class="line">p = p1;			//不合法</span><br><span class="line">*p.get() = x;	//合法</span><br></pre></td></tr></table></figure>
+<p>有点头晕，我有一个不是很恰当地记忆方法。可以把<code>const</code>看成修饰它右边所有内容的，以<code>const char* p</code>为例，把<code>p</code>看成一个指针，而<code>*p</code>则是数据，所以<code>const</code>是修饰数据的。而<code>char * const p</code>中，<code>const</code>右边只有<code>p</code>，所以它只是限制指针本身的。</p>
+<h4><span id="bitwise-constness-vs-logical-constness">bitwise constness vs logical constness</span></h4><p>当限制一个成员函数为const，编译器会执行bitwise constness，即检查函数内部是否修改了类的成员变量。但是写代码的时候应该注意逻辑上的常量限制，比如说一个你返回了一个指向内部变量的指针，这个函数虽然符合编译器的const限制但却不是很好的一个写法。</p>
 <p>[to be continued]</p>
   
 	</div>
@@ -180,7 +174,7 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/06/24/effective-cpp-reading-notes-1/" data-title="《Effective C++》读书笔记(1) | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/06/24/effective-cpp-reading-notes-1/" data-title="《Effective C++》读书笔记(1) | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -226,7 +220,7 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#让自己习惯c"><span class="toc-number">1.</span> <span class="toc-text">让自己习惯C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款01视c为一个语言联邦"><span class="toc-number">1.1.</span> <span class="toc-text">条款01：视C++为一个语言联邦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款02尽量以constenuminline替换define"><span class="toc-number">1.2.</span> <span class="toc-text">条款02：尽量以const，enum，inline替换#define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款3尽可能使用const"><span class="toc-number">1.3.</span> <span class="toc-text">条款3：尽可能使用const</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bitwise-constness-vs-logical-constness"><span class="toc-number">1.3.1.</span> <span class="toc-text">bitwise constness vs logical constness</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">让自己习惯C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款01：视C++为一个语言联邦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款02：尽量以const，enum，inline替换#define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款3：尽可能使用const</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.1.</span> <span class="toc-text">bitwise constness vs logical constness</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -313,7 +307,11 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -321,15 +319,11 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -349,15 +343,15 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -382,9 +376,6 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -413,7 +404,7 @@ C++ &amp;#x9AD8;&amp;#x6548;&amp;#x7F16;&amp;#x7A0B;&amp;#x5B88;&amp;#x5219;&amp
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

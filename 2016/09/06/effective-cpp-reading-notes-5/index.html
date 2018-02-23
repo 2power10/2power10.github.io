@@ -11,22 +11,18 @@
     
 
     
-    <meta name="description" content="4. &amp;#x8BBE;&amp;#x8BA1;&amp;#x4E0E;&amp;#x58F0;&amp;#x660E;&amp;#x6761;&amp;#x6B3E;18&amp;#xFF1A;&amp;#x8BA9;&amp;#x63A5;&amp;#x53E3;&amp;#x5BB9;&amp;#x6613;&amp;#x88AB;&amp;#x4F7F;&amp;#x7528;&amp;#xFF0C;&amp;#x4E0D;&amp;#x6613;&amp;#x88AB;&amp;#x8BEF;&amp;#x7528;
-
-&amp;#x597D;&amp;#x7684;&amp;">
+    <meta name="description" content="4. 设计与声明条款18：让接口容易被使用，不易被误用  好的借口很容易被正确使用，不容易被误用。你应该在你的所有接口中努力达成这些性质。 “促进正确使用”的办法包括接口的一致性，以及与内置类型的行为兼容。 “阻止误用”的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任。 std::shared_ptr支持定制型删除器（custom deleter）。可防范DLL问题，">
+<meta name="keywords" content="C++,编程语言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Effective C++》读书笔记(5)">
 <meta property="og:url" content="http://zhengyi.me/2016/09/06/effective-cpp-reading-notes-5/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="4. &amp;#x8BBE;&amp;#x8BA1;&amp;#x4E0E;&amp;#x58F0;&amp;#x660E;&amp;#x6761;&amp;#x6B3E;18&amp;#xFF1A;&amp;#x8BA9;&amp;#x63A5;&amp;#x53E3;&amp;#x5BB9;&amp;#x6613;&amp;#x88AB;&amp;#x4F7F;&amp;#x7528;&amp;#xFF0C;&amp;#x4E0D;&amp;#x6613;&amp;#x88AB;&amp;#x8BEF;&amp;#x7528;
-
-&amp;#x597D;&amp;#x7684;&amp;">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="4. 设计与声明条款18：让接口容易被使用，不易被误用  好的借口很容易被正确使用，不容易被误用。你应该在你的所有接口中努力达成这些性质。 “促进正确使用”的办法包括接口的一致性，以及与内置类型的行为兼容。 “阻止误用”的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任。 std::shared_ptr支持定制型删除器（custom deleter）。可防范DLL问题，">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-06T13:17:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Effective C++》读书笔记(5)">
-<meta name="twitter:description" content="4. &amp;#x8BBE;&amp;#x8BA1;&amp;#x4E0E;&amp;#x58F0;&amp;#x660E;&amp;#x6761;&amp;#x6B3E;18&amp;#xFF1A;&amp;#x8BA9;&amp;#x63A5;&amp;#x53E3;&amp;#x5BB9;&amp;#x6613;&amp;#x88AB;&amp;#x4F7F;&amp;#x7528;&amp;#xFF0C;&amp;#x4E0D;&amp;#x6613;&amp;#x88AB;&amp;#x8BEF;&amp;#x7528;
-
-&amp;#x597D;&amp;#x7684;&amp;">
+<meta name="twitter:description" content="4. 设计与声明条款18：让接口容易被使用，不易被误用  好的借口很容易被正确使用，不容易被误用。你应该在你的所有接口中努力达成这些性质。 “促进正确使用”的办法包括接口的一致性，以及与内置类型的行为兼容。 “阻止误用”的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任。 std::shared_ptr支持定制型删除器（custom deleter）。可防范DLL问题，">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -63,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -106,71 +100,71 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-设计与声明"><span class="toc-number">1.</span> <span class="toc-text">4. 设计与声明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款18让接口容易被使用不易被误用"><span class="toc-number">1.1.</span> <span class="toc-text">条款18：让接口容易被使用，不易被误用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款19设计class犹如设计type"><span class="toc-number">1.2.</span> <span class="toc-text">条款19：设计class犹如设计type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款20宁以-pass-by-reference-to-const-替换-pass-by-value"><span class="toc-number">1.3.</span> <span class="toc-text">条款20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款21必须返回对象是别妄想返回其reference"><span class="toc-number">1.4.</span> <span class="toc-text">条款21：必须返回对象是，别妄想返回其reference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款22将成员变量声明为private"><span class="toc-number">1.5.</span> <span class="toc-text">条款22：将成员变量声明为private</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">4. 设计与声明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款18：让接口容易被使用，不易被误用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款19：设计class犹如设计type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.4.</span> <span class="toc-text">条款21：必须返回对象是，别妄想返回其reference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.5.</span> <span class="toc-text">条款22：将成员变量声明为private</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="4-&#x8BBE;&#x8BA1;&#x4E0E;&#x58F0;&#x660E;"><a href="#4-&#x8BBE;&#x8BA1;&#x4E0E;&#x58F0;&#x660E;" class="headerlink" title="4. &#x8BBE;&#x8BA1;&#x4E0E;&#x58F0;&#x660E;"></a>4. &#x8BBE;&#x8BA1;&#x4E0E;&#x58F0;&#x660E;</h2><h3 id="&#x6761;&#x6B3E;18&#x8BA9;&#x63A5;&#x53E3;&#x5BB9;&#x6613;&#x88AB;&#x4F7F;&#x7528;&#x4E0D;&#x6613;&#x88AB;&#x8BEF;&#x7528;"><a href="#&#x6761;&#x6B3E;18&#xFF1A;&#x8BA9;&#x63A5;&#x53E3;&#x5BB9;&#x6613;&#x88AB;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x6613;&#x88AB;&#x8BEF;&#x7528;" class="headerlink" title="&#x6761;&#x6B3E;18&#xFF1A;&#x8BA9;&#x63A5;&#x53E3;&#x5BB9;&#x6613;&#x88AB;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x6613;&#x88AB;&#x8BEF;&#x7528;"></a>&#x6761;&#x6B3E;18&#xFF1A;&#x8BA9;&#x63A5;&#x53E3;&#x5BB9;&#x6613;&#x88AB;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x6613;&#x88AB;&#x8BEF;&#x7528;</h3><blockquote>
+		<h2><span id="4-设计与声明">4. 设计与声明</span></h2><h3><span id="条款18让接口容易被使用不易被误用">条款18：让接口容易被使用，不易被误用</span></h3><blockquote>
 <ul>
-<li>&#x597D;&#x7684;&#x501F;&#x53E3;&#x5F88;&#x5BB9;&#x6613;&#x88AB;&#x6B63;&#x786E;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x5BB9;&#x6613;&#x88AB;&#x8BEF;&#x7528;&#x3002;&#x4F60;&#x5E94;&#x8BE5;&#x5728;&#x4F60;&#x7684;&#x6240;&#x6709;&#x63A5;&#x53E3;&#x4E2D;&#x52AA;&#x529B;&#x8FBE;&#x6210;&#x8FD9;&#x4E9B;&#x6027;&#x8D28;&#x3002;</li>
-<li>&#x201C;&#x4FC3;&#x8FDB;&#x6B63;&#x786E;&#x4F7F;&#x7528;&#x201D;&#x7684;&#x529E;&#x6CD5;&#x5305;&#x62EC;&#x63A5;&#x53E3;&#x7684;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x4EE5;&#x53CA;&#x4E0E;&#x5185;&#x7F6E;&#x7C7B;&#x578B;&#x7684;&#x884C;&#x4E3A;&#x517C;&#x5BB9;&#x3002;</li>
-<li>&#x201C;&#x963B;&#x6B62;&#x8BEF;&#x7528;&#x201D;&#x7684;&#x529E;&#x6CD5;&#x5305;&#x62EC;&#x5EFA;&#x7ACB;&#x65B0;&#x7C7B;&#x578B;&#x3001;&#x9650;&#x5236;&#x7C7B;&#x578B;&#x4E0A;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x675F;&#x7F1A;&#x5BF9;&#x8C61;&#x503C;&#xFF0C;&#x4EE5;&#x53CA;&#x6D88;&#x9664;&#x5BA2;&#x6237;&#x7684;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x8D23;&#x4EFB;&#x3002;</li>
-<li>std::shared_ptr&#x652F;&#x6301;&#x5B9A;&#x5236;&#x578B;&#x5220;&#x9664;&#x5668;&#xFF08;custom deleter&#xFF09;&#x3002;&#x53EF;&#x9632;&#x8303;DLL&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x88AB;&#x7528;&#x6765;&#x81EA;&#x52A8;&#x89E3;&#x9664;&#x4E92;&#x65A5;&#x9501;&#x7B49;&#x7B49;&#x3002;</li>
+<li>好的借口很容易被正确使用，不容易被误用。你应该在你的所有接口中努力达成这些性质。</li>
+<li>“促进正确使用”的办法包括接口的一致性，以及与内置类型的行为兼容。</li>
+<li>“阻止误用”的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任。</li>
+<li>std::shared_ptr支持定制型删除器（custom deleter）。可防范DLL问题，可被用来自动解除互斥锁等等。</li>
 </ul>
 </blockquote>
-<p>&#x8FD9;&#x4E2A;&#x6761;&#x6B3E;&#x7684;&#x601D;&#x60F3;&#x5176;&#x5B9E;&#x9002;&#x7528;&#x4E8E;&#x6240;&#x6709;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#xFF0C;&#x53EA;&#x8981;&#x4F60;&#x5199;&#x7684;&#x4EE3;&#x7801;&#x9700;&#x8981;&#x88AB;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x8C03;&#x7528;&#xFF0C;&#x4F60;&#x90FD;&#x9700;&#x8981;&#x8003;&#x8651;&#x63A5;&#x53E3;&#x7684;&#x6613;&#x7528;&#x6027;&#x3002;&#x5373;&#x4F7F;&#x4E0D;&#x66B4;&#x9732;&#xFF0C;&#x826F;&#x597D;&#x7684;&#x63A5;&#x53E3;&#x8BBE;&#x8BA1;&#x4E5F;&#x80FD;&#x591F;&#x63D0;&#x9AD8;&#x4EE3;&#x7801;&#x7684;&#x53EF;&#x8BFB;&#x6027;&#x3002;&#x4F5C;&#x8005;&#x63D0;&#x51FA;&#x7684;&#x8FD9;&#x51E0;&#x70B9;&#x53EA;&#x662F;&#x5728;C++&#x8FD9;&#x4E2A;&#x8BED;&#x8A00;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x4E00;&#x4E9B;&#x5C0F;&#x70B9;&#xFF0C;&#x6211;&#x8BA4;&#x4E3A;&#x8BBE;&#x8BA1;&#x4E00;&#x4E2A;&#x826F;&#x597D;&#x7684;&#x6613;&#x7528;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x4EC5;&#x4EC5;&#x505A;&#x5230;&#x8FD9;&#x51E0;&#x70B9;&#x8FD8;&#x8FDC;&#x8FDC;&#x4E0D;&#x591F;&#x3002;</p>
-<p><strong>&#x63A5;&#x53E3;&#x4E00;&#x81F4;&#x6027;</strong></p>
-<p>&#x4F5C;&#x8005;&#x8BA4;&#x4E3A;&#x9664;&#x975E;&#x6709;&#x5145;&#x5206;&#x7684;&#x7406;&#x7531;&#xFF0C;&#x5426;&#x5219;&#x6700;&#x597D;&#x8BA9;&#x7C7B;&#x578B;&#x4E0E;&#x5185;&#x7F6E;&#x7684;&#x7C7B;&#x578B;&#x7684;&#x884C;&#x4E3A;&#x5C3D;&#x91CF;&#x4E00;&#x81F4;&#x3002;&#x8FD9;&#x4E2A;&#x53EF;&#x4EE5;&#x964D;&#x4F4E;&#x4F7F;&#x7528;&#x8005;&#x9519;&#x8BEF;&#x4F7F;&#x7528;&#x7684;&#x6982;&#x7387;&#x3002;</p>
-<p>&#x6211;&#x60F3;&#x8865;&#x5145;&#x7684;&#x53E6;&#x5916;&#x4E00;&#x70B9;&#x662F;&#xFF0C;&#x6BD4;&#x5982;&#x4F60;&#x63D0;&#x4F9B;&#x4E00;&#x6574;&#x5957;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x8BA9;&#x81EA;&#x5DF1;&#x7684;&#x63A5;&#x53E3;&#x76F8;&#x4E92;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x7684;&#x98CE;&#x683C;&#x3002;&#x5305;&#x62EC;&#x4F46;&#x4E0D;&#x4EC5;&#x9650;&#x4E8E;&#xFF1A;&#x51FD;&#x6570;&#x7684;&#x547D;&#x540D;&#x98CE;&#x683C;&#x3001;&#x51FD;&#x6570;&#x7684;&#x884C;&#x4E3A;&#x5C3D;&#x91CF;&#x4FDD;&#x6301;&#x7EDF;&#x4E00;&#x7684;&#x98CE;&#x683C;&#x3002;</p>
-<p><strong>&#x9632;&#x6B62;&#x8BEF;&#x7528;</strong></p>
+<p>这个条款的思想其实适用于所有的编程语言，只要你写的代码需要被其他地方调用，你都需要考虑接口的易用性。即使不暴露，良好的接口设计也能够提高代码的可读性。作者提出的这几点只是在C++这个语言的基础上需要注意的一些小点，我认为设计一个良好的易用的接口，仅仅做到这几点还远远不够。</p>
+<p><strong>接口一致性</strong></p>
+<p>作者认为除非有充分的理由，否则最好让类型与内置的类型的行为尽量一致。这个可以降低使用者错误使用的概率。</p>
+<p>我想补充的另外一点是，比如你提供一整套的接口，你需要让自己的接口相互保持一致的风格。包括但不仅限于：函数的命名风格、函数的行为尽量保持统一的风格。</p>
+<p><strong>防止误用</strong></p>
 <blockquote>
-<p>&#x4EFB;&#x4F55;&#x63A5;&#x53E3;&#x5982;&#x679C;&#x8981;&#x6C42;&#x5BA2;&#x6237;&#x5FC5;&#x987B;&#x8BB0;&#x5F97;&#x505A;&#x67D0;&#x4EF6;&#x4E8B;&#x60C5;&#xFF0C;&#x5C31;&#x662F;&#x6709;&#x7740;&#x201C;&#x4E0D;&#x6B63;&#x786E;&#x4F7F;&#x7528;&#x201D;&#x7684;&#x503E;&#x5411;&#xFF0C;&#x56E0;&#x4E3A;&#x5BA2;&#x6237;&#x53EF;&#x80FD;&#x4F1A;&#x5FD8;&#x8BB0;&#x505A;&#x90A3;&#x4EF6;&#x4E8B;&#x3002;</p>
+<p>任何接口如果要求客户必须记得做某件事情，就是有着“不正确使用”的倾向，因为客户可能会忘记做那件事。</p>
 </blockquote>
-<h3 id="&#x6761;&#x6B3E;19&#x8BBE;&#x8BA1;class&#x72B9;&#x5982;&#x8BBE;&#x8BA1;type"><a href="#&#x6761;&#x6B3E;19&#xFF1A;&#x8BBE;&#x8BA1;class&#x72B9;&#x5982;&#x8BBE;&#x8BA1;type" class="headerlink" title="&#x6761;&#x6B3E;19&#xFF1A;&#x8BBE;&#x8BA1;class&#x72B9;&#x5982;&#x8BBE;&#x8BA1;type"></a>&#x6761;&#x6B3E;19&#xFF1A;&#x8BBE;&#x8BA1;class&#x72B9;&#x5982;&#x8BBE;&#x8BA1;type</h3><blockquote>
-<p>Class &#x7684;&#x8BBE;&#x8BA1;&#x5C31;&#x662F;type&#x7684;&#x8BBE;&#x8BA1;&#x3002;&#x5728;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x65B0;type&#x4E4B;&#x524D;&#xFF0C;&#x786E;&#x4FDD;&#x9605;&#x8BFB;&#x4E86;&#x672C;&#x6761;&#x76EE;&#x7684;&#x6240;&#x6709;&#x8BA8;&#x8BBA;&#x4E3B;&#x9898;&#x3002;</p>
+<h3><span id="条款19设计class犹如设计type">条款19：设计class犹如设计type</span></h3><blockquote>
+<p>Class 的设计就是type的设计。在定义一个新type之前，确保阅读了本条目的所有讨论主题。</p>
 </blockquote>
 <ul>
-<li><strong>&#x65B0;type&#x7684;&#x5BF9;&#x8C61;&#x5E94;&#x8BE5;&#x5982;&#x4F55;&#x88AB;&#x521B;&#x5EFA;&#x548C;&#x9500;&#x6BC1;&#xFF1F;</strong> &#x8FD9;&#x4E2A;&#x6D89;&#x53CA;&#x5230;&#x6784;&#x9020;&#x51FD;&#x6570;&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4EE5;&#x53CA;operator new, operator delete, operator new[], operator delete[]&#x3002;</li>
-<li><strong>&#x5BF9;&#x8C61;&#x7684;&#x521D;&#x59CB;&#x5316;&#x548C;&#x5BF9;&#x8C61;&#x7684;&#x8D4B;&#x503C;&#x8BE5;&#x6709;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x5DEE;&#x522B;&#xFF1F;</strong>&#x8FD9;&#x4E2A;&#x4E3B;&#x8981;&#x662F;&#x8981;&#x8003;&#x8651;&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;&#x7B26;&#x7684;&#x884C;&#x4E3A;&#x3002;</li>
-<li><strong>&#x65B0;type&#x7684;&#x5BF9;&#x8C61;&#x5982;&#x679C;&#x88AB;passed by value&#xFF0C;&#x610F;&#x5473;&#x7740;&#x4EC0;&#x4E48;&#xFF1F;</strong></li>
-<li><strong>&#x4EC0;&#x4E48;&#x4E8B;&#x65B0;type&#x7684;&#x201C;&#x5408;&#x6CD5;&#x503C;&#x201D;&#xFF1F;</strong>&#x8FD9;&#x70B9;&#x4E3B;&#x8981;&#x662F;&#x8981;&#x6CE8;&#x610F;&#x7C7B;&#x578B;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x548C;&#x5408;&#x6CD5;&#x6027;&#x68C0;&#x67E5;&#x3002;</li>
-<li><strong>&#x4F60;&#x7684;&#x65B0;type&#x9700;&#x8981;&#x914D;&#x5408;&#x67D0;&#x4E2A;&#x7EE7;&#x627F;&#x56FE;&#x7CFB;&#x5417;&#xFF1F;</strong>&#x5982;&#x679C;&#x4F60;&#x7EE7;&#x627F;&#x5176;&#x4ED6;&#x7684;&#x7C7B;&#xFF0C;&#x9700;&#x8981;&#x8003;&#x8651;&#x5B83;&#x4EEC;&#x7684;&#x51FD;&#x6570;virtual&#x548C;non-virtual&#x6027;&#x3002;&#x5982;&#x679C;&#x4F60;&#x7684;&#x7C7B;&#x53EF;&#x80FD;&#x88AB;&#x7EE7;&#x627F;&#x5C31;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x4F60;&#x58F0;&#x660E;&#x7684;&#x51FD;&#x6570;&#x2014;&#x2014;&#x5C24;&#x5176;&#x662F;&#x6790;&#x6784;&#x51FD;&#x6570;&#x3002;</li>
-<li><strong>&#x4F60;&#x7684;&#x65B0;type&#x9700;&#x8981;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x8F6C;&#x6362;&#xFF1F;</strong>&#x5982;&#x679C;&#x4F60;&#x7684;&#x7C7B;&#x578B;&#x9700;&#x8981;&#x8F6C;&#x6362;&#x6210;&#x5176;&#x4ED6;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x9700;&#x8981;&#x8003;&#x8651;&#x5B9A;&#x4E49;&#x663E;&#x5F0F;&#x8F6C;&#x6362;&#x6216;&#x8005;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x7684;&#x51FD;&#x6570;&#x3002;</li>
-<li><strong>&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x64CD;&#x4F5C;&#x7B26;&#x548C;&#x51FD;&#x6570;&#x5BF9;&#x6B64;&#x65B0;type&#x800C;&#x8A00;&#x662F;&#x5408;&#x7406;&#x7684;&#xFF1F;</strong>&#x53C2;&#x8003;&#x6761;&#x6B3E;23&#xFF0C;24&#xFF0C;26.</li>
-<li><strong>&#x8C01;&#x8BE5;&#x53D6;&#x7528;&#x65B0;type&#x7684;&#x6210;&#x5458;&#xFF1F;</strong>&#x8FD9;&#x4E2A;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x8005;&#x7684;&#x89D2;&#x5EA6;&#x6765;&#x5E2E;&#x52A9;&#x4F60;&#x5224;&#x65AD;&#x54EA;&#x4E00;&#x4E9B;&#x6210;&#x5458;&#x4E3A;public&#xFF0C;&#x54EA;&#x4E2A;&#x4E3A;protected&#x3002;</li>
-<li><strong>&#x4F60;&#x7684;&#x65B0;type&#x6709;&#x591A;&#x4E48;&#x4E00;&#x822C;&#x5316;&#xFF08;generic&#xFF09;&#xFF1F;</strong>&#x5982;&#x679C;&#x5F88;&#x4E00;&#x822C;&#x5316;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x8BBE;&#x8BA1;&#x4E00;&#x4E2A;class template&#x3002;</li>
-<li><strong>&#x4F60;&#x771F;&#x7684;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x65B0;type&#x5427;&#xFF1F;</strong>&#x5982;&#x679C;&#x53EA;&#x662F;&#x5B9A;&#x4E49;&#x65B0;&#x7684;derived class&#x4EE5;&#x4FBF;&#x4E3A;&#x65E2;&#x6709;&#x7684;class&#x6DFB;&#x52A0;&#x529F;&#x80FD;&#xFF0C;&#x90A3;&#x4E48;&#x8BF4;&#x4E0D;&#x5B9A;&#x5355;&#x7EAF;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;non-member&#x51FD;&#x6570;&#x6216;template&#x66F4;&#x80FD;&#x591F;&#x8FBE;&#x5230;&#x76EE;&#x6807;&#x3002;</li>
+<li><strong>新type的对象应该如何被创建和销毁？</strong> 这个涉及到构造函数、构造函数以及operator new, operator delete, operator new[], operator delete[]。</li>
+<li><strong>对象的初始化和对象的赋值该有什么样的差别？</strong>这个主要是要考虑构造函数和赋值操作符的行为。</li>
+<li><strong>新type的对象如果被passed by value，意味着什么？</strong></li>
+<li><strong>什么事新type的“合法值”？</strong>这点主要是要注意类型的成员变量和合法性检查。</li>
+<li><strong>你的新type需要配合某个继承图系吗？</strong>如果你继承其他的类，需要考虑它们的函数virtual和non-virtual性。如果你的类可能被继承就需要注意你声明的函数——尤其是析构函数。</li>
+<li><strong>你的新type需要什么样的转换？</strong>如果你的类型需要转换成其他的类型，需要考虑定义显式转换或者隐式转换的函数。</li>
+<li><strong>什么样的操作符和函数对此新type而言是合理的？</strong>参考条款23，24，26.</li>
+<li><strong>谁该取用新type的成员？</strong>这个可以使用者的角度来帮助你判断哪一些成员为public，哪个为protected。</li>
+<li><strong>你的新type有多么一般化（generic）？</strong>如果很一般化，可以考虑设计一个class template。</li>
+<li><strong>你真的需要一个新type吧？</strong>如果只是定义新的derived class以便为既有的class添加功能，那么说不定单纯定义一个或多个non-member函数或template更能够达到目标。</li>
 </ul>
-<p>&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#x5E76;&#x4E0D;&#x662F;&#x90A3;&#x4E48;&#x5BB9;&#x6613;&#x56DE;&#x7B54;&#xFF0C;&#x5728;&#x8BBE;&#x8BA1;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x7684;&#x65F6;&#x5019;&#x5C3D;&#x91CF;&#x7684;&#x53BB;&#x8003;&#x8651;&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#x80FD;&#x591F;&#x66F4;&#x597D;&#x5730;&#x8BBE;&#x8BA1;&#x51FA;&#x4E00;&#x4E2A;&#x6613;&#x7528;&#x5408;&#x7406;&#x7684;&#x7C7B;&#x578B;&#x3002;</p>
-<h3 id="&#x6761;&#x6B3E;20&#x5B81;&#x4EE5;-pass-by-reference-to-const-&#x66FF;&#x6362;-pass-by-value"><a href="#&#x6761;&#x6B3E;20&#xFF1A;&#x5B81;&#x4EE5;-pass-by-reference-to-const-&#x66FF;&#x6362;-pass-by-value" class="headerlink" title="&#x6761;&#x6B3E;20&#xFF1A;&#x5B81;&#x4EE5; pass-by-reference-to-const &#x66FF;&#x6362; pass-by-value"></a>&#x6761;&#x6B3E;20&#xFF1A;&#x5B81;&#x4EE5; pass-by-reference-to-const &#x66FF;&#x6362; pass-by-value</h3><blockquote>
+<p>这些问题并不是那么容易回答，在设计一个类型的时候尽量的去考虑这些问题能够更好地设计出一个易用合理的类型。</p>
+<h3><span id="条款20宁以-pass-by-reference-to-const-替换-pass-by-value">条款20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></h3><blockquote>
 <ul>
-<li>&#x5C3D;&#x91CF;&#x4EE5;pass-by-reference-to-const &#x66FF;&#x6362; pass-by-value&#x3002;&#x524D;&#x8005;&#x901A;&#x5E38;&#x6BD4;&#x8F83;&#x641E;&#x7B11;&#xFF0C;&#x5E76;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x5207;&#x5272;&#x95EE;&#x9898;&#xFF08;slicing problem&#xFF09;&#x3002;</li>
-<li>&#x4EE5;&#x4E0A;&#x89C4;&#x5219;&#x5E76;&#x4E0D;&#x9002;&#x7528;&#x4E8E;&#x5185;&#x7F6E;&#x7C7B;&#x578B;&#xFF0C;&#x4EE5;&#x53CA;STL&#x7684;&#x8FED;&#x4EE3;&#x5668;&#x548C;&#x51FD;&#x6570;&#x5BF9;&#x8C61;&#x3002;&#x5BF9;&#x4E8E;&#x5B83;&#x4EEC;&#x800C;&#x8A00;&#xFF0C;pass-by-value&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x9002;&#x5F53;&#x3002;</li>
+<li>尽量以pass-by-reference-to-const 替换 pass-by-value。前者通常比较搞笑，并可以避免切割问题（slicing problem）。</li>
+<li>以上规则并不适用于内置类型，以及STL的迭代器和函数对象。对于它们而言，pass-by-value往往比较适当。</li>
 </ul>
 </blockquote>
-<p>C++&#x9ED8;&#x8BA4;&#x7684;&#x4F20;&#x9012;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#x662F;by-value&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5F53;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x6709;&#x5F88;&#x591A;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x6216;&#x8005;&#x6709;&#x5F88;&#x6DF1;&#x7684;&#x7EE7;&#x627F;&#x7ED3;&#x6784;&#x3002;&#x90A3;&#x4E48;&#x5BF9;&#x4E8E;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x6784;&#x9020;&#x548C;&#x9500;&#x6BC1;&#x4F1A;&#x5E26;&#x6765;&#x5F88;&#x5927;&#x7684;&#x5F00;&#x9500;&#x3002;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x7528;pass by reference&#x7684;&#x65B9;&#x5F0F;&#x5C31;&#x80FD;&#x591F;&#x8282;&#x7701;&#x4E0B;&#x8FD9;&#x79CD;&#x5F00;&#x59CB;&#x3002;&#x52A0;&#x4E0A;const&#x662F;&#x907F;&#x514D;&#x5BF9;&#x4F20;&#x5165;&#x7684;&#x53C2;&#x6570;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x3002;</p>
-<p>Pass by value&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x5C31;&#x662F;&#x5BF9;&#x8C61;&#x5207;&#x5272;&#x7684;&#x95EE;&#x9898;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x5B50;&#x7C7B;&#x5BF9;&#x8C61;&#x4EE5;pass-by-value&#x7684;&#x5F62;&#x5F0F;&#x4F20;&#x9012;&#x5230;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x4E2D;&#x6765;&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x7684;&#x5BF9;&#x8C61;&#x5C06;&#x4F1A;&#x88AB;&#x5207;&#x5272;&#x800C;&#x5931;&#x53BB;&#x5B50;&#x7C7B;&#x7279;&#x6709;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#xFF0C;&#x800C;&#x4E14;&#x540C;&#x65F6;&#x4E5F;&#x4F1A;&#x5931;&#x53BB;&#x591A;&#x6001;&#x6027;&#x3002;pass-by-reference&#x53EF;&#x4EE5;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x56E0;&#x4E3A;reference&#x5F80;&#x5F80;&#x4EE5;&#x6307;&#x9488;&#x5B9E;&#x73B0;&#xFF0C;&#x6240;&#x4EE5;&#x622A;&#x65AD;&#x5BF9;&#x8C61;&#x4E5F;&#x540C;&#x65F6;&#x4F1A;&#x4FDD;&#x6709;&#x591A;&#x6001;&#x6027;&#x3002;</p>
-<p>&#x51B3;&#x5B9A;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;pass by value&#x8FD8;&#x662F;pass by reference&#x7684;&#x4F9D;&#x636E;&#x4E0D;&#x662F;&#x7B80;&#x5355;&#x5730;&#x7C7B;&#x578B;&#x7684;&#x6210;&#x5458;&#x6570;&#x91CF;&#xFF0C;&#x8FD8;&#x8981;&#x8003;&#x8651;&#x8FD9;&#x4E2A;&#x7C7B;&#x578B;&#x5728;&#x62F7;&#x8D1D;&#x7684;&#x65F6;&#x5019;&#x662F;&#x5426;&#x4F1A;&#x505A;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x6602;&#x8D35;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
-<p>&#x6709;&#x4E00;&#x4E9B;&#x4F8B;&#x5916;&#xFF0C;&#x5373;&#x5185;&#x7F6E;&#x7C7B;&#x578B;&#xFF0C;&#x4EE5;&#x53CA;STL&#x7684;&#x8FED;&#x4EE3;&#x5668;&#x548C;&#x51FD;&#x6570;&#x5BF9;&#x8C61;&#x3002;&#x9664;&#x6B64;&#x4E4B;&#x5916; pass-by-reference-to-const &#x4F18;&#x4E8E; pass-by-value&#x3002;</p>
-<h3 id="&#x6761;&#x6B3E;21&#x5FC5;&#x987B;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x662F;&#x522B;&#x5984;&#x60F3;&#x8FD4;&#x56DE;&#x5176;reference"><a href="#&#x6761;&#x6B3E;21&#xFF1A;&#x5FC5;&#x987B;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x662F;&#xFF0C;&#x522B;&#x5984;&#x60F3;&#x8FD4;&#x56DE;&#x5176;reference" class="headerlink" title="&#x6761;&#x6B3E;21&#xFF1A;&#x5FC5;&#x987B;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x662F;&#xFF0C;&#x522B;&#x5984;&#x60F3;&#x8FD4;&#x56DE;&#x5176;reference"></a>&#x6761;&#x6B3E;21&#xFF1A;&#x5FC5;&#x987B;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x662F;&#xFF0C;&#x522B;&#x5984;&#x60F3;&#x8FD4;&#x56DE;&#x5176;reference</h3><blockquote>
+<p>C++默认的传递对象的方法是by-value的方式，当一个对象有很多的成员变量或者有很深的继承结构。那么对于这个对象的构造和销毁会带来很大的开销。这种情况下用pass by reference的方式就能够节省下这种开始。加上const是避免对传入的参数进行修改。</p>
+<p>Pass by value的另一个问题就是对象切割的问题。如果一个子类对象以pass-by-value的形式传递到一个函数中来，那么它的对象将会被切割而失去子类特有的成员变量，而且同时也会失去多态性。pass-by-reference可以解决这个问题，因为reference往往以指针实现，所以截断对象也同时会保有多态性。</p>
+<p>决定一个对象pass by value还是pass by reference的依据不是简单地类型的成员数量，还要考虑这个类型在拷贝的时候是否会做一些比较昂贵的操作。</p>
+<p>有一些例外，即内置类型，以及STL的迭代器和函数对象。除此之外 pass-by-reference-to-const 优于 pass-by-value。</p>
+<h3><span id="条款21必须返回对象是别妄想返回其reference">条款21：必须返回对象是，别妄想返回其reference</span></h3><blockquote>
 <ul>
-<li>&#x7EDD;&#x4E0D;&#x8981;&#x8FD4;&#x56DE;pointer&#x6216;reference&#x6307;&#x5411;&#x4E00;&#x4E2A;local stack&#x5BF9;&#x8C61;&#xFF0C;&#x6216;&#x8FD4;&#x56DE;reference&#x6307;&#x5411;&#x4E00;&#x4E2A;heap-allocated&#x5BF9;&#x8C61;&#xFF0C;&#x6216;&#x8FD4;&#x56DE;pointer&#x6216;reference&#x6307;&#x5411;&#x4E00;&#x4E2A;local static&#x5BF9;&#x8C61;&#x800C;&#x6709;&#x53EF;&#x80FD;&#x540C;&#x65F6;&#x9700;&#x8981;&#x591A;&#x4E2A;&#x8FD9;&#x6837;&#x7684;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>绝不要返回pointer或reference指向一个local stack对象，或返回reference指向一个heap-allocated对象，或返回pointer或reference指向一个local static对象而有可能同时需要多个这样的对象。</li>
 </ul>
 </blockquote>
-<p>&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;pointer&#x6216;&#x8005;reference&#x6307;&#x5411;&#x4E00;&#x4E2A;local stack&#x5BF9;&#x8C61;&#x660E;&#x663E;&#x662F;&#x4E0D;&#x5408;&#x7406;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;local stack&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x5728;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x5DF2;&#x7ECF;&#x7ED3;&#x675F;&#x4E86;&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;&#x7684;&#x90A3;&#x4E2A;&#x6307;&#x9488;&#x6216;&#x8005;&#x5F15;&#x7528;&#x5C06;&#x4F1A;&#x6307;&#x5411;&#x4E00;&#x5757;&#x88AB;&#x9500;&#x6BC1;&#x7684;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x3002;</p>
-<p>&#x6307;&#x5411;&#x4E00;&#x4E2A;heap-allocated&#x7684;&#x5BF9;&#x8C61;&#x4E5F;&#x662F;&#x4E0D;&#x5408;&#x7406;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x4F60;&#x628A;&#x9500;&#x6BC1;&#x5BF9;&#x8C61;&#x7684;&#x4EFB;&#x52A1;&#x79FB;&#x4EA4;&#x7ED9;&#x4E86;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x7684;&#x4EBA;&#xFF0C;&#x5F88;&#x591A;&#x60C5;&#x51B5;&#x4E0B;&#x4EBA;&#x4EEC;&#x4F1A;&#x5FD8;&#x8BB0;&#x3002;&#x6216;&#x8005;&#x8BF4;&#x6240;&#x5199;&#x7684;&#x4EE3;&#x7801;&#x5E76;&#x6CA1;&#x6709;&#x8BA9;&#x4ED6;&#x6709;&#x673A;&#x4F1A;&#x53BB;&#x9500;&#x6BC1;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const Rational&amp; operator * (const Rational&amp; lhs,</span><br><span class="line">							const Rational&amp; rhs) {</span><br><span class="line">	...</span><br><span class="line">	return *result;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">Rational w, x, y, z;</span><br><span class="line">w = x * y * z;</span><br></pre></td></tr></table></figure>
-<p>&#x53EA;&#x6709;&#x5728;&#x7C7B;&#x4F3C;&#x4E8E;&#x5355;&#x4F8B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;reference&#x6307;&#x5411;&#x4E00;&#x4E2A;static&#x7684;&#x5BF9;&#x8C61;&#x662F;&#x5408;&#x7406;&#x7684;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#x6761;&#x6B3E;4&#x4E2D;FileSystem&#x7684;&#x4F8B;&#x5B50;&#x3002;</p>
-<h3 id="&#x6761;&#x6B3E;22&#x5C06;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x4E3A;private"><a href="#&#x6761;&#x6B3E;22&#xFF1A;&#x5C06;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x4E3A;private" class="headerlink" title="&#x6761;&#x6B3E;22&#xFF1A;&#x5C06;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x4E3A;private"></a>&#x6761;&#x6B3E;22&#xFF1A;&#x5C06;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x4E3A;private</h3><blockquote>
+<p>返回一个pointer或者reference指向一个local stack对象明显是不合理的，因为local stack的生命周期在函数返回的时候就已经结束了，那么返回的那个指针或者引用将会指向一块被销毁的对象的内存。</p>
+<p>指向一个heap-allocated的对象也是不合理的，因为你把销毁对象的任务移交给了使用函数的人，很多情况下人们会忘记。或者说所写的代码并没有让他有机会去销毁这个对象。比如说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const Rational&amp; operator * (const Rational&amp; lhs,</span><br><span class="line">							const Rational&amp; rhs) &#123;</span><br><span class="line">	...</span><br><span class="line">	return *result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Rational w, x, y, z;</span><br><span class="line">w = x * y * z;</span><br></pre></td></tr></table></figure>
+<p>只有在类似于单例的情况下，返回一个reference指向一个static的对象是合理的。比如说条款4中FileSystem的例子。</p>
+<h3><span id="条款22将成员变量声明为private">条款22：将成员变量声明为private</span></h3><blockquote>
 <ul>
-<li>&#x5207;&#x8BB0;&#x5C06;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x4E3A;private&#xFF0C;&#x8FD9;&#x53EF;&#x8D4B;&#x4E88;&#x5BA2;&#x6237;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x3001;&#x53EF;&#x7EC6;&#x5FAE;&#x5212;&#x5206;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#x3001;&#x5141;&#x8BFA;&#x7EA6;&#x675F;&#x6761;&#x4EF6;&#x83B7;&#x5F97;&#x4FDD;&#x8BC1;&#xFF0C;&#x5E76;&#x63D0;&#x4F9B;class&#x4F5C;&#x8005;&#x4EE5;&#x5145;&#x5206;&#x7684;&#x5B9E;&#x73B0;&#x5F39;&#x6027;&#x3002;</li>
-<li>protected &#x5E76;&#x4E0D;&#x6BD4;public&#x66F4;&#x5177;&#x5C01;&#x88C5;&#x6027;&#x3002;</li>
+<li>切记将成员变量声明为private，这可赋予客户访问数据的一致性、可细微划分访问控制、允诺约束条件获得保证，并提供class作者以充分的实现弹性。</li>
+<li>protected 并不比public更具封装性。</li>
 </ul>
 </blockquote>
-<p><strong>&#x4E3A;&#x4EC0;&#x4E48;public&#x4E0D;&#x597D;&#xFF1F;</strong></p>
-<p>public&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x7834;&#x574F;&#x4E86;&#x7C7B;&#x7684;&#x5C01;&#x88C5;&#x6027;&#xFF0C;&#x5B83;&#x5C06;&#x6210;&#x5458;&#x76F4;&#x63A5;&#x66B4;&#x9732;&#x7ED9;&#x5BA2;&#x6237;&#xFF0C;&#x90A3;&#x4E48;&#x5728;&#x672A;&#x6765;&#x4FEE;&#x6539;&#x5B57;&#x6BB5;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4F1A;&#x5F71;&#x54CD;&#x5230;&#x4F7F;&#x7528;&#x8005;&#x3002;</p>
-<p><strong>&#x4E3A;&#x4EC0;&#x4E48;protected&#x4E5F;&#x4E0D;&#x597D;&#xFF1F;</strong></p>
-<p>&#x6709;&#x4E00;&#x4E2A;&#x539F;&#x5219;&#xFF0C;&#x5373;<em>&#x67D0;&#x4E9B;&#x4E1C;&#x897F;&#x7684;&#x5C01;&#x88C5;&#x6027;&#x4E0E;&#x201C;&#x5176;&#x5185;&#x5BB9;&#x6539;&#x53D8;&#x65F6;&#x53EF;&#x80FD;&#x9020;&#x6210;&#x7684;&#x4EE3;&#x7801;&#x7834;&#x574F;&#x91CF;&#x201D;&#x6210;&#x53CD;&#x6BD4;&#x3002;</em>&#x5982;&#x679C;&#x4ECE;&#x8FD9;&#x4E2A;&#x539F;&#x5219;&#x51FA;&#x53D1;&#x7684;&#x8BDD;&#xFF0C;protected&#x867D;&#x7136;&#x6BD4;public&#x597D;&#xFF0C;&#x4F46;&#x662F;&#x4E5F;&#x5E76;&#x6CA1;&#x6709;&#x597D;&#x592A;&#x591A;&#x3002;&#x56E0;&#x4E3A;&#x5982;&#x679C;&#x8BF4;&#x4F60;&#x8FD9;&#x4E2A;&#x7C7B;&#x578B;&#x662F;&#x5BF9;&#x5916;&#x66B4;&#x9732;&#x7684;&#xFF0C;&#x4F60;&#x4E0D;&#x80FD;&#x963B;&#x6B62;&#x7528;&#x6237;&#x7EE7;&#x627F;&#x4F60;&#x8FD9;&#x4E2A;&#x7C7B;&#x578B;&#xFF0C;&#x7136;&#x540E;&#x53BB;&#x8BBF;&#x95EE;&#x5176;&#x4E2D;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#xFF08;C++&#x6682;&#x65F6;&#x6CA1;&#x6709;&#x7C7B;&#x4F3C;&#x4E8E;final class&#x7684;&#x6982;&#x5FF5;&#xFF09;&#x3002;&#x6240;&#x4EE5;&#x8BF4;protected&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x4E5F;&#x4E0D;&#x597D;&#x3002;</p>
+<p><strong>为什么public不好？</strong></p>
+<p>public的成员变量破坏了类的封装性，它将成员直接暴露给客户，那么在未来修改字段的时候就会影响到使用者。</p>
+<p><strong>为什么protected也不好？</strong></p>
+<p>有一个原则，即<em>某些东西的封装性与“其内容改变时可能造成的代码破坏量”成反比。</em>如果从这个原则出发的话，protected虽然比public好，但是也并没有好太多。因为如果说你这个类型是对外暴露的，你不能阻止用户继承你这个类型，然后去访问其中的成员变量（C++暂时没有类似于final class的概念）。所以说protected的成员变量也不好。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -193,7 +187,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/09/06/effective-cpp-reading-notes-5/" data-title="《Effective C++》读书笔记(5) | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/09/06/effective-cpp-reading-notes-5/" data-title="《Effective C++》读书笔记(5) | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -239,7 +233,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-设计与声明"><span class="toc-number">1.</span> <span class="toc-text">4. 设计与声明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款18让接口容易被使用不易被误用"><span class="toc-number">1.1.</span> <span class="toc-text">条款18：让接口容易被使用，不易被误用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款19设计class犹如设计type"><span class="toc-number">1.2.</span> <span class="toc-text">条款19：设计class犹如设计type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款20宁以-pass-by-reference-to-const-替换-pass-by-value"><span class="toc-number">1.3.</span> <span class="toc-text">条款20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款21必须返回对象是别妄想返回其reference"><span class="toc-number">1.4.</span> <span class="toc-text">条款21：必须返回对象是，别妄想返回其reference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款22将成员变量声明为private"><span class="toc-number">1.5.</span> <span class="toc-text">条款22：将成员变量声明为private</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">4. 设计与声明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款18：让接口容易被使用，不易被误用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款19：设计class犹如设计type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.4.</span> <span class="toc-text">条款21：必须返回对象是，别妄想返回其reference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.5.</span> <span class="toc-text">条款22：将成员变量声明为private</span></a></li></ol></li></ol>
  
   </div>
 
@@ -326,7 +320,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -334,15 +332,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -362,15 +356,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -395,9 +389,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -426,7 +417,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

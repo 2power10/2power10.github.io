@@ -11,16 +11,18 @@
     
 
     
-    <meta name="description" content="&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&amp;#x5207;&amp;#x6362;&amp;#x5230;mac&amp;#x4E0B;&amp;#x5DE5;&amp;#x4F5C;&amp;#x6709;&amp;#x4E00;&amp;#x6BB5;&amp;#x65F6;&amp;#x95F4;&amp;#x4E86;&amp;#xFF0C;&amp;#x96BE;&amp;#x514D;&amp;#x8981;&amp;#x5728;&amp;#x7EC8;&amp;#x7A">
+    <meta name="description" content="干嘛要学命令切换到mac下工作有一段时间了，难免要在终端中做一下操作，目前掌握的一些比较简单的命令行有时已经难以驾驭一些比较复杂的操作了。有必要系统得过一遍主要的一些命令。 除了装逼意外，命令行还在有很多好处：  打字的速度和准确性远远高于鼠标，频繁的切换鼠标和键盘是一件挺麻烦的事情。 命令行可以写成脚本自动化一些操作，懒人的福音。 在一些服务器的环境下只能使用命令行。  如何学命令Learnin">
+<meta name="keywords" content="shell,mac,terminal">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac/Linux 命令学习">
+<meta property="og:title" content="Mac&#x2F;Linux 命令学习">
 <meta property="og:url" content="http://zhengyi.me/2016/05/23/learning-shell-in-mac/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&amp;#x5207;&amp;#x6362;&amp;#x5230;mac&amp;#x4E0B;&amp;#x5DE5;&amp;#x4F5C;&amp;#x6709;&amp;#x4E00;&amp;#x6BB5;&amp;#x65F6;&amp;#x95F4;&amp;#x4E86;&amp;#xFF0C;&amp;#x96BE;&amp;#x514D;&amp;#x8981;&amp;#x5728;&amp;#x7EC8;&amp;#x7A">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="干嘛要学命令切换到mac下工作有一段时间了，难免要在终端中做一下操作，目前掌握的一些比较简单的命令行有时已经难以驾驭一些比较复杂的操作了。有必要系统得过一遍主要的一些命令。 除了装逼意外，命令行还在有很多好处：  打字的速度和准确性远远高于鼠标，频繁的切换鼠标和键盘是一件挺麻烦的事情。 命令行可以写成脚本自动化一些操作，懒人的福音。 在一些服务器的环境下只能使用命令行。  如何学命令Learnin">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-06-06T13:45:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac/Linux 命令学习">
-<meta name="twitter:description" content="&amp;#x5E72;&amp;#x561B;&amp;#x8981;&amp;#x5B66;&amp;#x547D;&amp;#x4EE4;&amp;#x5207;&amp;#x6362;&amp;#x5230;mac&amp;#x4E0B;&amp;#x5DE5;&amp;#x4F5C;&amp;#x6709;&amp;#x4E00;&amp;#x6BB5;&amp;#x65F6;&amp;#x95F4;&amp;#x4E86;&amp;#xFF0C;&amp;#x96BE;&amp;#x514D;&amp;#x8981;&amp;#x5728;&amp;#x7EC8;&amp;#x7A">
+<meta name="twitter:title" content="Mac&#x2F;Linux 命令学习">
+<meta name="twitter:description" content="干嘛要学命令切换到mac下工作有一段时间了，难免要在终端中做一下操作，目前掌握的一些比较简单的命令行有时已经难以驾驭一些比较复杂的操作了。有必要系统得过一遍主要的一些命令。 除了装逼意外，命令行还在有很多好处：  打字的速度和准确性远远高于鼠标，频繁的切换鼠标和键盘是一件挺麻烦的事情。 命令行可以写成脚本自动化一些操作，懒人的福音。 在一些服务器的环境下只能使用命令行。  如何学命令Learnin">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -57,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -100,41 +100,41 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#干嘛要学命令"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何学命令"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小技巧"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#每日一贴"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录操作"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本操作过滤器"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">4.5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">4.6.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.6.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;"><a href="#&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;" class="headerlink" title="&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;"></a>&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;</h2><p>&#x5207;&#x6362;&#x5230;mac&#x4E0B;&#x5DE5;&#x4F5C;&#x6709;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x4E86;&#xFF0C;&#x96BE;&#x514D;&#x8981;&#x5728;&#x7EC8;&#x7AEF;&#x4E2D;&#x505A;&#x4E00;&#x4E0B;&#x64CD;&#x4F5C;&#xFF0C;&#x76EE;&#x524D;&#x638C;&#x63E1;&#x7684;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x6709;&#x65F6;&#x5DF2;&#x7ECF;&#x96BE;&#x4EE5;&#x9A7E;&#x9A6D;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#x7684;&#x64CD;&#x4F5C;&#x4E86;&#x3002;&#x6709;&#x5FC5;&#x8981;&#x7CFB;&#x7EDF;&#x5F97;&#x8FC7;&#x4E00;&#x904D;&#x4E3B;&#x8981;&#x7684;&#x4E00;&#x4E9B;&#x547D;&#x4EE4;&#x3002;</p>
-<p>&#x9664;&#x4E86;&#x88C5;&#x903C;&#x610F;&#x5916;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x8FD8;&#x5728;&#x6709;&#x5F88;&#x591A;&#x597D;&#x5904;&#xFF1A;</p>
+		<h2><span id="干嘛要学命令">干嘛要学命令</span></h2><p>切换到mac下工作有一段时间了，难免要在终端中做一下操作，目前掌握的一些比较简单的命令行有时已经难以驾驭一些比较复杂的操作了。有必要系统得过一遍主要的一些命令。</p>
+<p>除了装逼意外，命令行还在有很多好处：</p>
 <ol>
-<li>&#x6253;&#x5B57;&#x7684;&#x901F;&#x5EA6;&#x548C;&#x51C6;&#x786E;&#x6027;&#x8FDC;&#x8FDC;&#x9AD8;&#x4E8E;&#x9F20;&#x6807;&#xFF0C;&#x9891;&#x7E41;&#x7684;&#x5207;&#x6362;&#x9F20;&#x6807;&#x548C;&#x952E;&#x76D8;&#x662F;&#x4E00;&#x4EF6;&#x633A;&#x9EBB;&#x70E6;&#x7684;&#x4E8B;&#x60C5;&#x3002;</li>
-<li>&#x547D;&#x4EE4;&#x884C;&#x53EF;&#x4EE5;&#x5199;&#x6210;&#x811A;&#x672C;&#x81EA;&#x52A8;&#x5316;&#x4E00;&#x4E9B;&#x64CD;&#x4F5C;&#xFF0C;&#x61D2;&#x4EBA;&#x7684;&#x798F;&#x97F3;&#x3002;</li>
-<li>&#x5728;&#x4E00;&#x4E9B;&#x670D;&#x52A1;&#x5668;&#x7684;&#x73AF;&#x5883;&#x4E0B;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x3002;</li>
+<li>打字的速度和准确性远远高于鼠标，频繁的切换鼠标和键盘是一件挺麻烦的事情。</li>
+<li>命令行可以写成脚本自动化一些操作，懒人的福音。</li>
+<li>在一些服务器的环境下只能使用命令行。</li>
 </ol>
-<h2 id="&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;"><a href="#&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;" class="headerlink" title="&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;"></a>&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;</h2><p>Learning by doing &#x662F;&#x6700;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x5BF9;&#x8FD9;&#x79CD;&#x5B9E;&#x7528;&#x6027;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x4E0D;&#x52A8;&#x52A8;&#x624B;&#x662F;&#x7EDD;&#x5BF9;&#x4E0D;&#x884C;&#x7684;&#x3002;&#x6211;&#x89C9;&#x5F97;&#x5B66;&#x4E60;&#x547D;&#x4EE4;&#x884C;&#x6BD4;&#x8F83;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#xFF1A;</p>
+<h2><span id="如何学命令">如何学命令</span></h2><p>Learning by doing 是最好的方式，特别是对这种实用性的东西，不动动手是绝对不行的。我觉得学习命令行比较好的方式是：</p>
 <ol>
-<li>&#x901A;&#x8BFB;&#x4E00;&#x904D;man&#xFF0C;&#x77E5;&#x9053;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x80FD;&#x591F;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x5373;&#x4F7F;&#x8BB0;&#x4E0D;&#x4F4F;&#x4E5F;&#x6CA1;&#x5173;&#x7CFB;&#xFF0C;&#x81F3;&#x5C11;&#x77E5;&#x9053;&#x53EF;&#x4EE5;&#x505A;&#xFF0C;&#x7B49;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x518D;&#x770B;&#x5177;&#x4F53;&#x7684;&#x7EC6;&#x8282;&#x4E5F;&#x4E0D;&#x8FDF;&#x3002;&#x7EC8;&#x7AEF;&#x4E0B;&#x7684;man&#x4E0D;&#x65B9;&#x4FBF;&#x9605;&#x8BFB;&#x7684;&#x8BDD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;Dash&#x7B49;&#x5DE5;&#x5177;&#x6765;&#x9605;&#x8BFB;&#x3002;</li>
-<li>&#x5BF9;&#x4E8E;&#x5E73;&#x65F6;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x7684;&#xFF0C;&#x81EA;&#x5DF1;&#x52A8;&#x624B;&#x6572;&#x4E00;&#x904D;&#x770B;&#x770B;&#x6548;&#x679C;&#x3002;</li>
-<li>&#x8BBE;&#x60F3;&#x51E0;&#x4E2A;&#x53EF;&#x80FD;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x7136;&#x540E;&#x5229;&#x7528;&#x547D;&#x4EE4;&#x6765;&#x5B8C;&#x6210;&#x8FD9;&#x4E9B;&#x4EFB;&#x52A1;&#x3002;&#x4EE5;&#x540E;&#x78B0;&#x5230;&#x8FD9;&#x51E0;&#x4E2A;&#x573A;&#x666F;&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x67E5;&#x9605;&#x56DE;&#x5FC6;&#x3002;</li>
+<li>通读一遍man，知道一个命令能够做的事情，即使记不住也没关系，至少知道可以做，等需要的时候再看具体的细节也不迟。终端下的man不方便阅读的话可以通过Dash等工具来阅读。</li>
+<li>对于平时可能用到的，自己动手敲一遍看看效果。</li>
+<li>设想几个可能比较常用的场景，然后利用命令来完成这些任务。以后碰到这几个场景的时候可以查阅回忆。</li>
 </ol>
-<p>&#x7B2C;&#x4E09;&#x70B9;&#x5176;&#x5B9E;&#x662F;&#x501F;&#x9274;&#x4E86;<a href="https://github.com/tldr-pages/tldr" target="_blank" rel="external">tldr</a>&#xFF08;too long don&#x2019;t read&#xFF09;&#x5177;&#xFF0C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5316;&#x7248;&#x7684;man&#x3002;</p>
-<p>Mac 10.3+ &#x7CFB;&#x7EDF;&#x4E0B;&#x9ED8;&#x8BA4;&#x7684;shell&#x662F;bash<sup>[1]</sup>&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x547D;&#x4EE4;&#x7684;&#x6548;&#x679C;&#x548C;linux&#x4E0B;&#x9762;&#x76F8;&#x540C;&#xFF0C;&#x67D0;&#x4E00;&#x4E9B;&#x547D;&#x4EE4;&#x7684;&#x5177;&#x4F53;&#x53C2;&#x6570;&#x548C;&#x884C;&#x4E3A;&#x6709;&#x6240;&#x5DEE;&#x5F02;&#x3002;</p>
-<h2 id="&#x5C0F;&#x6280;&#x5DE7;"><a href="#&#x5C0F;&#x6280;&#x5DE7;" class="headerlink" title="&#x5C0F;&#x6280;&#x5DE7;"></a>&#x5C0F;&#x6280;&#x5DE7;</h2><h2 id="&#x6BCF;&#x65E5;&#x4E00;&#x8D34;"><a href="#&#x6BCF;&#x65E5;&#x4E00;&#x8D34;" class="headerlink" title="&#x6BCF;&#x65E5;&#x4E00;&#x8D34;"></a>&#x6BCF;&#x65E5;&#x4E00;&#x8D34;</h2><h3 id="&#x76EE;&#x5F55;&#x64CD;&#x4F5C;"><a href="#&#x76EE;&#x5F55;&#x64CD;&#x4F5C;" class="headerlink" title="&#x76EE;&#x5F55;&#x64CD;&#x4F5C;"></a>&#x76EE;&#x5F55;&#x64CD;&#x4F5C;</h3><ul>
-<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>  - <em>2016&#x5E74;5&#x6708;24&#x53F7;</em></li>
-<li><a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="cat,pushd,popd">cat,pushd,popd</a> - <em>2016&#x5E74;6&#x6708;2&#x53F7;</em></li>
+<p>第三点其实是借鉴了<a href="https://github.com/tldr-pages/tldr" target="_blank" rel="external">tldr</a>（too long don’t read）具，可以理解成是一个简化版的man。</p>
+<p>Mac 10.3+ 系统下默认的shell是bash<sup>[1]</sup>，大部分命令的效果和linux下面相同，某一些命令的具体参数和行为有所差异。</p>
+<h2><span id="小技巧">小技巧</span></h2><h2><span id="每日一贴">每日一贴</span></h2><h3><span id="目录操作">目录操作</span></h3><ul>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>  - <em>2016年5月24号</em></li>
+<li><a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="cat,pushd,popd">cat,pushd,popd</a> - <em>2016年6月2号</em></li>
 </ul>
-<h3 id="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"><a href="#&#x6587;&#x4EF6;&#x64CD;&#x4F5C;" class="headerlink" title="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"></a>&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</h3><ul>
-<li><a href="/2016/05/25/learning-shell-in-mac-cp/" title="cp">cp</a>  - <em>2016&#x5E74;5&#x6708;25&#x53F7;</em></li>
-<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="cat">cat</a>  - <em>2016&#x5E74;5&#x6708;30&#x53F7;</em></li>
-<li><a href="/2016/06/02/learning-shell-chflags/" title="chflags">chflags</a> - <em>2016&#x5E74;6&#x6708;2&#x53F7;</em></li>
+<h3><span id="文件操作">文件操作</span></h3><ul>
+<li><a href="/2016/05/25/learning-shell-in-mac-cp/" title="cp">cp</a>  - <em>2016年5月25号</em></li>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="cat">cat</a>  - <em>2016年5月30号</em></li>
+<li><a href="/2016/06/02/learning-shell-chflags/" title="chflags">chflags</a> - <em>2016年6月2号</em></li>
 <li>ln</li>
-<li><a href="/2016/06/03/learning-shell-rm-mv-mkdir/" title="rm,mv,mkdir">rm,mv,mkdir</a> - <em>2016&#x5E74;6&#x6708;3&#x53F7;</em></li>
+<li><a href="/2016/06/03/learning-shell-rm-mv-mkdir/" title="rm,mv,mkdir">rm,mv,mkdir</a> - <em>2016年6月3号</em></li>
 <li>find</li>
 </ul>
-<h3 id="&#x6587;&#x672C;&#x64CD;&#x4F5C;&#x8FC7;&#x6EE4;&#x5668;"><a href="#&#x6587;&#x672C;&#x64CD;&#x4F5C;-&#x8FC7;&#x6EE4;&#x5668;" class="headerlink" title="&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;"></a>&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;</h3><ul>
+<h3><span id="文本操作过滤器">文本操作/过滤器</span></h3><ul>
 <li>sort</li>
 <li>uniq</li>
-<li><a href="/2016/06/06/learning-shell-grep/" title="grep">grep</a> - <em>2016&#x5E74;6&#x6708;6&#x53F7;</em></li>
+<li><a href="/2016/06/06/learning-shell-grep/" title="grep">grep</a> - <em>2016年6月6号</em></li>
 <li>fmt</li>
 <li>pr</li>
 <li>head</li>
@@ -143,20 +143,20 @@
 <li>sed</li>
 <li>awk</li>
 </ul>
-<h3 id="&#x8C03;&#x8BD5;"><a href="#&#x8C03;&#x8BD5;" class="headerlink" title="&#x8C03;&#x8BD5;"></a>&#x8C03;&#x8BD5;</h3><ul>
+<h3><span id="调试">调试</span></h3><ul>
 <li>dtruss</li>
 </ul>
-<h3 id="&#x5176;&#x4ED6;"><a href="#&#x5176;&#x4ED6;" class="headerlink" title="&#x5176;&#x4ED6;"></a>&#x5176;&#x4ED6;</h3><ul>
+<h3><span id="其他">其他</span></h3><ul>
 <li>xargs</li>
 </ul>
-<h3 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h3><ul>
-<li>&#x8F6F;&#x94FE;&#x63A5; vs &#x786C;&#x94FE;&#x63A5;</li>
+<h3><span id="相关概念">相关概念</span></h3><ul>
+<li>软链接 vs 硬链接</li>
 <li>File flag</li>
-<li><a href="/2016/05/31/unix-standard-input-output-redirection/" title="&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;&#xFF08;Redirection&#xFF09;">&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;&#xFF08;Redirection&#xFF09;</a> </li>
-<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="&#x901A;&#x914D;&#x7B26;">&#x901A;&#x914D;&#x7B26;</a> 
+<li><a href="/2016/05/31/unix-standard-input-output-redirection/" title="标准输入输出重定向（Redirection）">标准输入输出重定向（Redirection）</a> </li>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="通配符">通配符</a> 
 </li>
 </ul>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<h2><span id="参考资料">参考资料</span></h2><ol>
 <li><p><a href="http://stackoverflow.com/questions/8051145/what-are-the-differences-between-using-the-terminal-on-a-mac-vs-linux" target="_blank" rel="external">What are the differences between using the terminal on a mac vs linux?</a></p>
 </li>
 <li><p><a href="http://linuxcommand.org/index.php" target="_blank" rel="external">Linux Command</a></p>
@@ -184,7 +184,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/05/23/learning-shell-in-mac/" data-title="Mac/Linux 命令学习 | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/05/23/learning-shell-in-mac/" data-title="Mac/Linux 命令学习 | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -230,7 +230,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#干嘛要学命令"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何学命令"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小技巧"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#每日一贴"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目录操作"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本操作过滤器"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调试"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">4.5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">4.6.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">干嘛要学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">如何学命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">小技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">每日一贴</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.1.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.2.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.3.</span> <span class="toc-text">文本操作/过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.4.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.5.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.6.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
  
   </div>
 
@@ -317,7 +317,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -325,15 +329,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -353,15 +353,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -386,9 +386,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -417,7 +414,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

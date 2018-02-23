@@ -13,12 +13,13 @@
     
     <meta name="description" content="关于编程、技术、读书、思考的一些文字，以及一些我觉得有趣的东西。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="yi's weblog">
+<meta property="og:title" content="yi&#39;s weblog">
 <meta property="og:url" content="http://zhengyi.me/page/4/index.html">
-<meta property="og:site_name" content="yi's weblog">
+<meta property="og:site_name" content="yi&#39;s weblog">
 <meta property="og:description" content="关于编程、技术、读书、思考的一些文字，以及一些我觉得有趣的东西。">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="yi's weblog">
+<meta name="twitter:title" content="yi&#39;s weblog">
 <meta name="twitter:description" content="关于编程、技术、读书、思考的一些文字，以及一些我觉得有趣的东西。">
 
     
@@ -56,8 +57,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -98,21 +97,21 @@
 </header>
     <div class="article-content">
         
-        <h2 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h2><h3 id="symbolic-links"><a href="#Symbolic-links" class="headerlink" title="Symbolic links"></a>Symbolic links</h3><p>Symbolic links/soft links&#x53EF;&#x4EE5;<anchor>&#x7406;&#x89E3;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x5FEB;&#x6377;&#x65B9;&#x5F0F;</anchor>&#xFF0C;&#x8DDF;mac GUI&#x53F3;&#x51FB;&#x51FA;&#x6765;&#x7684;alias&#x6709;&#x7740;&#x5F88;&#x7C7B;&#x4F3C;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x662F;&#x6BD4;alias&#x8981;&#x66F4;&#x52A0;&#x7684;&#x5E95;&#x5C42;&#x4E00;&#x4E9B;&#x3002;Softlink &#x5373;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x4E5F;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x5939;&#x8FDB;&#x884C;&#x521B;&#x5EFA;&#x3002;</p>
-<p>&#x901A;&#x8FC7;<code>ln  -s target/file/or/dir link/path</code>&#x6765;&#x521B;&#x5EFA;&#x3002;&#x6211;&#x521B;&#x5EFA;&#x4E86;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x548C;&#x6587;&#x4EF6;&#x5939;&#x7684;softlink&#x548C;alias&#xFF0C;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x89C2;&#x5BDF;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;&#x3002;</p>
+        <h2><span id="相关概念">相关概念</span></h2><h3><span id="symbolic-links">Symbolic links</span></h3><p>Symbolic links/soft links可以<anchor>理解成为一个快捷方式</anchor>，跟mac GUI右击出来的alias有着很类似的功能，但是比alias要更加的底层一些。Softlink 即可以针对文件也可以针对文件夹进行创建。</p>
+<p>通过<code>ln  -s target/file/or/dir link/path</code>来创建。我创建了针对文件和文件夹的softlink和alias，通过命令可以观察它们之间的区别。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ ls -lo@</span><br><span class="line">total 3024</span><br><span class="line">-rwxr-xr-x  1 zhengyi    2723 May 24 08:20 build.sh</span><br><span class="line">-rw-r--r--@ 1 zhengyi  257136 May 25 20:49 build.sh.alias</span><br><span class="line">	com.apple.FinderInfo	     32 </span><br><span class="line">lrwxr-xr-x  1 zhengyi       8 May 25 20:49 build.sh.link -&gt; build.sh</span><br><span class="line">drwxr-xr-x  9 zhengyi     306 May 25 20:24 src</span><br><span class="line">-rw-r--r--@ 1 zhengyi 1268908 May 25 20:40 src_alias</span><br><span class="line">	com.apple.FinderInfo	     32 </span><br><span class="line">lrwxr-xr-x  1 zhengyi       4 May 25 20:39 src_link -&gt; src/</span><br></pre></td></tr></table></figure>
-<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;softlink&#x662F;&#x901A;&#x8FC7;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#x6765;&#x8BC6;&#x522B;&#x7684;&#xFF0C;&#x800C;alias&#x662F;&#x901A;&#x8FC7;&#x62D3;&#x5C55;&#x5C5E;&#x6027;&#x6765;&#x8FDB;&#x884C;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;alias&#x53EA;&#x6709;&#x5728;apple &#x7684;Finder&#x4E0B;&#x6709;&#x7528;&#xFF0C;&#x5728;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x4ED6;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x7684;&#x6587;&#x4EF6;&#x3002;    </p>
-<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x94FE;&#x63A5;&#x5230;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;alias&#x56E0;&#x4E3A;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x81EA;&#x7136;&#x4E0D;&#x80FD;&#x591F;cd&#x8FDB;&#x53BB;&#xFF0C;&#x800C;softlink&#x662F;&#x53EF;&#x4EE5;cd&#x8FDB;&#x53BB;&#x7684;&#x3002;</p>
-<h3 id="hard-link"><a href="#Hard-link" class="headerlink" title="Hard link"></a>Hard link</h3><p>&#x4E0E;softlink&#x76F8;&#x5BF9;&#x5E94;&#xFF0C;&#x4E0E;softlink&#x4E0D;&#x540C;&#xFF0C;hardlink&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x201C;&#x5FEB;&#x6377;&#x65B9;&#x5F0F;&#x201D;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x4E2A;&#x771F;&#x5B9E;&#x5B58;&#x5728;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x78C1;&#x76D8;&#x4E0A;&#x4E00;&#x5757;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x6211;&#x4EEC;&#x5728;&#x7EC8;&#x7AEF;&#x548C;GUI&#x770B;&#x5230;&#x7684;&#x201C;&#x6587;&#x4EF6;&#x201D;&#x53EA;&#x662F;&#x6307;&#x5411;&#x4E86;&#x90A3;&#x5757;&#x5185;&#x5B58;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x201D;&#x6587;&#x4EF6;&#x201D;&#x6307;&#x5411;&#x540C;&#x4E00;&#x5757;&#x5185;&#x5B58;&#x3002;&#x8FD9;&#x5C31;&#x662F;hardlink&#x5E72;&#x7684;&#x4E8B;&#x60C5;&#x3002;hardlink&#x662F;&#x4E0D;&#x5141;&#x8BB8;&#x9488;&#x5BF9;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x521B;&#x5EFA;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x6837;&#x4F1A;&#x7834;&#x574F;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x7ED3;&#x6784;&#x3002;</p>
-<h2 id="&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>&#x5E38;&#x7528;&#x53C2;&#x6570;</h2><p><code>-f</code> - &#x5C06;&#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4E0D;&#x505A;&#x63D0;&#x793A;&#x3002;<br><code>-n</code> - &#x4E0D;&#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x3002;<br><code>-r</code> - &#x8FD9;&#x4E2A;&#x662F;<anchor>&#x5386;&#x53F2;&#x7248;&#x672C;&#x7684;&#x9012;&#x5F52;&#x62F7;&#x8D1D;</anchor>&#xFF0C;&#x4E0D;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x3002;<br><code>-R</code> - &#x5982;&#x679C;&#x6E90;&#x6587;&#x4EF6;&#x662F;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;&#x9012;&#x5F52;&#x62F7;&#x8D1D;&#x5230;&#x76EE;&#x6807;&#x8DEF;&#x5F84;&#x3002;&#x5982;&#x679C;&#x6E90;&#x6587;&#x4EF6;&#x4EE5;<code>/</code>&#x7ED3;&#x5C3E;&#xFF0C;&#x90A3;&#x4E48;&#x6E90;&#x6587;&#x4EF6;&#x5939;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x5C06;&#x88AB;&#x62F7;&#x8D1D;&#x5230;&#x76EE;&#x6807;&#x8DEF;&#x5F84;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x6307;&#x5B9A;&#x5219;&#x662F;&#x62F7;&#x8D1D;&#x6574;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#x3002;<br><code>-H</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x4FDD;&#x6301;&#x539F;&#x6709;&#x7684;softlink&#x3002;<br><code>-P</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x4FDD;&#x6301;&#x539F;&#x6709;&#x7684;softlink&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x9012;&#x5F52;&#x62F7;&#x8D1D;&#x7684;&#x65F6;&#x5019;&#x9ED8;&#x8BA4;&#x7684;&#x9009;&#x9879;&#x3002;<br><code>-v</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x6253;&#x5370;&#x51FA;&#x6240;&#x6709;&#x88AB;&#x62F7;&#x8D1D;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-p</code> - &#x5C06;&#x4FDD;&#x62A4;&#x539F;&#x59CB;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x3001;&#x8BBF;&#x95EE;&#x65F6;&#x95F4;&#x3001;flie flag&#xFF0C;&#x6587;&#x4EF6;&#x6A21;&#x5F0F;&#x7B49;&#x4FE1;&#x606F;&#x3002;</p>
-<h2 id="&#x5177;&#x4F53;&#x573A;&#x666F;"><a href="#&#x5177;&#x4F53;&#x573A;&#x666F;" class="headerlink" title="&#x5177;&#x4F53;&#x573A;&#x666F;"></a>&#x5177;&#x4F53;&#x573A;&#x666F;</h2><p><strong>&#x62F7;&#x8D1D;&#x5355;&#x4E2A;&#x6587;&#x4EF6;</strong></p>
+<p>我们可以看到softlink是通过文件信息来识别的，而alias是通过拓展属性来进行实现的，也就是说alias只有在apple 的Finder下有用，在其他地方他就是一个普通的文件。    </p>
+<p>如果我们链接到一个目录的话，alias因为是一个文件自然不能够cd进去，而softlink是可以cd进去的。</p>
+<h3><span id="hard-link">Hard link</span></h3><p>与softlink相对应，与softlink不同，hardlink不是一个“快捷方式”，而是一个真实存在的文件。文件可以理解成磁盘上一块内存，而我们在终端和GUI看到的“文件”只是指向了那块内存，所以我们可以有多个”文件”指向同一块内存。这就是hardlink干的事情。hardlink是不允许针对一个目录创建的，因为这样会破坏文件系统的结构。</p>
+<h2><span id="常用参数">常用参数</span></h2><p><code>-f</code> - 将覆盖目标文件，并不做提示。<br><code>-n</code> - 不覆盖目标文件。<br><code>-r</code> - 这个是<anchor>历史版本的递归拷贝</anchor>，不推荐使用。<br><code>-R</code> - 如果源文件是一个目录的话，递归拷贝到目标路径。如果源文件以<code>/</code>结尾，那么源文件夹里的内容将被拷贝到目标路径，如果不指定则是拷贝整个文件夹。<br><code>-H</code> - 与<code>-R</code>配合使用，保持原有的softlink。<br><code>-P</code> - 与<code>-R</code>配合使用，不保持原有的softlink，这个是递归拷贝的时候默认的选项。<br><code>-v</code> - 与<code>-R</code>配合使用，打印出所有被拷贝的文件。<br><code>-p</code> - 将保护原始文件的修改时间、访问时间、flie flag，文件模式等信息。</p>
+<h2><span id="具体场景">具体场景</span></h2><p><strong>拷贝单个文件</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp file1.txt ../file2.txt</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x591A;&#x4E2A;&#x6587;&#x4EF6;</strong></p>
+<p><strong>拷贝多个文件</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp file1.txt file2.cpp file3.cs test/src</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x7B26;&#x5408;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x89C4;&#x5219;&#x7684;&#x6587;&#x4EF6;</strong></p>
-<p>cp&#x652F;&#x6301;&#x7B80;&#x5355;&#x7684;&#x901A;&#x914D;&#x7B26;&#x3002;</p>
+<p><strong>拷贝符合某个文件名规则的文件</strong></p>
+<p>cp支持简单的通配符。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp *.zip package</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x6574;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x5305;&#x62EC;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x7EF4;&#x6301;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x4E0D;&#x53D8;</strong></p>
+<p><strong>拷贝整个目录，包括子目录，并维持文件的修改时间不变</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -RpH dir1 dir2/src</span><br></pre></td></tr></table></figure>
 
         
@@ -176,72 +175,72 @@
 </header>
     <div class="article-content">
         
-        <h2 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;"><a href="#&#x57FA;&#x672C;&#x7528;&#x6CD5;" class="headerlink" title="&#x57FA;&#x672C;&#x7528;&#x6CD5;"></a>&#x57FA;&#x672C;&#x7528;&#x6CD5;</h2><p><code>ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]</code></p>
-<p>ls &#x540E;&#x9762;&#x53EF;&#x4EE5;&#x8DDF;0~N&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x6700;&#x540E;&#x53EF;&#x4EE5;&#x8DDF;0~N&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x3002;</p>
-<p>&#x6587;&#x4EF6;&#x540D;&#x652F;&#x6301;&#x901A;&#x914D;&#x7B26;&#xFF0C;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x7B80;&#x5355;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x641C;&#x7D22;&#x3002;&#x5982;&#x679C;&#x5339;&#x914D;&#x5230;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;&#x4F1A;&#x5C06;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x5B50;&#x9879;&#x76EE;&#x4E00;&#x540C;&#x6253;&#x5370;&#x51FA;&#x6765;&#x3002;</p>
-<h2 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h2><h3 id="&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;"><a href="#&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;" class="headerlink" title="&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;"></a>&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;</h3><p><strong>* &#xFF08;&#x661F;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x5339;&#x914D;0~N&#x4E2A;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#x3002;</p>
-<p> <strong>?&#xFF08;&#x95EE;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x5339;&#x914D;1&#x4E2A;&#x4EFB;&#x610F;unicode&#x5B57;&#x7B26;&#x3002;</p>
-<p><strong>[char] &#xFF08;&#x65B9;&#x62EC;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x5339;&#x914D;1&#x4E2A;&#x65B9;&#x62EC;&#x53F7;&#x5185;&#x4EFB;&#x610F;&#x7684;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x3002;</p>
-<p>&#x62EC;&#x53F7;&#x4E2D;&#x7684;&#x5B57;&#x6BCD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;POSIX &#x5B57;&#x7B26;&#x96C6;&#xFF08;POSIX Character Classes&#xFF09;&#xFF0C;&#x5305;&#x542B;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x3002;&#x6211;&#x53EA;&#x5217;&#x51FA;&#x4E86;&#x8BA4;&#x4E3A;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#xFF0C;&#x8BE6;&#x89C1;<a href="http://man7.org/linux/man-pages/man7/glob.7.html" target="_blank" rel="external">http://man7.org/linux/man-pages/man7/glob.7.html</a></p>
+        <h2><span id="基本用法">基本用法</span></h2><p><code>ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]</code></p>
+<p>ls 后面可以跟0~N个参数，最后可以跟0~N个文件名。</p>
+<p>文件名支持通配符，可以进行简单的文件名搜索。如果匹配到目录的话，会将目录中的子项目一同打印出来。</p>
+<h2><span id="相关概念">相关概念</span></h2><h3><span id="通配符规则">通配符规则</span></h3><p><strong>* （星号通配符）</strong></p>
+<p>匹配0~N个任意字符。</p>
+<p> <strong>?（问号通配符）</strong></p>
+<p>匹配1个任意unicode字符。</p>
+<p><strong>[char] （方括号通配符）</strong></p>
+<p>匹配1个方括号内任意的一个字符。</p>
+<p>括号中的字母可以使用POSIX 字符集（POSIX Character Classes），包含以下几种。我只列出了认为比较常用的，详见<a href="http://man7.org/linux/man-pages/man7/glob.7.html" target="_blank" rel="external">http://man7.org/linux/man-pages/man7/glob.7.html</a></p>
 <table>
 <thead>
 <tr>
-<th>&#x8868;&#x8FBE;&#x5F0F;</th>
-<th>&#x89E3;&#x91CA;</th>
+<th>表达式</th>
+<th>解释</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>[a-z]</code></td>
-<td>&#x5C0F;&#x5199;a&#x5230;z</td>
+<td>小写a到z</td>
 </tr>
 <tr>
 <td><code>[A-Z]</code></td>
-<td>&#x5927;&#x5199;a&#x5230;z</td>
+<td>大写a到z</td>
 </tr>
 <tr>
 <td><code>[0-9]</code></td>
-<td>&#x6570;&#x5B57;0&#x5230;9</td>
+<td>数字0到9</td>
 </tr>
 <tr>
 <td><code>[:alnum:]</code></td>
-<td>Alphanumeric&#x5B57;&#x7B26;&#xFF0C;&#x8868;&#x793A;&#x62C9;&#x4E01;&#x6587;&#x548C;&#x963F;&#x62C9;&#x4F2F;&#x6570;&#x5B57;<sup>[4]</sup></td>
+<td>Alphanumeric字符，表示拉丁文和阿拉伯数字<sup>[4]</sup></td>
 </tr>
 <tr>
 <td><code>[:alpha:]</code></td>
-<td>Alphabetic characters&#xFF0C;&#x62C9;&#x4E01;&#x6587;</td>
+<td>Alphabetic characters，拉丁文</td>
 </tr>
 <tr>
 <td><code>[:digit:]</code></td>
-<td>&#x6570;&#x5B57;</td>
+<td>数字</td>
 </tr>
 <tr>
 <td><code>[:upper:]</code></td>
-<td>&#x5927;&#x5199;&#x7684;&#x62C9;&#x4E01;&#x6587;</td>
+<td>大写的拉丁文</td>
 </tr>
 <tr>
 <td><code>[:lower:]</code></td>
-<td>&#x5C0F;&#x5199;&#x7684;&#x62C9;&#x4E01;&#x6587;</td>
+<td>小写的拉丁文</td>
 </tr>
 <tr>
 <td><code>[:blank:]</code></td>
-<td>ASCII &#x7A7A;&#x683C;&#x6216;&#x5236;&#x8868;&#x7B26;</td>
+<td>ASCII 空格或制表符</td>
 </tr>
 <tr>
 <td><code>[:space:]</code></td>
-<td>ASCII &#x7A7A;&#x683C;</td>
+<td>ASCII 空格</td>
 </tr>
 </tbody>
 </table>
-<p>&#x4F7F;&#x7528;&#x65B9;&#x6CD5;</p>
-<p><code>[[:alpha:]]*</code>&#xFF0C;&#x5339;&#x914D;&#x4EE5;&#x5B57;&#x6BCD;&#x5F00;&#x5934;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
-<p><strong>[!char]&#xFF08;&#x65B9;&#x62EC;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x901A;&#x8FC7;&#x5728;&#x7B2C;&#x4E00;&#x4F4D;&#x52A0;<code>!</code>&#x8868;&#x793A;&#x5339;&#x914D;&#x4E0D;&#x5305;&#x542B;&#x65B9;&#x62EC;&#x53F7;&#x4E4B;&#x5185;&#x7684;&#x5B57;&#x7B26;</p>
-<h2 id="&#x5E38;&#x7528;&#x529F;&#x80FD;"><a href="#&#x5E38;&#x7528;&#x529F;&#x80FD;" class="headerlink" title="&#x5E38;&#x7528;&#x529F;&#x80FD;"></a>&#x5E38;&#x7528;&#x529F;&#x80FD;</h2><p><code>-A</code> - &#x5217;&#x51FA;&#x76EE;&#x5F55;&#x4E0B;&#x9664;&#x4E86;<code>.</code>&#x548C;<code>..</code>&#x4EE5;&#x5916;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x3002;<br><code>-a</code> - &#x5217;&#x51FA;&#x76EE;&#x5F55;&#x4E0B;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x62EC;&#x76EE;&#x5F55;&#x4EE5;<code>.</code>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-d</code> - &#x4EC5;&#x6253;&#x5370;&#x51FA;&#x76EE;&#x5F55;&#x540D;&#x5B57;&#xFF0C;&#x4E0D;&#x53BB;&#x6253;&#x5370;&#x5185;&#x90E8;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-l</code> - &#x6253;&#x5370;&#x957F;&#x683C;&#x5F0F;&#xFF0C;&#x5305;&#x542B;<br><code>-G</code> - &#x5F69;&#x8272;&#x8F93;&#x51FA;&#x3002;<br><code>-p</code> - &#x5982;&#x679C;&#x4E3A;&#x76EE;&#x5F55;&#xFF0C;&#x5728;&#x663E;&#x793A;&#x540D;&#x79F0;&#x540E;&#x9762;&#x6253;&#x5370;&#x4E00;&#x4E2A;&#x2019;/&#x2018;<br><code>-r</code> - &#x6839;&#x636E;&#x76EE;&#x524D;&#x8F93;&#x51FA;&#x9ED8;&#x8BA4;&#x7684;&#x6392;&#x5E8F;&#x9006;&#x5E8F;&#x3002;<br><code>-O</code> - &#x6253;&#x5370;&#x51FA;File Flag</p>
-<p><strong>&#x957F;&#x683C;&#x5F0F;</strong></p>
+<p>使用方法</p>
+<p><code>[[:alpha:]]*</code>，匹配以字母开头的字符串。</p>
+<p><strong>[!char]（方括号通配符）</strong></p>
+<p>通过在第一位加<code>!</code>表示匹配不包含方括号之内的字符</p>
+<h2><span id="常用功能">常用功能</span></h2><p><code>-A</code> - 列出目录下除了<code>.</code>和<code>..</code>以外的所有文件。<br><code>-a</code> - 列出目录下所有文件，包括目录以<code>.</code>开头的文件。<br><code>-d</code> - 仅打印出目录名字，不去打印内部的文件。<br><code>-l</code> - 打印长格式，包含<br><code>-G</code> - 彩色输出。<br><code>-p</code> - 如果为目录，在显示名称后面打印一个’/‘<br><code>-r</code> - 根据目前输出默认的排序逆序。<br><code>-O</code> - 打印出File Flag</p>
+<p><strong>长格式</strong></p>
 <pre><code>I            II  III      IV       V  VI           VII
 drwxr-xr-x   9   zhengyi  group   306 May 24 08:24 .
 drwxr-xr-x  42   zhengyi  group  1428 May 23 23:20 ..
@@ -252,26 +251,26 @@ drwxr-xr-x  42   zhengyi  group  1428 May 23 23:20 ..
 drwxr-xr-x   2   zhengyi  group    68 May 24 08:18 lib
 drwxr-xr-x   7   zhengyi  group   238 May 24 08:25 src
 drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
-</code></pre><p>I&#xFF1A;&#x6587;&#x4EF6;&#x6743;&#x9650;&#x4FE1;&#x606F;&#xFF0C;&#x8BE6;&#x89C1;&#x4E0B;&#x56FE;&#x3002;&#x5982;&#x679C;&#x6709;<code>@</code>&#x7B26;&#x53F7;&#xFF0C;&#x8868;&#x793A;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x6709;&#x4E00;&#x4E9B;&#x62D3;&#x5C55;&#x5C5E;&#x6027;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6DFB;&#x52A0;<code>-@</code>&#x53C2;&#x6570;&#x67E5;&#x9605;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;xattr&#x5DE5;&#x5177;&#x6765;&#x67E5;&#x770B;&#x5177;&#x4F53;&#x4FE1;&#x606F;<sup>[1]</sup>&#x3002;<br>II&#xFF1A;&#x94FE;&#x63A5;&#x8BA1;&#x6570;&#xFF08;link count&#xFF09;&#xFF0C;&#x5305;&#x62EC;<em>hard links</em>&#xFF0C;<em>symbolic links</em>&#xFF0C;&#x8FD8;&#x6709;&#x76EE;&#x5F55;&#x5F15;&#x7528;&#x3002;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x7684;<code>.</code>&#x4F1A;&#x5F15;&#x7528;&#x81EA;&#x5DF1;&#xFF0C;&#x540C;&#x65F6;&#x5B83;&#x7684;&#x6240;&#x6709;&#x7684;&#x5B50;&#x76EE;&#x5F55;&#x90FD;&#x4F1A;&#x6301;&#x6709;&#x4E00;&#x4E2A;<code>..</code>&#x6307;&#x5411;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x3002;&#x8FD9;&#x5C31;&#x5BFC;&#x81F4;&#x4E86;&#x76EE;&#x5F55;&#x7684;&#x94FE;&#x63A5;&#x8BA1;&#x6570;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x5927;&#x3002;<br>III&#xFF1A;owner name<br>IV&#xFF1A;owner group<br>V&#xFF1A;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#xFF0C;&#x5355;&#x4F4D;&#x4E3A;&#x5B57;&#x8282;<br>VI&#xFF1A;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x65E5;&#x671F;<br>VII&#xFF1A;&#x6587;&#x4EF6;&#x540D;</p>
+</code></pre><p>I：文件权限信息，详见下图。如果有<code>@</code>符号，表示这个文件有一些拓展属性，可以通过添加<code>-@</code>参数查阅，也可以使用xattr工具来查看具体信息<sup>[1]</sup>。<br>II：链接计数（link count），包括<em>hard links</em>，<em>symbolic links</em>，还有目录引用。当前目录的<code>.</code>会引用自己，同时它的所有的子目录都会持有一个<code>..</code>指向当前目录。这就导致了目录的链接计数往往比较大。<br>III：owner name<br>IV：owner group<br>V：文件大小，单位为字节<br>VI：最后修改日期<br>VII：文件名</p>
 <p>Access right in the first column<br><img src="http://linuxcommand.org/images/permissions_diagram.gif" alt=""><sup>[2]</sup></p>
-<h2 id="&#x5177;&#x4F53;&#x6848;&#x4F8B;"><a href="#&#x5177;&#x4F53;&#x6848;&#x4F8B;" class="headerlink" title="&#x5177;&#x4F53;&#x6848;&#x4F8B;"></a>&#x5177;&#x4F53;&#x6848;&#x4F8B;</h2><p><strong>&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x7684;&#x522B;&#x540D;&#xFF08;alias&#xFF09;</strong></p>
-<p>&#x4E2A;&#x4EBA;&#x559C;&#x597D;&#x5C06;&#x8F93;&#x51FA;&#x641E;&#x7684;&#x5F69;&#x8272;&#x4E00;&#x70B9;&#xFF0C;&#x6BD4;&#x8F83;&#x660E;&#x663E;&#x80FD;&#x770B;&#x51FA;&#x6587;&#x4EF6;&#x7684;&#x7C7B;&#x522B;</p>
-<p><code>alias ls=&apos;ls -G&apos;</code></p>
-<p><strong>&#x5217;&#x51FA;&#x6587;&#x4EF6;&#x5939;&#x4E0B;&#x6240;&#x6709;&#x7684;&#x5B50;&#x6587;&#x4EF6;&#x5939;</strong></p>
+<h2><span id="具体案例">具体案例</span></h2><p><strong>设置默认的别名（alias）</strong></p>
+<p>个人喜好将输出搞的彩色一点，比较明显能看出文件的类别</p>
+<p><code>alias ls=&#39;ls -G&#39;</code></p>
+<p><strong>列出文件夹下所有的子文件夹</strong></p>
 <p><code>ls -d */</code></p>
-<p><strong>&#x6309;&#x7167;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x6392;&#x5E8F;</strong></p>
-<p><code>ls -l -t -T (&#x65B0;&#x4FEE;&#x6539;&#x7684;&#x5728;&#x524D;)</code><br><code>ls -l -t -T -r&#xFF08;&#x8001;&#x4FEE;&#x6539;&#x7684;&#x5728;&#x524D;&#xFF09;</code></p>
-<p><strong>&#x6839;&#x636E;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x6392;&#x5E8F;</strong></p>
-<p><code>ls -l -S &#xFF08;&#x4ECE;&#x5927;&#x5230;&#x5C0F;&#xFF09;</code></p>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
-<li><a href="http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/" target="_blank" rel="external">&#x201C;ls&#x201D; on Mac and extended file attributes</a></li>
+<p><strong>按照最后修改时间排序</strong></p>
+<p><code>ls -l -t -T (新修改的在前)</code><br><code>ls -l -t -T -r（老修改的在前）</code></p>
+<p><strong>根据文件大小排序</strong></p>
+<p><code>ls -l -S （从大到小）</code></p>
+<h2><span id="参考资料">参考资料</span></h2><ol>
+<li><a href="http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/" target="_blank" rel="external">“ls” on Mac and extended file attributes</a></li>
 <li><a href="http://linuxcommand.org/images/permissions_diagram.gif" target="_blank" rel="external">permission gif</a></li>
 <li><a href="http://www.linfo.org/wildcard.html" target="_blank" rel="external">Wildcard - 1</a></li>
 <li><a href="http://linuxcommand.org/lc3_lts0050.php" target="_blank" rel="external">Wildcard - 2</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Alphanumeric" target="_blank" rel="external">Alphanumeric - Wikipedia</a></li>
 </ol>
-<p><strong>&#x9605;&#x8BFB;&#x66F4;&#x591A;</strong></p>
-<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux &#x547D;&#x4EE4;&#x5B66;&#x4E60;">Mac/Linux &#x547D;&#x4EE4;&#x5B66;&#x4E60;</a>
+<p><strong>阅读更多</strong></p>
+<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux 命令学习">Mac/Linux 命令学习</a>
         
         
         <p class="article-more-link">
@@ -333,37 +332,37 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 </header>
     <div class="article-content">
         
-        <h2 id="&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;"><a href="#&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;" class="headerlink" title="&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;"></a>&#x5E72;&#x561B;&#x8981;&#x5B66;&#x547D;&#x4EE4;</h2><p>&#x5207;&#x6362;&#x5230;mac&#x4E0B;&#x5DE5;&#x4F5C;&#x6709;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x4E86;&#xFF0C;&#x96BE;&#x514D;&#x8981;&#x5728;&#x7EC8;&#x7AEF;&#x4E2D;&#x505A;&#x4E00;&#x4E0B;&#x64CD;&#x4F5C;&#xFF0C;&#x76EE;&#x524D;&#x638C;&#x63E1;&#x7684;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x6709;&#x65F6;&#x5DF2;&#x7ECF;&#x96BE;&#x4EE5;&#x9A7E;&#x9A6D;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#x7684;&#x64CD;&#x4F5C;&#x4E86;&#x3002;&#x6709;&#x5FC5;&#x8981;&#x7CFB;&#x7EDF;&#x5F97;&#x8FC7;&#x4E00;&#x904D;&#x4E3B;&#x8981;&#x7684;&#x4E00;&#x4E9B;&#x547D;&#x4EE4;&#x3002;</p>
-<p>&#x9664;&#x4E86;&#x88C5;&#x903C;&#x610F;&#x5916;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x8FD8;&#x5728;&#x6709;&#x5F88;&#x591A;&#x597D;&#x5904;&#xFF1A;</p>
+        <h2><span id="干嘛要学命令">干嘛要学命令</span></h2><p>切换到mac下工作有一段时间了，难免要在终端中做一下操作，目前掌握的一些比较简单的命令行有时已经难以驾驭一些比较复杂的操作了。有必要系统得过一遍主要的一些命令。</p>
+<p>除了装逼意外，命令行还在有很多好处：</p>
 <ol>
-<li>&#x6253;&#x5B57;&#x7684;&#x901F;&#x5EA6;&#x548C;&#x51C6;&#x786E;&#x6027;&#x8FDC;&#x8FDC;&#x9AD8;&#x4E8E;&#x9F20;&#x6807;&#xFF0C;&#x9891;&#x7E41;&#x7684;&#x5207;&#x6362;&#x9F20;&#x6807;&#x548C;&#x952E;&#x76D8;&#x662F;&#x4E00;&#x4EF6;&#x633A;&#x9EBB;&#x70E6;&#x7684;&#x4E8B;&#x60C5;&#x3002;</li>
-<li>&#x547D;&#x4EE4;&#x884C;&#x53EF;&#x4EE5;&#x5199;&#x6210;&#x811A;&#x672C;&#x81EA;&#x52A8;&#x5316;&#x4E00;&#x4E9B;&#x64CD;&#x4F5C;&#xFF0C;&#x61D2;&#x4EBA;&#x7684;&#x798F;&#x97F3;&#x3002;</li>
-<li>&#x5728;&#x4E00;&#x4E9B;&#x670D;&#x52A1;&#x5668;&#x7684;&#x73AF;&#x5883;&#x4E0B;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x3002;</li>
+<li>打字的速度和准确性远远高于鼠标，频繁的切换鼠标和键盘是一件挺麻烦的事情。</li>
+<li>命令行可以写成脚本自动化一些操作，懒人的福音。</li>
+<li>在一些服务器的环境下只能使用命令行。</li>
 </ol>
-<h2 id="&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;"><a href="#&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;" class="headerlink" title="&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;"></a>&#x5982;&#x4F55;&#x5B66;&#x547D;&#x4EE4;</h2><p>Learning by doing &#x662F;&#x6700;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x5BF9;&#x8FD9;&#x79CD;&#x5B9E;&#x7528;&#x6027;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x4E0D;&#x52A8;&#x52A8;&#x624B;&#x662F;&#x7EDD;&#x5BF9;&#x4E0D;&#x884C;&#x7684;&#x3002;&#x6211;&#x89C9;&#x5F97;&#x5B66;&#x4E60;&#x547D;&#x4EE4;&#x884C;&#x6BD4;&#x8F83;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#x662F;&#xFF1A;</p>
+<h2><span id="如何学命令">如何学命令</span></h2><p>Learning by doing 是最好的方式，特别是对这种实用性的东西，不动动手是绝对不行的。我觉得学习命令行比较好的方式是：</p>
 <ol>
-<li>&#x901A;&#x8BFB;&#x4E00;&#x904D;man&#xFF0C;&#x77E5;&#x9053;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x80FD;&#x591F;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x5373;&#x4F7F;&#x8BB0;&#x4E0D;&#x4F4F;&#x4E5F;&#x6CA1;&#x5173;&#x7CFB;&#xFF0C;&#x81F3;&#x5C11;&#x77E5;&#x9053;&#x53EF;&#x4EE5;&#x505A;&#xFF0C;&#x7B49;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x518D;&#x770B;&#x5177;&#x4F53;&#x7684;&#x7EC6;&#x8282;&#x4E5F;&#x4E0D;&#x8FDF;&#x3002;&#x7EC8;&#x7AEF;&#x4E0B;&#x7684;man&#x4E0D;&#x65B9;&#x4FBF;&#x9605;&#x8BFB;&#x7684;&#x8BDD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;Dash&#x7B49;&#x5DE5;&#x5177;&#x6765;&#x9605;&#x8BFB;&#x3002;</li>
-<li>&#x5BF9;&#x4E8E;&#x5E73;&#x65F6;&#x53EF;&#x80FD;&#x7528;&#x5230;&#x7684;&#xFF0C;&#x81EA;&#x5DF1;&#x52A8;&#x624B;&#x6572;&#x4E00;&#x904D;&#x770B;&#x770B;&#x6548;&#x679C;&#x3002;</li>
-<li>&#x8BBE;&#x60F3;&#x51E0;&#x4E2A;&#x53EF;&#x80FD;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x7136;&#x540E;&#x5229;&#x7528;&#x547D;&#x4EE4;&#x6765;&#x5B8C;&#x6210;&#x8FD9;&#x4E9B;&#x4EFB;&#x52A1;&#x3002;&#x4EE5;&#x540E;&#x78B0;&#x5230;&#x8FD9;&#x51E0;&#x4E2A;&#x573A;&#x666F;&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x67E5;&#x9605;&#x56DE;&#x5FC6;&#x3002;</li>
+<li>通读一遍man，知道一个命令能够做的事情，即使记不住也没关系，至少知道可以做，等需要的时候再看具体的细节也不迟。终端下的man不方便阅读的话可以通过Dash等工具来阅读。</li>
+<li>对于平时可能用到的，自己动手敲一遍看看效果。</li>
+<li>设想几个可能比较常用的场景，然后利用命令来完成这些任务。以后碰到这几个场景的时候可以查阅回忆。</li>
 </ol>
-<p>&#x7B2C;&#x4E09;&#x70B9;&#x5176;&#x5B9E;&#x662F;&#x501F;&#x9274;&#x4E86;<a href="https://github.com/tldr-pages/tldr" target="_blank" rel="external">tldr</a>&#xFF08;too long don&#x2019;t read&#xFF09;&#x5177;&#xFF0C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5316;&#x7248;&#x7684;man&#x3002;</p>
-<p>Mac 10.3+ &#x7CFB;&#x7EDF;&#x4E0B;&#x9ED8;&#x8BA4;&#x7684;shell&#x662F;bash<sup>[1]</sup>&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x547D;&#x4EE4;&#x7684;&#x6548;&#x679C;&#x548C;linux&#x4E0B;&#x9762;&#x76F8;&#x540C;&#xFF0C;&#x67D0;&#x4E00;&#x4E9B;&#x547D;&#x4EE4;&#x7684;&#x5177;&#x4F53;&#x53C2;&#x6570;&#x548C;&#x884C;&#x4E3A;&#x6709;&#x6240;&#x5DEE;&#x5F02;&#x3002;</p>
-<h2 id="&#x5C0F;&#x6280;&#x5DE7;"><a href="#&#x5C0F;&#x6280;&#x5DE7;" class="headerlink" title="&#x5C0F;&#x6280;&#x5DE7;"></a>&#x5C0F;&#x6280;&#x5DE7;</h2><h2 id="&#x6BCF;&#x65E5;&#x4E00;&#x8D34;"><a href="#&#x6BCF;&#x65E5;&#x4E00;&#x8D34;" class="headerlink" title="&#x6BCF;&#x65E5;&#x4E00;&#x8D34;"></a>&#x6BCF;&#x65E5;&#x4E00;&#x8D34;</h2><h3 id="&#x76EE;&#x5F55;&#x64CD;&#x4F5C;"><a href="#&#x76EE;&#x5F55;&#x64CD;&#x4F5C;" class="headerlink" title="&#x76EE;&#x5F55;&#x64CD;&#x4F5C;"></a>&#x76EE;&#x5F55;&#x64CD;&#x4F5C;</h3><ul>
-<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>  - <em>2016&#x5E74;5&#x6708;24&#x53F7;</em></li>
-<li><a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="cat,pushd,popd">cat,pushd,popd</a> - <em>2016&#x5E74;6&#x6708;2&#x53F7;</em></li>
+<p>第三点其实是借鉴了<a href="https://github.com/tldr-pages/tldr" target="_blank" rel="external">tldr</a>（too long don’t read）具，可以理解成是一个简化版的man。</p>
+<p>Mac 10.3+ 系统下默认的shell是bash<sup>[1]</sup>，大部分命令的效果和linux下面相同，某一些命令的具体参数和行为有所差异。</p>
+<h2><span id="小技巧">小技巧</span></h2><h2><span id="每日一贴">每日一贴</span></h2><h3><span id="目录操作">目录操作</span></h3><ul>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>  - <em>2016年5月24号</em></li>
+<li><a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="cat,pushd,popd">cat,pushd,popd</a> - <em>2016年6月2号</em></li>
 </ul>
-<h3 id="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"><a href="#&#x6587;&#x4EF6;&#x64CD;&#x4F5C;" class="headerlink" title="&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"></a>&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</h3><ul>
-<li><a href="/2016/05/25/learning-shell-in-mac-cp/" title="cp">cp</a>  - <em>2016&#x5E74;5&#x6708;25&#x53F7;</em></li>
-<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="cat">cat</a>  - <em>2016&#x5E74;5&#x6708;30&#x53F7;</em></li>
-<li><a href="/2016/06/02/learning-shell-chflags/" title="chflags">chflags</a> - <em>2016&#x5E74;6&#x6708;2&#x53F7;</em></li>
+<h3><span id="文件操作">文件操作</span></h3><ul>
+<li><a href="/2016/05/25/learning-shell-in-mac-cp/" title="cp">cp</a>  - <em>2016年5月25号</em></li>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="cat">cat</a>  - <em>2016年5月30号</em></li>
+<li><a href="/2016/06/02/learning-shell-chflags/" title="chflags">chflags</a> - <em>2016年6月2号</em></li>
 <li>ln</li>
-<li><a href="/2016/06/03/learning-shell-rm-mv-mkdir/" title="rm,mv,mkdir">rm,mv,mkdir</a> - <em>2016&#x5E74;6&#x6708;3&#x53F7;</em></li>
+<li><a href="/2016/06/03/learning-shell-rm-mv-mkdir/" title="rm,mv,mkdir">rm,mv,mkdir</a> - <em>2016年6月3号</em></li>
 <li>find</li>
 </ul>
-<h3 id="&#x6587;&#x672C;&#x64CD;&#x4F5C;&#x8FC7;&#x6EE4;&#x5668;"><a href="#&#x6587;&#x672C;&#x64CD;&#x4F5C;-&#x8FC7;&#x6EE4;&#x5668;" class="headerlink" title="&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;"></a>&#x6587;&#x672C;&#x64CD;&#x4F5C;/&#x8FC7;&#x6EE4;&#x5668;</h3><ul>
+<h3><span id="文本操作过滤器">文本操作/过滤器</span></h3><ul>
 <li>sort</li>
 <li>uniq</li>
-<li><a href="/2016/06/06/learning-shell-grep/" title="grep">grep</a> - <em>2016&#x5E74;6&#x6708;6&#x53F7;</em></li>
+<li><a href="/2016/06/06/learning-shell-grep/" title="grep">grep</a> - <em>2016年6月6号</em></li>
 <li>fmt</li>
 <li>pr</li>
 <li>head</li>
@@ -372,20 +371,20 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 <li>sed</li>
 <li>awk</li>
 </ul>
-<h3 id="&#x8C03;&#x8BD5;"><a href="#&#x8C03;&#x8BD5;" class="headerlink" title="&#x8C03;&#x8BD5;"></a>&#x8C03;&#x8BD5;</h3><ul>
+<h3><span id="调试">调试</span></h3><ul>
 <li>dtruss</li>
 </ul>
-<h3 id="&#x5176;&#x4ED6;"><a href="#&#x5176;&#x4ED6;" class="headerlink" title="&#x5176;&#x4ED6;"></a>&#x5176;&#x4ED6;</h3><ul>
+<h3><span id="其他">其他</span></h3><ul>
 <li>xargs</li>
 </ul>
-<h3 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h3><ul>
-<li>&#x8F6F;&#x94FE;&#x63A5; vs &#x786C;&#x94FE;&#x63A5;</li>
+<h3><span id="相关概念">相关概念</span></h3><ul>
+<li>软链接 vs 硬链接</li>
 <li>File flag</li>
-<li><a href="/2016/05/31/unix-standard-input-output-redirection/" title="&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;&#xFF08;Redirection&#xFF09;">&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;&#xFF08;Redirection&#xFF09;</a> </li>
-<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="&#x901A;&#x914D;&#x7B26;">&#x901A;&#x914D;&#x7B26;</a> 
+<li><a href="/2016/05/31/unix-standard-input-output-redirection/" title="标准输入输出重定向（Redirection）">标准输入输出重定向（Redirection）</a> </li>
+<li><a href="/2016/05/24/learning-shell-in-mac-ls/" title="通配符">通配符</a> 
 </li>
 </ul>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<h2><span id="参考资料">参考资料</span></h2><ol>
 <li><p><a href="http://stackoverflow.com/questions/8051145/what-are-the-differences-between-using-the-terminal-on-a-mac-vs-linux" target="_blank" rel="external">What are the differences between using the terminal on a mac vs linux?</a></p>
 </li>
 <li><p><a href="http://linuxcommand.org/index.php" target="_blank" rel="external">Linux Command</a></p>
@@ -453,32 +452,32 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 </header>
     <div class="article-content">
         
-        <h2 id="&#x5F15;&#x5B50;"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</h2><p>&#x4ECA;&#x5929;&#x8BFB;&#x5B8C;&#x4E86;&#x300A;&#x7CBE;&#x8FDB;&#x300B;&#x8FD9;&#x672C;&#x4E66;&#xFF0C;&#x53EF;&#x4EE5;&#x8BF4;&#x5728;&#x8BFB;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x786E;&#x5B9E;&#x9886;&#x609F;&#x5230;&#x4E86;&#x5F88;&#x591A;&#x4F5C;&#x8005;&#x60F3;&#x8981;&#x8868;&#x8FBE;&#x7684;&#x4E00;&#x4E9B;&#x89C2;&#x70B9;&#x3002;&#x4E5F;&#x6709;&#x4E00;&#x4E9B;&#x81EA;&#x5DF1;&#x7684;&#x601D;&#x8003;&#xFF0C;&#x4E5F;&#x5B66;&#x5230;&#x4E86;&#x4E00;&#x4E9B;&#x65B0;&#x7684;&#x77E5;&#x8BC6;&#x70B9;&#xFF0C;&#x4E5F;&#x6709;&#x4E00;&#x4E9B;&#x918D;&#x9190;&#x704C;&#x9876;&#x7684;&#x65F6;&#x523B;&#x3002;&#x4F46;&#x662F;&#x5F53;&#x6211;&#x5408;&#x4E0A;&#x8FD9;&#x672C;&#x4E66;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x95EE;&#x81EA;&#x5DF1;&#x8FD9;&#x672C;&#x4E66;&#x8BB2;&#x4E86;&#x4EC0;&#x4E48;&#x4E3B;&#x8981;&#x7684;&#x89C2;&#x70B9;&#xFF1F;&#x6211;&#x7ADF;&#x56DE;&#x60F3;&#x4E0D;&#x8D77;&#x591A;&#x5C11;&#x5185;&#x5BB9;&#x3002;</p>
-<p>&#x6709;&#x79CD;&#x6781;&#x5EA6;&#x6050;&#x60E7;&#x7684;&#x611F;&#x89C9;&#xFF0C;&#x56E0;&#x4E3A;&#x81EA;&#x4EE5;&#x4E3A;&#x82B1;&#x4E86;&#x4E00;&#x4E9B;&#x65F6;&#x95F4;&#x8BA4;&#x771F;&#x9605;&#x8BFB;&#x4E86;&#x8FD9;&#x672C;&#x4E66;&#xFF0C;&#x5728;&#x8BFB;&#x4E66;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x4E5F;&#x505A;&#x4E86;&#x4E00;&#x4E9B;&#x7B80;&#x5355;&#x7684;&#x7B14;&#x8BB0;&#xFF0C;&#x5E76;&#x628A;&#x8BFB;&#x4E66;&#x8FC7;&#x7A0B;&#x4E2D;&#x7684;&#x4E00;&#x4E9B;&#x60F3;&#x6CD5;&#x8BB0;&#x5F55;&#x4E86;&#x4E0B;&#x6765;&#x3002;&#x4F46;&#x662F;&#x8BFB;&#x5B8C;&#x5374;&#x53D1;&#x73B0;&#x6240;&#x8BB0;&#x4F4F;&#x7684;&#x4E1C;&#x897F;&#x751A;&#x5C11;&#xFF0C;&#x6216;&#x8005;&#x8BF4;&#x53EF;&#x4EE5;&#x63D0;&#x53D6;&#x51FA;&#x6765;&#x7684;&#x4E1C;&#x897F;&#x751A;&#x5C11;&#x3002;&#x4E5F;&#x8BB8;&#x8FD9;&#x4E9B;&#x77E5;&#x8BC6;&#x5728;&#x5927;&#x8111;&#x4E2D;&#x7684;&#x67D0;&#x4E00;&#x4E2A;&#x5730;&#x65B9;&#x5F85;&#x7740;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x65E0;&#x6CD5;&#x901A;&#x8FC7;&#x8FD9;&#x672C;&#x4E66;&#x4E0E;&#x5176;&#x8054;&#x7CFB;&#x8D77;&#x6765;&#x4ECE;&#x800C;&#x63D0;&#x53D6;&#x51FA;&#x6765;&#x3002;</p>
-<p>&#x5F53;&#x6211;&#x614C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x53BB;&#x4E0A;&#x7F51;&#x8FDB;&#x884C;&#x4E86;&#x641C;&#x7D22;&#x4E86;&#x201C;&#x5982;&#x4F55;&#x8BFB;&#x4E66; &#x6709;&#x6548;&#x201D;&#xFF0C;&#x201C;&#x8BFB;&#x4E66; &#x5BB9;&#x6613;&#x5FD8;&#x201D;&#x3002;&#x5BF9;&#x4E8E;&#x641C;&#x7D22;&#x5230;&#x7684;&#x7ED3;&#x679C;&#x4E5F;&#x53EA;&#x662F;&#x5306;&#x5306;&#x5730;&#x8FDB;&#x884C;&#x4E86;&#x9605;&#x8BFB;&#xFF0C;&#x5BC4;&#x5E0C;&#x671B;&#x4E8E;&#x80FD;&#x591F;&#x4ECE;&#x4E2D;&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x4E24;&#x4E2A;&#x597D;&#x7684;&#x529E;&#x6CD5;&#x80FD;&#x591F;&#x5E2E;&#x52A9;&#x6211;&#x83B7;&#x5F97;&#x66F4;&#x597D;&#x7684;&#x9605;&#x8BFB;&#x6548;&#x679C;&#x3002;</p>
-<p>&#x8FD9;&#x4E2A;&#x884C;&#x4E3A;&#x660E;&#x663E;&#x662F;&#x4E0D;&#x660E;&#x667A;&#x7684;&#xFF0C;&#x53BB;&#x641C;&#x7D22;&#x5173;&#x4E8E;&#x5982;&#x4F55;&#x9605;&#x8BFB;&#x4E00;&#x672C;&#x4E66;&#x7684;&#x8D44;&#x6599;&#x6CA1;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x8FD9;&#x4E2A;&#x89C9;&#x5F97;&#x614C;&#x5F20;&#x7684;&#x65F6;&#x5019;&#x522B;&#x4EBA;&#x7684;&#x89C2;&#x70B9;&#x5F80;&#x5F80;&#x4E0D;&#x80FD;&#x591F;&#x5F88;&#x597D;&#x5730;&#x5E2E;&#x52A9;&#x5230;&#x4F60;&#x3002;&#x7279;&#x522B;&#x662F;&#x4F60;&#x62B1;&#x7740;&#x4E00;&#x4E2A;&#x5F88;&#x529F;&#x5229;&#x7684;&#x5FC3;&#x6001;&#x53BB;&#x8BD5;&#x56FE;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;&#x590D;&#x6742;&#x95EE;&#x9898;&#x7684;&#x7B80;&#x5355;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5F80;&#x5F80;&#x4E0D;&#x80FD;&#x591F;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x597D;&#x7ED3;&#x679C;&#x3002;</p>
-<h2 id="&#x53CD;&#x601D;"><a href="#&#x53CD;&#x601D;" class="headerlink" title="&#x53CD;&#x601D;"></a>&#x53CD;&#x601D;</h2><p>&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5E94;&#x8BE5;&#x505A;&#x7684;&#x5C31;&#x662F;&#x60F3;&#x73B0;&#x5728;&#x8FD9;&#x6837;&#xFF0C;&#x5B89;&#x9759;&#x7684;&#x8FDB;&#x884C;&#x601D;&#x8003;&#x3002;&#x56E0;&#x4E3A;&#x5BF9;&#x4E8E;&#x81EA;&#x5DF1;&#x9605;&#x8BFB;&#x4E2D;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x81EA;&#x5DF1;&#x5176;&#x5B9E;&#x662F;&#x6700;&#x6E05;&#x695A;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x89C2;&#x5BDF;&#x81EA;&#x5DF1;&#x7684;&#x9605;&#x8BFB;&#x884C;&#x4E3A;&#x6765;&#x627E;&#x51FA;&#x4E00;&#x4E2A;&#x9002;&#x5408;&#x81EA;&#x5DF1;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5373;&#x4F7F;&#x627E;&#x4E0D;&#x5230;&#x4E5F;&#x53EF;&#x4EE5;&#x60F3;&#x4E00;&#x4E2A;&#x53EF;&#x884C;&#x7684;&#x65B9;&#x6848;&#x53BB;&#x505A;&#x3002;&#x80FD;&#x591F;&#x60F3;&#x5230;&#x8FD9;&#x4E2A;&#x5C42;&#x9762;&#xFF0C;&#x4ECE;&#x67D0;&#x79CD;&#x89D2;&#x5EA6;&#x4E0A;&#x8BF4;&#x660E;&#x4E86;&#x8FD9;&#x672C;&#x4E66;&#x7684;&#x9605;&#x8BFB;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x4F5C;&#x8005;&#x7684;&#x67D0;&#x4E00;&#x4E9B;&#x89C2;&#x70B9;&#x867D;&#x4E0D;&#x80FD;&#x591F;&#x5B8C;&#x5168;&#x7684;&#x8868;&#x8FBE;&#x51FA;&#x6765;&#xFF0C;&#x4F46;&#x4E5F;&#x5DF2;&#x7ECF;&#x5BF9;&#x6211;&#x7684;&#x60F3;&#x6CD5;&#x4EA7;&#x751F;&#x4E86;&#x5F71;&#x54CD;&#x3002;&#x4E5F;&#x8BB8;&#x5373;&#x4F7F;&#x4F60;&#x60F3;&#x4E0D;&#x8D77;&#x6765;&#x8FD9;&#x672C;&#x4E66;&#x8BB2;&#x4E86;&#x54EA;&#x4E9B;&#x5177;&#x4F53;&#x7684;&#x4E1C;&#x897F;&#x4E5F;&#x6CA1;&#x5173;&#x7CFB;&#xFF0C;&#x53EF;&#x80FD;&#x4F60;&#x5DF2;&#x7ECF;&#x5C06;&#x8FD9;&#x4E9B;&#x89C2;&#x70B9;&#x7528;&#x81EA;&#x5DF1;&#x7684;&#x65B9;&#x5F0F;&#x8BB0;&#x4F4F;&#x4E86;&#xFF0C;&#x5728;&#x5C06;&#x6765;&#x7684;&#x67D0;&#x4E2A;&#x65F6;&#x95F4;&#x70B9;&#x78B0;&#x5230;&#x67D0;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x65F6;&#x5019;&#x80FD;&#x591F;&#x63D0;&#x53D6;&#x51FA;&#x6765;&#x3002;</p>
-<p>&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x5173;&#x952E;&#x5C31;&#x4ECE;&#x5982;&#x4F55;&#x5728;&#x9605;&#x8BFB;&#x5B8C;&#x4E00;&#x672C;&#x4E66;&#x4EE5;&#x540E;&#x60F3;&#x8D77;&#x6765;&#x8FD9;&#x672C;&#x4E66;&#x7684;&#x5177;&#x4F53;&#x5185;&#x5BB9;&#xFF0C;&#x53D8;&#x6210;&#x4E86;&#x5982;&#x4F55;&#x5C06;&#x4F5C;&#x8005;&#x7684;&#x89C2;&#x70B9;&#x8F6C;&#x5316;&#x6210;&#x81EA;&#x5DF1;&#x7684;&#x60F3;&#x6CD5;&#x3002;&#x90A3;&#x4E48;&#x9605;&#x8BFB;&#x4E2D;&#x7684;&#x601D;&#x8003;&#x5C31;&#x53D8;&#x5F97;&#x975E;&#x5E38;&#x7684;&#x5173;&#x952E;&#xFF0C;&#x6709;&#x601D;&#x8003;&#x624D;&#x80FD;&#x5C06;&#x81EA;&#x5DF1;&#x5DF2;&#x6709;&#x7684;&#x77E5;&#x8BC6;&#x4E0E;&#x5176;&#x53D1;&#x751F;&#x8054;&#x7CFB;&#x3002;</p>
-<h3 id="&#x9605;&#x8BFB;&#x7684;&#x65B9;&#x6CD5;"><a href="#&#x9605;&#x8BFB;&#x7684;&#x65B9;&#x6CD5;" class="headerlink" title="&#x9605;&#x8BFB;&#x7684;&#x65B9;&#x6CD5;"></a>&#x9605;&#x8BFB;&#x7684;&#x65B9;&#x6CD5;</h3><p>&#x6211;&#x89C9;&#x5F97;&#x9605;&#x8BFB;&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x7684;&#x9605;&#x8BFB;&#x65B9;&#x6CD5;&#x6709;&#x4E00;&#x4E0B;&#x51E0;&#x79CD;&#xFF1A;</p>
+        <h2><span id="引子">引子</span></h2><p>今天读完了《精进》这本书，可以说在读的过程中确实领悟到了很多作者想要表达的一些观点。也有一些自己的思考，也学到了一些新的知识点，也有一些醍醐灌顶的时刻。但是当我合上这本书的时候，我问自己这本书讲了什么主要的观点？我竟回想不起多少内容。</p>
+<p>有种极度恐惧的感觉，因为自以为花了一些时间认真阅读了这本书，在读书的过程中也做了一些简单的笔记，并把读书过程中的一些想法记录了下来。但是读完却发现所记住的东西甚少，或者说可以提取出来的东西甚少。也许这些知识在大脑中的某一个地方待着，但是我无法通过这本书与其联系起来从而提取出来。</p>
+<p>当我慌的时候，我去上网进行了搜索了“如何读书 有效”，“读书 容易忘”。对于搜索到的结果也只是匆匆地进行了阅读，寄希望于能够从中找到一个两个好的办法能够帮助我获得更好的阅读效果。</p>
+<p>这个行为明显是不明智的，去搜索关于如何阅读一本书的资料没问题，但是在这个觉得慌张的时候别人的观点往往不能够很好地帮助到你。特别是你抱着一个很功利的心态去试图获取一个复杂问题的简单解决方案的时候，往往不能够得到一个好结果。</p>
+<h2><span id="反思">反思</span></h2><p>这个时候应该做的就是想现在这样，安静的进行思考。因为对于自己阅读中的问题，自己其实是最清楚的，可以观察自己的阅读行为来找出一个适合自己的方法。即使找不到也可以想一个可行的方案去做。能够想到这个层面，从某种角度上说明了这本书的阅读有一定的效果，作者的某一些观点虽不能够完全的表达出来，但也已经对我的想法产生了影响。也许即使你想不起来这本书讲了哪些具体的东西也没关系，可能你已经将这些观点用自己的方式记住了，在将来的某个时间点碰到某个问题的时候能够提取出来。</p>
+<p>那么这个问题的关键就从如何在阅读完一本书以后想起来这本书的具体内容，变成了如何将作者的观点转化成自己的想法。那么阅读中的思考就变得非常的关键，有思考才能将自己已有的知识与其发生联系。</p>
+<h3><span id="阅读的方法">阅读的方法</span></h3><p>我觉得阅读的时候可以尝试的阅读方法有一下几种：</p>
 <ol>
-<li>&#x521D;&#x6B21;&#x9605;&#x8BFB;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6700;&#x597D;&#x5E26;&#x6709;&#x76EE;&#x7684;&#x6027;&#x7684;&#x53BB;&#x9605;&#x8BFB;&#x3002;&#x5373;&#x5E0C;&#x671B;&#x4ECE;&#x4E66;&#x4E2D;&#x83B7;&#x5F97;&#x4EC0;&#x4E48;&#x77E5;&#x8BC6;&#xFF0C;&#x5E0C;&#x671B;&#x4F5C;&#x8005;&#x5E2E;&#x52A9;&#x4F60;&#x89E3;&#x51B3;&#x90A3;&#x4E9B;&#x56F0;&#x60D1;&#x3002;&#x5E26;&#x7740;&#x7591;&#x95EE;&#x53BB;&#x8BFB;&#x4F1A;&#x8BA9;&#x4F60;&#x66F4;&#x52A0;&#x5BB9;&#x6613;&#x628A;&#x8BFB;&#x5230;&#x7684;&#x77E5;&#x8BC6;&#x548C;&#x5DF2;&#x6709;&#x7684;&#x77E5;&#x8BC6;&#x8FDB;&#x884C;&#x8054;&#x7CFB;&#x3002;</li>
-<li>&#x5E8F;&#x548C;&#x524D;&#x8A00;&#x6700;&#x597D;&#x8981;&#x8BFB;&#xFF0C;&#x63A5;&#x7740;&#x5C31;&#x662F;&#x76EE;&#x5F55;&#x3002;&#x8981;&#x5728;&#x8BFB;&#x4E4B;&#x524D;&#x5BF9;&#x4E8E;&#x7AE0;&#x8282;&#x7684;&#x7ED3;&#x6784;&#x6709;&#x4E00;&#x4E2A;&#x5927;&#x6982;&#x7684;&#x8BA4;&#x8BC6;&#x3002;</li>
-<li>&#x9605;&#x8BFB;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x4E0D;&#x8981;&#x8FC7;&#x591A;&#x7684;&#x8FDB;&#x884C;&#x6807;&#x6CE8;&#x91CD;&#x70B9;&#xFF0C;&#x9002;&#x5F53;&#x7684;&#x5728;&#x8BFB;&#x5230;&#x6709;&#x611F;&#x609F;&#x7684;&#x65F6;&#x5019;&#x5728;&#x4E66;&#x4E0A;&#x505A;&#x7B14;&#x8BB0;&#x3002;&#x9605;&#x8BFB;&#x7684;&#x65F6;&#x5019;&#x5907;&#x597D;&#x7EB8;&#x7B14;&#xFF0C;&#x5F53;&#x6709;&#x4E00;&#x4E9B;&#x60F3;&#x6CD5;&#x4ECE;&#x5927;&#x8111;&#x4E2D;&#x8FF8;&#x53D1;&#x51FA;&#x6765;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53CA;&#x65F6;&#x7684;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;&#xFF0C;&#x7136;&#x540E;&#x56DE;&#x53BB;&#x7EE7;&#x7EED;&#x9605;&#x8BFB;&#x3002;</li>
-<li>&#x8BFB;&#x7684;&#x65F6;&#x5019;&#x5982;&#x679C;&#x8D70;&#x795E;&#x7684;&#x8BDD;&#x9A6C;&#x4E0A;&#x505C;&#x6B62;&#x9605;&#x8BFB;&#xFF0C;&#x8D70;&#x795E;&#x7684;&#x9605;&#x8BFB;&#x7EAF;&#x5C5E;&#x6D6A;&#x8D39;&#x65F6;&#x95F4;&#x3002;</li>
-<li>&#x9891;&#x7E41;&#x7684;&#x5BF9;&#x81EA;&#x5DF1;&#x8BFB;&#x5230;&#x7684;&#x6587;&#x5B57;&#x8FDB;&#x884C;&#x7B80;&#x5355;&#x7684;&#x603B;&#x7ED3;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x5728;&#x6BCF;&#x8282;&#x3001;&#x6BCF;&#x7AE0;&#x4E4B;&#x540E;&#xFF0C;&#x60F3;&#x60F3;&#x4F5C;&#x8005;&#x60F3;&#x8868;&#x8FBE;&#x7684;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;&#x4F5C;&#x8005;&#x524D;&#x540E;&#x6587;&#x4E4B;&#x95F4;&#x7684;&#x903B;&#x8F91;&#x3002;</li>
-<li>&#x6709;&#x6761;&#x4EF6;&#x7684;&#x8BDD;&#xFF0C;&#x5728;&#x9605;&#x8BFB;&#x5B8C;&#x4E00;&#x7AE0;&#x4EE5;&#x540E;&#x5728;&#x8131;&#x79BB;&#x4E66;&#x672C;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x56DE;&#x60F3;&#x4E00;&#x4E0B;&#x8FD9;&#x4E00;&#x7AE0;&#x8BB2;&#x4E86;&#x4EC0;&#x4E48;&#xFF0C;&#x6709;&#x4EC0;&#x4E48;&#x77E5;&#x8BC6;&#x70B9;&#x4EE5;&#x53CA;&#x4E4B;&#x95F4;&#x7684;&#x8054;&#x7CFB;&#x3002;&#x53EF;&#x4EE5;&#x753B;&#x56FE;&#x3001;&#x5199;&#x5B57;&#x3001;&#x5F62;&#x5F0F;&#x4E0D;&#x9650;&#x3002;</li>
-<li>&#x5982;&#x679C;&#x559C;&#x6B22;&#x53EF;&#x4EE5;&#x8DF3;&#x7740;&#x8BFB;&#x3002;</li>
-<li>&#x8BFB;&#x5B8C;&#x5168;&#x672C;&#xFF0C;&#x5408;&#x4E0A;&#x4E66;&#x672C;&#xFF0C;&#x6781;&#x529B;&#x56DE;&#x60F3;&#x3002;&#x7136;&#x540E;&#x53BB;&#x91CD;&#x65B0;&#x7FFB;&#x4E00;&#x4E0B;&#x4E66;&#x672C;/&#x6BCF;&#x7AE0;&#x505A;&#x7684;&#x7B14;&#x8BB0;&#xFF0C;&#x505A;&#x4E00;&#x4E0B;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x3002;</li>
-<li>&#x5982;&#x679C;&#x6709;&#x5FC5;&#x8981;&#x5FEB;&#x901F;&#x91CD;&#x8BFB;&#x4E00;&#x904D;&#xFF0C;&#x5728;&#x89C9;&#x5F97;&#x91CD;&#x8981;&#x7684;&#x7AE0;&#x8282;&#x8FDB;&#x884C;&#x6DF1;&#x5EA6;&#x9605;&#x8BFB;&#x3002;&#x6211;&#x89C9;&#x5F97;&#x91CD;&#x8BFB;&#x6700;&#x597D;&#x4E0D;&#x8981;&#x5728;&#x8BFB;&#x5B8C;&#x4E00;&#x904D;&#x4E4B;&#x540E;&#x9A6C;&#x4E0A;&#x8FDB;&#x884C;&#xFF0C;&#x800C;&#x662F;&#x9694;&#x4E0A;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x518D;&#x8FDB;&#x884C;&#x3002;&#x8FD9;&#x4F1A;&#x6709;&#x66F4;&#x597D;&#x7684;&#x6548;&#x679C;&#x3002;</li>
-<li>&#x91CD;&#x590D;5~10&#x3002;</li>
+<li>初次阅读的时候，最好带有目的性的去阅读。即希望从书中获得什么知识，希望作者帮助你解决那些困惑。带着疑问去读会让你更加容易把读到的知识和已有的知识进行联系。</li>
+<li>序和前言最好要读，接着就是目录。要在读之前对于章节的结构有一个大概的认识。</li>
+<li>阅读的过程中不要过多的进行标注重点，适当的在读到有感悟的时候在书上做笔记。阅读的时候备好纸笔，当有一些想法从大脑中迸发出来的时候，及时的记录下来，然后回去继续阅读。</li>
+<li>读的时候如果走神的话马上停止阅读，走神的阅读纯属浪费时间。</li>
+<li>频繁的对自己读到的文字进行简单的总结，特别是在每节、每章之后，想想作者想表达的是什么？作者前后文之间的逻辑。</li>
+<li>有条件的话，在阅读完一章以后在脱离书本的情况下回想一下这一章讲了什么，有什么知识点以及之间的联系。可以画图、写字、形式不限。</li>
+<li>如果喜欢可以跳着读。</li>
+<li>读完全本，合上书本，极力回想。然后去重新翻一下书本/每章做的笔记，做一下思维导图。</li>
+<li>如果有必要快速重读一遍，在觉得重要的章节进行深度阅读。我觉得重读最好不要在读完一遍之后马上进行，而是隔上一段时间再进行。这会有更好的效果。</li>
+<li>重复5~10。</li>
 </ol>
-<h3 id="&#x9605;&#x8BFB;&#x7684;&#x4F5C;&#x7528;"><a href="#&#x9605;&#x8BFB;&#x7684;&#x4F5C;&#x7528;" class="headerlink" title="&#x9605;&#x8BFB;&#x7684;&#x4F5C;&#x7528;"></a>&#x9605;&#x8BFB;&#x7684;&#x4F5C;&#x7528;</h3><p>&#x987A;&#x4FBF;&#x7406;&#x4E00;&#x7406;&#x4E0B;&#x5173;&#x4E8E;&#x9605;&#x8BFB;&#x4F5C;&#x7528;&#x7684;&#x60F3;&#x6CD5;</p>
+<h3><span id="阅读的作用">阅读的作用</span></h3><p>顺便理一理下关于阅读作用的想法</p>
 <ol>
-<li>&#x7EAF;&#x5C5E;&#x5A31;&#x4E50;&#x3002;</li>
-<li>&#x5E0C;&#x671B;&#x4F5C;&#x8005;&#x80FD;&#x591F;&#x5E2E;&#x52A9;&#x89E3;&#x51B3;&#x67D0;&#x4E2A;&#x7591;&#x95EE;&#x3001;&#x95EE;&#x9898;&#x3002;</li>
-<li>&#x5E0C;&#x671B;&#x4ECE;&#x4E66;&#x4E2D;&#x6C72;&#x53D6;&#x67D0;&#x4E00;&#x4E2A;&#x9886;&#x57DF;&#x7684;&#x77E5;&#x8BC6;&#x3002;</li>
-<li>&#x5728;&#x9605;&#x8BFB;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x8FDB;&#x884C;&#x601D;&#x8003;&#x8FDB;&#x800C;&#x4EA7;&#x751F;&#x65B0;&#x7684;&#x60F3;&#x6CD5;&#x3001;&#x7591;&#x95EE;&#x7B49;&#x3002;</li>
-<li>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5230;&#x66F4;&#x591A;&#x4E0D;&#x4E00;&#x6837;&#x7684;&#x4E16;&#x754C;&#x548C;&#x53EF;&#x80FD;&#x6027;&#x3002;</li>
+<li>纯属娱乐。</li>
+<li>希望作者能够帮助解决某个疑问、问题。</li>
+<li>希望从书中汲取某一个领域的知识。</li>
+<li>在阅读的过程中进行思考进而产生新的想法、疑问等。</li>
+<li>可以看到到更多不一样的世界和可能性。</li>
 </ol>
 
         
@@ -542,41 +541,41 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 </header>
     <div class="article-content">
         
-        <p>Coursera&#x7ECF;&#x5178;&#x8BFE;&#x7A0B;<a href="https://www.coursera.org/learn/learning-how-to-learn/" target="_blank" rel="external"><em>Learning how to learn</em></a>&#x7B2C;&#x4E8C;&#x5468;&#x5B66;&#x4E60;&#x7B14;&#x8BB0;&#x3002;</p>
-<p>&#x7B2C;&#x4E8C;&#x5468;&#x6240;&#x6709;&#x5185;&#x5BB9;&#x90FD;&#x662F;&#x56F4;&#x7ED5;&#x7740;Chunking&#x8FD9;&#x4E2A;&#x6982;&#x5FF5;&#x6240;&#x5C55;&#x5F00;&#x7684;&#xFF0C;chunk&#x8FD9;&#x4E2A;&#x5355;&#x8BCD;&#x4E2D;&#x6587;&#x4E3A;&#x7EC4;&#x5757;&#xFF0C;&#x611F;&#x89C9;&#x6CA1;&#x6709;&#x82F1;&#x6587;&#x6765;&#x7684;&#x5F62;&#x8C61;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x56DE;&#x987E;&#x51E0;&#x4E2A;&#x6211;&#x8BA4;&#x4E3A;&#x6BD4;&#x8F83;&#x91CD;&#x8981;&#x7684;&#x70B9;&#x3002;</p>
-<h2 id="&#x4EC0;&#x4E48;&#x662F;chunk&#x53CA;&#x5176;&#x4F5C;&#x7528;"><a href="#&#x4EC0;&#x4E48;&#x662F;Chunk&#x53CA;&#x5176;&#x4F5C;&#x7528;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;Chunk&#x53CA;&#x5176;&#x4F5C;&#x7528;"></a>&#x4EC0;&#x4E48;&#x662F;Chunk&#x53CA;&#x5176;&#x4F5C;&#x7528;</h2><p>Chunk&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x67D0;&#x4E00;&#x4E2A;&#x77E5;&#x8BC6;&#x5728;&#x4F60;&#x5927;&#x8111;&#x4E2D;&#x5F62;&#x6210;&#x7684;&#x4E00;&#x4E2A;&#x8BB0;&#x5FC6;&#x5757;&#xFF0C;&#x8FD9;&#x4E2A;&#x8BB0;&#x5FC6;&#x5757;&#x662F;&#x5BF9;&#x4E8E;&#x4E00;&#x4E9B;&#x5177;&#x4F53;&#x7684;&#x77E5;&#x8BC6;&#x8FDB;&#x884C;&#x538B;&#x7F29;&#x8FC7;&#x7684;&#x4E00;&#x4E2A;&#x7ED3;&#x679C;&#x3002;&#x8BFE;&#x7A0B;&#x4E2D;&#x5C06;&#x8FD9;&#x4E2A;chunk&#x6BD4;&#x55BB;&#x4E3A;&#x4E00;&#x4E2A;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x5012;&#x662F;&#x8BA4;&#x4E3A;&#x8FD9;&#x4E2A;chunk&#x7406;&#x89E3;&#x6210;&#x67D0;&#x4E00;&#x4E9B;&#x5177;&#x4F53;&#x77E5;&#x8BC6;&#x7684;&#x6982;&#x8981;/&#x7CBE;&#x534E;&#x66F4;&#x52A0;&#x7684;&#x59A5;&#x5F53;&#x3002;</p>
-<p>&#x5F53;&#x4F60;&#x628A;&#x4E00;&#x4E9B;&#x590D;&#x6742;&#x7684;&#x77E5;&#x8BC6;&#x538B;&#x7F29;&#x6210;&#x4E00;&#x4E2A;&#x76F8;&#x5BF9;&#x8F83;&#x5C0F;&#x7684;&#x6982;&#x5FF5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x601D;&#x8003;&#x66F4;&#x591A;&#x7684;&#x95EE;&#x9898;&#x3002;&#x4E3E;&#x4E2A;&#x5B9E;&#x9645;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5C31;&#x662F;&#x5F53;&#x4F60;&#x9700;&#x8981;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F60;&#x8003;&#x8651;&#x7684;&#x662F;&#x5404;&#x4E2A;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x7279;&#x5F81;&#x3001;&#x4F18;&#x7F3A;&#x70B9;&#x3001;&#x5C40;&#x9650;&#x6027;&#x3002;&#x800C;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#x6211;&#x8BA4;&#x4E3A;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x5177;&#x4F53;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;chunk&#xFF0C;&#x5F53;&#x4F60;&#x9700;&#x8981;&#x5B9E;&#x73B0;&#x67D0;&#x4E00;&#x4E2A;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x5019;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x987A;&#x7740;&#x8FD9;&#x4E2A;chunk&#x5F80;&#x4E0B;&#x601D;&#x8003;&#x4E00;&#x4E0B;&#xFF0C;&#x6216;&#x8005;&#x63A8;&#x7406;&#x4E00;&#x4E0B;&#x5C31;&#x53EF;&#x4EE5;&#x628A;&#x5177;&#x4F53;&#x7684;&#x7B97;&#x6CD5;&#x7EC6;&#x8282;&#x63A8;&#x7406;&#x51FA;&#x6765;&#x4E86;&#x3002;&#x6211;&#x8BA4;&#x4E3A;&#x53EA;&#x6709;&#x4F60;&#x5BF9;&#x4E00;&#x4E2A;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x6709;&#x6DF1;&#x523B;&#x7684;&#x7406;&#x89E3;&#x4EE5;&#x540E;&#x624D;&#x4F1A;&#x4EA7;&#x751F;&#x8FD9;&#x79CD;chunk&#xFF0C;&#x5426;&#x5219;&#x8FD9;&#x4E9B;&#x4F18;&#x7F3A;&#x70B9;&#x5BF9;&#x4E8E;&#x4F60;&#x6765;&#x8BF4;&#x5E76;&#x4E0D;&#x4F1A;&#x663E;&#x5F97;&#x90A3;&#x4E48;&#x7684;&#x81EA;&#x7136;&#x3002;</p>
-<p>&#x6B63;&#x5982;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#x770B;&#x5230;&#x7684;&#xFF0C;chunk&#x6700;&#x5927;&#x7684;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x5141;&#x8BB8;&#x4F60;&#x5728;&#x4E00;&#x4E2A;&#x66F4;&#x9AD8;&#x5BF9;&#x95EE;&#x9898;&#x8FDB;&#x884C;&#x601D;&#x8003;&#x800C;&#x4E0D;&#x9700;&#x8981;&#x5728;&#x610F;&#x4E00;&#x4E9B;&#x7EC6;&#x8282;&#x3002;&#x5F53;&#x4E00;&#x4E9B;&#x5C0F;&#x7684;chunk&#x8FDB;&#x884C;&#x91CD;&#x65B0;&#x6574;&#x5408;&#x7684;&#x65F6;&#x5019;&#x4F60;&#x53EF;&#x80FD;&#x5C31;&#x4F1A;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x66F4;&#x9AD8;&#x5C42;&#x6B21;&#x7684;chunk&#xFF0C;&#x4ECE;&#x800C;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x4F60;&#x4ECE;&#x66F4;&#x9AD8;&#x7684;&#x5C42;&#x9762;&#x53BB;&#x8003;&#x8651;&#x95EE;&#x9898;&#x3002;&#x8FD9;&#x4E2A;&#x5C31;&#x662F;&#x601D;&#x8003;&#x95EE;&#x9898;&#x7684;&#x9AD8;&#x5EA6;&#x3002;</p>
-<h2 id="&#x5982;&#x4F55;&#x5F62;&#x6210;&#x4E00;&#x4E2A;chunk"><a href="#&#x5982;&#x4F55;&#x5F62;&#x6210;&#x4E00;&#x4E2A;chunk" class="headerlink" title="&#x5982;&#x4F55;&#x5F62;&#x6210;&#x4E00;&#x4E2A;chunk"></a>&#x5982;&#x4F55;&#x5F62;&#x6210;&#x4E00;&#x4E2A;chunk</h2><p>&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x6B65;&#x9AA4;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x5F62;&#x6210;&#x4E00;&#x4E2A;chunk&#xFF1A;</p>
+        <p>Coursera经典课程<a href="https://www.coursera.org/learn/learning-how-to-learn/" target="_blank" rel="external"><em>Learning how to learn</em></a>第二周学习笔记。</p>
+<p>第二周所有内容都是围绕着Chunking这个概念所展开的，chunk这个单词中文为组块，感觉没有英文来的形象。</p>
+<p>下面回顾几个我认为比较重要的点。</p>
+<h2><span id="什么是chunk及其作用">什么是Chunk及其作用</span></h2><p>Chunk可以理解成某一个知识在你大脑中形成的一个记忆块，这个记忆块是对于一些具体的知识进行压缩过的一个结果。课程中将这个chunk比喻为一个压缩文件，我倒是认为这个chunk理解成某一些具体知识的概要/精华更加的妥当。</p>
+<p>当你把一些复杂的知识压缩成一个相对较小的概念的时候，你就可以思考更多的问题。举个实际的例子，就是当你需要选择一个排序算法的时候，你考虑的是各个排序算法的特征、优缺点、局限性。而这些信息我认为就是一个具体排序算法的chunk，当你需要实现某一个算法的时候你只需要顺着这个chunk往下思考一下，或者推理一下就可以把具体的算法细节推理出来了。我认为只有你对一个排序算法有深刻的理解以后才会产生这种chunk，否则这些优缺点对于你来说并不会显得那么的自然。</p>
+<p>正如上面的例子中看到的，chunk最大的作用就是可以允许你在一个更高对问题进行思考而不需要在意一些细节。当一些小的chunk进行重新整合的时候你可能就会得到一个更高层次的chunk，从而可以帮助你从更高的层面去考虑问题。这个就是思考问题的高度。</p>
+<h2><span id="如何形成一个chunk">如何形成一个chunk</span></h2><p>以下几个步骤可以帮助形成一个chunk：</p>
 <ol>
-<li>&#x9AD8;&#x5EA6;&#x96C6;&#x4E2D;&#x6CE8;&#x610F;&#x529B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x8FDB;&#x884C;&#x5B66;&#x4E60;&#x3002;&#xFF08;focused attention&#xFF09;</li>
-<li>&#x7406;&#x89E3;&#x95EE;&#x9898;&#x3002;&#xFF08;understanding of the basic idea&#xFF09;</li>
-<li>&#x523B;&#x610F;&#x7EC3;&#x4E60;&#x3002;&#xFF08;practice&#xFF09;</li>
-<li>&#x6CE8;&#x610F;&#x77E5;&#x8BC6;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#xFF0C;&#x800C;&#x975E;&#x4EC5;&#x4EC5;&#x5173;&#x6CE8;&#x77E5;&#x8BC6;&#x70B9;&#x672C;&#x8EAB;&#x3002;&#xFF08;sense of big picture&#xFF09;</li>
+<li>高度集中注意力的情况下进行学习。（focused attention）</li>
+<li>理解问题。（understanding of the basic idea）</li>
+<li>刻意练习。（practice）</li>
+<li>注意知识的上下文，而非仅仅关注知识点本身。（sense of big picture）</li>
 </ol>
-<p>&#x8FD9;&#x51E0;&#x4E2A;&#x6B65;&#x9AA4;&#x5E94;&#x8BE5;&#x90FD;&#x4E0D;&#x4F1A;&#x964C;&#x751F;&#xFF0C;&#x8FD9;&#x91CC;&#x7279;&#x522B;&#x5F3A;&#x8C03;&#x4E00;&#x4E0B;&#x6700;&#x540E;&#x4E24;&#x4E2A;&#x7684;&#x91CD;&#x8981;&#x6027;&#x3002;&#x505A;&#x7EC3;&#x4E60;&#x662F;&#x6D4B;&#x8BD5;&#x81EA;&#x5DF1;&#x662F;&#x4E0D;&#x662F;&#x771F;&#x7684;&#x7406;&#x89E3;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x9014;&#x5F84;&#x3002;&#x5BF9;&#x4E8E;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x7684;&#x9886;&#x57DF;&#x6BD4;&#x5982;&#x7F16;&#x7A0B;&#xFF0C;&#x81EA;&#x5DF1;&#x5199;&#x4E00;&#x904D;&#x4EE3;&#x7801;&#x7EDD;&#x5BF9;&#x662F;&#x4F1A;&#x5BF9;&#x95EE;&#x9898;&#x7684;&#x7406;&#x89E3;&#x7A0B;&#x5EA6;&#x4E0A;&#x4E00;&#x4E2A;&#x53F0;&#x9636;&#x7684;&#x3002;&#x524D;&#x63D0;&#x662F;&#x4F60;&#x8981;&#x5408;&#x4E0A;&#x6750;&#x6599;&#xFF0C;&#x9760;&#x81EA;&#x5DF1;&#x7684;&#x7406;&#x89E3;&#x548C;&#x8BB0;&#x5FC6;&#x5199;&#x4E00;&#x4E2A;&#x51FA;&#x6765;&#xFF0C;&#x8FD9;&#x80FD;&#x591F;&#x5E2E;&#x52A9;&#x4F60;&#x91CD;&#x65B0;&#x601D;&#x8003;&#x548C;&#x63A8;&#x7406;&#x4E00;&#x904D;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x3002;</p>
-<p>&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x662F;&#x8BF4;&#x8981;&#x6CE8;&#x610F;&#x53EA;&#x662F;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#xFF0C;&#x8FD9;&#x4E2A;&#x66F4;&#x591A;&#x7684;&#x662F;&#x5E2E;&#x52A9;&#x6211;&#x4EEC;&#x628A;&#x8FD9;&#x4E2A;&#x77E5;&#x8BC6;&#x653E;&#x5728;&#x4E00;&#x4E2A;&#x66F4;&#x5927;&#x7684;&#x5C42;&#x9762;&#x53BB;&#x8003;&#x8651;&#xFF0C;&#x5C06;&#x5176;&#x4E0E;&#x5176;&#x4ED6;&#x7684;&#x4E00;&#x4E9B;&#x5DF2;&#x6709;&#x7684;&#x77E5;&#x8BC6;&#x8FDB;&#x884C;&#x6BD4;&#x8F83;&#x3001;&#x8054;&#x7CFB;&#x4ECE;&#x800C;&#x589E;&#x52A0;&#x8FD9;&#x4E2A;&#x77E5;&#x8BC6;&#x7684;&#x7406;&#x89E3;&#x6DF1;&#x5EA6;&#x3002;</p>
-<h2 id="&#x51E0;&#x79CD;&#x9519;&#x8BEF;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;"><a href="#&#x51E0;&#x79CD;&#x9519;&#x8BEF;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;" class="headerlink" title="&#x51E0;&#x79CD;&#x9519;&#x8BEF;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;"></a>&#x51E0;&#x79CD;&#x9519;&#x8BEF;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;</h2><p>&#x8BFE;&#x7A0B;&#x4E2D;&#x63D0;&#x5230;&#x4E86;&#x51E0;&#x4E2A;&#x6BD4;&#x8F83;&#x9519;&#x8BEF;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E9B;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;&#x5F80;&#x5F80;&#x4F1A;&#x8BA9;&#x5B66;&#x4E60;&#x8005;&#x4EA7;&#x751F;&#x4E00;&#x79CD;&#x81EA;&#x5DF1;&#x5DF2;&#x7ECF;&#x638C;&#x63E1;&#x4E86;&#x8FD9;&#x4E9B;&#x77E5;&#x8BC6;&#x7684;&#x9519;&#x89C9;&#x3002;&#x8FD9;&#x51E0;&#x4E2A;&#x65B9;&#x6CD5;&#x5305;&#x62EC;&#xFF1A;</p>
+<p>这几个步骤应该都不会陌生，这里特别强调一下最后两个的重要性。做练习是测试自己是不是真的理解的一个重要途径。对于一些特殊的领域比如编程，自己写一遍代码绝对是会对问题的理解程度上一个台阶的。前提是你要合上材料，靠自己的理解和记忆写一个出来，这能够帮助你重新思考和推理一遍这个过程。</p>
+<p>最后一个是说要注意只是的上下文，这个更多的是帮助我们把这个知识放在一个更大的层面去考虑，将其与其他的一些已有的知识进行比较、联系从而增加这个知识的理解深度。</p>
+<h2><span id="几种错误的学习方法">几种错误的学习方法</span></h2><p>课程中提到了几个比较错误的学习方法，这些学习方法往往会让学习者产生一种自己已经掌握了这些知识的错觉。这几个方法包括：</p>
 <ul>
-<li>&#x5728;&#x8BFE;&#x672C;&#x4E0A;&#x5212;&#x51FA;&#x5F88;&#x591A;&#x5F88;&#x591A;&#x7684;&#x91CD;&#x70B9;</li>
-<li>&#x53CD;&#x590D;&#x7684;&#x53BB;&#x8BFB;&#x4E00;&#x6BB5;&#x6750;&#x6599;</li>
-<li>&#x5B66;&#x4E60;&#x5B8C;&#x4EE5;&#x540E;&#x505A;&#x4E00;&#x4E2A;&#x6982;&#x5FF5;&#x5BFC;&#x56FE;</li>
+<li>在课本上划出很多很多的重点</li>
+<li>反复的去读一段材料</li>
+<li>学习完以后做一个概念导图</li>
 </ul>
-<p>&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x5176;&#x5B9E;&#x66F4;&#x591A;&#x7684;&#x662F;&#x5728;&#x5F62;&#x5F0F;&#x5C42;&#x9762;&#x8FDB;&#x884C;&#x91CD;&#x590D;&#x548C;&#x5DE9;&#x56FA;&#x7684;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4ECE;&#x601D;&#x7EF4;&#x4E0A;&#x8FDB;&#x884C;&#x5DE9;&#x56FA;&#x3002;</p>
-<h2 id="&#x96C6;&#x4E2D;&#x9AD8;&#x6548;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;"><a href="#&#x96C6;&#x4E2D;&#x9AD8;&#x6548;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;" class="headerlink" title="&#x96C6;&#x4E2D;&#x9AD8;&#x6548;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;"></a>&#x96C6;&#x4E2D;&#x9AD8;&#x6548;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;</h2><p>&#x5E94;&#x5BF9;&#x4E0A;&#x9762;&#x9519;&#x8BEF;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0B;&#x9762;&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x6211;&#x4EEC;&#x66F4;&#x597D;&#x5730;&#x5B66;&#x4E60;&#x638C;&#x63E1;&#x4E00;&#x95E8;&#x77E5;&#x8BC6;&#x3002;</p>
+<p>这些方法其实更多的是在形式层面进行重复和巩固的，而不是从思维上进行巩固。</p>
+<h2><span id="集中高效的学习方法">集中高效的学习方法</span></h2><p>应对上面错误的方法，下面这些方法可以帮助我们更好地学习掌握一门知识。</p>
 <ul>
-<li>&#x5728;&#x5B66;&#x4E60;&#x5B8C;&#x4E00;&#x6BB5;&#x6750;&#x6599;&#x4EE5;&#x540E;&#xFF0C;&#x5728;&#x4E0D;&#x770B;&#x7B14;&#x8BB0;&#x548C;&#x6750;&#x6599;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x53BB;&#x56DE;&#x60F3;&#x5B66;&#x8FC7;&#x7684;&#x77E5;&#x8BC6;&#xFF0C;&#x5728;&#x8111;&#x5B50;&#x91CC;&#x8FC7;&#x4E00;&#x904D;&#x81EA;&#x5DF1;&#x8BB0;&#x4F4F;&#x7684;&#x4E00;&#x4E9B;&#x77E5;&#x8BC6;&#x70B9;&#x3002;&#x5C3D;&#x529B;&#x56DE;&#x987E;&#x5B8C;&#x4EE5;&#x540E;&#xFF0C;&#x518D;&#x53BB;&#x5DE9;&#x56FA;&#x90A3;&#x4E9B;&#x4F60;&#x5DF2;&#x7ECF;&#x5FD8;&#x8BB0;&#x6216;&#x4E0D;&#x786E;&#x5B9A;&#x7684;&#x77E5;&#x8BC6;&#x70B9;&#x3002;&#x53CD;&#x590D;&#x51E0;&#x6B21;&#x3002;</li>
-<li>&#x5728;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x65B9;&#x56DE;&#x60F3;&#x4F1A;&#x5E2E;&#x52A9;&#x4F60;&#x6446;&#x8131;&#x4E00;&#x4E9B;&#x73AF;&#x5883;&#x4E0A;&#x7684;&#x6697;&#x793A;&#x3002;</li>
-<li>&#x7740;&#x91CD;&#x53BB;&#x7EC3;&#x4E60;&#x90A3;&#x4E9B;&#x81EA;&#x5DF1;&#x4E0D;&#x719F;&#x6089;&#x7684;&#x77E5;&#x8BC6;&#x70B9;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x53CD;&#x590D;&#x505A;&#x90A3;&#x4E9B;&#x5DF2;&#x7ECF;&#x4F1A;&#x7684;&#x7EC3;&#x4E60;&#x3002;</li>
-<li>Interleaving learning&#x3002;&#x8FD9;&#x4E2A;&#x6982;&#x5FF5;&#x662F;&#x8BF4;&#x5728;&#x5B66;&#x4E60;&#x4E00;&#x4E2A;&#x9886;&#x57DF;&#x7684;&#x77E5;&#x8BC6;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x591A;&#x4E2A;&#x77E5;&#x8BC6;&#x70B9;&#x4EA4;&#x66FF;&#x7684;&#x5B66;&#x4E60;&#x3002;&#x8FD9;&#x6837;&#x4F1A;&#x8BA9;&#x4F60;&#x62E5;&#x6709;&#x66F4;&#x9AD8;&#x7684;&#x5B66;&#x4E60;&#x6548;&#x7387;&#xFF0C;&#x867D;&#x7136;&#x8BF4;&#x5B66;&#x4E60;&#x8005;&#x672C;&#x8EAB;&#x53EF;&#x80FD;&#x6CA1;&#x53D1;&#x89C9;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;&#x5B66;&#x4E60;&#x7FBD;&#x6BDB;&#x7403;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x8BF4;&#x5B66;&#x4E60;&#x5B8C;&#x53D1;&#x7403;&#x4EE5;&#x540E;&#x518D;&#x5B66;&#x4E60;&#x6263;&#x6740;&#xFF0C;&#x53EF;&#x4EE5;&#x5B66;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x53D1;&#x7403;&#xFF0C;&#x7136;&#x540E;&#x53BB;&#x5B66;&#x6263;&#x6740;&#xFF0C;&#x63A5;&#x7740;&#x518D;&#x56DE;&#x6765;&#x5B66;&#x53D1;&#x7403;&#x3002;&#x8FD9;&#x4F1A;&#x8BA9;&#x4F60;&#x80FD;&#x591F;&#x5728;&#x4E0D;&#x540C;&#x70B9;&#x4E4B;&#x95F4;&#x7684;&#x7ECF;&#x9A8C;&#x5171;&#x4EAB;&#x3002;</li>
+<li>在学习完一段材料以后，在不看笔记和材料的情况下尽可能的去回想学过的知识，在脑子里过一遍自己记住的一些知识点。尽力回顾完以后，再去巩固那些你已经忘记或不确定的知识点。反复几次。</li>
+<li>在不同的地方回想会帮助你摆脱一些环境上的暗示。</li>
+<li>着重去练习那些自己不熟悉的知识点，而不是反复做那些已经会的练习。</li>
+<li>Interleaving learning。这个概念是说在学习一个领域的知识的时候，可以选择多个知识点交替的学习。这样会让你拥有更高的学习效率，虽然说学习者本身可能没发觉。比如说，学习羽毛球的时候，不需要说学习完发球以后再学习扣杀，可以学一段时间发球，然后去学扣杀，接着再回来学发球。这会让你能够在不同点之间的经验共享。</li>
 </ul>
-<h2 id="&#x5173;&#x4E8E;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x4E2A;&#x4EBA;&#x89C2;&#x70B9;"><a href="#&#x5173;&#x4E8E;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;-&#x4E2A;&#x4EBA;&#x89C2;&#x70B9;" class="headerlink" title="&#x5173;&#x4E8E;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;(&#x4E2A;&#x4EBA;&#x89C2;&#x70B9;)"></a>&#x5173;&#x4E8E;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;(&#x4E2A;&#x4EBA;&#x89C2;&#x70B9;)</h2><p>&#x4E0A;&#x9762;&#x7684;&#x9519;&#x8BEF;&#x7684;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;&#x4E2D;&#x63D0;&#x5230;&#x4E86;&#x4E00;&#x4E2A;concept mapping&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x8FD9;&#x4E2A;&#x6211;&#x89C9;&#x5F97;&#x8DDF;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x5F88;&#x50CF;&#x3002;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x770B;&#x4E0A;&#x53BB;&#x662F;&#x4E00;&#x4E2A;&#x5E2E;&#x52A9;&#x8BB0;&#x5FC6;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x89C9;&#x5F97;&#x5982;&#x679C;&#x7528;&#x5F97;&#x4E0D;&#x5BF9;&#x7684;&#x8BDD;&#x5176;&#x5B9E;&#x4E5F;&#x662F;&#x9519;&#x8BEF;&#x7684;&#x3002;</p>
-<p>&#x6211;&#x89C9;&#x5F97;&#x6B63;&#x786E;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x5728;&#x770B;&#x5B8C;&#x4E00;&#x672C;&#x4E66;&#xFF0C;&#x6216;&#x5B66;&#x4E60;&#x5B8C;&#x4E00;&#x6BB5;&#x77E5;&#x8BC6;&#x4EE5;&#x540E;&#x3002;&#x8131;&#x79BB;&#x5F00;&#x6765;&#x6750;&#x6599;&#xFF0C;&#x9760;&#x8111;&#x5B50;&#x56DE;&#x60F3;&#x77E5;&#x8BC6;&#x70B9;&#x4EE5;&#x53CA;&#x77E5;&#x8BC6;&#x70B9;&#x4E4B;&#x95F4;&#x7684;&#x8054;&#x7CFB;&#xFF0C;&#x7136;&#x540E;&#x501F;&#x52A9;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x8FD9;&#x4E2A;&#x5DE5;&#x5177;&#x628A;&#x8FD9;&#x4E9B;&#x8054;&#x7CFB;&#x4E2A;&#x8868;&#x8FBE;&#x51FA;&#x6765;&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x4E0A;&#x9762;&#x6211;&#x6240;&#x8BF4;&#x7684;&#x56DE;&#x60F3;&#x7684;&#x90A3;&#x4E2A;&#x8FC7;&#x7A0B;&#xFF0C;&#x53EA;&#x662F;&#x8BF4;&#x628A;&#x8111;&#x5B50;&#x91CC;&#x7684;&#x201C;chunk&#x201D;&#x901A;&#x8FC7;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x7684;&#x5F62;&#x5F0F;&#x8868;&#x8FBE;&#x51FA;&#x6765;&#x800C;&#x5DF2;&#x3002;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x4E2D;&#x5404;&#x4E2A;&#x70B9;&#x4E4B;&#x95F4;&#x7684;&#x8054;&#x7CFB;&#x53EF;&#x4EE5;&#x8DDF;&#x4E66;&#x672C;&#x4E0A;&#x7684;&#x8054;&#x7CFB;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x4F46;&#x662F;&#x4E00;&#x5B9A;&#x662F;&#x8981;&#x4F60;&#x8111;&#x5B50;&#x91CC;&#x771F;&#x5B9E;&#x7684;&#x8054;&#x7CFB;&#xFF0C;&#x5426;&#x5219;&#x7684;&#x8BDD;&#x4E0B;&#x6B21;&#x4F60;&#x770B;&#x5230;&#x8FD9;&#x4E2A;&#x601D;&#x7EF4;&#x5BFC;&#x56FE;&#x5C31;&#x4E0D;&#x80FD;&#x591F;&#x5FEB;&#x901F;&#x56DE;&#x60F3;&#x8D77;&#x8FD9;&#x4E9B;&#x5185;&#x5BB9;&#x3002;</p>
-<h2 id="&#x51E0;&#x4E2A;&#x95EE;&#x9898;"><a href="#&#x51E0;&#x4E2A;&#x95EE;&#x9898;" class="headerlink" title="&#x51E0;&#x4E2A;&#x95EE;&#x9898;"></a>&#x51E0;&#x4E2A;&#x95EE;&#x9898;</h2><p>&#x4F9D;&#x7136;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x95EE;&#x9898;&#x6CA1;&#x6709;&#x5F97;&#x5230;&#x5F88;&#x597D;&#x7684;&#x7B54;&#x6848;&#x3002;</p>
+<h2><span id="关于思维导图个人观点">关于思维导图(个人观点)</span></h2><p>上面的错误的学习方法中提到了一个concept mapping的东西，这个我觉得跟思维导图很像。思维导图看上去是一个帮助记忆的方法，但是我觉得如果用得不对的话其实也是错误的。</p>
+<p>我觉得正确的方法是在看完一本书，或学习完一段知识以后。脱离开来材料，靠脑子回想知识点以及知识点之间的联系，然后借助思维导图这个工具把这些联系个表达出来。这就是上面我所说的回想的那个过程，只是说把脑子里的“chunk”通过思维导图的形式表达出来而已。思维导图中各个点之间的联系可以跟书本上的联系不一样，但是一定是要你脑子里真实的联系，否则的话下次你看到这个思维导图就不能够快速回想起这些内容。</p>
+<h2><span id="几个问题">几个问题</span></h2><p>依然有以下几个问题没有得到很好的答案。</p>
 <ol>
-<li>&#x5982;&#x4F55;&#x514B;&#x670D;&#x601D;&#x7EF4;&#x5B9A;&#x52BF;&#xFF1F;</li>
-<li>&#x5982;&#x4F55;&#x5229;&#x7528;&#x597D;diffuse mode&#xFF1F;</li>
+<li>如何克服思维定势？</li>
+<li>如何利用好diffuse mode？</li>
 </ol>
 <p><img src="/img/learning_how_to_learn_week_2.png" alt="Learning how to learn week 2 mindmap"></p>
 
@@ -713,7 +712,11 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -721,15 +724,11 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -749,15 +748,15 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -782,9 +781,6 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -813,7 +809,7 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

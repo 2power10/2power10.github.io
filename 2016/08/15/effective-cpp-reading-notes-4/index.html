@@ -11,22 +11,18 @@
     
 
     
-    <meta name="description" content="2 &amp;#x6784;&amp;#x9020;/&amp;#x6790;&amp;#x6784;/&amp;#x8D4B;&amp;#x503C;&amp;#x8FD0;&amp;#x7B97;&amp;#x6761;&amp;#x6B3E;10&amp;#xFF1A;&amp;#x4EE4; operator= &amp;#x8FD4;&amp;#x56DE;&amp;#x4E00;&amp;#x4E2A; reference to *this
-
-&amp;#x4EE4;&amp;#x8D4B;&amp;#x503C;&amp;#xFF08;as">
+    <meta name="description" content="2 构造/析构/赋值运算条款10：令 operator= 返回一个 reference to *this  令赋值（assignment）操作符返回一个 reference to *this。   有以下两个主要原因：  允许连锁赋值。比如说，int x, y, z; x = y = z; 这个协议被普遍的遵守（包括标准库中的很多类型），为了保持类的行为与其他类一致性。  条款11：在operat">
+<meta name="keywords" content="C++,编程语言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Effective C++》读书笔记(4)">
 <meta property="og:url" content="http://zhengyi.me/2016/08/15/effective-cpp-reading-notes-4/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="2 &amp;#x6784;&amp;#x9020;/&amp;#x6790;&amp;#x6784;/&amp;#x8D4B;&amp;#x503C;&amp;#x8FD0;&amp;#x7B97;&amp;#x6761;&amp;#x6B3E;10&amp;#xFF1A;&amp;#x4EE4; operator= &amp;#x8FD4;&amp;#x56DE;&amp;#x4E00;&amp;#x4E2A; reference to *this
-
-&amp;#x4EE4;&amp;#x8D4B;&amp;#x503C;&amp;#xFF08;as">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="2 构造/析构/赋值运算条款10：令 operator= 返回一个 reference to *this  令赋值（assignment）操作符返回一个 reference to *this。   有以下两个主要原因：  允许连锁赋值。比如说，int x, y, z; x = y = z; 这个协议被普遍的遵守（包括标准库中的很多类型），为了保持类的行为与其他类一致性。  条款11：在operat">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-09-06T13:14:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Effective C++》读书笔记(4)">
-<meta name="twitter:description" content="2 &amp;#x6784;&amp;#x9020;/&amp;#x6790;&amp;#x6784;/&amp;#x8D4B;&amp;#x503C;&amp;#x8FD0;&amp;#x7B97;&amp;#x6761;&amp;#x6B3E;10&amp;#xFF1A;&amp;#x4EE4; operator= &amp;#x8FD4;&amp;#x56DE;&amp;#x4E00;&amp;#x4E2A; reference to *this
-
-&amp;#x4EE4;&amp;#x8D4B;&amp;#x503C;&amp;#xFF08;as">
+<meta name="twitter:description" content="2 构造/析构/赋值运算条款10：令 operator= 返回一个 reference to *this  令赋值（assignment）操作符返回一个 reference to *this。   有以下两个主要原因：  允许连锁赋值。比如说，int x, y, z; x = y = z; 这个协议被普遍的遵守（包括标准库中的很多类型），为了保持类的行为与其他类一致性。  条款11：在operat">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -63,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -106,102 +100,102 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-构造析构赋值运算"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款10令-operator-返回一个-reference-to-this"><span class="toc-number">1.1.</span> <span class="toc-text">条款10：令 operator= 返回一个 reference to *this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款11在operator中处理自我赋值"><span class="toc-number">1.2.</span> <span class="toc-text">条款11：在operator=中处理“自我赋值”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款12复制对象时勿忘其每一个成分"><span class="toc-number">1.3.</span> <span class="toc-text">条款12：复制对象时勿忘其每一个成分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-资源管理"><span class="toc-number">2.</span> <span class="toc-text">3. 资源管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款13-以对象管理资源"><span class="toc-number">2.1.</span> <span class="toc-text">条款13： 以对象管理资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款14在资源管理类中小心copying行为"><span class="toc-number">2.2.</span> <span class="toc-text">条款14：在资源管理类中小心copying行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款15在资源管理类中提供对原始资源的访问"><span class="toc-number">2.3.</span> <span class="toc-text">条款15：在资源管理类中提供对原始资源的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款16成对使用new和delete时要采用相同形式"><span class="toc-number">2.4.</span> <span class="toc-text">条款16：成对使用new和delete时要采用相同形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款17以独立语句将newed对象置入智能指针"><span class="toc-number">2.5.</span> <span class="toc-text">条款17：以独立语句将newed对象置入智能指针</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款10：令 operator= 返回一个 reference to *this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款11：在operator=中处理“自我赋值”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款12：复制对象时勿忘其每一个成分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">3. 资源管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.1.</span> <span class="toc-text">条款13： 以对象管理资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.2.</span> <span class="toc-text">条款14：在资源管理类中小心copying行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.3.</span> <span class="toc-text">条款15：在资源管理类中提供对原始资源的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.4.</span> <span class="toc-text">条款16：成对使用new和delete时要采用相同形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.5.</span> <span class="toc-text">条款17：以独立语句将newed对象置入智能指针</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="2-&#x6784;&#x9020;&#x6790;&#x6784;&#x8D4B;&#x503C;&#x8FD0;&#x7B97;"><a href="#2-&#x6784;&#x9020;-&#x6790;&#x6784;-&#x8D4B;&#x503C;&#x8FD0;&#x7B97;" class="headerlink" title="2 &#x6784;&#x9020;/&#x6790;&#x6784;/&#x8D4B;&#x503C;&#x8FD0;&#x7B97;"></a>2 &#x6784;&#x9020;/&#x6790;&#x6784;/&#x8D4B;&#x503C;&#x8FD0;&#x7B97;</h2><h3 id="&#x6761;&#x6B3E;10&#x4EE4;-operator-&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;-reference-to-this"><a href="#&#x6761;&#x6B3E;10&#xFF1A;&#x4EE4;-operator-&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;-reference-to-this" class="headerlink" title="&#x6761;&#x6B3E;10&#xFF1A;&#x4EE4; operator= &#x8FD4;&#x56DE;&#x4E00;&#x4E2A; reference to *this"></a>&#x6761;&#x6B3E;10&#xFF1A;&#x4EE4; operator= &#x8FD4;&#x56DE;&#x4E00;&#x4E2A; reference to *this</h3><blockquote>
+		<h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款10令-operator-返回一个-reference-to-this">条款10：令 operator= 返回一个 reference to *this</span></h3><blockquote>
 <ul>
-<li>&#x4EE4;&#x8D4B;&#x503C;&#xFF08;assignment&#xFF09;&#x64CD;&#x4F5C;&#x7B26;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A; reference to *this&#x3002;</li>
+<li>令赋值（assignment）操作符返回一个 reference to *this。</li>
 </ul>
 </blockquote>
-<p>&#x6709;&#x4EE5;&#x4E0B;&#x4E24;&#x4E2A;&#x4E3B;&#x8981;&#x539F;&#x56E0;&#xFF1A;</p>
+<p>有以下两个主要原因：</p>
 <ol>
-<li>&#x5141;&#x8BB8;&#x8FDE;&#x9501;&#x8D4B;&#x503C;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;<code>int x, y, z; x = y = z;</code></li>
-<li>&#x8FD9;&#x4E2A;&#x534F;&#x8BAE;&#x88AB;&#x666E;&#x904D;&#x7684;&#x9075;&#x5B88;&#xFF08;&#x5305;&#x62EC;&#x6807;&#x51C6;&#x5E93;&#x4E2D;&#x7684;&#x5F88;&#x591A;&#x7C7B;&#x578B;&#xFF09;&#xFF0C;&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x7C7B;&#x7684;&#x884C;&#x4E3A;&#x4E0E;&#x5176;&#x4ED6;&#x7C7B;&#x4E00;&#x81F4;&#x6027;&#x3002;</li>
+<li>允许连锁赋值。比如说，<code>int x, y, z; x = y = z;</code></li>
+<li>这个协议被普遍的遵守（包括标准库中的很多类型），为了保持类的行为与其他类一致性。</li>
 </ol>
-<h3 id="&#x6761;&#x6B3E;11&#x5728;operator&#x4E2D;&#x5904;&#x7406;&#x81EA;&#x6211;&#x8D4B;&#x503C;"><a href="#&#x6761;&#x6B3E;11&#xFF1A;&#x5728;operator-&#x4E2D;&#x5904;&#x7406;&#x201C;&#x81EA;&#x6211;&#x8D4B;&#x503C;&#x201D;" class="headerlink" title="&#x6761;&#x6B3E;11&#xFF1A;&#x5728;operator=&#x4E2D;&#x5904;&#x7406;&#x201C;&#x81EA;&#x6211;&#x8D4B;&#x503C;&#x201D;"></a>&#x6761;&#x6B3E;11&#xFF1A;&#x5728;operator=&#x4E2D;&#x5904;&#x7406;&#x201C;&#x81EA;&#x6211;&#x8D4B;&#x503C;&#x201D;</h3><blockquote>
+<h3><span id="条款11在operator中处理自我赋值">条款11：在operator=中处理“自我赋值”</span></h3><blockquote>
 <ul>
-<li>&#x786E;&#x4FDD;&#x5F53;&#x5BF9;&#x8C61;&#x81EA;&#x6211;&#x8D4B;&#x503C;&#x65F6;operator=&#x6709;&#x826F;&#x597D;&#x884C;&#x4E3A;&#x3002;&#x5176;&#x4E2D;&#x6280;&#x672F;&#x5305;&#x62EC;&#x6BD4;&#x8F83;&#x201C;&#x6765;&#x6E90;&#x5BF9;&#x8C61;&#x201D;&#x548C;&#x201C;&#x76EE;&#x6807;&#x5BF9;&#x8C61;&#x201D;&#x7684;&#x5730;&#x5740;&#x3001;&#x7CBE;&#x5FC3;&#x5468;&#x5230;&#x7684;&#x8BED;&#x53E5;&#x987A;&#x5E8F;&#x3001;&#x4EE5;&#x53CA;copy-and-swap&#x3002;</li>
-<li>&#x786E;&#x5B9A;&#x4EFB;&#x4F55;&#x51FD;&#x6570;&#x5982;&#x679C;&#x64CD;&#x4F5C;&#x4E00;&#x4E2A;&#x4EE5;&#x4E0A;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x800C;&#x5176;&#x4E2D;&#x591A;&#x4E2A;&#x5BF9;&#x8C61;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x65F6;&#xFF0C;&#x5176;&#x884C;&#x4E3A;&#x4E3A;&#x4ECD;&#x7136;&#x6B63;&#x786E;&#x3002;</li>
+<li>确保当对象自我赋值时operator=有良好行为。其中技术包括比较“来源对象”和“目标对象”的地址、精心周到的语句顺序、以及copy-and-swap。</li>
+<li>确定任何函数如果操作一个以上的对象，而其中多个对象是同一个对象时，其行为为仍然正确。</li>
 </ul>
 </blockquote>
-<p>&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x53EF;&#x80FD;&#x88AB;&#x81EA;&#x6211;&#x8D4B;&#x503C;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Widget w[];</span><br><span class="line">// some operation</span><br><span class="line">w[i] = w[j];	//w[i]&#x548C;w[j]&#x6307;&#x5411;&#x540C;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;</span><br></pre></td></tr></table></figure></p>
-<p>&#x53EF;&#x4EE5;&#x5728;operator= &#x64CD;&#x4F5C;&#x4E2D;&#x505A;&#x4E00;&#x4E0B;&#x7B80;&#x5355;&#x7684;&#x6307;&#x9488;&#x6BD4;&#x8F83;&#x6765;&#x907F;&#x514D;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x64CD;&#x4F5C;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Widget&amp; Widget::operator=(const Widget&amp; rhs) {</span><br><span class="line">    if (this == &amp;rhs) return *this;</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p>&#x5F53;&#x4F60;&#x9700;&#x8981;&#x5728;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;&#x4E2D;&#x505A;&#x4E00;&#x4E9B;&#x590D;&#x6742;&#x7684;&#x63A7;&#x5236;&#x903B;&#x8F91;&#xFF0C;&#x4F60;&#x4E0D;&#x4EC5;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#x8D77;&#x201C;&#x81EA;&#x6211;&#x8D4B;&#x503C;&#x5B89;&#x5168;&#x6027;&#x201D;&#x8FD8;&#x8981;&#x4FDD;&#x8BC1;&#x201C;&#x5F02;&#x5E38;&#x5B89;&#x5168;&#x6027;&#x201D;&#x3002;&#x8FD9;&#x4E2A;&#x4F1A;&#x5728;&#x6761;&#x6B3E;xx&#x4E2D;&#x5177;&#x4F53;&#x8FDB;&#x884C;&#x8BF4;&#x660E;&#x3002;</p>
-<h3 id="&#x6761;&#x6B3E;12&#x590D;&#x5236;&#x5BF9;&#x8C61;&#x65F6;&#x52FF;&#x5FD8;&#x5176;&#x6BCF;&#x4E00;&#x4E2A;&#x6210;&#x5206;"><a href="#&#x6761;&#x6B3E;12&#xFF1A;&#x590D;&#x5236;&#x5BF9;&#x8C61;&#x65F6;&#x52FF;&#x5FD8;&#x5176;&#x6BCF;&#x4E00;&#x4E2A;&#x6210;&#x5206;" class="headerlink" title="&#x6761;&#x6B3E;12&#xFF1A;&#x590D;&#x5236;&#x5BF9;&#x8C61;&#x65F6;&#x52FF;&#x5FD8;&#x5176;&#x6BCF;&#x4E00;&#x4E2A;&#x6210;&#x5206;"></a>&#x6761;&#x6B3E;12&#xFF1A;&#x590D;&#x5236;&#x5BF9;&#x8C61;&#x65F6;&#x52FF;&#x5FD8;&#x5176;&#x6BCF;&#x4E00;&#x4E2A;&#x6210;&#x5206;</h3><blockquote>
+<p>一个对象可能被自我赋值，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Widget w[];</span><br><span class="line">// some operation</span><br><span class="line">w[i] = w[j];	//w[i]和w[j]指向同一个对象</span><br></pre></td></tr></table></figure></p>
+<p>可以在operator= 操作中做一下简单的指针比较来避免不必要的操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Widget&amp; Widget::operator=(const Widget&amp; rhs) &#123;</span><br><span class="line">    if (this == &amp;rhs) return *this;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当你需要在赋值操作中做一些复杂的控制逻辑，你不仅需要保证起“自我赋值安全性”还要保证“异常安全性”。这个会在条款xx中具体进行说明。</p>
+<h3><span id="条款12复制对象时勿忘其每一个成分">条款12：复制对象时勿忘其每一个成分</span></h3><blockquote>
 <ul>
-<li>Copying &#x51FD;&#x6570;&#x5E94;&#x8BE5;&#x786E;&#x4FDD;&#x590D;&#x5236;&#x201C;&#x5BF9;&#x8C61;&#x5185;&#x7684;&#x6240;&#x6709;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x201D;&#x53CA;&#x201C;&#x6240;&#x6709;base class&#x6210;&#x5206;&#x201D;</li>
-<li>&#x4E0D;&#x8981;&#x5C1D;&#x8BD5;&#x4EE5;&#x67D0;&#x4E2A;copying&#x51FD;&#x6570;&#x5B9E;&#x73B0;&#x53E6;&#x4E00;&#x4E2A;copying&#x51FD;&#x6570;&#x3002;&#x5E94;&#x8BE5;&#x5C06;&#x5171;&#x540C;&#x673A;&#x80FD;&#x653E;&#x8FDB;&#x7B2C;&#x4E09;&#x4E2A;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x5E76;&#x7531;&#x4E24;&#x4E2A;copying&#x51FD;&#x6570;&#x5171;&#x540C;&#x8C03;&#x7528;&#x3002;</li>
+<li>Copying 函数应该确保复制“对象内的所有成员变量”及“所有base class成分”</li>
+<li>不要尝试以某个copying函数实现另一个copying函数。应该将共同机能放进第三个函数中，并由两个copying函数共同调用。</li>
 </ul>
 </blockquote>
-<p>copy&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;copy assignment&#x64CD;&#x4F5C;&#x7B26;&#x6211;&#x4EEC;&#x7EDF;&#x79F0;&#x4E3A;copying&#x51FD;&#x6570;&#x3002;&#x5F53;&#x6211;&#x4EEC;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;copying&#x52A1;&#x5FC5;&#x8981;&#x786E;&#x4FDD;&#x6240;&#x6709;&#x7684;&#x5B57;&#x6BB5;&#x90FD;&#x8FDB;&#x884C;&#x4E86;&#x590D;&#x5236;&#xFF0C;&#x540C;&#x4E8B;&#x5982;&#x679C;&#x6709;&#x57FA;&#x7C7B;&#x8981;&#x4FDD;&#x8BC1;&#x76F8;&#x5BF9;&#x5E94;&#x7684;copying&#x51FD;&#x6570;&#x88AB;&#x6B63;&#x786E;&#x5F97;&#x8C03;&#x7528;&#x3002;</p>
-<p>&#x4F5C;&#x8005;&#x8BA4;&#x4E3A;&#x867D;&#x7136;&#x8BF4;copy&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;copy assignment&#x64CD;&#x4F5C;&#x7B26;&#x505A;&#x7684;&#x64CD;&#x4F5C;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x662F;&#x76F8;&#x540C;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x5E94;&#x8BE5;&#x5C1D;&#x8BD5;&#x4EE5;&#x67D0;&#x4E00;&#x4E2A;copying&#x51FD;&#x6570;&#x5B9E;&#x73B0;&#x8C03;&#x7528;&#x53E6;&#x4E00;&#x4E2A;copying&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x6837;&#x7684;&#x64CD;&#x4F5C;&#x5E76;&#x4E0D;&#x5408;&#x7406;&#x3002;</p>
-<h2 id="3-&#x8D44;&#x6E90;&#x7BA1;&#x7406;"><a href="#3-&#x8D44;&#x6E90;&#x7BA1;&#x7406;" class="headerlink" title="3. &#x8D44;&#x6E90;&#x7BA1;&#x7406;"></a>3. &#x8D44;&#x6E90;&#x7BA1;&#x7406;</h2><h3 id="&#x6761;&#x6B3E;13-&#x4EE5;&#x5BF9;&#x8C61;&#x7BA1;&#x7406;&#x8D44;&#x6E90;"><a href="#&#x6761;&#x6B3E;13&#xFF1A;-&#x4EE5;&#x5BF9;&#x8C61;&#x7BA1;&#x7406;&#x8D44;&#x6E90;" class="headerlink" title="&#x6761;&#x6B3E;13&#xFF1A; &#x4EE5;&#x5BF9;&#x8C61;&#x7BA1;&#x7406;&#x8D44;&#x6E90;"></a>&#x6761;&#x6B3E;13&#xFF1A; &#x4EE5;&#x5BF9;&#x8C61;&#x7BA1;&#x7406;&#x8D44;&#x6E90;</h3><blockquote>
+<p>copy构造函数和copy assignment操作符我们统称为copying函数。当我们自己定义copying务必要确保所有的字段都进行了复制，同事如果有基类要保证相对应的copying函数被正确得调用。</p>
+<p>作者认为虽然说copy构造函数和copy assignment操作符做的操作绝大多数是相同的，但是不应该尝试以某一个copying函数实现调用另一个copying函数。这样的操作并不合理。</p>
+<h2><span id="3-资源管理">3. 资源管理</span></h2><h3><span id="条款13-以对象管理资源">条款13： 以对象管理资源</span></h3><blockquote>
 <ul>
-<li>&#x4E3A;&#x9632;&#x6B62;&#x8D44;&#x6E90;&#x6CC4;&#x9732;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;RAII&#x5BF9;&#x8C61;&#xFF0C;&#x5B83;&#x4EEC;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E2D;&#x83B7;&#x5F97;&#x8D44;&#x6E90;&#x5E76;&#x5728;&#x6790;&#x6784;&#x51FD;&#x6570;&#x4E2D;&#x91CA;&#x653E;&#x8D44;&#x6E90;&#x3002;</li>
-<li>&#x4E24;&#x4E2A;&#x5E38;&#x88AB;&#x4F7F;&#x7528;&#x7684;RAII classes&#x5206;&#x522B;&#x662F;<code>tr1::shared_ptr</code>&#x548C;<code>auto_ptr</code>(C++ 11 &#x4E2D;&#x6709;<code>std::shared_ptr</code>&#x548C;<code>std::auto_ptr</code>)</li>
+<li>为防止资源泄露，请使用RAII对象，它们在构造函数中获得资源并在析构函数中释放资源。</li>
+<li>两个常被使用的RAII classes分别是<code>tr1::shared_ptr</code>和<code>auto_ptr</code>(C++ 11 中有<code>std::shared_ptr</code>和<code>std::auto_ptr</code>)</li>
 </ul>
 </blockquote>
-<p>&#x5185;&#x5B58;&#x6CC4;&#x6F0F;&#x548C;&#x8D44;&#x6E90;&#x6CC4;&#x9732;&#x5F88;&#x591A;&#x60C5;&#x51B5;&#x90FD;&#x662F;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x5185;&#x5B58;/&#x8D44;&#x6E90;&#x5206;&#x914D;&#x5728;&#x5806;&#x4E0A;&#xFF0C;&#x88AB;&#x7528;&#x4E8E;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x5185;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x63A7;&#x5236;&#x6D41;&#x79BB;&#x5F00;&#x51FD;&#x6570;&#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x5F97;&#x5230;&#x6B63;&#x786E;&#x7684;&#x91CA;&#x653E;&#x3002;&#x5BF9;&#x4E8E;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x5F15;&#x8D77;&#x7684;&#x8D44;&#x6E90;&#x6CC4;&#x9732;&#xFF0C;&#x53EF;&#x4EE5;&#x628A;&#x8D44;&#x6E90;&#x5305;&#x88C5;&#x6210;&#x5BF9;&#x8C61;&#x6765;&#x5B9E;&#x73B0;&#x5408;&#x7406;&#x7684;&#x91CA;&#x653E;&#x3002;</p>
-<p>&#x201C;&#x4EE5;&#x5BF9;&#x8C61;&#x7BA1;&#x7406;&#x8D44;&#x6E90;&#x201D; &#x901A;&#x5E38;&#x4E5F;&#x88AB;&#x79F0;&#x4E3A;&#x201D;&#x8D44;&#x6E90;&#x53D6;&#x5F97;&#x65F6;&#x673A;&#x4FBF;&#x662F;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x673A;&#x201D;&#xFF08;<em>Resource Acquisition Is Initialization: RAII</em>&#xFF09;&#x3002;RAII&#x7684;&#x4E24;&#x4E2A;&#x6838;&#x5FC3;&#x601D;&#x60F3;&#xFF1A;</p>
+<p>内存泄漏和资源泄露很多情况都是因为一个内存/资源分配在堆上，被用于一个函数内，然后在控制流离开函数的时候没有得到正确的释放。对于这种情况引起的资源泄露，可以把资源包装成对象来实现合理的释放。</p>
+<p>“以对象管理资源” 通常也被称为”资源取得时机便是初始化时机”（<em>Resource Acquisition Is Initialization: RAII</em>）。RAII的两个核心思想：</p>
 <ul>
-<li>&#x83B7;&#x5F97;&#x8D44;&#x6E90;&#x540E;&#x7ACB;&#x523B;&#x653E;&#x8FDB;&#x7BA1;&#x7406;&#x5BF9;&#x8C61;&#x5185;&#x3002;</li>
-<li>&#x7BA1;&#x7406;&#x5BF9;&#x8C61;&#x8FD0;&#x7528;&#x6790;&#x6784;&#x51FD;&#x6570;&#x786E;&#x4FDD;&#x8D44;&#x6E90;&#x5F97;&#x5230;&#x91CA;&#x653E;&#x3002;</li>
+<li>获得资源后立刻放进管理对象内。</li>
+<li>管理对象运用析构函数确保资源得到释放。</li>
 </ul>
-<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x81EA;&#x5DF1;&#x7684;&#x9700;&#x6C42;&#x5B9A;&#x5236;RAII&#x7C7B;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7CFB;&#x7EDF;&#x63D0;&#x4F9B;&#x7684;&#x667A;&#x80FD;&#x6307;&#x9488;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x4F5C;&#x4E3A;&#x7BA1;&#x7406;&#x5BF9;&#x8C61;&#x3002;</p>
+<p>我们可以根据自己的需求定制RAII类，同时也可以使用系统提供的智能指针可以用来作为管理对象。</p>
 <ul>
-<li><code>auto_ptr</code> - <code>auto_ptr</code>&#x88AB;&#x9500;&#x6BC1;&#x65F6;&#x4F1A;&#x81EA;&#x52A8;&#x5220;&#x9664;&#x5B83;&#x6240;&#x6307;&#x4E4B;&#x7269;&#x3002;&#x5B83;&#x7684;&#x7F3A;&#x70B9;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x591A;&#x4E2A;<code>auto_ptr</code>&#x6307;&#x5411;&#x540C;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x90A3;&#x4E48;&#x90A3;&#x4E2A;&#x5BF9;&#x8C61;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#x4E00;&#x6B21;&#x4EE5;&#x4E0A;&#x3002;&#x53E6;&#x5916;&#x901A;&#x8FC7;copy&#x6784;&#x9020;&#x51FD;&#x6570;&#x6216;copy assignment&#x64CD;&#x4F5C;&#x7B26;&#x590D;&#x5236;&#x5B83;&#x4EEC;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x4EEC;&#x4F1A;&#x53D8;&#x6210;null&#x3002;</li>
-<li><code>shared_ptr</code> -  <code>shared_ptr</code>&#x662F;&#x4E00;&#x4E2A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x539F;&#x7406;&#x7684;&#x667A;&#x80FD;&#x6307;&#x9488;&#x3002;&#x5B83;&#x80FD;&#x591F;&#x6301;&#x7EED;&#x8FFD;&#x8E2A;&#x6709;&#x591A;&#x5C11;&#x4E2A;&#x5BF9;&#x8C61;&#x6307;&#x5411;&#x67D0;&#x4E2A;&#x8D44;&#x6E90;&#xFF0C;&#x800C;&#x4E14;&#x5B83;&#x7684;&#x590D;&#x5236;&#x884C;&#x4E3A;&#x4E5F;&#x770B;&#x4E0A;&#x53BB;&#x6B63;&#x5E38;&#x8BB8;&#x591A;&#x3002;&#x5B83;&#x7684;&#x7F3A;&#x70B9;&#x662F;&#xFF0C;&#x5B83;&#x65E0;&#x6CD5;&#x6253;&#x7834;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x95EE;&#x9898;&#x3002;</li>
+<li><code>auto_ptr</code> - <code>auto_ptr</code>被销毁时会自动删除它所指之物。它的缺点是，如果多个<code>auto_ptr</code>指向同一个对象，那么那个对象会被删除一次以上。另外通过copy构造函数或copy assignment操作符复制它们的时候，它们会变成null。</li>
+<li><code>shared_ptr</code> -  <code>shared_ptr</code>是一个引用计数原理的智能指针。它能够持续追踪有多少个对象指向某个资源，而且它的复制行为也看上去正常许多。它的缺点是，它无法打破循环引用的问题。</li>
 </ul>
-<h3 id="&#x6761;&#x6B3E;14&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x5C0F;&#x5FC3;copying&#x884C;&#x4E3A;"><a href="#&#x6761;&#x6B3E;14&#xFF1A;&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x5C0F;&#x5FC3;copying&#x884C;&#x4E3A;" class="headerlink" title="&#x6761;&#x6B3E;14&#xFF1A;&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x5C0F;&#x5FC3;copying&#x884C;&#x4E3A;"></a>&#x6761;&#x6B3E;14&#xFF1A;&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x5C0F;&#x5FC3;copying&#x884C;&#x4E3A;</h3><blockquote>
+<h3><span id="条款14在资源管理类中小心copying行为">条款14：在资源管理类中小心copying行为</span></h3><blockquote>
 <ul>
-<li>&#x590D;&#x5236;RAII&#x5BF9;&#x8C61;&#x5FC5;&#x987B;&#x4E00;&#x5E76;&#x590D;&#x5236;&#x5B83;&#x6240;&#x7BA1;&#x7406;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x6240;&#x4EE5;&#x8D44;&#x6E90;&#x7684;copying&#x884C;&#x4E3A;&#x51B3;&#x5B9A;RAII&#x5BF9;&#x8C61;&#x7684;copying&#x884C;&#x4E3A;&#x3002;</li>
-<li>&#x666E;&#x904D;&#x800C;&#x5E38;&#x89C1;&#x7684;RAII class copying&#x884C;&#x4E3A;&#x662F;&#xFF1A;&#x7981;&#x6B62;copying&#x3001;&#x65BD;&#x884C;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;&#xFF08;reference counting&#xFF09;&#x3002;&#x4E0D;&#x8FC7;&#x5176;&#x4ED6;&#x884C;&#x4E3A;&#x4E5F;&#x90FD;&#x53EF;&#x80FD;&#x88AB;&#x5B9E;&#x73B0;&#x3002;</li>
+<li>复制RAII对象必须一并复制它所管理的资源，所以资源的copying行为决定RAII对象的copying行为。</li>
+<li>普遍而常见的RAII class copying行为是：禁止copying、施行引用计数法（reference counting）。不过其他行为也都可能被实现。</li>
 </ul>
 </blockquote>
-<p>&#x5F53;&#x6211;&#x4EEC;&#x5B9A;&#x5236;RAII&#x5BF9;&#x8C61;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x6839;&#x636E;&#x5177;&#x4F53;&#x7684;&#x9700;&#x6C42;&#x6765;&#x63A7;&#x5236;&#x5176;&#x62F7;&#x8D1D;&#x7684;&#x884C;&#x4E3A;&#x3002;&#x4E0D;&#x7136;&#x53EF;&#x80FD;&#x4F1A;&#x51FA;&#x73B0;&#x4E00;&#x4E9B;&#x201C;&#x4E0D;&#x6109;&#x5FEB;&#x201D;&#x7684;&#x4E8B;&#x60C5;&#x3002;</p>
-<p>&#x62F7;&#x8D1D;&#x7684;&#x884C;&#x4E3A;&#x57FA;&#x672C;&#x6709;&#x4E0B;&#x9762;&#x51E0;&#x79CD;&#xFF1A;</p>
+<p>当我们定制RAII对象的时候，需要根据具体的需求来控制其拷贝的行为。不然可能会出现一些“不愉快”的事情。</p>
+<p>拷贝的行为基本有下面几种：</p>
 <ul>
-<li><p><strong>&#x7981;&#x6B62;&#x590D;&#x5236;&#x3002;</strong> &#x5F88;&#x591A;&#x60C5;&#x51B5;&#x5BF9;RAII&#x5BF9;&#x8C61;&#x8FDB;&#x884C;&#x590D;&#x5236;&#x662F;&#x4E0D;&#x5408;&#x7406;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x4E00;&#x4E2A;Lock&#x7C7B;&#xFF0C;&#x4FDD;&#x5B58;&#x7740;&#x4E00;&#x4E2A;&#x9501;&#x3002;&#x5408;&#x7406;&#x7684;&#x884C;&#x4E3A;&#x662F;&#x7981;&#x6B62;&#x8FD9;&#x4E2A;&#x7C7B;&#x578B;&#x7684;&#x590D;&#x5236;&#x884C;&#x4E3A;&#x3002;</p>
+<li><p><strong>禁止复制。</strong> 很多情况对RAII对象进行复制是不合理的，比如说一个Lock类，保存着一个锁。合理的行为是禁止这个类型的复制行为。</p>
 </li>
-<li><p><strong>&#x5BF9;&#x5E95;&#x5C42;&#x8D44;&#x6E90;&#x796D;&#x51FA;&#x201C;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;&#x201D;&#x3002;</strong> &#x5982;&#x679C;&#x6211;&#x4EEC;&#x5E0C;&#x671B;&#x4FDD;&#x6709;&#x8D44;&#x6E90;&#xFF0C;&#x77E5;&#x9053;&#x5B83;&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;&#x8005;&#x88AB;&#x9500;&#x6BC1;&#x3002;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x6211;&#x4EEC;&#x5C31;&#x5E94;&#x8BE5;&#x5728;&#x5185;&#x90E8;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6765;&#x7BA1;&#x7406;&#x8D44;&#x6E90;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;<code>shared_ptr</code>&#x6765;&#x505A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x3002;</p>
+<li><p><strong>对底层资源祭出“引用计数法”。</strong> 如果我们希望保有资源，知道它的最后一个使用者被销毁。这种情况我们就应该在内部使用一个引用计数来管理资源，我们可以用<code>shared_ptr</code>来做引用计数。</p>
 </li>
-<li><p><strong>&#x590D;&#x5236;&#x5E95;&#x90E8;&#x8D44;&#x6E90;&#x3002;</strong>  &#x62F7;&#x8D1D;&#x65F6;&#x5C06;&#x5185;&#x90E8;&#x7684;&#x8D44;&#x6E90;&#x8FDB;&#x884C;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x6DF1;&#x5C42;&#x62F7;&#x8D1D;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x88AB;&#x590D;&#x5236;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x4E0D;&#x4EC5;&#x8981;&#x590D;&#x5236;&#x6307;&#x5411;&#x5185;&#x5B58;&#x4E2D;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x6307;&#x9488;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x5E94;&#x8BE5;&#x590D;&#x5236;&#x5BF9;&#x5E94;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5185;&#x5B58;&#x3002;</p>
+<li><p><strong>复制底部资源。</strong>  拷贝时将内部的资源进行一个完整的深层拷贝。比如说，一个字符串被复制的时候，它不仅要复制指向内存中字符串的指针，同时也应该复制对应的字符串内存。</p>
 </li>
-<li><p><strong>&#x8F6C;&#x79FB;&#x5E95;&#x5C42;&#x8D44;&#x6E90;&#x7684;&#x62E5;&#x6709;&#x6743;</strong> &#x5728;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x7279;&#x6B8A;&#x7684;&#x573A;&#x5408;&#x53EF;&#x80FD;&#x5E0C;&#x671B;&#x53EA;&#x6709;&#x4E00;&#x4E2A;RAII&#x5BF9;&#x8C61;&#x6307;&#x5411;&#x4E00;&#x4E2A;&#x8D44;&#x6E90;&#xFF0C;&#x5F53;&#x88AB;&#x590D;&#x5236;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8D44;&#x6E90;&#x7684;&#x62E5;&#x6709;&#x6743;&#x5C06;&#x4F1A;&#x8FDB;&#x884C;&#x8F6C;&#x79FB;&#x3002;&#x8FD9;&#x4E2A;&#x884C;&#x4E3A;&#x8DDF;<code>auto_ptr</code>&#x7684;&#x884C;&#x4E3A;&#x662F;&#x4E00;&#x6837;&#x7684;&#x3002;</p>
+<li><p><strong>转移底层资源的拥有权</strong> 在一些比较特殊的场合可能希望只有一个RAII对象指向一个资源，当被复制的时候，资源的拥有权将会进行转移。这个行为跟<code>auto_ptr</code>的行为是一样的。</p>
 </li>
 </ul>
-<h3 id="&#x6761;&#x6B3E;15&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x63D0;&#x4F9B;&#x5BF9;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#x7684;&#x8BBF;&#x95EE;"><a href="#&#x6761;&#x6B3E;15&#xFF1A;&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x63D0;&#x4F9B;&#x5BF9;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#x7684;&#x8BBF;&#x95EE;" class="headerlink" title="&#x6761;&#x6B3E;15&#xFF1A;&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x63D0;&#x4F9B;&#x5BF9;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#x7684;&#x8BBF;&#x95EE;"></a>&#x6761;&#x6B3E;15&#xFF1A;&#x5728;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x63D0;&#x4F9B;&#x5BF9;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#x7684;&#x8BBF;&#x95EE;</h3><blockquote>
+<h3><span id="条款15在资源管理类中提供对原始资源的访问">条款15：在资源管理类中提供对原始资源的访问</span></h3><blockquote>
 <ul>
-<li>APIs &#x5F80;&#x5F80;&#x8981;&#x6C42;&#x8BBF;&#x95EE;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#xFF08;raw resources&#xFF09;&#xFF0C;&#x6240;&#x4EE5;&#x6BCF;&#x4E00;&#x4E2A;RAII classes&#x5E94;&#x8BE5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x201C;&#x53D6;&#x5F97;&#x5176;&#x6240;&#x7BA1;&#x7406;&#x4E4B;&#x8D44;&#x6E90;&#x201D;&#x7684;&#x529E;&#x6CD5;&#x3002;</li>
-<li>&#x5BF9;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#x7684;&#x8BBF;&#x95EE;&#x53EF;&#x80FD;&#x7ECF;&#x7531;&#x663E;&#x5F0F;&#x8F6C;&#x6362;&#x6216;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x3002;&#x4E00;&#x822C;&#x800C;&#x8A00;&#x663E;&#x793A;&#x8F6C;&#x6362;&#x6BD4;&#x8F83;&#x5B89;&#x5168;&#xFF0C;&#x4F46;&#x662F;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x5BF9;&#x5BA2;&#x6237;&#x6BD4;&#x8F83;&#x65B9;&#x4FBF;&#x3002;</li>
+<li>APIs 往往要求访问原始资源（raw resources），所以每一个RAII classes应该提供一个“取得其所管理之资源”的办法。</li>
+<li>对原始资源的访问可能经由显式转换或隐式转换。一般而言显示转换比较安全，但是隐式转换对客户比较方便。</li>
 </ul>
 </blockquote>
-<p>&#x5728;&#x4E00;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#x6211;&#x4EEC;&#x7684;&#x9700;&#x8981;&#x8BBF;&#x95EE;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x4E2D;&#x7684;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x5C31;&#x5E94;&#x8BE5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x80FD;&#x591F;&#x83B7;&#x5F97;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
-<p>&#x8FD9;&#x4E2A;&#x770B;&#x4E0A;&#x53BB;&#x7834;&#x574F;&#x4E86;&#x5C01;&#x88C5;&#x6027;&#xFF0C;&#x4F46;&#x662F;&#x8D44;&#x6E90;&#x7BA1;&#x7406;&#x7C7B;&#x8BBE;&#x8BA1;&#x7684;&#x521D;&#x8877;&#x662F;&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x5730;&#x7BA1;&#x7406;&#x8D44;&#x6E90;&#x7684;&#x7533;&#x8BF7;&#x548C;&#x91CA;&#x653E;&#xFF0C;&#x5E76;&#x975E;&#x5BF9;&#x8D44;&#x6E90;&#x8FDB;&#x884C;&#x5B8C;&#x5168;&#x7684;&#x5C01;&#x88C5;&#x3002;&#x6240;&#x4EE5;&#x63D0;&#x4F9B;&#x83B7;&#x53D6;&#x539F;&#x59CB;&#x8D44;&#x6E90;&#x7684;&#x65B9;&#x6CD5;&#x4E5F;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;&#x5408;&#x7406;&#x7684;&#x505A;&#x6CD5;&#x3002;</p>
-<p>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x663E;&#x5F0F;&#x548C;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x3002;</p>
-<p><strong>&#x663E;&#x5F0F;&#x8F6C;&#x6362;</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font {</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    FontHandle get() const { return f; }</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p><strong>&#x9690;&#x5F0F;&#x8F6C;&#x6362;</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font {</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    operator FontHandle() const { return f; }</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p>&#x867D;&#x7136;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#x90FD;&#x53EF;&#x884C;&#xFF0C;&#x4F46;&#x4E2A;&#x4EBA;&#x8BA4;&#x4E3A;&#x663E;&#x5F0F;&#x7684;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x66F4;&#x597D;&#x4E00;&#x4E9B;&#x3002;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x5F88;&#x591A;&#x4E0D;&#x5C0F;&#x5FC3;&#x8FDB;&#x884C;&#x7684;&#x8F6C;&#x6362;&#xFF0C;&#x53EA;&#x6709;&#x5728;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x8FDB;&#x884C;&#x663E;&#x5F0F;&#x7684;&#x8C03;&#x7528;&#x3002;</p>
-<h3 id="&#x6761;&#x6B3E;16&#x6210;&#x5BF9;&#x4F7F;&#x7528;new&#x548C;delete&#x65F6;&#x8981;&#x91C7;&#x7528;&#x76F8;&#x540C;&#x5F62;&#x5F0F;"><a href="#&#x6761;&#x6B3E;16&#xFF1A;&#x6210;&#x5BF9;&#x4F7F;&#x7528;new&#x548C;delete&#x65F6;&#x8981;&#x91C7;&#x7528;&#x76F8;&#x540C;&#x5F62;&#x5F0F;" class="headerlink" title="&#x6761;&#x6B3E;16&#xFF1A;&#x6210;&#x5BF9;&#x4F7F;&#x7528;new&#x548C;delete&#x65F6;&#x8981;&#x91C7;&#x7528;&#x76F8;&#x540C;&#x5F62;&#x5F0F;"></a>&#x6761;&#x6B3E;16&#xFF1A;&#x6210;&#x5BF9;&#x4F7F;&#x7528;new&#x548C;delete&#x65F6;&#x8981;&#x91C7;&#x7528;&#x76F8;&#x540C;&#x5F62;&#x5F0F;</h3><blockquote>
-<p>&#x5982;&#x679C;&#x4F60;&#x5728;new&#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x4F7F;&#x7528;[]&#xFF0C;&#x5FC5;&#x987B;&#x5728;&#x76F8;&#x5BF9;&#x5E94;&#x7684;delete&#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x4E5F;&#x4F7F;&#x7528;[]&#x3002;&#x5982;&#x679C;&#x4F60;&#x5728;new&#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x4E0D;&#x4F7F;&#x7528;[]&#xFF0C;&#x4E00;&#x5B9A;&#x4E0D;&#x8981;&#x5728;&#x76F8;&#x5BF9;&#x5E94;&#x7684;delete&#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x4F7F;&#x7528;[]</p>
+<p>在一些情况下我们的需要访问资源管理类中的原始资源，这个时候我们就应该提供一个能够获得原始资源的方法。</p>
+<p>这个看上去破坏了封装性，但是资源管理类设计的初衷是为了更好地管理资源的申请和释放，并非对资源进行完全的封装。所以提供获取原始资源的方法也还是比较合理的做法。</p>
+<p>可以通过显式和隐式转换两种方法。</p>
+<p><strong>显式转换</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font &#123;</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    FontHandle get() const &#123; return f; &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>隐式转换</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font &#123;</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    operator FontHandle() const &#123; return f; &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然两种方式都可行，但个人认为显式的这种方式更好一些。因为这个可以避免很多不小心进行的转换，只有在需要的时候进行显式的调用。</p>
+<h3><span id="条款16成对使用new和delete时要采用相同形式">条款16：成对使用new和delete时要采用相同形式</span></h3><blockquote>
+<p>如果你在new表达式中使用[]，必须在相对应的delete表达式中也使用[]。如果你在new表达式中不使用[]，一定不要在相对应的delete表达式中使用[]</p>
 </blockquote>
-<h3 id="&#x6761;&#x6B3E;17&#x4EE5;&#x72EC;&#x7ACB;&#x8BED;&#x53E5;&#x5C06;newed&#x5BF9;&#x8C61;&#x7F6E;&#x5165;&#x667A;&#x80FD;&#x6307;&#x9488;"><a href="#&#x6761;&#x6B3E;17&#xFF1A;&#x4EE5;&#x72EC;&#x7ACB;&#x8BED;&#x53E5;&#x5C06;newed&#x5BF9;&#x8C61;&#x7F6E;&#x5165;&#x667A;&#x80FD;&#x6307;&#x9488;" class="headerlink" title="&#x6761;&#x6B3E;17&#xFF1A;&#x4EE5;&#x72EC;&#x7ACB;&#x8BED;&#x53E5;&#x5C06;newed&#x5BF9;&#x8C61;&#x7F6E;&#x5165;&#x667A;&#x80FD;&#x6307;&#x9488;"></a>&#x6761;&#x6B3E;17&#xFF1A;&#x4EE5;&#x72EC;&#x7ACB;&#x8BED;&#x53E5;&#x5C06;newed&#x5BF9;&#x8C61;&#x7F6E;&#x5165;&#x667A;&#x80FD;&#x6307;&#x9488;</h3><blockquote>
-<p>&#x4EE5;&#x72EC;&#x7ACB;&#x8BED;&#x53E5;&#x5C06;newed&#x5BF9;&#x8C61;&#x5B58;&#x50A8;&#x4E8E;&#x667A;&#x80FD;&#x6307;&#x9488;&#x5185;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x8FD9;&#x4E48;&#x505A;&#xFF0C;&#x4E00;&#x65E6;&#x5F02;&#x5E38;&#x88AB;&#x629B;&#x51FA;&#xFF0C;&#x6709;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x96BE;&#x4EE5;&#x5BDF;&#x89C9;&#x7684;&#x8D44;&#x6E90;&#x6CC4;&#x9732;&#x3002;</p>
+<h3><span id="条款17以独立语句将newed对象置入智能指针">条款17：以独立语句将newed对象置入智能指针</span></h3><blockquote>
+<p>以独立语句将newed对象存储于智能指针内。如果不这么做，一旦异常被抛出，有可能导致难以察觉的资源泄露。</p>
 </blockquote>
-<p>&#x4F8B;&#x5B50;&#xFF1A;</p>
+<p>例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int priority();</span><br><span class="line">void processWidget(std::shared_ptr&lt;Widget&gt; pw, int p);</span><br><span class="line"></span><br><span class="line">// Bad</span><br><span class="line">processWidget(std::shared_ptr&lt;Widget&gt;(new Widget), priority());</span><br><span class="line"></span><br><span class="line">// Good</span><br><span class="line">std::shared_ptr&lt;Widget&gt; pw(new Widget)</span><br><span class="line">processWidget(pw, priority());</span><br></pre></td></tr></table></figure>
-<p>&#x4E3A;&#x4EC0;&#x4E48;&#x7B2C;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x6709;&#x95EE;&#x9898;&#xFF1F;&#x56E0;&#x4E3A;&#x5728;C++&#x7F16;&#x8BD1;&#x5668;&#x751F;&#x6210;&#x4EE3;&#x7801;&#x7684;&#x65F6;&#x5019;&#x6709;&#x53EF;&#x80FD;&#x4F1A;&#x51FA;&#x73B0;&#x4EE5;&#x4E0B;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF1A;</p>
+<p>为什么第一个例子有问题？因为在C++编译器生成代码的时候有可能会出现以下这种情况：</p>
 <ol>
-<li>&#x6267;&#x884C;&#x201D;new Widget&#x201D;</li>
-<li>&#x8C03;&#x7528;priority()</li>
-<li>&#x8C03;&#x7528;std::shared_ptr&#x6784;&#x9020;&#x51FD;&#x6570;</li>
+<li>执行”new Widget”</li>
+<li>调用priority()</li>
+<li>调用std::shared_ptr构造函数</li>
 </ol>
-<p>&#x5982;&#x679C;&#x7B2C;&#x4E8C;&#x90E8;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x90A3;&#x4E48;&#x7B2C;&#x4E00;&#x6B65;&#x7533;&#x8BF7;&#x51FA;&#x6765;&#x7684;&#x8D44;&#x6E90;&#x8FD8;&#x672A;&#x653E;&#x5165;&#x667A;&#x80FD;&#x6307;&#x9488;&#x5185;&#xFF0C;&#x6240;&#x4EE5;&#x6CA1;&#x6709;&#x4EBA;&#x53BB;&#x91CA;&#x653E;&#x5B83;&#x3002;&#x4E8E;&#x662F;&#x5C31;&#x9020;&#x6210;&#x4E86;&#x8D44;&#x6E90;&#x6CC4;&#x9732;&#x3002;</p>
+<p>如果第二部抛出异常，那么第一步申请出来的资源还未放入智能指针内，所以没有人去释放它。于是就造成了资源泄露。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -224,7 +218,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/08/15/effective-cpp-reading-notes-4/" data-title="《Effective C++》读书笔记(4) | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/08/15/effective-cpp-reading-notes-4/" data-title="《Effective C++》读书笔记(4) | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -270,7 +264,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-构造析构赋值运算"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款10令-operator-返回一个-reference-to-this"><span class="toc-number">1.1.</span> <span class="toc-text">条款10：令 operator= 返回一个 reference to *this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款11在operator中处理自我赋值"><span class="toc-number">1.2.</span> <span class="toc-text">条款11：在operator=中处理“自我赋值”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款12复制对象时勿忘其每一个成分"><span class="toc-number">1.3.</span> <span class="toc-text">条款12：复制对象时勿忘其每一个成分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-资源管理"><span class="toc-number">2.</span> <span class="toc-text">3. 资源管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款13-以对象管理资源"><span class="toc-number">2.1.</span> <span class="toc-text">条款13： 以对象管理资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款14在资源管理类中小心copying行为"><span class="toc-number">2.2.</span> <span class="toc-text">条款14：在资源管理类中小心copying行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款15在资源管理类中提供对原始资源的访问"><span class="toc-number">2.3.</span> <span class="toc-text">条款15：在资源管理类中提供对原始资源的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款16成对使用new和delete时要采用相同形式"><span class="toc-number">2.4.</span> <span class="toc-text">条款16：成对使用new和delete时要采用相同形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款17以独立语句将newed对象置入智能指针"><span class="toc-number">2.5.</span> <span class="toc-text">条款17：以独立语句将newed对象置入智能指针</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款10：令 operator= 返回一个 reference to *this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款11：在operator=中处理“自我赋值”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款12：复制对象时勿忘其每一个成分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">3. 资源管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.1.</span> <span class="toc-text">条款13： 以对象管理资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.2.</span> <span class="toc-text">条款14：在资源管理类中小心copying行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.3.</span> <span class="toc-text">条款15：在资源管理类中提供对原始资源的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.4.</span> <span class="toc-text">条款16：成对使用new和delete时要采用相同形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.5.</span> <span class="toc-text">条款17：以独立语句将newed对象置入智能指针</span></a></li></ol></li></ol>
  
   </div>
 
@@ -357,7 +351,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -365,15 +363,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -393,15 +387,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -426,9 +420,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -457,7 +448,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

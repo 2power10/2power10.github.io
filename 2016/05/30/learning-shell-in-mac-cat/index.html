@@ -11,19 +11,18 @@
     
 
     
-    <meta name="description" content="&amp;#x57FA;&amp;#x672C;cat&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x9014;&amp;#x662F;&amp;#x628A;&amp;#x6307;&amp;#x5B9A;&amp;#x6587;&amp;#x4EF6;&amp;#x8BFB;&amp;#x53D6;&amp;#x51FA;&amp;#x6765;&amp;#xFF0C;&amp;#x5E76;&amp;#x8F93;&amp;#x51FA;&amp;#x5230;STDOUT&amp;#x4E2D;&amp;#x3002;
-cat [-">
+    <meta name="description" content="基本cat基本用途是把指定文件读取出来，并输出到STDOUT中。 cat [-benstuv] [file ...] 常用功能-b 打印出行数，不包含空白行，从1开始-n 打印出行数，包括空白航，从1开始-e 显示不能打印的字符，每行结尾打印$符号-t 显示不能打印的字符，制表符显示为^I 使用场景打印一个文件到终端来查看其中内容 cat file 打印文件到另一个文件中 cat file1 &amp;g">
+<meta name="keywords" content="shell,mac,terminal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 命令学习-每日一贴之cat">
 <meta property="og:url" content="http://zhengyi.me/2016/05/30/learning-shell-in-mac-cat/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x57FA;&amp;#x672C;cat&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x9014;&amp;#x662F;&amp;#x628A;&amp;#x6307;&amp;#x5B9A;&amp;#x6587;&amp;#x4EF6;&amp;#x8BFB;&amp;#x53D6;&amp;#x51FA;&amp;#x6765;&amp;#xFF0C;&amp;#x5E76;&amp;#x8F93;&amp;#x51FA;&amp;#x5230;STDOUT&amp;#x4E2D;&amp;#x3002;
-cat [-">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="基本cat基本用途是把指定文件读取出来，并输出到STDOUT中。 cat [-benstuv] [file ...] 常用功能-b 打印出行数，不包含空白行，从1开始-n 打印出行数，包括空白航，从1开始-e 显示不能打印的字符，每行结尾打印$符号-t 显示不能打印的字符，制表符显示为^I 使用场景打印一个文件到终端来查看其中内容 cat file 打印文件到另一个文件中 cat file1 &amp;g">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-05-31T15:07:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 命令学习-每日一贴之cat">
-<meta name="twitter:description" content="&amp;#x57FA;&amp;#x672C;cat&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x9014;&amp;#x662F;&amp;#x628A;&amp;#x6307;&amp;#x5B9A;&amp;#x6587;&amp;#x4EF6;&amp;#x8BFB;&amp;#x53D6;&amp;#x51FA;&amp;#x6765;&amp;#xFF0C;&amp;#x5E76;&amp;#x8F93;&amp;#x51FA;&amp;#x5230;STDOUT&amp;#x4E2D;&amp;#x3002;
-cat [-">
+<meta name="twitter:description" content="基本cat基本用途是把指定文件读取出来，并输出到STDOUT中。 cat [-benstuv] [file ...] 常用功能-b 打印出行数，不包含空白行，从1开始-n 打印出行数，包括空白航，从1开始-e 显示不能打印的字符，每行结尾打印$符号-t 显示不能打印的字符，制表符显示为^I 使用场景打印一个文件到终端来查看其中内容 cat file 打印文件到另一个文件中 cat file1 &amp;g">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -60,8 +59,6 @@ cat [-">
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -103,20 +100,20 @@ cat [-">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用功能"><span class="toc-number">2.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用场景"><span class="toc-number">3.</span> <span class="toc-text">使用场景</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">使用场景</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="&#x57FA;&#x672C;"><a href="#&#x57FA;&#x672C;" class="headerlink" title="&#x57FA;&#x672C;"></a>&#x57FA;&#x672C;</h2><p>cat&#x57FA;&#x672C;&#x7528;&#x9014;&#x662F;&#x628A;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#x51FA;&#x6765;&#xFF0C;&#x5E76;&#x8F93;&#x51FA;&#x5230;STDOUT&#x4E2D;&#x3002;</p>
+		<h2><span id="基本">基本</span></h2><p>cat基本用途是把指定文件读取出来，并输出到STDOUT中。</p>
 <p><code>cat [-benstuv] [file ...]</code></p>
-<h2 id="&#x5E38;&#x7528;&#x529F;&#x80FD;"><a href="#&#x5E38;&#x7528;&#x529F;&#x80FD;" class="headerlink" title="&#x5E38;&#x7528;&#x529F;&#x80FD;"></a>&#x5E38;&#x7528;&#x529F;&#x80FD;</h2><p><code>-b</code> &#x6253;&#x5370;&#x51FA;&#x884C;&#x6570;&#xFF0C;&#x4E0D;&#x5305;&#x542B;&#x7A7A;&#x767D;&#x884C;&#xFF0C;&#x4ECE;1&#x5F00;&#x59CB;<br><code>-n</code> &#x6253;&#x5370;&#x51FA;&#x884C;&#x6570;&#xFF0C;&#x5305;&#x62EC;&#x7A7A;&#x767D;&#x822A;&#xFF0C;&#x4ECE;1&#x5F00;&#x59CB;<br><code>-e</code> &#x663E;&#x793A;&#x4E0D;&#x80FD;&#x6253;&#x5370;&#x7684;&#x5B57;&#x7B26;&#xFF0C;&#x6BCF;&#x884C;&#x7ED3;&#x5C3E;&#x6253;&#x5370;<code>$</code>&#x7B26;&#x53F7;<br><code>-t</code> &#x663E;&#x793A;&#x4E0D;&#x80FD;&#x6253;&#x5370;&#x7684;&#x5B57;&#x7B26;&#xFF0C;&#x5236;&#x8868;&#x7B26;&#x663E;&#x793A;&#x4E3A;<code>^I</code></p>
-<h2 id="&#x4F7F;&#x7528;&#x573A;&#x666F;"><a href="#&#x4F7F;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x4F7F;&#x7528;&#x573A;&#x666F;"></a>&#x4F7F;&#x7528;&#x573A;&#x666F;</h2><p><strong>&#x6253;&#x5370;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x5230;&#x7EC8;&#x7AEF;&#x6765;&#x67E5;&#x770B;&#x5176;&#x4E2D;&#x5185;&#x5BB9;</strong></p>
+<h2><span id="常用功能">常用功能</span></h2><p><code>-b</code> 打印出行数，不包含空白行，从1开始<br><code>-n</code> 打印出行数，包括空白航，从1开始<br><code>-e</code> 显示不能打印的字符，每行结尾打印<code>$</code>符号<br><code>-t</code> 显示不能打印的字符，制表符显示为<code>^I</code></p>
+<h2><span id="使用场景">使用场景</span></h2><p><strong>打印一个文件到终端来查看其中内容</strong></p>
 <p><code>cat file</code></p>
-<p><strong>&#x6253;&#x5370;&#x6587;&#x4EF6;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x4E2D;</strong></p>
+<p><strong>打印文件到另一个文件中</strong></p>
 <p><code>cat file1 &gt; file2</code></p>
-<p><strong>&#x6253;&#x5370;&#x6587;&#x4EF6;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x7ED3;&#x5C3E;</strong></p>
+<p><strong>打印文件到另一个文件结尾</strong></p>
 <p><code>cat file1 &gt;&gt; file2</code></p>
-<p>&#x53C2;&#x8003;<a href="/2016/05/31/unix-standard-input-output-redirection/" title="&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;">&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x91CD;&#x5B9A;&#x5411;</a></p>
+<p>参考<a href="/2016/05/31/unix-standard-input-output-redirection/" title="输入输出重定向">输入输出重定向</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -139,7 +136,7 @@ cat [-">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/05/30/learning-shell-in-mac-cat/" data-title="Mac 命令学习-每日一贴之cat | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/05/30/learning-shell-in-mac-cat/" data-title="Mac 命令学习-每日一贴之cat | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -185,7 +182,7 @@ cat [-">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用功能"><span class="toc-number">2.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用场景"><span class="toc-number">3.</span> <span class="toc-text">使用场景</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">使用场景</span></a></li></ol>
  
   </div>
 
@@ -272,7 +269,11 @@ cat [-">
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -280,15 +281,11 @@ cat [-">
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -308,15 +305,15 @@ cat [-">
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -341,9 +338,6 @@ cat [-">
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -372,7 +366,7 @@ cat [-">
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

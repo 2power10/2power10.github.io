@@ -11,16 +11,18 @@
     
 
     
-    <meta name="description" content="mv &amp;#xFF08;move&amp;#xFF09;mv&amp;#x662F;&amp;#x7528;&amp;#x4E8E;&amp;#x79FB;&amp;#x52A8;&amp;#x6587;&amp;#x4EF6;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;mac&amp;#x4E0B;&amp;#x6CA1;&amp;#x6709;&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6">
+    <meta name="description" content="mv （move）mv是用于移动文件的命令，mac下没有重命名的命令，所以很多时候mv也用来重命名文件。 常用参数 -f - 强制覆盖不提醒-i - 覆盖目标文件前提醒-n - 不覆盖目标文件 将n个文件移动到某个目录下 mv file1 file2 file3 dir 如果目录不存在，会报错 重命名/移动文件 mv file1 file2 如果file2不存在则重命名为file2，如果存在则覆盖">
+<meta name="keywords" content="shell,mac,terminal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 命令学习 - mv, rm, mkdir">
 <meta property="og:url" content="http://zhengyi.me/2016/06/03/learning-shell-rm-mv-mkdir/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="mv &amp;#xFF08;move&amp;#xFF09;mv&amp;#x662F;&amp;#x7528;&amp;#x4E8E;&amp;#x79FB;&amp;#x52A8;&amp;#x6587;&amp;#x4EF6;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;mac&amp;#x4E0B;&amp;#x6CA1;&amp;#x6709;&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="mv （move）mv是用于移动文件的命令，mac下没有重命名的命令，所以很多时候mv也用来重命名文件。 常用参数 -f - 强制覆盖不提醒-i - 覆盖目标文件前提醒-n - 不覆盖目标文件 将n个文件移动到某个目录下 mv file1 file2 file3 dir 如果目录不存在，会报错 重命名/移动文件 mv file1 file2 如果file2不存在则重命名为file2，如果存在则覆盖">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-06-03T14:27:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 命令学习 - mv, rm, mkdir">
-<meta name="twitter:description" content="mv &amp;#xFF08;move&amp;#xFF09;mv&amp;#x662F;&amp;#x7528;&amp;#x4E8E;&amp;#x79FB;&amp;#x52A8;&amp;#x6587;&amp;#x4EF6;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;mac&amp;#x4E0B;&amp;#x6CA1;&amp;#x6709;&amp;#x91CD;&amp;#x547D;&amp;#x540D;&amp;#x7684;&amp;#x547D;&amp;#x4EE4;&amp;#xFF0C;&amp;#x6">
+<meta name="twitter:description" content="mv （move）mv是用于移动文件的命令，mac下没有重命名的命令，所以很多时候mv也用来重命名文件。 常用参数 -f - 强制覆盖不提醒-i - 覆盖目标文件前提醒-n - 不覆盖目标文件 将n个文件移动到某个目录下 mv file1 file2 file3 dir 如果目录不存在，会报错 重命名/移动文件 mv file1 file2 如果file2不存在则重命名为file2，如果存在则覆盖">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -57,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -100,37 +100,37 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mv-move"><span class="toc-number">1.</span> <span class="toc-text">mv （move）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rmremove"><span class="toc-number">2.</span> <span class="toc-text">rm（remove）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本用法"><span class="toc-number">2.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rmdirremove-directory"><span class="toc-number">3.</span> <span class="toc-text">rmdir（remove directory）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mkdirmake-directory"><span class="toc-number">4.</span> <span class="toc-text">mkdir（make directory）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本用法"><span class="toc-number">4.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">mv （move）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">rm（remove）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">rmdir（remove directory）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">mkdir（make directory）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="mv-move"><a href="#mv-&#xFF08;move&#xFF09;" class="headerlink" title="mv &#xFF08;move&#xFF09;"></a>mv &#xFF08;move&#xFF09;</h2><p>mv&#x662F;&#x7528;&#x4E8E;&#x79FB;&#x52A8;&#x6587;&#x4EF6;&#x7684;&#x547D;&#x4EE4;&#xFF0C;mac&#x4E0B;&#x6CA1;&#x6709;&#x91CD;&#x547D;&#x540D;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;&#x5F88;&#x591A;&#x65F6;&#x5019;mv&#x4E5F;&#x7528;&#x6765;&#x91CD;&#x547D;&#x540D;&#x6587;&#x4EF6;&#x3002;</p>
-<p><strong>&#x5E38;&#x7528;&#x53C2;&#x6570;</strong></p>
-<p><code>-f</code> - &#x5F3A;&#x5236;&#x8986;&#x76D6;&#x4E0D;&#x63D0;&#x9192;<br><code>-i</code> - &#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x524D;&#x63D0;&#x9192;<br><code>-n</code> - &#x4E0D;&#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;</p>
-<p><strong>&#x5C06;n&#x4E2A;&#x6587;&#x4EF6;&#x79FB;&#x52A8;&#x5230;&#x67D0;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;</strong></p>
+		<h2><span id="mv-move">mv （move）</span></h2><p>mv是用于移动文件的命令，mac下没有重命名的命令，所以很多时候mv也用来重命名文件。</p>
+<p><strong>常用参数</strong></p>
+<p><code>-f</code> - 强制覆盖不提醒<br><code>-i</code> - 覆盖目标文件前提醒<br><code>-n</code> - 不覆盖目标文件</p>
+<p><strong>将n个文件移动到某个目录下</strong></p>
 <p><code>mv file1 file2 file3 dir</code></p>
-<p>&#x5982;&#x679C;&#x76EE;&#x5F55;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x4F1A;&#x62A5;&#x9519;</p>
-<p><strong>&#x91CD;&#x547D;&#x540D;/&#x79FB;&#x52A8;&#x6587;&#x4EF6;</strong></p>
+<p>如果目录不存在，会报错</p>
+<p><strong>重命名/移动文件</strong></p>
 <p><code>mv file1 file2</code></p>
-<p>&#x5982;&#x679C;file2&#x4E0D;&#x5B58;&#x5728;&#x5219;&#x91CD;&#x547D;&#x540D;&#x4E3A;file2&#xFF0C;&#x5982;&#x679C;&#x5B58;&#x5728;&#x5219;&#x8986;&#x76D6;</p>
-<p><strong>&#x79FB;&#x52A8;&#x76EE;&#x5F55;</strong></p>
+<p>如果file2不存在则重命名为file2，如果存在则覆盖</p>
+<p><strong>移动目录</strong></p>
 <p><code>mv dir1 dir2</code></p>
-<p>&#x5C06;dir1&#x79FB;&#x52A8;&#x5230;dir2&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x5982;&#x679C;dir2&#x4E0D;&#x5B58;&#x5728;&#x5219;&#x662F;&#x4E00;&#x4E2A;&#x91CD;&#x547D;&#x540D;&#x7684;&#x6548;&#x679C;</p>
-<h2 id="rmremove"><a href="#rm&#xFF08;remove&#xFF09;" class="headerlink" title="rm&#xFF08;remove&#xFF09;"></a>rm&#xFF08;remove&#xFF09;</h2><p>&#x6B64;&#x547D;&#x4EE4;&#x7528;&#x4E8E;&#x5220;&#x9664;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x5F55;&#xFF0C;&#x4E0E;&#x901A;&#x914D;&#x7B26;&#x7ED3;&#x5408;&#x4F7F;&#x7528;&#x65F6;&#x7834;&#x574F;&#x5F88;&#x5927;&#xFF0C;&#x7A0D;&#x6709;&#x4E0D;&#x614E;&#x5C06;&#x917F;&#x6210;&#x5927;&#x9519;&#x540E;&#x6094;&#x83AB;&#x53CA;&#x3002;</p>
-<p>&#x666E;&#x901A;&#x7684;&#x5220;&#x9664;&#x53EA;&#x662F;&#x5C06;&#x6587;&#x4EF6;&#x4ECE;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x79FB;&#x9664;&#xFF0C;&#x78C1;&#x76D8;&#x4E0A;&#x7684;&#x90A3;&#x5757;&#x7A7A;&#x95F4;&#x5E76;&#x4E0D;&#x4F1A;&#x53BB;&#x52A8;&#x5B83;&#x3002;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x8BEF;&#x5220;&#x9664;&#x7684;&#x8BDD;&#xFF0C;&#x901A;&#x8FC7;&#x67D0;&#x4E00;&#x4E9B;&#x8FD8;&#x539F;&#x5DE5;&#x5177;&#x662F;&#x6709;&#x53EF;&#x80FD;&#x627E;&#x56DE;&#x6765;&#x7684;&#x3002;</p>
+<p>将dir1移动到dir2目录下，如果dir2不存在则是一个重命名的效果</p>
+<h2><span id="rmremove">rm（remove）</span></h2><p>此命令用于删除文件和目录，与通配符结合使用时破坏很大，稍有不慎将酿成大错后悔莫及。</p>
+<p>普通的删除只是将文件从文件系统中移除，磁盘上的那块空间并不会去动它。所以如果误删除的话，通过某一些还原工具是有可能找回来的。</p>
 <blockquote>
-<p>Linux&#x5E76;&#x6CA1;&#x6709;&#x64A4;&#x9500;&#x5220;&#x9664;&#x547D;&#x4EE4;&#xFF0C;&#x4E00;&#x65E6;&#x4F60;&#x7528;<code>rm</code>&#x547D;&#x4EE4;&#x5C06;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x5220;&#x9664;&#xFF0C;&#x4F60;&#x5C06;&#x5F88;&#x96BE;&#x6062;&#x590D;&#xFF08;mac&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7279;&#x6B8A;&#x7684;&#x6570;&#x636E;&#x8FD8;&#x539F;&#x5DE5;&#x5177;&#xFF09;&#x3002;&#x5982;&#x679C;&#x9519;&#x8BEF;&#x7684;&#x4F7F;&#x7528;<code>rm</code>&#xFF0C;&#x7279;&#x522B;&#x662F;&#x8DDF;&#x901A;&#x914D;&#x7B26;&#x7ED3;&#x5408;&#x4F7F;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C06;&#x6709;&#x53EF;&#x80FD;&#x9020;&#x6210;&#x6781;&#x5927;&#x7684;&#x5371;&#x5BB3;&#x3002;<br>&#x5728;<code>rm</code>&#x4E2D;&#x4F7F;&#x7528;&#x901A;&#x914D;&#x7B26;&#x4E4B;&#x524D;&#xFF0C;&#x6709;&#x4E00;&#x4E2A;&#x6709;&#x7528;&#x7684;&#x5C0F;&#x8BC0;&#x7A8D;&#xFF1A;&#x5148;&#x5C06;&#x4F60;&#x7684;&#x901A;&#x914D;&#x7B26;&#x7528;<code>ls</code>&#x547D;&#x4EE4;&#x8BD5;&#x8BD5;&#x770B;&#xFF0C;&#x770B;&#x4E00;&#x4E0B;&#x6240;&#x5F71;&#x54CD;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x5F53;&#x4F60;&#x7528;<code>ls</code>&#x6D4B;&#x8BD5;&#x8FC7;&#x6CA1;&#x95EE;&#x9898;&#x4EE5;&#x540E;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x628A;<code>ls</code>&#x7279;&#x6362;&#x6210;<code>rm</code>&#x3002;<sup><strong>[1]</strong></sup></p>
+<p>Linux并没有撤销删除命令，一旦你用<code>rm</code>命令将某个文件删除，你将很难恢复（mac可以通过特殊的数据还原工具）。如果错误的使用<code>rm</code>，特别是跟通配符结合使用的时候，将有可能造成极大的危害。<br>在<code>rm</code>中使用通配符之前，有一个有用的小诀窍：先将你的通配符用<code>ls</code>命令试试看，看一下所影响的文件。当你用<code>ls</code>测试过没问题以后，你可以直接把<code>ls</code>特换成<code>rm</code>。<sup><strong>[1]</strong></sup></p>
 </blockquote>
-<h3 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;"><a href="#&#x57FA;&#x672C;&#x7528;&#x6CD5;" class="headerlink" title="&#x57FA;&#x672C;&#x7528;&#x6CD5;"></a>&#x57FA;&#x672C;&#x7528;&#x6CD5;</h3><p><code>rm [-dfiPRrvW] file ...</code></p>
-<p><code>-f</code> - &#x5F3A;&#x5236;&#x5220;&#x9664;&#xFF0C;&#x6CA1;&#x6709;&#x63D0;&#x793A;<br><code>-i</code> - &#x5220;&#x9664;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x524D;&#x8BF7;&#x6C42;&#x786E;&#x8BA4;<br><code>-P</code> - &#x7C89;&#x788E;&#x6027;&#x5220;&#x9664;&#x3002;&#x5220;&#x9664;&#x6587;&#x4EF6;&#x524D;&#x91CD;&#x65B0;&#x590D;&#x5199;&#x6574;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x5F80;&#x6587;&#x4EF6;&#x91CC;&#x4E0D;&#x505C;&#x5199;&#x5165;<code>0xff</code>&#x548C;<code>0x00</code>&#x3002;&#x8FD9;&#x6837;&#x5220;&#x9664;&#x7684;&#x6587;&#x4EF6;&#x65E0;&#x6CD5;&#x6062;&#x590D;&#x3002;<br><code>-R</code> - &#x9012;&#x5F52;&#x5220;&#x9664;&#x3002;&#x5982;&#x679C;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x4E3A;&#x76EE;&#x5F55;&#xFF0C;&#x5219;&#x5220;&#x9664;&#x76EE;&#x5F55;&#x4E0B;&#x6240;&#x6709;&#x7684;&#x6587;&#x4EF6;&#x53CA;&#x5176;&#x5B50;&#x76EE;&#x5F55;&#x3002;</p>
-<h2 id="rmdirremove-directory"><a href="#rmdir&#xFF08;remove-directory&#xFF09;" class="headerlink" title="rmdir&#xFF08;remove directory&#xFF09;"></a>rmdir&#xFF08;remove directory&#xFF09;</h2><p>&#x4E0D;&#x8981;&#x88AB;&#x8FD9;&#x8D27;&#x7684;&#x540D;&#x5B57;&#x8FF7;&#x60D1;&#x4E86;&#xFF0C;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x552F;&#x4E00;&#x7684;&#x7528;&#x9014;&#x5C31;&#x662F;&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x7A7A;&#x767D;&#x7684;&#x6587;&#x4EF6;&#x5939;&#x3002;&#x5982;&#x679C;&#x6587;&#x4EF6;&#x5939;&#x975E;&#x7A7A;&#x8FD8;&#x662F;&#x8981;&#x7528;<code>rm -r</code>&#x6765;&#x5220;&#x9664;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x5B83;&#x5B58;&#x5728;&#x7684;&#x610F;&#x4E49;&#x662F;&#x4EC0;&#x4E48;&#x3002;</p>
-<h2 id="mkdirmake-directory"><a href="#mkdir&#xFF08;make-directory&#xFF09;" class="headerlink" title="mkdir&#xFF08;make directory&#xFF09;"></a>mkdir&#xFF08;make directory&#xFF09;</h2><p>&#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x521B;&#x5EFA;&#x6587;&#x4EF6;&#x5939;&#x4F7F;&#x7528;&#x3002;</p>
-<h3 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;"><a href="#&#x57FA;&#x672C;&#x7528;&#x6CD5;-1" class="headerlink" title="&#x57FA;&#x672C;&#x7528;&#x6CD5;"></a>&#x57FA;&#x672C;&#x7528;&#x6CD5;</h3><p><code>-p</code> &#x521B;&#x5EFA;&#x4E2D;&#x95F4;&#x76EE;&#x5F55;&#xFF0C;&#x6BD4;&#x5982;<code>mkdir /path/with/many/layer</code>&#x4F1A;&#x5E2E;&#x4F60;&#x5427;layer&#x4E4B;&#x524D;&#x7684;&#x6240;&#x6709;&#x5C42;&#x7EA7;&#x7684;&#x76EE;&#x5F55;&#x90FD;&#x521B;&#x5EFA;&#x51FA;&#x6765;&#x3002;<br><code>-m</code> &#x5236;&#x5B9A;&#x6587;&#x4EF6;&#x5939;&#x7684;&#x6743;&#x9650;&#xFF0C;&#x8BE6;&#x89C1;chmod&#x3002;</p>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<h3><span id="基本用法">基本用法</span></h3><p><code>rm [-dfiPRrvW] file ...</code></p>
+<p><code>-f</code> - 强制删除，没有提示<br><code>-i</code> - 删除某个文件前请求确认<br><code>-P</code> - 粉碎性删除。删除文件前重新复写整个文件，往文件里不停写入<code>0xff</code>和<code>0x00</code>。这样删除的文件无法恢复。<br><code>-R</code> - 递归删除。如果指定的文件为目录，则删除目录下所有的文件及其子目录。</p>
+<h2><span id="rmdirremove-directory">rmdir（remove directory）</span></h2><p>不要被这货的名字迷惑了，这个命令唯一的用途就是删除一个空白的文件夹。如果文件夹非空还是要用<code>rm -r</code>来删除，不知道它存在的意义是什么。</p>
+<h2><span id="mkdirmake-directory">mkdir（make directory）</span></h2><p>顾名思义，创建文件夹使用。</p>
+<h3><span id="基本用法">基本用法</span></h3><p><code>-p</code> 创建中间目录，比如<code>mkdir /path/with/many/layer</code>会帮你吧layer之前的所有层级的目录都创建出来。<br><code>-m</code> 制定文件夹的权限，详见chmod。</p>
+<h2><span id="参考资料">参考资料</span></h2><ol>
 <li><a href="http://linuxcommand.org/lc3_lts0050.php" target="_blank" rel="external">Manipulating Files</a></li>
 </ol>
-<p><strong>&#x9605;&#x8BFB;&#x66F4;&#x591A;</strong></p>
-<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux &#x547D;&#x4EE4;&#x5B66;&#x4E60;">Mac/Linux &#x547D;&#x4EE4;&#x5B66;&#x4E60;</a>
+<p><strong>阅读更多</strong></p>
+<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux 命令学习">Mac/Linux 命令学习</a>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -153,7 +153,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/06/03/learning-shell-rm-mv-mkdir/" data-title="Mac 命令学习 - mv, rm, mkdir | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/06/03/learning-shell-rm-mv-mkdir/" data-title="Mac 命令学习 - mv, rm, mkdir | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -199,7 +199,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mv-move"><span class="toc-number">1.</span> <span class="toc-text">mv （move）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rmremove"><span class="toc-number">2.</span> <span class="toc-text">rm（remove）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本用法"><span class="toc-number">2.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rmdirremove-directory"><span class="toc-number">3.</span> <span class="toc-text">rmdir（remove directory）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mkdirmake-directory"><span class="toc-number">4.</span> <span class="toc-text">mkdir（make directory）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本用法"><span class="toc-number">4.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">mv （move）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">rm（remove）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">rmdir（remove directory）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">mkdir（make directory）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.1.</span> <span class="toc-text">基本用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
  
   </div>
 
@@ -286,7 +286,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -294,15 +298,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -322,15 +322,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -355,9 +355,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -386,7 +383,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

@@ -11,16 +11,18 @@
     
 
     
-    <meta name="description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;&amp;#x5728;ls&amp;#x547D;&amp;#x4EE4;&amp;#x4E2D;&amp;#x6709;&amp;#x51FA;&amp;#x73B0;&amp;#x8FC7;&amp;#x4E00;&amp;#x4E2A;-O&amp;#x7684;&amp;#x9009;&amp;#x9879;&amp;#xFF0C;&amp;#x5373;&amp;#x5217;&amp;#x51FA;&amp;#x6587;&amp;#x4EF6;&amp;#x7684;file">
+    <meta name="description" content="背景知识在ls命令中有出现过一个-O的选项，即列出文件的file flag。这个File flag所为何物？ File flag是在BSD Unix中的概念，跟Linux系统中的attr是差不多的一个概念，是文件的一些标志位来存放文件的某些属性。chflags就是来修改这个file flag的。这个文件属性是跟文件系统相关的，所以这个命令在不同的文件系统上的支持程度不一样，体现在某一些flag在一">
+<meta name="keywords" content="shell,mac,terminal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 命令学习 - chflags">
 <meta property="og:url" content="http://zhengyi.me/2016/06/02/learning-shell-chflags/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;&amp;#x5728;ls&amp;#x547D;&amp;#x4EE4;&amp;#x4E2D;&amp;#x6709;&amp;#x51FA;&amp;#x73B0;&amp;#x8FC7;&amp;#x4E00;&amp;#x4E2A;-O&amp;#x7684;&amp;#x9009;&amp;#x9879;&amp;#xFF0C;&amp;#x5373;&amp;#x5217;&amp;#x51FA;&amp;#x6587;&amp;#x4EF6;&amp;#x7684;file">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="背景知识在ls命令中有出现过一个-O的选项，即列出文件的file flag。这个File flag所为何物？ File flag是在BSD Unix中的概念，跟Linux系统中的attr是差不多的一个概念，是文件的一些标志位来存放文件的某些属性。chflags就是来修改这个file flag的。这个文件属性是跟文件系统相关的，所以这个命令在不同的文件系统上的支持程度不一样，体现在某一些flag在一">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-06-02T15:32:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 命令学习 - chflags">
-<meta name="twitter:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;&amp;#x5728;ls&amp;#x547D;&amp;#x4EE4;&amp;#x4E2D;&amp;#x6709;&amp;#x51FA;&amp;#x73B0;&amp;#x8FC7;&amp;#x4E00;&amp;#x4E2A;-O&amp;#x7684;&amp;#x9009;&amp;#x9879;&amp;#xFF0C;&amp;#x5373;&amp;#x5217;&amp;#x51FA;&amp;#x6587;&amp;#x4EF6;&amp;#x7684;file">
+<meta name="twitter:description" content="背景知识在ls命令中有出现过一个-O的选项，即列出文件的file flag。这个File flag所为何物？ File flag是在BSD Unix中的概念，跟Linux系统中的attr是差不多的一个概念，是文件的一些标志位来存放文件的某些属性。chflags就是来修改这个file flag的。这个文件属性是跟文件系统相关的，所以这个命令在不同的文件系统上的支持程度不一样，体现在某一些flag在一">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -57,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -100,71 +100,71 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景知识"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用法"><span class="toc-number">2.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">3.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体案例"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"><a href="#&#x80CC;&#x666F;&#x77E5;&#x8BC6;" class="headerlink" title="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"></a>&#x80CC;&#x666F;&#x77E5;&#x8BC6;</h2><p>&#x5728;<a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>&#x547D;&#x4EE4;&#x4E2D;&#x6709;&#x51FA;&#x73B0;&#x8FC7;&#x4E00;&#x4E2A;<code>-O</code>&#x7684;&#x9009;&#x9879;&#xFF0C;&#x5373;&#x5217;&#x51FA;&#x6587;&#x4EF6;&#x7684;file flag&#x3002;&#x8FD9;&#x4E2A;File flag&#x6240;&#x4E3A;&#x4F55;&#x7269;&#xFF1F;</p>
-<p>File flag&#x662F;&#x5728;BSD Unix&#x4E2D;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x8DDF;Linux&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;attr&#x662F;&#x5DEE;&#x4E0D;&#x591A;&#x7684;&#x4E00;&#x4E2A;&#x6982;&#x5FF5;&#xFF0C;&#x662F;&#x6587;&#x4EF6;&#x7684;&#x4E00;&#x4E9B;&#x6807;&#x5FD7;&#x4F4D;&#x6765;&#x5B58;&#x653E;&#x6587;&#x4EF6;&#x7684;&#x67D0;&#x4E9B;&#x5C5E;&#x6027;&#x3002;chflags&#x5C31;&#x662F;&#x6765;&#x4FEE;&#x6539;&#x8FD9;&#x4E2A;file flag&#x7684;&#x3002;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x662F;&#x8DDF;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x76F8;&#x5173;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E0A;&#x7684;&#x652F;&#x6301;&#x7A0B;&#x5EA6;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x4F53;&#x73B0;&#x5728;&#x67D0;&#x4E00;&#x4E9B;flag&#x5728;&#x4E00;&#x4E9B;&#x7279;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E0A;&#x6CA1;&#x6709;&#x3002;<sup>[1]</sup></p>
-<p>&#x6240;&#x6709;&#x7684;&#x5C5E;&#x6027;&#x90FD;&#x53EF;&#x4EE5;&#x88AB;&#x8D85;&#x7EA7;&#x7BA1;&#x7406;&#x5458;&#x4FEE;&#x6539;&#xFF0C;&#x6709;&#x4E00;&#x4E9B;&#x53EF;&#x4EE5;&#x88AB;&#x6587;&#x4EF6;&#x7684;&#x6240;&#x6709;&#x8005;&#x4FEE;&#x6539;&#x3002;&#x4EE5;&#x4E0B;&#x5217;&#x51FA;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#x51E0;&#x4E2A;&#x5C5E;&#x6027;<sup>[1]</sup>&#x3002;</p>
+		<h2><span id="背景知识">背景知识</span></h2><p>在<a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>命令中有出现过一个<code>-O</code>的选项，即列出文件的file flag。这个File flag所为何物？</p>
+<p>File flag是在BSD Unix中的概念，跟Linux系统中的attr是差不多的一个概念，是文件的一些标志位来存放文件的某些属性。chflags就是来修改这个file flag的。这个文件属性是跟文件系统相关的，所以这个命令在不同的文件系统上的支持程度不一样，体现在某一些flag在一些特定的文件系统上没有。<sup>[1]</sup></p>
+<p>所有的属性都可以被超级管理员修改，有一些可以被文件的所有者修改。以下列出比较常用的几个属性<sup>[1]</sup>。</p>
 <table>
 <thead>
 <tr>
-<th>&#x5C5E;&#x6027;</th>
-<th>ls&#x4E2D;&#x663E;&#x793A;</th>
-<th>chflags&#x4E2D;&#x4F7F;&#x7528;</th>
-<th>&#x6587;&#x4EF6;&#x6240;&#x6709;&#x8005;&#x80FD;&#x5426;&#x4FEE;&#x6539;&#xFF1F;</th>
-<th>&#x8BE6;&#x8FF0;</th>
+<th>属性</th>
+<th>ls中显示</th>
+<th>chflags中使用</th>
+<th>文件所有者能否修改？</th>
+<th>详述</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&#x9690;&#x85CF;</td>
+<td>隐藏</td>
 <td>hidden</td>
 <td>hidden</td>
-<td>&#x80FD;</td>
-<td>&#x8BBE;&#x7F6E;&#x4EE5;&#x540E;&#x5728;GUI&#x4E0A;&#x770B;&#x4E0D;&#x5230;&#xFF0C;ls&#x4F9D;&#x7136;&#x53EF;&#x4EE5;&#x770B;&#x5230;d</td>
+<td>能</td>
+<td>设置以后在GUI上看不到，ls依然可以看到d</td>
 </tr>
 <tr>
-<td>&#x7CFB;&#x7EDF;&#x7EA7;&#x53EA;&#x80FD;&#x6DFB;&#x52A0;</td>
+<td>系统级只能添加</td>
 <td>sappnd</td>
 <td>sappnd, sappend</td>
-<td>&#x5426;</td>
-<td>&#x8BBE;&#x7F6E;&#x4EE5;&#x540E;&#x6B64;&#x6587;&#x4EF6;&#x4E0D;&#x80FD;&#x591F;&#x622A;&#x65AD;&#x6216;&#x8005;&#x590D;&#x5199;(overwrite)&#xFF0C;&#x53EA;&#x80FD;&#x901A;&#x8FC7;append&#x6A21;&#x5F0F;&#x6DFB;&#x52A0;&#x5185;&#x5BB9;</td>
+<td>否</td>
+<td>设置以后此文件不能够截断或者复写(overwrite)，只能通过append模式添加内容</td>
 </tr>
 <tr>
-<td>&#x7528;&#x6237;&#x7EA7;&#x53EA;&#x80FD;&#x6DFB;&#x52A0;</td>
+<td>用户级只能添加</td>
 <td>uappnd</td>
 <td>uappnd, uappend</td>
-<td>&#x80FD;</td>
-<td>&#x8BBE;&#x7F6E;&#x4EE5;&#x540E;&#x6B64;&#x6587;&#x4EF6;&#x4E0D;&#x80FD;&#x591F;&#x622A;&#x65AD;&#x6216;&#x8005;&#x590D;&#x5199;(overwrite)&#xFF0C;&#x53EA;&#x80FD;&#x901A;&#x8FC7;append&#x6A21;&#x5F0F;&#x6DFB;&#x52A0;&#x5185;&#x5BB9;</td>
+<td>能</td>
+<td>设置以后此文件不能够截断或者复写(overwrite)，只能通过append模式添加内容</td>
 </tr>
 <tr>
-<td>&#x7CFB;&#x7EDF;&#x7EA7;&#x53EA;&#x8BFB;</td>
+<td>系统级只读</td>
 <td>schg</td>
 <td>schg, schange, simmutable</td>
-<td>&#x5426;</td>
-<td>&#x4E0D;&#x80FD;&#x591F;&#x91CD;&#x547D;&#x540D;&#x3001;&#x79FB;&#x52A8;&#x3001;&#x5220;&#x9664;&#x3001;&#x66F4;&#x6539;&#x5185;&#x5BB9;</td>
+<td>否</td>
+<td>不能够重命名、移动、删除、更改内容</td>
 </tr>
 <tr>
-<td>&#x7528;&#x6237;&#x7EA7;&#x53EA;&#x8BFB;</td>
+<td>用户级只读</td>
 <td>uchg</td>
 <td>uchg, uchange, uimmutable</td>
-<td>&#x80FD;</td>
-<td>&#x4E0D;&#x80FD;&#x591F;&#x66F4;&#x6539;&#x5185;&#x5BB9;</td>
+<td>能</td>
+<td>不能够更改内容</td>
 </tr>
 </tbody>
 </table>
-<h2 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;"><a href="#&#x57FA;&#x672C;&#x7528;&#x6CD5;" class="headerlink" title="&#x57FA;&#x672C;&#x7528;&#x6CD5;"></a>&#x57FA;&#x672C;&#x7528;&#x6CD5;</h2><p><code>chflags [-fhv] [-R [-H | -L | -P]] flags file</code></p>
-<h2 id="&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>&#x5E38;&#x7528;&#x53C2;&#x6570;</h2><p><code>-R</code> &#x9012;&#x5F52;&#x4FEE;&#x6539;&#x53C2;&#x6570;&#x4E2D;&#x6587;&#x4EF6;&#x5939;&#x4E0B;&#x9762;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x548C;&#x6587;&#x4EF6;&#x5939;&#x7684;&#x5C5E;&#x6027;</p>
-<h2 id="&#x5177;&#x4F53;&#x6848;&#x4F8B;"><a href="#&#x5177;&#x4F53;&#x6848;&#x4F8B;" class="headerlink" title="&#x5177;&#x4F53;&#x6848;&#x4F8B;"></a>&#x5177;&#x4F53;&#x6848;&#x4F8B;</h2><p><strong>&#x4E3A;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;</strong></p>
+<h2><span id="基本用法">基本用法</span></h2><p><code>chflags [-fhv] [-R [-H | -L | -P]] flags file</code></p>
+<h2><span id="常用参数">常用参数</span></h2><p><code>-R</code> 递归修改参数中文件夹下面的所有文件和文件夹的属性</p>
+<h2><span id="具体案例">具体案例</span></h2><p><strong>为一个文件添加一个属性</strong></p>
 <p><code>chflags uchg file</code></p>
-<p><strong>&#x4E3A;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;</strong></p>
+<p><strong>为一个文件删除一个属性</strong></p>
 <p><code>chflags nouchg file</code></p>
-<p>&#x5728;&#x5C5E;&#x6027;&#x540D;&#x5B57;&#x524D;&#x9762;&#x6DFB;&#x52A0;no&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x5C5E;&#x6027;&#x5220;&#x9664;&#xFF0C;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x672C;&#x8EAB;&#x5DF2;no&#x5F00;&#x5934;&#xFF08;&#x6BD4;&#x5982;nodump&#xFF09;&#x5219;&#x53BB;&#x6389;no&#x3002;</p>
-<p><strong>&#x5C06;&#x6587;&#x4EF6;&#x5939;&#x53CA;&#x5176;&#x6587;&#x4EF6;&#x5939;&#x4E0B;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x8FDB;&#x884C;&#x4FEE;&#x6539;</strong></p>
+<p>在属性名字前面添加no就可以将属性删除，如果这个属性本身已no开头（比如nodump）则去掉no。</p>
+<p><strong>将文件夹及其文件夹下所有文件属性进行修改</strong></p>
 <p><code>chflags -R uchg directory</code></p>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
+<h2><span id="参考资料">参考资料</span></h2><ol>
 <li><a href="https://en.wikipedia.org/wiki/Chattr" target="_blank" rel="external">chattr - Wikipedia</a></li>
 </ol>
   
@@ -189,7 +189,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/06/02/learning-shell-chflags/" data-title="Mac 命令学习 - chflags | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/06/02/learning-shell-chflags/" data-title="Mac 命令学习 - chflags | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -235,7 +235,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景知识"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用法"><span class="toc-number">2.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">3.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体案例"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
  
   </div>
 
@@ -322,7 +322,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -330,15 +334,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -358,15 +358,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -391,9 +391,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -422,7 +419,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

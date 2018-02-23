@@ -11,20 +11,19 @@
     
 
     
-    <meta name="description" content="&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]
-ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x53C2;&amp;#x6570;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x53EF;&amp;#x4EE5;&amp;#">
+    <meta name="description" content="基本用法ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...] ls 后面可以跟0~N个参数，最后可以跟0~N个文件名。 文件名支持通配符，可以进行简单的文件名搜索。如果匹配到目录的话，会将目录中的子项目一同打印出来。 相关概念通配符规则* （星号通配符） 匹配0~N个任意字符。  ?（问号通配符） 匹配1个任意unicode字符。 [cha">
+<meta name="keywords" content="shell,mac,terminal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 命令学习-每日一贴之ls">
 <meta property="og:url" content="http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]
-ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x53C2;&amp;#x6570;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x53EF;&amp;#x4EE5;&amp;#">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="基本用法ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...] ls 后面可以跟0~N个参数，最后可以跟0~N个文件名。 文件名支持通配符，可以进行简单的文件名搜索。如果匹配到目录的话，会将目录中的子项目一同打印出来。 相关概念通配符规则* （星号通配符） 匹配0~N个任意字符。  ?（问号通配符） 匹配1个任意unicode字符。 [cha">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://linuxcommand.org/images/permissions_diagram.gif">
 <meta property="og:updated_time" content="2016-06-03T14:28:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 命令学习-每日一贴之ls">
-<meta name="twitter:description" content="&amp;#x57FA;&amp;#x672C;&amp;#x7528;&amp;#x6CD5;ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]
-ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&amp;#x53C2;&amp;#x6570;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x53EF;&amp;#x4EE5;&amp;#">
+<meta name="twitter:description" content="基本用法ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...] ls 后面可以跟0~N个参数，最后可以跟0~N个文件名。 文件名支持通配符，可以进行简单的文件名搜索。如果匹配到目录的话，会将目录中的子项目一同打印出来。 相关概念通配符规则* （星号通配符） 匹配0~N个任意字符。  ?（问号通配符） 匹配1个任意unicode字符。 [cha">
 <meta name="twitter:image" content="http://linuxcommand.org/images/permissions_diagram.gif">
 
     
@@ -62,8 +61,6 @@ ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&a
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -105,76 +102,76 @@ ls &amp;#x540E;&amp;#x9762;&amp;#x53EF;&amp;#x4EE5;&amp;#x8DDF;0~N&amp;#x4E2A;&a
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用法"><span class="toc-number">1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念"><span class="toc-number">2.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通配符规则"><span class="toc-number">2.1.</span> <span class="toc-text">通配符规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用功能"><span class="toc-number">3.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体案例"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.1.</span> <span class="toc-text">通配符规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="&#x57FA;&#x672C;&#x7528;&#x6CD5;"><a href="#&#x57FA;&#x672C;&#x7528;&#x6CD5;" class="headerlink" title="&#x57FA;&#x672C;&#x7528;&#x6CD5;"></a>&#x57FA;&#x672C;&#x7528;&#x6CD5;</h2><p><code>ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]</code></p>
-<p>ls &#x540E;&#x9762;&#x53EF;&#x4EE5;&#x8DDF;0~N&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x6700;&#x540E;&#x53EF;&#x4EE5;&#x8DDF;0~N&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x3002;</p>
-<p>&#x6587;&#x4EF6;&#x540D;&#x652F;&#x6301;&#x901A;&#x914D;&#x7B26;&#xFF0C;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x7B80;&#x5355;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x641C;&#x7D22;&#x3002;&#x5982;&#x679C;&#x5339;&#x914D;&#x5230;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;&#x4F1A;&#x5C06;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x5B50;&#x9879;&#x76EE;&#x4E00;&#x540C;&#x6253;&#x5370;&#x51FA;&#x6765;&#x3002;</p>
-<h2 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h2><h3 id="&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;"><a href="#&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;" class="headerlink" title="&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;"></a>&#x901A;&#x914D;&#x7B26;&#x89C4;&#x5219;</h3><p><strong>* &#xFF08;&#x661F;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x5339;&#x914D;0~N&#x4E2A;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#x3002;</p>
-<p> <strong>?&#xFF08;&#x95EE;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x5339;&#x914D;1&#x4E2A;&#x4EFB;&#x610F;unicode&#x5B57;&#x7B26;&#x3002;</p>
-<p><strong>[char] &#xFF08;&#x65B9;&#x62EC;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x5339;&#x914D;1&#x4E2A;&#x65B9;&#x62EC;&#x53F7;&#x5185;&#x4EFB;&#x610F;&#x7684;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x3002;</p>
-<p>&#x62EC;&#x53F7;&#x4E2D;&#x7684;&#x5B57;&#x6BCD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;POSIX &#x5B57;&#x7B26;&#x96C6;&#xFF08;POSIX Character Classes&#xFF09;&#xFF0C;&#x5305;&#x542B;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x3002;&#x6211;&#x53EA;&#x5217;&#x51FA;&#x4E86;&#x8BA4;&#x4E3A;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#xFF0C;&#x8BE6;&#x89C1;<a href="http://man7.org/linux/man-pages/man7/glob.7.html" target="_blank" rel="external">http://man7.org/linux/man-pages/man7/glob.7.html</a></p>
+		<h2><span id="基本用法">基本用法</span></h2><p><code>ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1] [file ...]</code></p>
+<p>ls 后面可以跟0~N个参数，最后可以跟0~N个文件名。</p>
+<p>文件名支持通配符，可以进行简单的文件名搜索。如果匹配到目录的话，会将目录中的子项目一同打印出来。</p>
+<h2><span id="相关概念">相关概念</span></h2><h3><span id="通配符规则">通配符规则</span></h3><p><strong>* （星号通配符）</strong></p>
+<p>匹配0~N个任意字符。</p>
+<p> <strong>?（问号通配符）</strong></p>
+<p>匹配1个任意unicode字符。</p>
+<p><strong>[char] （方括号通配符）</strong></p>
+<p>匹配1个方括号内任意的一个字符。</p>
+<p>括号中的字母可以使用POSIX 字符集（POSIX Character Classes），包含以下几种。我只列出了认为比较常用的，详见<a href="http://man7.org/linux/man-pages/man7/glob.7.html" target="_blank" rel="external">http://man7.org/linux/man-pages/man7/glob.7.html</a></p>
 <table>
 <thead>
 <tr>
-<th>&#x8868;&#x8FBE;&#x5F0F;</th>
-<th>&#x89E3;&#x91CA;</th>
+<th>表达式</th>
+<th>解释</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>[a-z]</code></td>
-<td>&#x5C0F;&#x5199;a&#x5230;z</td>
+<td>小写a到z</td>
 </tr>
 <tr>
 <td><code>[A-Z]</code></td>
-<td>&#x5927;&#x5199;a&#x5230;z</td>
+<td>大写a到z</td>
 </tr>
 <tr>
 <td><code>[0-9]</code></td>
-<td>&#x6570;&#x5B57;0&#x5230;9</td>
+<td>数字0到9</td>
 </tr>
 <tr>
 <td><code>[:alnum:]</code></td>
-<td>Alphanumeric&#x5B57;&#x7B26;&#xFF0C;&#x8868;&#x793A;&#x62C9;&#x4E01;&#x6587;&#x548C;&#x963F;&#x62C9;&#x4F2F;&#x6570;&#x5B57;<sup>[4]</sup></td>
+<td>Alphanumeric字符，表示拉丁文和阿拉伯数字<sup>[4]</sup></td>
 </tr>
 <tr>
 <td><code>[:alpha:]</code></td>
-<td>Alphabetic characters&#xFF0C;&#x62C9;&#x4E01;&#x6587;</td>
+<td>Alphabetic characters，拉丁文</td>
 </tr>
 <tr>
 <td><code>[:digit:]</code></td>
-<td>&#x6570;&#x5B57;</td>
+<td>数字</td>
 </tr>
 <tr>
 <td><code>[:upper:]</code></td>
-<td>&#x5927;&#x5199;&#x7684;&#x62C9;&#x4E01;&#x6587;</td>
+<td>大写的拉丁文</td>
 </tr>
 <tr>
 <td><code>[:lower:]</code></td>
-<td>&#x5C0F;&#x5199;&#x7684;&#x62C9;&#x4E01;&#x6587;</td>
+<td>小写的拉丁文</td>
 </tr>
 <tr>
 <td><code>[:blank:]</code></td>
-<td>ASCII &#x7A7A;&#x683C;&#x6216;&#x5236;&#x8868;&#x7B26;</td>
+<td>ASCII 空格或制表符</td>
 </tr>
 <tr>
 <td><code>[:space:]</code></td>
-<td>ASCII &#x7A7A;&#x683C;</td>
+<td>ASCII 空格</td>
 </tr>
 </tbody>
 </table>
-<p>&#x4F7F;&#x7528;&#x65B9;&#x6CD5;</p>
-<p><code>[[:alpha:]]*</code>&#xFF0C;&#x5339;&#x914D;&#x4EE5;&#x5B57;&#x6BCD;&#x5F00;&#x5934;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
-<p><strong>[!char]&#xFF08;&#x65B9;&#x62EC;&#x53F7;&#x901A;&#x914D;&#x7B26;&#xFF09;</strong></p>
-<p>&#x901A;&#x8FC7;&#x5728;&#x7B2C;&#x4E00;&#x4F4D;&#x52A0;<code>!</code>&#x8868;&#x793A;&#x5339;&#x914D;&#x4E0D;&#x5305;&#x542B;&#x65B9;&#x62EC;&#x53F7;&#x4E4B;&#x5185;&#x7684;&#x5B57;&#x7B26;</p>
-<h2 id="&#x5E38;&#x7528;&#x529F;&#x80FD;"><a href="#&#x5E38;&#x7528;&#x529F;&#x80FD;" class="headerlink" title="&#x5E38;&#x7528;&#x529F;&#x80FD;"></a>&#x5E38;&#x7528;&#x529F;&#x80FD;</h2><p><code>-A</code> - &#x5217;&#x51FA;&#x76EE;&#x5F55;&#x4E0B;&#x9664;&#x4E86;<code>.</code>&#x548C;<code>..</code>&#x4EE5;&#x5916;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x3002;<br><code>-a</code> - &#x5217;&#x51FA;&#x76EE;&#x5F55;&#x4E0B;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x62EC;&#x76EE;&#x5F55;&#x4EE5;<code>.</code>&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-d</code> - &#x4EC5;&#x6253;&#x5370;&#x51FA;&#x76EE;&#x5F55;&#x540D;&#x5B57;&#xFF0C;&#x4E0D;&#x53BB;&#x6253;&#x5370;&#x5185;&#x90E8;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-l</code> - &#x6253;&#x5370;&#x957F;&#x683C;&#x5F0F;&#xFF0C;&#x5305;&#x542B;<br><code>-G</code> - &#x5F69;&#x8272;&#x8F93;&#x51FA;&#x3002;<br><code>-p</code> - &#x5982;&#x679C;&#x4E3A;&#x76EE;&#x5F55;&#xFF0C;&#x5728;&#x663E;&#x793A;&#x540D;&#x79F0;&#x540E;&#x9762;&#x6253;&#x5370;&#x4E00;&#x4E2A;&#x2019;/&#x2018;<br><code>-r</code> - &#x6839;&#x636E;&#x76EE;&#x524D;&#x8F93;&#x51FA;&#x9ED8;&#x8BA4;&#x7684;&#x6392;&#x5E8F;&#x9006;&#x5E8F;&#x3002;<br><code>-O</code> - &#x6253;&#x5370;&#x51FA;File Flag</p>
-<p><strong>&#x957F;&#x683C;&#x5F0F;</strong></p>
+<p>使用方法</p>
+<p><code>[[:alpha:]]*</code>，匹配以字母开头的字符串。</p>
+<p><strong>[!char]（方括号通配符）</strong></p>
+<p>通过在第一位加<code>!</code>表示匹配不包含方括号之内的字符</p>
+<h2><span id="常用功能">常用功能</span></h2><p><code>-A</code> - 列出目录下除了<code>.</code>和<code>..</code>以外的所有文件。<br><code>-a</code> - 列出目录下所有文件，包括目录以<code>.</code>开头的文件。<br><code>-d</code> - 仅打印出目录名字，不去打印内部的文件。<br><code>-l</code> - 打印长格式，包含<br><code>-G</code> - 彩色输出。<br><code>-p</code> - 如果为目录，在显示名称后面打印一个’/‘<br><code>-r</code> - 根据目前输出默认的排序逆序。<br><code>-O</code> - 打印出File Flag</p>
+<p><strong>长格式</strong></p>
 <pre><code>I            II  III      IV       V  VI           VII
 drwxr-xr-x   9   zhengyi  group   306 May 24 08:24 .
 drwxr-xr-x  42   zhengyi  group  1428 May 23 23:20 ..
@@ -185,26 +182,26 @@ drwxr-xr-x  42   zhengyi  group  1428 May 23 23:20 ..
 drwxr-xr-x   2   zhengyi  group    68 May 24 08:18 lib
 drwxr-xr-x   7   zhengyi  group   238 May 24 08:25 src
 drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
-</code></pre><p>I&#xFF1A;&#x6587;&#x4EF6;&#x6743;&#x9650;&#x4FE1;&#x606F;&#xFF0C;&#x8BE6;&#x89C1;&#x4E0B;&#x56FE;&#x3002;&#x5982;&#x679C;&#x6709;<code>@</code>&#x7B26;&#x53F7;&#xFF0C;&#x8868;&#x793A;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x6709;&#x4E00;&#x4E9B;&#x62D3;&#x5C55;&#x5C5E;&#x6027;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6DFB;&#x52A0;<code>-@</code>&#x53C2;&#x6570;&#x67E5;&#x9605;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;xattr&#x5DE5;&#x5177;&#x6765;&#x67E5;&#x770B;&#x5177;&#x4F53;&#x4FE1;&#x606F;<sup>[1]</sup>&#x3002;<br>II&#xFF1A;&#x94FE;&#x63A5;&#x8BA1;&#x6570;&#xFF08;link count&#xFF09;&#xFF0C;&#x5305;&#x62EC;<em>hard links</em>&#xFF0C;<em>symbolic links</em>&#xFF0C;&#x8FD8;&#x6709;&#x76EE;&#x5F55;&#x5F15;&#x7528;&#x3002;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x7684;<code>.</code>&#x4F1A;&#x5F15;&#x7528;&#x81EA;&#x5DF1;&#xFF0C;&#x540C;&#x65F6;&#x5B83;&#x7684;&#x6240;&#x6709;&#x7684;&#x5B50;&#x76EE;&#x5F55;&#x90FD;&#x4F1A;&#x6301;&#x6709;&#x4E00;&#x4E2A;<code>..</code>&#x6307;&#x5411;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x3002;&#x8FD9;&#x5C31;&#x5BFC;&#x81F4;&#x4E86;&#x76EE;&#x5F55;&#x7684;&#x94FE;&#x63A5;&#x8BA1;&#x6570;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x5927;&#x3002;<br>III&#xFF1A;owner name<br>IV&#xFF1A;owner group<br>V&#xFF1A;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#xFF0C;&#x5355;&#x4F4D;&#x4E3A;&#x5B57;&#x8282;<br>VI&#xFF1A;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x65E5;&#x671F;<br>VII&#xFF1A;&#x6587;&#x4EF6;&#x540D;</p>
+</code></pre><p>I：文件权限信息，详见下图。如果有<code>@</code>符号，表示这个文件有一些拓展属性，可以通过添加<code>-@</code>参数查阅，也可以使用xattr工具来查看具体信息<sup>[1]</sup>。<br>II：链接计数（link count），包括<em>hard links</em>，<em>symbolic links</em>，还有目录引用。当前目录的<code>.</code>会引用自己，同时它的所有的子目录都会持有一个<code>..</code>指向当前目录。这就导致了目录的链接计数往往比较大。<br>III：owner name<br>IV：owner group<br>V：文件大小，单位为字节<br>VI：最后修改日期<br>VII：文件名</p>
 <p>Access right in the first column<br><img src="http://linuxcommand.org/images/permissions_diagram.gif" alt=""><sup>[2]</sup></p>
-<h2 id="&#x5177;&#x4F53;&#x6848;&#x4F8B;"><a href="#&#x5177;&#x4F53;&#x6848;&#x4F8B;" class="headerlink" title="&#x5177;&#x4F53;&#x6848;&#x4F8B;"></a>&#x5177;&#x4F53;&#x6848;&#x4F8B;</h2><p><strong>&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x7684;&#x522B;&#x540D;&#xFF08;alias&#xFF09;</strong></p>
-<p>&#x4E2A;&#x4EBA;&#x559C;&#x597D;&#x5C06;&#x8F93;&#x51FA;&#x641E;&#x7684;&#x5F69;&#x8272;&#x4E00;&#x70B9;&#xFF0C;&#x6BD4;&#x8F83;&#x660E;&#x663E;&#x80FD;&#x770B;&#x51FA;&#x6587;&#x4EF6;&#x7684;&#x7C7B;&#x522B;</p>
-<p><code>alias ls=&apos;ls -G&apos;</code></p>
-<p><strong>&#x5217;&#x51FA;&#x6587;&#x4EF6;&#x5939;&#x4E0B;&#x6240;&#x6709;&#x7684;&#x5B50;&#x6587;&#x4EF6;&#x5939;</strong></p>
+<h2><span id="具体案例">具体案例</span></h2><p><strong>设置默认的别名（alias）</strong></p>
+<p>个人喜好将输出搞的彩色一点，比较明显能看出文件的类别</p>
+<p><code>alias ls=&#39;ls -G&#39;</code></p>
+<p><strong>列出文件夹下所有的子文件夹</strong></p>
 <p><code>ls -d */</code></p>
-<p><strong>&#x6309;&#x7167;&#x6700;&#x540E;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x6392;&#x5E8F;</strong></p>
-<p><code>ls -l -t -T (&#x65B0;&#x4FEE;&#x6539;&#x7684;&#x5728;&#x524D;)</code><br><code>ls -l -t -T -r&#xFF08;&#x8001;&#x4FEE;&#x6539;&#x7684;&#x5728;&#x524D;&#xFF09;</code></p>
-<p><strong>&#x6839;&#x636E;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x6392;&#x5E8F;</strong></p>
-<p><code>ls -l -S &#xFF08;&#x4ECE;&#x5927;&#x5230;&#x5C0F;&#xFF09;</code></p>
-<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;"><a href="#&#x53C2;&#x8003;&#x8D44;&#x6599;" class="headerlink" title="&#x53C2;&#x8003;&#x8D44;&#x6599;"></a>&#x53C2;&#x8003;&#x8D44;&#x6599;</h2><ol>
-<li><a href="http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/" target="_blank" rel="external">&#x201C;ls&#x201D; on Mac and extended file attributes</a></li>
+<p><strong>按照最后修改时间排序</strong></p>
+<p><code>ls -l -t -T (新修改的在前)</code><br><code>ls -l -t -T -r（老修改的在前）</code></p>
+<p><strong>根据文件大小排序</strong></p>
+<p><code>ls -l -S （从大到小）</code></p>
+<h2><span id="参考资料">参考资料</span></h2><ol>
+<li><a href="http://mackuba.eu/2008/06/30/ls-on-mac-and-extended-file-attributes/" target="_blank" rel="external">“ls” on Mac and extended file attributes</a></li>
 <li><a href="http://linuxcommand.org/images/permissions_diagram.gif" target="_blank" rel="external">permission gif</a></li>
 <li><a href="http://www.linfo.org/wildcard.html" target="_blank" rel="external">Wildcard - 1</a></li>
 <li><a href="http://linuxcommand.org/lc3_lts0050.php" target="_blank" rel="external">Wildcard - 2</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Alphanumeric" target="_blank" rel="external">Alphanumeric - Wikipedia</a></li>
 </ol>
-<p><strong>&#x9605;&#x8BFB;&#x66F4;&#x591A;</strong></p>
-<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux &#x547D;&#x4EE4;&#x5B66;&#x4E60;">Mac/Linux &#x547D;&#x4EE4;&#x5B66;&#x4E60;</a>  
+<p><strong>阅读更多</strong></p>
+<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux 命令学习">Mac/Linux 命令学习</a>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -226,7 +223,7 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/" data-title="Mac 命令学习-每日一贴之ls | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/05/24/learning-shell-in-mac-ls/" data-title="Mac 命令学习-每日一贴之ls | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -272,7 +269,7 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用法"><span class="toc-number">1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念"><span class="toc-number">2.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通配符规则"><span class="toc-number">2.1.</span> <span class="toc-text">通配符规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用功能"><span class="toc-number">3.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体案例"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.1.</span> <span class="toc-text">通配符规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">常用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">具体案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
  
   </div>
 
@@ -359,7 +356,11 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -367,15 +368,11 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -395,15 +392,15 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -428,9 +425,6 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -459,7 +453,7 @@ drwxr-xr-x   4   zhengyi  group   136 May 24 08:18 tests
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

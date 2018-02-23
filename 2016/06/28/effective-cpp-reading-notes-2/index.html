@@ -11,22 +11,18 @@
     
 
     
-    <meta name="description" content="&amp;#x6761;&amp;#x6B3E;4&amp;#xFF1A;&amp;#x786E;&amp;#x5B9A;&amp;#x5BF9;&amp;#x8C61;&amp;#x88AB;&amp;#x4F7F;&amp;#x7528;&amp;#x524D;&amp;#x5DF2;&amp;#x5148;&amp;#x88AB;&amp;#x521D;&amp;#x59CB;&amp;#x5316;
-
-&amp;#x4E3A;&amp;#x5185;&amp;#x7F6E;&amp;#x578B;&amp;#x5BF9;&amp;#x8C61;&amp;#x8FDB;&amp;#x88">
+    <meta name="description" content="条款4：确定对象被使用前已先被初始化  为内置型对象进行手工初始化，因为C++不保证初始化它们。 构造函数最好使用成员初值列（member initialization list），而不是在构造函数本体内使用赋值操作（assignment）。初值列列出的成员变量，起排序次序应该和它们在class中的声明次序相同。 为了免除“跨编译单元之初始化次序”问题，请以local static对象替换non-">
+<meta name="keywords" content="C++,编程语言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Effective C++》读书笔记(2)">
 <meta property="og:url" content="http://zhengyi.me/2016/06/28/effective-cpp-reading-notes-2/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x6761;&amp;#x6B3E;4&amp;#xFF1A;&amp;#x786E;&amp;#x5B9A;&amp;#x5BF9;&amp;#x8C61;&amp;#x88AB;&amp;#x4F7F;&amp;#x7528;&amp;#x524D;&amp;#x5DF2;&amp;#x5148;&amp;#x88AB;&amp;#x521D;&amp;#x59CB;&amp;#x5316;
-
-&amp;#x4E3A;&amp;#x5185;&amp;#x7F6E;&amp;#x578B;&amp;#x5BF9;&amp;#x8C61;&amp;#x8FDB;&amp;#x88">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="条款4：确定对象被使用前已先被初始化  为内置型对象进行手工初始化，因为C++不保证初始化它们。 构造函数最好使用成员初值列（member initialization list），而不是在构造函数本体内使用赋值操作（assignment）。初值列列出的成员变量，起排序次序应该和它们在class中的声明次序相同。 为了免除“跨编译单元之初始化次序”问题，请以local static对象替换non-">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-06-28T13:56:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Effective C++》读书笔记(2)">
-<meta name="twitter:description" content="&amp;#x6761;&amp;#x6B3E;4&amp;#xFF1A;&amp;#x786E;&amp;#x5B9A;&amp;#x5BF9;&amp;#x8C61;&amp;#x88AB;&amp;#x4F7F;&amp;#x7528;&amp;#x524D;&amp;#x5DF2;&amp;#x5148;&amp;#x88AB;&amp;#x521D;&amp;#x59CB;&amp;#x5316;
-
-&amp;#x4E3A;&amp;#x5185;&amp;#x7F6E;&amp;#x578B;&amp;#x5BF9;&amp;#x8C61;&amp;#x8FDB;&amp;#x88">
+<meta name="twitter:description" content="条款4：确定对象被使用前已先被初始化  为内置型对象进行手工初始化，因为C++不保证初始化它们。 构造函数最好使用成员初值列（member initialization list），而不是在构造函数本体内使用赋值操作（assignment）。初值列列出的成员变量，起排序次序应该和它们在class中的声明次序相同。 为了免除“跨编译单元之初始化次序”问题，请以local static对象替换non-">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -63,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -106,35 +100,35 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款4确定对象被使用前已先被初始化"><span class="toc-number">1.</span> <span class="toc-text">条款4：确定对象被使用前已先被初始化</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">条款4：确定对象被使用前已先被初始化</span></a></li></ol>
 		
 		</div>
 		
-		<h3 id="&#x6761;&#x6B3E;4&#x786E;&#x5B9A;&#x5BF9;&#x8C61;&#x88AB;&#x4F7F;&#x7528;&#x524D;&#x5DF2;&#x5148;&#x88AB;&#x521D;&#x59CB;&#x5316;"><a href="#&#x6761;&#x6B3E;4&#xFF1A;&#x786E;&#x5B9A;&#x5BF9;&#x8C61;&#x88AB;&#x4F7F;&#x7528;&#x524D;&#x5DF2;&#x5148;&#x88AB;&#x521D;&#x59CB;&#x5316;" class="headerlink" title="&#x6761;&#x6B3E;4&#xFF1A;&#x786E;&#x5B9A;&#x5BF9;&#x8C61;&#x88AB;&#x4F7F;&#x7528;&#x524D;&#x5DF2;&#x5148;&#x88AB;&#x521D;&#x59CB;&#x5316;"></a>&#x6761;&#x6B3E;4&#xFF1A;&#x786E;&#x5B9A;&#x5BF9;&#x8C61;&#x88AB;&#x4F7F;&#x7528;&#x524D;&#x5DF2;&#x5148;&#x88AB;&#x521D;&#x59CB;&#x5316;</h3><blockquote>
+		<h3><span id="条款4确定对象被使用前已先被初始化">条款4：确定对象被使用前已先被初始化</span></h3><blockquote>
 <ul>
-<li>&#x4E3A;&#x5185;&#x7F6E;&#x578B;&#x5BF9;&#x8C61;&#x8FDB;&#x884C;&#x624B;&#x5DE5;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x56E0;&#x4E3A;C++&#x4E0D;&#x4FDD;&#x8BC1;&#x521D;&#x59CB;&#x5316;&#x5B83;&#x4EEC;&#x3002;</li>
-<li>&#x6784;&#x9020;&#x51FD;&#x6570;&#x6700;&#x597D;&#x4F7F;&#x7528;&#x6210;&#x5458;&#x521D;&#x503C;&#x5217;&#xFF08;member initialization list&#xFF09;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x672C;&#x4F53;&#x5185;&#x4F7F;&#x7528;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;&#xFF08;assignment&#xFF09;&#x3002;&#x521D;&#x503C;&#x5217;&#x5217;&#x51FA;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#xFF0C;&#x8D77;&#x6392;&#x5E8F;&#x6B21;&#x5E8F;&#x5E94;&#x8BE5;&#x548C;&#x5B83;&#x4EEC;&#x5728;class&#x4E2D;&#x7684;&#x58F0;&#x660E;&#x6B21;&#x5E8F;&#x76F8;&#x540C;&#x3002;</li>
-<li>&#x4E3A;&#x4E86;&#x514D;&#x9664;&#x201C;&#x8DE8;&#x7F16;&#x8BD1;&#x5355;&#x5143;&#x4E4B;&#x521D;&#x59CB;&#x5316;&#x6B21;&#x5E8F;&#x201D;&#x95EE;&#x9898;&#xFF0C;&#x8BF7;&#x4EE5;local static&#x5BF9;&#x8C61;&#x66FF;&#x6362;non-local static&#x5BF9;&#x8C61;&#x3002;</li>
+<li>为内置型对象进行手工初始化，因为C++不保证初始化它们。</li>
+<li>构造函数最好使用成员初值列（member initialization list），而不是在构造函数本体内使用赋值操作（assignment）。初值列列出的成员变量，起排序次序应该和它们在class中的声明次序相同。</li>
+<li>为了免除“跨编译单元之初始化次序”问题，请以local static对象替换non-local static对象。</li>
 </ul>
 </blockquote>
-<p>&#x5185;&#x7F6E;&#x5BF9;&#x8C61;&#x6307;&#x7684;&#x662F;C++&#x81EA;&#x5E26;&#x7684;&#x7C7B;&#x4F3C;&#x4E8E;int&#xFF0C;double&#x7684;&#x7C7B;&#x578B;&#x3002;&#x8FD9;&#x4E9B;&#x7C7B;&#x578B;&#x53D8;&#x91CF;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8FDB;&#x884C;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5176;&#x503C;&#x662F;&#x672A;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x8BFB;&#x53D6;&#x4F1A;&#x5BFC;&#x81F4;&#x4E0D;&#x660E;&#x786E;&#x7684;&#x884C;&#x4E3A;&#xFF08;undefined behavior&#xFF09;&#x3002;&#x6240;&#x4EE5;&#x5FC5;&#x987B;&#x8981;&#x4FDD;&#x8BC1;&#x8BFB;&#x53D6;&#x5185;&#x7F6E;&#x5BF9;&#x8C61;&#x524D;&#xFF0C;&#x5176;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x8FC7;&#x3002;</p>
+<p>内置对象指的是C++自带的类似于int，double的类型。这些类型变量如果没有进行初始化，其值是未定义的，如果对其进行读取会导致不明确的行为（undefined behavior）。所以必须要保证读取内置对象前，其被初始化过。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int x; 		// bad code</span><br><span class="line">int x = 0; 	// good code</span><br></pre></td></tr></table></figure>
-<p>&#x5BF9;&#x4E8E;&#x975E;&#x5185;&#x7F6E;&#x7C7B;&#x578B;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x7684;&#x4EFB;&#x52A1;&#x5219;&#x662F;&#x7531;&#x6784;&#x9020;&#x51FD;&#x6570;&#x8D1F;&#x8D23;&#x7684;&#x3002;&#x5305;&#x62EC;STL&#x5E93;&#x91CC;&#x7684;&#x4E00;&#x4E9B;&#x7C7B;&#x3002;</p>
+<p>对于非内置类型，初始化的任务则是由构造函数负责的。包括STL库里的一些类。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::string str;		//it&apos;s ok</span><br><span class="line">std::string str = &quot;&quot;; 	//it&apos;s also ok</span><br><span class="line">Class1 obj;</span><br></pre></td></tr></table></figure>
-<p><strong>&#x7C7B;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x521D;&#x59CB;&#x5316; vs &#x8D4B;&#x503C;</strong></p>
-<p>&#x7C7B;&#x7684;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x5728;&#x8FDB;&#x5165;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E4B;&#x524D;&#x5DF2;&#x7ECF;&#x5DF2;&#x7ECF;&#x88AB;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x5185;&#x8FDB;&#x884C;&#x201D;&#x521D;&#x59CB;&#x5316;&#x201C;&#x7684;&#x7684;&#x8BDD;&#x5176;&#x5B9E;&#x662F;&#x8FDB;&#x884C;&#x8D4B;&#x503C;&#xFF0C;&#x4F1A;&#x5E26;&#x6765;&#x989D;&#x5916;&#x7684;&#x5F00;&#x9500;&#x3002;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Entry {</span><br><span class="line">public:</span><br><span class="line">	Entry();</span><br><span class="line">private:</span><br><span class="line">	std::string name;</span><br><span class="line">	int value;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">Entry::Entry() {</span><br><span class="line">	name = &quot;default&quot;; //</span><br><span class="line">	value = 0;        // not good </span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">Entry::Entry()</span><br><span class="line">  : name(&quot;default&quot;)</span><br><span class="line">  , value(0)</span><br></pre></td></tr></table></figure>
-<p>&#x81F3;&#x4E8E;&#x4F5C;&#x8005;&#x63D0;&#x5230;&#x7684;&#x521D;&#x503C;&#x5217;&#x4E2D;&#x7684;&#x987A;&#x5E8F;&#x9700;&#x8981;&#x4E0E;class&#x5185;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x7684;&#x987A;&#x5E8F;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x662F;&#x56E0;&#x4E3A;c++&#x603B;&#x662F;&#x6309;&#x7167;class&#x5185;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x7684;&#x987A;&#x5E8F;&#x5BF9;&#x53D8;&#x91CF;&#xFF0C;&#x6240;&#x4EE5;&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x5E26;&#x6765;&#x8FF7;&#x60D1;&#x4EE5;&#x53CA;&#x5BB9;&#x6613;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x6F0F;&#x6389;&#x53D8;&#x91CF;&#x672A;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x6700;&#x597D;&#x5C06;&#x521D;&#x503C;&#x5217;&#x987A;&#x5E8F;&#x4E0E;class&#x5185;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x987A;&#x5E8F;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x3002;</p>
-<p><strong>non-local static &#x5BF9;&#x8C61;&#x7684;&#x521D;&#x59CB;&#x5316;</strong></p>
-<p>&#x4E0D;&#x540C;<strong>&#x7F16;&#x8BD1;&#x5355;&#x5143;</strong>&#x5185;&#x5B9A;&#x4E49;&#x7684;<strong>non-local static</strong>&#x5BF9;&#x8C61;&#x521D;&#x59CB;&#x5316;&#x6B21;&#x5E8F;&#x672A;&#x5B9A;&#x4E49;&#x3002;</p>
-<p><em>&#x7F16;&#x8BD1;&#x5355;&#x5143;</em></p>
-<p>&#x7F16;&#x8BD1;&#x5355;&#x5143;&#x662F;&#x6307;&#x4EA7;&#x51FA;&#x5355;&#x4E00;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#xFF08;object file&#xFF09;&#x7684;&#x90A3;&#x4E9B;&#x6E90;&#x7801;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x662F;&#x5B83;&#x7684;&#x6E90;&#x6587;&#x4EF6;&#x52A0;&#x4E0A;&#x5176;&#x6240;&#x542B;&#x5165;&#x7684;&#x5934;&#x6587;&#x4EF6;&#x3002;</p>
-<p><em>non-local static &#x5BF9;&#x8C61;</em></p>
-<p>&#x9664;&#x4E86;&#x5B9A;&#x4E49;&#x5728;&#x51FD;&#x6570;&#x5185;&#x7684;static&#x53D8;&#x91CF;&#xFF0C;&#x5176;&#x4ED6;&#x7684;static&#x53D8;&#x91CF;&#x5747;&#x662F;non-local static&#x5BF9;&#x8C61;&#xFF0C;&#x5305;&#x62EC;global&#x5BF9;&#x8C61;&#x3001;&#x5B9A;&#x4E49;&#x57DF;namespace&#x4F5C;&#x7528;&#x57DF;&#x5185;&#x7684;&#x5BF9;&#x8C61;&#x3001;class&#x5185;&#x7684;&#x3001;&#x6587;&#x4EF6;&#x4F5C;&#x7528;&#x57DF;&#x5185;&#x7684;static&#x5BF9;&#x8C61;&#x3002;</p>
-<p>&#x6B21;&#x5E8F;&#x672A;&#x5B9A;&#x4E49;&#x4F1A;&#x5BFC;&#x81F4;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x5C31;&#x662F;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x5728;&#x4E00;&#x4E2A;&#x7F16;&#x8BD1;&#x5355;&#x5143;&#x5185;&#x4F7F;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x7F16;&#x8BD1;&#x5355;&#x5143;&#x7684;&#x9759;&#x6001;&#x53D8;&#x91CF;&#xFF0C;&#x5219;&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x4F60;&#x5728;&#x8C03;&#x7528;&#x7684;&#x65F6;&#x5019;&#x5176;&#x8FD8;&#x6CA1;&#x6709;&#x521D;&#x59CB;&#x5316;&#x3002;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;local static&#x53D8;&#x91CF;&#x7684;reference&#x7684;&#x65B9;&#x6CD5;&#x6765;&#x5F97;&#x5230;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x5355;&#x4F8B;&#x7684;&#x5E38;&#x89C1;&#x4F7F;&#x7528;&#x573A;&#x666F;&#x3002;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FileSystem &amp;tfs() {</span><br><span class="line">   static FileSystem fs;</span><br><span class="line">   return &amp;fs</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p>&#x4F46;&#x8FD9;&#x4E2A;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x5C31;&#x662F;static&#x5728;&#x591A;&#x7EBF;&#x7A0B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x4F1A;&#x51FA;&#x73B0;&#x4E0D;&#x786E;&#x5B9A;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x597D;&#x5728;&#x7A0B;&#x5E8F;&#x542F;&#x52A8;&#x65F6;&#x5148;&#x4EE5;&#x5355;&#x7EBF;&#x7A0B;&#x7684;&#x65B9;&#x5F0F;&#x8C03;&#x7528;&#x4E00;&#x904D;&#x3002;</p>
-<p><strong>&#x603B;&#x4E4B;</strong>&#xFF0C;non-local static&#x5BF9;&#x8C61;&#x6700;&#x597D;&#x53EA;&#x5728;&#x4E00;&#x4E2A;&#x7F16;&#x8BD1;&#x5355;&#x5143;&#x5185;&#x4F7F;&#x7528;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x8DE8;&#x7F16;&#x8BD1;&#x5355;&#x5143;&#x4F7F;&#x7528;&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x66FF;&#x4EE3;&#x3002;</p>
+<p><strong>类成员变量初始化 vs 赋值</strong></p>
+<p>类的成员变量在进入构造函数之前已经已经被初始化，所以如果在构造函数内进行”初始化“的的话其实是进行赋值，会带来额外的开销。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Entry &#123;</span><br><span class="line">public:</span><br><span class="line">	Entry();</span><br><span class="line">private:</span><br><span class="line">	std::string name;</span><br><span class="line">	int value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Entry::Entry() &#123;</span><br><span class="line">	name = &quot;default&quot;; //</span><br><span class="line">	value = 0;        // not good </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Entry::Entry()</span><br><span class="line">  : name(&quot;default&quot;)</span><br><span class="line">  , value(0)</span><br></pre></td></tr></table></figure>
+<p>至于作者提到的初值列中的顺序需要与class内变量声明的顺序保持一致是因为c++总是按照class内变量声明的顺序对变量，所以为了避免带来迷惑以及容易检查是否漏掉变量未初始化，最好将初值列顺序与class内变量声明顺序保持一致。</p>
+<p><strong>non-local static 对象的初始化</strong></p>
+<p>不同<strong>编译单元</strong>内定义的<strong>non-local static</strong>对象初始化次序未定义。</p>
+<p><em>编译单元</em></p>
+<p>编译单元是指产出单一目标文件（object file）的那些源码，基本上是它的源文件加上其所含入的头文件。</p>
+<p><em>non-local static 对象</em></p>
+<p>除了定义在函数内的static变量，其他的static变量均是non-local static对象，包括global对象、定义域namespace作用域内的对象、class内的、文件作用域内的static对象。</p>
+<p>次序未定义会导致一个问题，就是如果你需要在一个编译单元内使用另一个编译单元的静态变量，则很有可能你在调用的时候其还没有初始化。这种情况你可以通过使用返回一个local static变量的reference的方法来得到，这个方法就是单例的常见使用场景。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FileSystem &amp;tfs() &#123;</span><br><span class="line">   static FileSystem fs;</span><br><span class="line">   return &amp;fs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但这个还有一个问题就是static在多线程的情况下会出现不确定性，所以最好在程序启动时先以单线程的方式调用一遍。</p>
+<p><strong>总之</strong>，non-local static对象最好只在一个编译单元内使用，如果需要跨编译单元使用，则使用单的方法替代。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -157,7 +151,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/06/28/effective-cpp-reading-notes-2/" data-title="《Effective C++》读书笔记(2) | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/06/28/effective-cpp-reading-notes-2/" data-title="《Effective C++》读书笔记(2) | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -203,7 +197,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款4确定对象被使用前已先被初始化"><span class="toc-number">1.</span> <span class="toc-text">条款4：确定对象被使用前已先被初始化</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">条款4：确定对象被使用前已先被初始化</span></a></li></ol>
  
   </div>
 
@@ -290,7 +284,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -298,15 +296,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -326,15 +320,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -359,9 +353,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -390,7 +381,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

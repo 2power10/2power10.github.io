@@ -11,16 +11,18 @@
     
 
     
-    <meta name="description" content="&amp;#x76F8;&amp;#x5173;&amp;#x6982;&amp;#x5FF5;Symbolic linksSymbolic links/soft links&amp;#x53EF;&amp;#x4EE5;&amp;#x7406;&amp;#x89E3;&amp;#x6210;&amp;#x4E3A;&amp;#x4E00;&amp;#x4E2A;&amp;#x5FEB;&amp;#x6377;&amp;#x65B9;&amp;#x5F0F;&amp;#xFF0C;&amp;#x8DDF;mac GUI&amp;#x53F3;&amp;#">
+    <meta name="description" content="相关概念Symbolic linksSymbolic links/soft links可以理解成为一个快捷方式，跟mac GUI右击出来的alias有着很类似的功能，但是比alias要更加的底层一些。Softlink 即可以针对文件也可以针对文件夹进行创建。 通过ln  -s target/file/or/dir link/path来创建。我创建了针对文件和文件夹的softlink和alias，通">
+<meta name="keywords" content="shell,mac,terminal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 命令学习-每日一贴之cp">
 <meta property="og:url" content="http://zhengyi.me/2016/05/25/learning-shell-in-mac-cp/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x76F8;&amp;#x5173;&amp;#x6982;&amp;#x5FF5;Symbolic linksSymbolic links/soft links&amp;#x53EF;&amp;#x4EE5;&amp;#x7406;&amp;#x89E3;&amp;#x6210;&amp;#x4E3A;&amp;#x4E00;&amp;#x4E2A;&amp;#x5FEB;&amp;#x6377;&amp;#x65B9;&amp;#x5F0F;&amp;#xFF0C;&amp;#x8DDF;mac GUI&amp;#x53F3;&amp;#">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="相关概念Symbolic linksSymbolic links/soft links可以理解成为一个快捷方式，跟mac GUI右击出来的alias有着很类似的功能，但是比alias要更加的底层一些。Softlink 即可以针对文件也可以针对文件夹进行创建。 通过ln  -s target/file/or/dir link/path来创建。我创建了针对文件和文件夹的softlink和alias，通">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-05-25T14:19:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 命令学习-每日一贴之cp">
-<meta name="twitter:description" content="&amp;#x76F8;&amp;#x5173;&amp;#x6982;&amp;#x5FF5;Symbolic linksSymbolic links/soft links&amp;#x53EF;&amp;#x4EE5;&amp;#x7406;&amp;#x89E3;&amp;#x6210;&amp;#x4E3A;&amp;#x4E00;&amp;#x4E2A;&amp;#x5FEB;&amp;#x6377;&amp;#x65B9;&amp;#x5F0F;&amp;#xFF0C;&amp;#x8DDF;mac GUI&amp;#x53F3;&amp;#">
+<meta name="twitter:description" content="相关概念Symbolic linksSymbolic links/soft links可以理解成为一个快捷方式，跟mac GUI右击出来的alias有着很类似的功能，但是比alias要更加的底层一些。Softlink 即可以针对文件也可以针对文件夹进行创建。 通过ln  -s target/file/or/dir link/path来创建。我创建了针对文件和文件夹的softlink和alias，通">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -57,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -100,25 +100,25 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#symbolic-links"><span class="toc-number">1.1.</span> <span class="toc-text">Symbolic links</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hard-link"><span class="toc-number">1.2.</span> <span class="toc-text">Hard link</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体场景"><span class="toc-number">3.</span> <span class="toc-text">具体场景</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">Symbolic links</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">Hard link</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">具体场景</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="&#x76F8;&#x5173;&#x6982;&#x5FF5;"><a href="#&#x76F8;&#x5173;&#x6982;&#x5FF5;" class="headerlink" title="&#x76F8;&#x5173;&#x6982;&#x5FF5;"></a>&#x76F8;&#x5173;&#x6982;&#x5FF5;</h2><h3 id="symbolic-links"><a href="#Symbolic-links" class="headerlink" title="Symbolic links"></a>Symbolic links</h3><p>Symbolic links/soft links&#x53EF;&#x4EE5;<anchor>&#x7406;&#x89E3;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x5FEB;&#x6377;&#x65B9;&#x5F0F;</anchor>&#xFF0C;&#x8DDF;mac GUI&#x53F3;&#x51FB;&#x51FA;&#x6765;&#x7684;alias&#x6709;&#x7740;&#x5F88;&#x7C7B;&#x4F3C;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x662F;&#x6BD4;alias&#x8981;&#x66F4;&#x52A0;&#x7684;&#x5E95;&#x5C42;&#x4E00;&#x4E9B;&#x3002;Softlink &#x5373;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x4E5F;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x5939;&#x8FDB;&#x884C;&#x521B;&#x5EFA;&#x3002;</p>
-<p>&#x901A;&#x8FC7;<code>ln  -s target/file/or/dir link/path</code>&#x6765;&#x521B;&#x5EFA;&#x3002;&#x6211;&#x521B;&#x5EFA;&#x4E86;&#x9488;&#x5BF9;&#x6587;&#x4EF6;&#x548C;&#x6587;&#x4EF6;&#x5939;&#x7684;softlink&#x548C;alias&#xFF0C;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x89C2;&#x5BDF;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;&#x3002;</p>
+		<h2><span id="相关概念">相关概念</span></h2><h3><span id="symbolic-links">Symbolic links</span></h3><p>Symbolic links/soft links可以<anchor>理解成为一个快捷方式</anchor>，跟mac GUI右击出来的alias有着很类似的功能，但是比alias要更加的底层一些。Softlink 即可以针对文件也可以针对文件夹进行创建。</p>
+<p>通过<code>ln  -s target/file/or/dir link/path</code>来创建。我创建了针对文件和文件夹的softlink和alias，通过命令可以观察它们之间的区别。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ ls -lo@</span><br><span class="line">total 3024</span><br><span class="line">-rwxr-xr-x  1 zhengyi    2723 May 24 08:20 build.sh</span><br><span class="line">-rw-r--r--@ 1 zhengyi  257136 May 25 20:49 build.sh.alias</span><br><span class="line">	com.apple.FinderInfo	     32 </span><br><span class="line">lrwxr-xr-x  1 zhengyi       8 May 25 20:49 build.sh.link -&gt; build.sh</span><br><span class="line">drwxr-xr-x  9 zhengyi     306 May 25 20:24 src</span><br><span class="line">-rw-r--r--@ 1 zhengyi 1268908 May 25 20:40 src_alias</span><br><span class="line">	com.apple.FinderInfo	     32 </span><br><span class="line">lrwxr-xr-x  1 zhengyi       4 May 25 20:39 src_link -&gt; src/</span><br></pre></td></tr></table></figure>
-<p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x5230;softlink&#x662F;&#x901A;&#x8FC7;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#x6765;&#x8BC6;&#x522B;&#x7684;&#xFF0C;&#x800C;alias&#x662F;&#x901A;&#x8FC7;&#x62D3;&#x5C55;&#x5C5E;&#x6027;&#x6765;&#x8FDB;&#x884C;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;alias&#x53EA;&#x6709;&#x5728;apple &#x7684;Finder&#x4E0B;&#x6709;&#x7528;&#xFF0C;&#x5728;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x4ED6;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x7684;&#x6587;&#x4EF6;&#x3002;    </p>
-<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x94FE;&#x63A5;&#x5230;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;alias&#x56E0;&#x4E3A;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x81EA;&#x7136;&#x4E0D;&#x80FD;&#x591F;cd&#x8FDB;&#x53BB;&#xFF0C;&#x800C;softlink&#x662F;&#x53EF;&#x4EE5;cd&#x8FDB;&#x53BB;&#x7684;&#x3002;</p>
-<h3 id="hard-link"><a href="#Hard-link" class="headerlink" title="Hard link"></a>Hard link</h3><p>&#x4E0E;softlink&#x76F8;&#x5BF9;&#x5E94;&#xFF0C;&#x4E0E;softlink&#x4E0D;&#x540C;&#xFF0C;hardlink&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x201C;&#x5FEB;&#x6377;&#x65B9;&#x5F0F;&#x201D;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x4E2A;&#x771F;&#x5B9E;&#x5B58;&#x5728;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x6210;&#x78C1;&#x76D8;&#x4E0A;&#x4E00;&#x5757;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x6211;&#x4EEC;&#x5728;&#x7EC8;&#x7AEF;&#x548C;GUI&#x770B;&#x5230;&#x7684;&#x201C;&#x6587;&#x4EF6;&#x201D;&#x53EA;&#x662F;&#x6307;&#x5411;&#x4E86;&#x90A3;&#x5757;&#x5185;&#x5B58;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x201D;&#x6587;&#x4EF6;&#x201D;&#x6307;&#x5411;&#x540C;&#x4E00;&#x5757;&#x5185;&#x5B58;&#x3002;&#x8FD9;&#x5C31;&#x662F;hardlink&#x5E72;&#x7684;&#x4E8B;&#x60C5;&#x3002;hardlink&#x662F;&#x4E0D;&#x5141;&#x8BB8;&#x9488;&#x5BF9;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x521B;&#x5EFA;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x6837;&#x4F1A;&#x7834;&#x574F;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x7ED3;&#x6784;&#x3002;</p>
-<h2 id="&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>&#x5E38;&#x7528;&#x53C2;&#x6570;</h2><p><code>-f</code> - &#x5C06;&#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4E0D;&#x505A;&#x63D0;&#x793A;&#x3002;<br><code>-n</code> - &#x4E0D;&#x8986;&#x76D6;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x3002;<br><code>-r</code> - &#x8FD9;&#x4E2A;&#x662F;<anchor>&#x5386;&#x53F2;&#x7248;&#x672C;&#x7684;&#x9012;&#x5F52;&#x62F7;&#x8D1D;</anchor>&#xFF0C;&#x4E0D;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x3002;<br><code>-R</code> - &#x5982;&#x679C;&#x6E90;&#x6587;&#x4EF6;&#x662F;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x7684;&#x8BDD;&#xFF0C;&#x9012;&#x5F52;&#x62F7;&#x8D1D;&#x5230;&#x76EE;&#x6807;&#x8DEF;&#x5F84;&#x3002;&#x5982;&#x679C;&#x6E90;&#x6587;&#x4EF6;&#x4EE5;<code>/</code>&#x7ED3;&#x5C3E;&#xFF0C;&#x90A3;&#x4E48;&#x6E90;&#x6587;&#x4EF6;&#x5939;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x5C06;&#x88AB;&#x62F7;&#x8D1D;&#x5230;&#x76EE;&#x6807;&#x8DEF;&#x5F84;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x6307;&#x5B9A;&#x5219;&#x662F;&#x62F7;&#x8D1D;&#x6574;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#x3002;<br><code>-H</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x4FDD;&#x6301;&#x539F;&#x6709;&#x7684;softlink&#x3002;<br><code>-P</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x4E0D;&#x4FDD;&#x6301;&#x539F;&#x6709;&#x7684;softlink&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x9012;&#x5F52;&#x62F7;&#x8D1D;&#x7684;&#x65F6;&#x5019;&#x9ED8;&#x8BA4;&#x7684;&#x9009;&#x9879;&#x3002;<br><code>-v</code> - &#x4E0E;<code>-R</code>&#x914D;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x6253;&#x5370;&#x51FA;&#x6240;&#x6709;&#x88AB;&#x62F7;&#x8D1D;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>-p</code> - &#x5C06;&#x4FDD;&#x62A4;&#x539F;&#x59CB;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x3001;&#x8BBF;&#x95EE;&#x65F6;&#x95F4;&#x3001;flie flag&#xFF0C;&#x6587;&#x4EF6;&#x6A21;&#x5F0F;&#x7B49;&#x4FE1;&#x606F;&#x3002;</p>
-<h2 id="&#x5177;&#x4F53;&#x573A;&#x666F;"><a href="#&#x5177;&#x4F53;&#x573A;&#x666F;" class="headerlink" title="&#x5177;&#x4F53;&#x573A;&#x666F;"></a>&#x5177;&#x4F53;&#x573A;&#x666F;</h2><p><strong>&#x62F7;&#x8D1D;&#x5355;&#x4E2A;&#x6587;&#x4EF6;</strong></p>
+<p>我们可以看到softlink是通过文件信息来识别的，而alias是通过拓展属性来进行实现的，也就是说alias只有在apple 的Finder下有用，在其他地方他就是一个普通的文件。    </p>
+<p>如果我们链接到一个目录的话，alias因为是一个文件自然不能够cd进去，而softlink是可以cd进去的。</p>
+<h3><span id="hard-link">Hard link</span></h3><p>与softlink相对应，与softlink不同，hardlink不是一个“快捷方式”，而是一个真实存在的文件。文件可以理解成磁盘上一块内存，而我们在终端和GUI看到的“文件”只是指向了那块内存，所以我们可以有多个”文件”指向同一块内存。这就是hardlink干的事情。hardlink是不允许针对一个目录创建的，因为这样会破坏文件系统的结构。</p>
+<h2><span id="常用参数">常用参数</span></h2><p><code>-f</code> - 将覆盖目标文件，并不做提示。<br><code>-n</code> - 不覆盖目标文件。<br><code>-r</code> - 这个是<anchor>历史版本的递归拷贝</anchor>，不推荐使用。<br><code>-R</code> - 如果源文件是一个目录的话，递归拷贝到目标路径。如果源文件以<code>/</code>结尾，那么源文件夹里的内容将被拷贝到目标路径，如果不指定则是拷贝整个文件夹。<br><code>-H</code> - 与<code>-R</code>配合使用，保持原有的softlink。<br><code>-P</code> - 与<code>-R</code>配合使用，不保持原有的softlink，这个是递归拷贝的时候默认的选项。<br><code>-v</code> - 与<code>-R</code>配合使用，打印出所有被拷贝的文件。<br><code>-p</code> - 将保护原始文件的修改时间、访问时间、flie flag，文件模式等信息。</p>
+<h2><span id="具体场景">具体场景</span></h2><p><strong>拷贝单个文件</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp file1.txt ../file2.txt</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x591A;&#x4E2A;&#x6587;&#x4EF6;</strong></p>
+<p><strong>拷贝多个文件</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp file1.txt file2.cpp file3.cs test/src</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x7B26;&#x5408;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x89C4;&#x5219;&#x7684;&#x6587;&#x4EF6;</strong></p>
-<p>cp&#x652F;&#x6301;&#x7B80;&#x5355;&#x7684;&#x901A;&#x914D;&#x7B26;&#x3002;</p>
+<p><strong>拷贝符合某个文件名规则的文件</strong></p>
+<p>cp支持简单的通配符。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp *.zip package</span><br></pre></td></tr></table></figure>
-<p><strong>&#x62F7;&#x8D1D;&#x6574;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x5305;&#x62EC;&#x5B50;&#x76EE;&#x5F55;&#xFF0C;&#x5E76;&#x7EF4;&#x6301;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x65F6;&#x95F4;&#x4E0D;&#x53D8;</strong></p>
+<p><strong>拷贝整个目录，包括子目录，并维持文件的修改时间不变</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -RpH dir1 dir2/src</span><br></pre></td></tr></table></figure>
   
 	</div>
@@ -142,7 +142,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/05/25/learning-shell-in-mac-cp/" data-title="Mac 命令学习-每日一贴之cp | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/05/25/learning-shell-in-mac-cp/" data-title="Mac 命令学习-每日一贴之cp | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -188,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#symbolic-links"><span class="toc-number">1.1.</span> <span class="toc-text">Symbolic links</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hard-link"><span class="toc-number">1.2.</span> <span class="toc-text">Hard link</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体场景"><span class="toc-number">3.</span> <span class="toc-text">具体场景</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">Symbolic links</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">Hard link</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">具体场景</span></a></li></ol>
  
   </div>
 
@@ -275,7 +275,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -283,15 +287,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -311,15 +311,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -344,9 +344,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -375,7 +372,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

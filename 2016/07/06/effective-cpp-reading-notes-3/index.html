@@ -11,16 +11,18 @@
     
 
     
-    <meta name="description" content="2 &amp;#x6784;&amp;#x9020;/&amp;#x6790;&amp;#x6784;/&amp;#x8D4B;&amp;#x503C;&amp;#x8FD0;&amp;#x7B97;&amp;#x6761;&amp;#x6B3E;05&amp;#xFF1A;&amp;#x4E86;&amp;#x89E3;C++&amp;#x9ED8;&amp;#x9ED8;&amp;#x7F16;&amp;#x5199;&amp;#x5E76;&amp;#x8C03;&amp;#x7528;&amp;#x54EA;&amp;#x4E9B;&amp;#x51FD;&amp;#x6570">
+    <meta name="description" content="2 构造/析构/赋值运算条款05：了解C++默默编写并调用哪些函数 编译器可以暗自为class创建default构造函数、copy构造函数、copy assignment操作符，以及析构函数。  定义一个啥也没有的类： 1class Empty &amp;#123; &amp;#125; 编译器有可能会帮你生成： 1234567class Empty &amp;#123;public:  Empty() &amp;#123;..">
+<meta name="keywords" content="C++,编程语言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Effective C++》读书笔记(3)">
 <meta property="og:url" content="http://zhengyi.me/2016/07/06/effective-cpp-reading-notes-3/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="2 &amp;#x6784;&amp;#x9020;/&amp;#x6790;&amp;#x6784;/&amp;#x8D4B;&amp;#x503C;&amp;#x8FD0;&amp;#x7B97;&amp;#x6761;&amp;#x6B3E;05&amp;#xFF1A;&amp;#x4E86;&amp;#x89E3;C++&amp;#x9ED8;&amp;#x9ED8;&amp;#x7F16;&amp;#x5199;&amp;#x5E76;&amp;#x8C03;&amp;#x7528;&amp;#x54EA;&amp;#x4E9B;&amp;#x51FD;&amp;#x6570">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="2 构造/析构/赋值运算条款05：了解C++默默编写并调用哪些函数 编译器可以暗自为class创建default构造函数、copy构造函数、copy assignment操作符，以及析构函数。  定义一个啥也没有的类： 1class Empty &amp;#123; &amp;#125; 编译器有可能会帮你生成： 1234567class Empty &amp;#123;public:  Empty() &amp;#123;..">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-07-06T13:14:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Effective C++》读书笔记(3)">
-<meta name="twitter:description" content="2 &amp;#x6784;&amp;#x9020;/&amp;#x6790;&amp;#x6784;/&amp;#x8D4B;&amp;#x503C;&amp;#x8FD0;&amp;#x7B97;&amp;#x6761;&amp;#x6B3E;05&amp;#xFF1A;&amp;#x4E86;&amp;#x89E3;C++&amp;#x9ED8;&amp;#x9ED8;&amp;#x7F16;&amp;#x5199;&amp;#x5E76;&amp;#x8C03;&amp;#x7528;&amp;#x54EA;&amp;#x4E9B;&amp;#x51FD;&amp;#x6570">
+<meta name="twitter:description" content="2 构造/析构/赋值运算条款05：了解C++默默编写并调用哪些函数 编译器可以暗自为class创建default构造函数、copy构造函数、copy assignment操作符，以及析构函数。  定义一个啥也没有的类： 1class Empty &amp;#123; &amp;#125; 编译器有可能会帮你生成： 1234567class Empty &amp;#123;public:  Empty() &amp;#123;..">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -57,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -100,59 +100,59 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-构造析构赋值运算"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款05了解c默默编写并调用哪些函数"><span class="toc-number">1.1.</span> <span class="toc-text">条款05：了解C++默默编写并调用哪些函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款06若不想使用编译器自动生成的函数就该明确拒绝"><span class="toc-number">1.2.</span> <span class="toc-text">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款07为多态基类声明virtual析构函数"><span class="toc-number">1.3.</span> <span class="toc-text">条款07：为多态基类声明virtual析构函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款08别让异常逃离析构函数"><span class="toc-number">1.4.</span> <span class="toc-text">条款08：别让异常逃离析构函数</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款05：了解C++默默编写并调用哪些函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款07：为多态基类声明virtual析构函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.4.</span> <span class="toc-text">条款08：别让异常逃离析构函数</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="2-&#x6784;&#x9020;&#x6790;&#x6784;&#x8D4B;&#x503C;&#x8FD0;&#x7B97;"><a href="#2-&#x6784;&#x9020;-&#x6790;&#x6784;-&#x8D4B;&#x503C;&#x8FD0;&#x7B97;" class="headerlink" title="2 &#x6784;&#x9020;/&#x6790;&#x6784;/&#x8D4B;&#x503C;&#x8FD0;&#x7B97;"></a>2 &#x6784;&#x9020;/&#x6790;&#x6784;/&#x8D4B;&#x503C;&#x8FD0;&#x7B97;</h2><h3 id="&#x6761;&#x6B3E;05&#x4E86;&#x89E3;c&#x9ED8;&#x9ED8;&#x7F16;&#x5199;&#x5E76;&#x8C03;&#x7528;&#x54EA;&#x4E9B;&#x51FD;&#x6570;"><a href="#&#x6761;&#x6B3E;05&#xFF1A;&#x4E86;&#x89E3;C-&#x9ED8;&#x9ED8;&#x7F16;&#x5199;&#x5E76;&#x8C03;&#x7528;&#x54EA;&#x4E9B;&#x51FD;&#x6570;" class="headerlink" title="&#x6761;&#x6B3E;05&#xFF1A;&#x4E86;&#x89E3;C++&#x9ED8;&#x9ED8;&#x7F16;&#x5199;&#x5E76;&#x8C03;&#x7528;&#x54EA;&#x4E9B;&#x51FD;&#x6570;"></a>&#x6761;&#x6B3E;05&#xFF1A;&#x4E86;&#x89E3;C++&#x9ED8;&#x9ED8;&#x7F16;&#x5199;&#x5E76;&#x8C03;&#x7528;&#x54EA;&#x4E9B;&#x51FD;&#x6570;</h3><blockquote>
-<p>&#x7F16;&#x8BD1;&#x5668;&#x53EF;&#x4EE5;&#x6697;&#x81EA;&#x4E3A;class&#x521B;&#x5EFA;<em>default</em>&#x6784;&#x9020;&#x51FD;&#x6570;&#x3001;<em>copy</em>&#x6784;&#x9020;&#x51FD;&#x6570;&#x3001;<em>copy assignment</em>&#x64CD;&#x4F5C;&#x7B26;&#xFF0C;&#x4EE5;&#x53CA;&#x6790;&#x6784;&#x51FD;&#x6570;&#x3002;</p>
+		<h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款05了解c默默编写并调用哪些函数">条款05：了解C++默默编写并调用哪些函数</span></h3><blockquote>
+<p>编译器可以暗自为class创建<em>default</em>构造函数、<em>copy</em>构造函数、<em>copy assignment</em>操作符，以及析构函数。</p>
 </blockquote>
-<p>&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x5565;&#x4E5F;&#x6CA1;&#x6709;&#x7684;&#x7C7B;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Empty { }</span><br></pre></td></tr></table></figure>
-<p>&#x7F16;&#x8BD1;&#x5668;&#x6709;&#x53EF;&#x80FD;&#x4F1A;&#x5E2E;&#x4F60;&#x751F;&#x6210;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Empty {</span><br><span class="line">public:</span><br><span class="line">  Empty() {...}     //&#x9ED8;&#x8BA4;&#x6784;&#x9020;&#x51FD;&#x6570;</span><br><span class="line">  Empty(const Empty&amp; rhs) {...} //&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;</span><br><span class="line">  ~Empty(){...}     //&#x6790;&#x6784;&#x51FD;&#x6570;</span><br><span class="line">  Empty&amp; operator=(const Empty&amp; rhs) {...} // copy assignment&#x64CD;&#x4F5C;&#x7B26;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p>&#x662F;&#x5426;&#x751F;&#x6210;&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x53D6;&#x51B3;&#x4E8E;&#x4F7F;&#x7528;&#x7684;&#x65F6;&#x5019;&#x662F;&#x5426;&#x9700;&#x8981;&#xFF0C;&#x6BD4;&#x5982;&#x4E0B;&#x9762;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x5C31;&#x7528;&#x5230;&#x4E86;&#x8FD9;&#x4E9B;&#x51FD;&#x6570;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Empty e1;		//&#x9ED8;&#x8BA4;&#x6784;&#x9020;&#x51FD;&#x6570;</span><br><span class="line">				//&#x6790;&#x6784;&#x51FD;&#x6570;</span><br><span class="line">Empty e2(e1);	//&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;</span><br><span class="line">e2 = e1;		//copy assignment&#x64CD;&#x4F5C;&#x7B26;</span><br></pre></td></tr></table></figure>
-<h3 id="&#x6761;&#x6B3E;06&#x82E5;&#x4E0D;&#x60F3;&#x4F7F;&#x7528;&#x7F16;&#x8BD1;&#x5668;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x51FD;&#x6570;&#x5C31;&#x8BE5;&#x660E;&#x786E;&#x62D2;&#x7EDD;"><a href="#&#x6761;&#x6B3E;06&#xFF1A;&#x82E5;&#x4E0D;&#x60F3;&#x4F7F;&#x7528;&#x7F16;&#x8BD1;&#x5668;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5C31;&#x8BE5;&#x660E;&#x786E;&#x62D2;&#x7EDD;" class="headerlink" title="&#x6761;&#x6B3E;06&#xFF1A;&#x82E5;&#x4E0D;&#x60F3;&#x4F7F;&#x7528;&#x7F16;&#x8BD1;&#x5668;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5C31;&#x8BE5;&#x660E;&#x786E;&#x62D2;&#x7EDD;"></a>&#x6761;&#x6B3E;06&#xFF1A;&#x82E5;&#x4E0D;&#x60F3;&#x4F7F;&#x7528;&#x7F16;&#x8BD1;&#x5668;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5C31;&#x8BE5;&#x660E;&#x786E;&#x62D2;&#x7EDD;</h3><blockquote>
+<p>定义一个啥也没有的类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>编译器有可能会帮你生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123;</span><br><span class="line">public:</span><br><span class="line">  Empty() &#123;...&#125;     //默认构造函数</span><br><span class="line">  Empty(const Empty&amp; rhs) &#123;...&#125; //拷贝构造函数</span><br><span class="line">  ~Empty()&#123;...&#125;     //析构函数</span><br><span class="line">  Empty&amp; operator=(const Empty&amp; rhs) &#123;...&#125; // copy assignment操作符</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是否生成这些方法取决于使用的时候是否需要，比如下面这段代码就用到了这些函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Empty e1;		//默认构造函数</span><br><span class="line">				//析构函数</span><br><span class="line">Empty e2(e1);	//拷贝构造函数</span><br><span class="line">e2 = e1;		//copy assignment操作符</span><br></pre></td></tr></table></figure>
+<h3><span id="条款06若不想使用编译器自动生成的函数就该明确拒绝">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></h3><blockquote>
 <ul>
-<li>&#x4E3A;&#x9A73;&#x56DE;&#x7F16;&#x8BD1;&#x5668;&#x81EA;&#x52A8;&#xFF08;&#x6697;&#x81EA;&#xFF09;&#x63D0;&#x4F9B;&#x7684;&#x673A;&#x80FD;&#xFF0C;&#x53EF;&#x5C06;&#x76F8;&#x5E94;&#x7684;&#x6210;&#x5458;&#x51FD;&#x6570;&#x58F0;&#x660E;&#x4E3A;private&#x5E76;&#x4E14;&#x4E0D;&#x4E88;&#x5B9E;&#x73B0;&#x3002;&#x4F7F;&#x7528;&#x50CF;<code>Uncopyable</code>&#x8FD9;&#x6837;&#x7684;base class&#x4E5F;&#x662F;&#x4E00;&#x79CD;&#x505A;&#x6CD5;&#x3002;</li>
+<li>为驳回编译器自动（暗自）提供的机能，可将相应的成员函数声明为private并且不予实现。使用像<code>Uncopyable</code>这样的base class也是一种做法。</li>
 </ul>
 </blockquote>
-<p>&#x6B63;&#x5982;&#x6761;&#x6B3E;5&#x4E2D;&#x63D0;&#x5230;&#x7684;&#xFF0C;&#x5373;&#x4F7F;&#x4F60;&#x81EA;&#x5DF1;&#x6CA1;&#x6709;&#x663E;&#x793A;&#x5B9A;&#x4E49;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x9ED8;&#x8BA4;&#x4F1A;&#x4E3A;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x4E00;&#x4E9B;&#x51FD;&#x6570;&#x3002;&#x800C;&#x5728;&#x67D0;&#x4E00;&#x4E9B;&#x6761;&#x4EF6;&#x4E0B;&#xFF0C;&#x8FD9;&#x4E9B;&#x51FD;&#x6570;&#x6240;&#x5E26;&#x6765;&#x7684;&#x884C;&#x4E3A;&#x5E76;&#x4E0D;&#x662F;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x3002;</p>
-<p>&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x4F60;&#x5C31;&#x5E94;&#x8BE5;&#x628A;&#x4F60;&#x60F3;&#x8981;&#x9690;&#x85CF;&#x7684;&#x65B9;&#x6CD5;&#x58F0;&#x660E;&#x4E3A;private&#x5E76;&#x4E0D;&#x63D0;&#x4F9B;&#x4EFB;&#x4F55;&#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x8FD9;&#x6837;&#x4EFB;&#x4F55;&#x5C1D;&#x8BD5;&#x53BB;&#x4F7F;&#x7528;&#x7684;&#x4EBA;&#x90FD;&#x4F1A;&#x6536;&#x5230;&#x4E00;&#x4E2A;&#x94FE;&#x63A5;&#x9519;&#x8BEF;&#x3002;</p>
-<p><strong><em>&#x4EC0;&#x4E48;&#x7684;&#x573A;&#x666F;&#x4E0B;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#xFF1F;</em></strong></p>
+<p>正如条款5中提到的，即使你自己没有显示定义，编译器默认会为我们创建一些函数。而在某一些条件下，这些函数所带来的行为并不是你想要的。</p>
+<p>那么这个时候你就应该把你想要隐藏的方法声明为private并不提供任何的定义，这样任何尝试去使用的人都会收到一个链接错误。</p>
+<p><strong><em>什么的场景下可能需要使用这种方法？</em></strong></p>
 <ul>
-<li>private &#x6784;&#x9020;&#x51FD;&#x6570;<br>&#x5F53;&#x4F60;&#x5E0C;&#x671B;&#x7528;&#x6237;&#x4E0D;&#x80FD;&#x591F;&#x968F;&#x610F;&#x7684;&#x81EA;&#x5DF1;&#x53BB;&#x521B;&#x5EFA;&#x5B9E;&#x4F8B;&#x800C;&#x662F;&#x901A;&#x8FC7;&#x67D0;&#x79CD;&#x65B9;&#x6CD5;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x7684;&#x65F6;&#x5019;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;&#x3002;</li>
-<li>private &#x6790;&#x6784;&#x51FD;&#x6570;<br>&#x5F53;&#x4F60;&#x5E0C;&#x671B;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x7531;&#x53E6;&#x4E00;&#x4E2A;&#x7C7B;&#x6765;&#x7BA1;&#x7406;&#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x4F60;&#x7684;&#x5B9E;&#x4F8B;&#x4F7F;&#x7528;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x662F;0&#x5219;&#x4E0D;&#x80FD;&#x591F;&#x6790;&#x6784;&#x3002;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x4F60;&#x5C31;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x6BD4;&#x5982;&#x8BF4;&#xFF1A;Acquire&#xFF0C;Release&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x6211;&#x89C9;&#x5F97;&#x5982;&#x679C;&#x53EA;&#x662F;reference count&#x7684;&#x8BDD;&#xFF0C;&#x5229;&#x7528;shared_ptr&#x4E5F;&#x80FD;&#x591F;&#x5B9E;&#x73B0;&#x7C7B;&#x4F3C;&#x7684;&#x529F;&#x80FD;&#x3002;<br>&#x53C2;&#x8003;&#x94FE;&#x63A5;&#xFF1A;<a href="https://blogs.msdn.microsoft.com/larryosterman/2005/07/01/private-destructors/" target="_blank" rel="external">Private Destructors</a></li>
-<li>private &#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;copy assignment &#x64CD;&#x4F5C;&#x7B26;<br>&#x5F53;&#x4F60;&#x5E0C;&#x671B;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x662F;&#x4E0D;&#x53EF;&#x62F7;&#x8D1D;&#x7684;&#x65F6;&#x5019;&#x3002;<br>Example: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Class Uncopyable {</span><br><span class="line">...</span><br><span class="line">private:</span><br><span class="line">    Uncopyable(const Uncopyable&amp;);</span><br><span class="line">    ~Uncopyable&amp; operator=(const Uncopyable&amp;);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<li>private 构造函数<br>当你希望用户不能够随意的自己去创建实例而是通过某种方法获得一个实例的时候。比如说单例模式。</li>
+<li>private 析构函数<br>当你希望一个实例的生命周期由另一个类来管理的时候使用。比如说，你需要你的实例使用引用计数，如果不是0则不能够析构。这个时候你就需要提供比如说：Acquire，Release的方法。我觉得如果只是reference count的话，利用shared_ptr也能够实现类似的功能。<br>参考链接：<a href="https://blogs.msdn.microsoft.com/larryosterman/2005/07/01/private-destructors/" target="_blank" rel="external">Private Destructors</a></li>
+<li>private 拷贝构造函数和copy assignment 操作符<br>当你希望一个对象是不可拷贝的时候。<br>Example: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Class Uncopyable &#123;</span><br><span class="line">...</span><br><span class="line">private:</span><br><span class="line">    Uncopyable(const Uncopyable&amp;);</span><br><span class="line">    ~Uncopyable&amp; operator=(const Uncopyable&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="&#x6761;&#x6B3E;07&#x4E3A;&#x591A;&#x6001;&#x57FA;&#x7C7B;&#x58F0;&#x660E;virtual&#x6790;&#x6784;&#x51FD;&#x6570;"><a href="#&#x6761;&#x6B3E;07&#xFF1A;&#x4E3A;&#x591A;&#x6001;&#x57FA;&#x7C7B;&#x58F0;&#x660E;virtual&#x6790;&#x6784;&#x51FD;&#x6570;" class="headerlink" title="&#x6761;&#x6B3E;07&#xFF1A;&#x4E3A;&#x591A;&#x6001;&#x57FA;&#x7C7B;&#x58F0;&#x660E;virtual&#x6790;&#x6784;&#x51FD;&#x6570;"></a>&#x6761;&#x6B3E;07&#xFF1A;&#x4E3A;&#x591A;&#x6001;&#x57FA;&#x7C7B;&#x58F0;&#x660E;virtual&#x6790;&#x6784;&#x51FD;&#x6570;</h3><blockquote>
+<h3><span id="条款07为多态基类声明virtual析构函数">条款07：为多态基类声明virtual析构函数</span></h3><blockquote>
 <ul>
-<li>polymoriphic&#xFF08;&#x5E26;&#x591A;&#x6001;&#x6027;&#x8D28;&#x7684;&#xFF09;base classes&#x5E94;&#x8BE5;&#x58F0;&#x660E;&#x4E00;&#x4E2A;virtual&#x6790;&#x6784;&#x51FD;&#x6570;&#x3002;&#x5982;&#x679C;class&#x5E26;&#x6709;&#x4EFB;&#x4F55;virtual&#x51FD;&#x6570;&#xFF0C;&#x5B83;&#x5C31;&#x5E94;&#x8BE5;&#x62E5;&#x6709;&#x4E00;&#x4E2A;virtual&#x6790;&#x6784;&#x51FD;&#x6570;</li>
-<li>Classes&#x7684;&#x8BBE;&#x8BA1;&#x76EE;&#x7684;&#x5982;&#x679C;&#x4E0D;&#x662F;&#x4F5C;&#x4E3A;base classes&#x4F7F;&#x7528;&#xFF0C;&#x6216;&#x8005;&#x4E0D;&#x662F;&#x4E3A;&#x4E86;&#x5177;&#x5907;&#x591A;&#x6001;&#x6027;&#xFF08;polymorphically&#xFF09;&#xFF0C;&#x5C31;&#x4E0D;&#x8BE5;&#x58F0;&#x660E;virtual&#x6790;&#x6784;&#x51FD;&#x6570;&#x3002;</li>
+<li>polymoriphic（带多态性质的）base classes应该声明一个virtual析构函数。如果class带有任何virtual函数，它就应该拥有一个virtual析构函数</li>
+<li>Classes的设计目的如果不是作为base classes使用，或者不是为了具备多态性（polymorphically），就不该声明virtual析构函数。</li>
 </ul>
 </blockquote>
-<p><strong><em>&#x4E3A;&#x4EC0;&#x4E48;&#x5E26;&#x6709;&#x591A;&#x6001;&#x6027;&#x8D28;&#x7684;&#x57FA;&#x7C7B;&#x5E94;&#x8BE5;&#x58F0;&#x660E;&#x4E00;&#x4E2A;virtual&#x6790;&#x6784;&#x51FD;&#x6570;&#xFF1F;</em></strong></p>
-<p>&#x5E26;&#x6709;&#x591A;&#x6001;&#x6027;&#x8D28;&#x7684;&#x57FA;&#x7C7B;&#x610F;&#x5473;&#x7740;&#x4E00;&#x4E2A;&#x57FA;&#x7C7B;&#x7684;&#x6307;&#x9488;&#x53EF;&#x80FD;&#x5B58;&#x653E;&#x7740;&#x5B50;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x3002;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x5982;&#x679C;&#x6790;&#x6784;&#x51FD;&#x6570;&#x6CA1;&#x6709;&#x58F0;&#x660E;&#x4E3A;virtual&#x7684;&#x8BDD;&#xFF0C;delete&#x4E00;&#x4E2A;&#x57FA;&#x7C7B;&#x6307;&#x9488;&#x4E0D;&#x80FD;&#x591F;&#x6B63;&#x786E;&#x7684;&#x8C03;&#x7528;&#x5230;&#x5B50;&#x7C7B;&#x7684;&#x6790;&#x6784;&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x5C31;&#x610F;&#x5473;&#x7740;&#x4F1A;&#x9020;&#x6210;&#x8D44;&#x6E90;&#x7684;&#x6CC4;&#x9732;&#x3002;</p>
-<p>&#x4F46;&#x662F;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x7C7B;&#x8BBE;&#x8BA1;&#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x60F3;&#x8BA9;&#x522B;&#x7684;&#x7C7B;&#x7EE7;&#x627F;&#xFF0C;&#x5982;&#x679C;&#x53E6;&#x4E00;&#x4E2A;&#x7C7B;&#x7EE7;&#x627F;&#x4E86;&#xFF0C;&#x5C31;&#x53EF;&#x80FD;&#x4F1A;&#x51FA;&#x73B0;&#x8D44;&#x6E90;&#x7684;&#x6CC4;&#x9732;&#x3002;&#x56E0;&#x4E3A;C++&#x5728;&#x8BED;&#x8A00;&#x5C42;&#x9762;&#x6CA1;&#x6709;&#x63D0;&#x4F9B;&#x7C7B;&#x4F3C;&#x4E8E;C# seal&#x7684;&#x8BED;&#x6CD5;&#xFF0C;&#x6240;&#x4EE5;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x675C;&#x7EDD;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x3002;&#x5982;&#x679C;&#x53D1;&#x73B0;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x6790;&#x6784;&#x51FD;&#x6570;&#x4E0D;&#x662F;virtual&#x7684;&#x90A3;&#x4E48;&#x5C31;&#x4E0D;&#x5E94;&#x8BE5;&#x53BB;&#x7EE7;&#x627F;&#x5B83;&#x3002;</p>
-<p>&#x53CD;&#x8FC7;&#x6765;&#x770B;&#x5C31;&#x66F4;&#x7B80;&#x5355;&#x4E86;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x7C7B;&#x8BBE;&#x8BA1;&#x7684;&#x76EE;&#x7684;&#x4E0D;&#x662F;&#x4F5C;&#x4E3A;&#x57FA;&#x7C7B;&#x4F7F;&#x7528;&#xFF0C;&#x4E5F;&#x5C31;&#x610F;&#x5473;&#x7740;&#x5B83;&#x7684;&#x6307;&#x9488;&#x4E0D;&#x53EF;&#x80FD;&#x6307;&#x5411;&#x4E00;&#x4E2A;&#x5B50;&#x7C7B;&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x90A3;&#x4E48;&#x58F0;&#x660E;&#x6210;virtual&#x7684;&#x5C31;&#x6CA1;&#x6709;&#x592A;&#x5927;&#x5FC5;&#x8981;&#xFF0C;&#x53CD;&#x800C;&#x4F1A;&#x56E0;&#x4E3A;virtual&#x800C;&#x589E;&#x957F;&#x4E86;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#x3002;</p>
-<h3 id="&#x6761;&#x6B3E;08&#x522B;&#x8BA9;&#x5F02;&#x5E38;&#x9003;&#x79BB;&#x6790;&#x6784;&#x51FD;&#x6570;"><a href="#&#x6761;&#x6B3E;08&#xFF1A;&#x522B;&#x8BA9;&#x5F02;&#x5E38;&#x9003;&#x79BB;&#x6790;&#x6784;&#x51FD;&#x6570;" class="headerlink" title="&#x6761;&#x6B3E;08&#xFF1A;&#x522B;&#x8BA9;&#x5F02;&#x5E38;&#x9003;&#x79BB;&#x6790;&#x6784;&#x51FD;&#x6570;"></a>&#x6761;&#x6B3E;08&#xFF1A;&#x522B;&#x8BA9;&#x5F02;&#x5E38;&#x9003;&#x79BB;&#x6790;&#x6784;&#x51FD;&#x6570;</h3><blockquote>
+<p><strong><em>为什么带有多态性质的基类应该声明一个virtual析构函数？</em></strong></p>
+<p>带有多态性质的基类意味着一个基类的指针可能存放着子类的实例。在这种情况下如果析构函数没有声明为virtual的话，delete一个基类指针不能够正确的调用到子类的析构函数。这就意味着会造成资源的泄露。</p>
+<p>但是如果一个类设计的时候没有想让别的类继承，如果另一个类继承了，就可能会出现资源的泄露。因为C++在语言层面没有提供类似于C# seal的语法，所以没有办法杜绝这种情况。如果发现一个类的析构函数不是virtual的那么就不应该去继承它。</p>
+<p>反过来看就更简单了，如果一个类设计的目的不是作为基类使用，也就意味着它的指针不可能指向一个子类的对象。那么声明成virtual的就没有太大必要，反而会因为virtual而增长了这个对象的内存大小。</p>
+<h3><span id="条款08别让异常逃离析构函数">条款08：别让异常逃离析构函数</span></h3><blockquote>
 <ul>
-<li>&#x6790;&#x6784;&#x51FD;&#x6570;&#x7EDD;&#x5BF9;&#x4E0D;&#x8981;&#x5410;&#x51FA;&#x5F02;&#x5E38;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x88AB;&#x6790;&#x6784;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x7684;&#x51FD;&#x6570;&#x53EF;&#x80FD;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x6790;&#x6784;&#x51FD;&#x6570;&#x5E94;&#x8BE5;&#x6355;&#x6349;&#x4EFB;&#x4F55;&#x5F02;&#x5E38;&#xFF0C;&#x7136;&#x540E;&#x541E;&#x4E0B;&#x5B83;&#x4EEC;&#xFF08;&#x4E0D;&#x4F20;&#x64AD;&#xFF09;&#x6216;&#x8005;&#x7ED3;&#x675F;&#x7A0B;&#x5E8F;&#x3002;</li>
-<li>&#x5982;&#x679C;&#x5BA2;&#x6237;&#x9700;&#x8981;&#x5BF9;&#x67D0;&#x4E2A;&#x64CD;&#x4F5C;&#x51FD;&#x6570;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x629B;&#x51FA;&#x7684;&#x5F02;&#x5E38;&#x505A;&#x51FA;&#x53CD;&#x5E94;&#xFF0C;&#x90A3;&#x4E48;class&#x5E94;&#x8BE5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x51FD;&#x6570;&#xFF08;&#x800C;&#x975E;&#x5728;&#x6790;&#x6784;&#x51FD;&#x6570;&#x4E2D;&#xFF09;&#x6267;&#x884C;&#x8BE5;&#x64CD;&#x4F5C;&#x3002;</li>
+<li>析构函数绝对不要吐出异常。如果一个被析构函数调用的函数可能抛出异常，析构函数应该捕捉任何异常，然后吞下它们（不传播）或者结束程序。</li>
+<li>如果客户需要对某个操作函数运行期间抛出的异常做出反应，那么class应该提供一个普通函数（而非在析构函数中）执行该操作。</li>
 </ul>
 </blockquote>
-<p><strong><em>&#x4E3A;&#x4EC0;&#x4E48;&#x6790;&#x6784;&#x51FD;&#x6570;&#x4E2D;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x4E0D;&#x597D;&#xFF1F;</em></strong></p>
+<p><strong><em>为什么析构函数中抛出异常不好？</em></strong></p>
 <ol>
-<li>&#x6790;&#x6784;&#x51FD;&#x6570;&#x88AB;&#x8C03;&#x7528;&#x7684;&#x5730;&#x65B9;&#x4E0D;&#x597D;&#x63A7;&#x5236;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x597D;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x3002;&#x56E0;&#x4E3A;&#x4EFB;&#x4F55;&#x5BF9;&#x8C61;&#x90FD;&#x6709;&#x6790;&#x6784;&#x51FD;&#x6570;&#xFF0C;&#x4F60;&#x4E0D;&#x53EF;&#x80FD;&#x5728;&#x4EFB;&#x4F55;&#x5730;&#x65B9;&#x5BF9;&#x5F02;&#x5E38;&#x8FDB;&#x884C;&#x6355;&#x6349;&#x3002;&#xFF08;&#x81EA;&#x5DF1;&#x8865;&#x5145;&#x7684;&#xFF09;</li>
-<li>&#x5982;&#x679C;&#x6790;&#x6784;&#x51FD;&#x6570;&#x4E2D;&#x6240;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x672A;&#x5904;&#x7406;&#x4F1A;&#x5BFC;&#x81F4;&#x672A;&#x5B9A;&#x4E49;&#x884C;&#x4E3A;&#x3002;</li>
+<li>析构函数被调用的地方不好控制，而且不好对其进行处理。因为任何对象都有析构函数，你不可能在任何地方对异常进行捕捉。（自己补充的）</li>
+<li>如果析构函数中所抛出异常未处理会导致未定义行为。</li>
 </ol>
-<p>&#x6240;&#x4EE5;&#x5982;&#x679C;&#x5728;&#x6790;&#x6784;&#x51FD;&#x6570;&#x4E2D;&#x6709;&#x53EF;&#x80FD;&#x6267;&#x884C;&#x5230;&#x4E00;&#x4E9B;&#x4F1A;&#x629B;&#x5F02;&#x5E38;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x9700;&#x8981;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x6355;&#x6349;&#x3002;&#x5982;&#x679C;&#x4F60;&#x8BA4;&#x4E3A;&#x5F02;&#x5E38;&#x53EF;&#x4EE5;&#x5FCD;&#x53D7;&#x5219;&#x9ED8;&#x9ED8;&#x541E;&#x4E0B;&#xFF0C;&#x8BB0;&#x4E0B;log&#xFF0C;&#x5426;&#x5219;&#x8BB0;&#x4E0B;log&#x7136;&#x540E;&#x76F4;&#x63A5;&#x7ED3;&#x675F;&#x7A0B;&#x5E8F;&#x3002;</p>
-<p><strong><em>&#x6709;&#x4EC0;&#x4E48;&#x66F4;&#x597D;&#x7684;&#x529E;&#x6CD5;&#xFF1F;</em></strong></p>
-<p>&#x5982;&#x679C;&#x5728;&#x6790;&#x6784;&#x51FD;&#x6570;&#x91CC;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x67D0;&#x4E2A;&#x53EF;&#x80FD;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x5E94;&#x8BE5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x65B9;&#x6CD5;&#x5141;&#x8BB8;&#x7528;&#x6237;&#x81EA;&#x5DF1;&#x8C03;&#x7528;&#x3002;&#x8FD9;&#x6837;&#x5B50;&#x7528;&#x6237;&#x5C31;&#x6709;&#x673A;&#x4F1A;&#x81EA;&#x5DF1;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x3002;</p>
-<p>&#x4F8B;&#x5B50;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class DBConn {</span><br><span class="line">public:</span><br><span class="line">   ~DBConn() {</span><br><span class="line">     db.close();   //bad, may throw exception</span><br><span class="line">   }</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">class DBConn {</span><br><span class="line">public:</span><br><span class="line">   void close() {</span><br><span class="line">     db.close();</span><br><span class="line">     closed = true;</span><br><span class="line">   }</span><br><span class="line">   ~DBConn() {</span><br><span class="line">     if (!closed) {</span><br><span class="line">       try {</span><br><span class="line">	     db.close();   //good, catch exception and provide normal method to close</span><br><span class="line">	   }</span><br><span class="line">	   catch (...) {</span><br><span class="line">		   //log</span><br><span class="line">	   }</span><br><span class="line">     }</span><br><span class="line">   }</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>所以如果在析构函数中有可能执行到一些会抛异常的方法，需要对其进行捕捉。如果你认为异常可以忍受则默默吞下，记下log，否则记下log然后直接结束程序。</p>
+<p><strong><em>有什么更好的办法？</em></strong></p>
+<p>如果在析构函数里需要进行某个可能抛出异常的方法，那么就应该提供一个普通方法允许用户自己调用。这样子用户就有机会自己对其进行处理。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     db.close();   //bad, may throw exception</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   void close() &#123;</span><br><span class="line">     db.close();</span><br><span class="line">     closed = true;</span><br><span class="line">   &#125;</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     if (!closed) &#123;</span><br><span class="line">       try &#123;</span><br><span class="line">	     db.close();   //good, catch exception and provide normal method to close</span><br><span class="line">	   &#125;</span><br><span class="line">	   catch (...) &#123;</span><br><span class="line">		   //log</span><br><span class="line">	   &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -175,7 +175,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/07/06/effective-cpp-reading-notes-3/" data-title="《Effective C++》读书笔记(3) | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/07/06/effective-cpp-reading-notes-3/" data-title="《Effective C++》读书笔记(3) | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -221,7 +221,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-构造析构赋值运算"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条款05了解c默默编写并调用哪些函数"><span class="toc-number">1.1.</span> <span class="toc-text">条款05：了解C++默默编写并调用哪些函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款06若不想使用编译器自动生成的函数就该明确拒绝"><span class="toc-number">1.2.</span> <span class="toc-text">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款07为多态基类声明virtual析构函数"><span class="toc-number">1.3.</span> <span class="toc-text">条款07：为多态基类声明virtual析构函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条款08别让异常逃离析构函数"><span class="toc-number">1.4.</span> <span class="toc-text">条款08：别让异常逃离析构函数</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">2 构造/析构/赋值运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">条款05：了解C++默默编写并调用哪些函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">条款07：为多态基类声明virtual析构函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.4.</span> <span class="toc-text">条款08：别让异常逃离析构函数</span></a></li></ol></li></ol>
  
   </div>
 
@@ -308,7 +308,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -316,15 +320,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -344,15 +344,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -377,9 +377,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -408,7 +405,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		

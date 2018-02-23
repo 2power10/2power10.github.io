@@ -11,16 +11,18 @@
     
 
     
-    <meta name="description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;grep&amp;#x662F;linux&amp;#x4E2D;&amp;#x5E38;&amp;#x7528;&amp;#x7684;&amp;#x6587;&amp;#x672C;&amp;#x5904;&amp;#x7406;&amp;#x7684;&amp;#x5DE5;&amp;#x5177;&amp;#xFF0C;&amp;#x4E0E;&amp;#x4E4B;&amp;#x7C7B;&amp;#x4F3C;&amp;#x7684;&amp;#x5DE5;&amp;#x5177">
+    <meta name="description" content="背景知识grep是linux中常用的文本处理的工具，与之类似的工具有sed和awk，它们分别适用于不同的场景。同时要想很好的使用grep等文本处理工具，需要对正则表达式有一定的了解。 grep vs sed vs awkgrep主要用于对文本、文件进行搜索，查找出符合要求的字符串并输出相关的内容。 sed和awk则是更强大文本处理工具，适用于更复杂的场景。sed是一个基于字符流的处理工具（stre">
+<meta name="keywords" content="shell,mac,terminal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 命令学习 - grep">
 <meta property="og:url" content="http://zhengyi.me/2016/06/06/learning-shell-grep/index.html">
-<meta property="og:site_name" content="yi's weblog">
-<meta property="og:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;grep&amp;#x662F;linux&amp;#x4E2D;&amp;#x5E38;&amp;#x7528;&amp;#x7684;&amp;#x6587;&amp;#x672C;&amp;#x5904;&amp;#x7406;&amp;#x7684;&amp;#x5DE5;&amp;#x5177;&amp;#xFF0C;&amp;#x4E0E;&amp;#x4E4B;&amp;#x7C7B;&amp;#x4F3C;&amp;#x7684;&amp;#x5DE5;&amp;#x5177">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="背景知识grep是linux中常用的文本处理的工具，与之类似的工具有sed和awk，它们分别适用于不同的场景。同时要想很好的使用grep等文本处理工具，需要对正则表达式有一定的了解。 grep vs sed vs awkgrep主要用于对文本、文件进行搜索，查找出符合要求的字符串并输出相关的内容。 sed和awk则是更强大文本处理工具，适用于更复杂的场景。sed是一个基于字符流的处理工具（stre">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2016-06-06T13:58:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 命令学习 - grep">
-<meta name="twitter:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x77E5;&amp;#x8BC6;grep&amp;#x662F;linux&amp;#x4E2D;&amp;#x5E38;&amp;#x7528;&amp;#x7684;&amp;#x6587;&amp;#x672C;&amp;#x5904;&amp;#x7406;&amp;#x7684;&amp;#x5DE5;&amp;#x5177;&amp;#xFF0C;&amp;#x4E0E;&amp;#x4E4B;&amp;#x7C7B;&amp;#x4F3C;&amp;#x7684;&amp;#x5DE5;&amp;#x5177">
+<meta name="twitter:description" content="背景知识grep是linux中常用的文本处理的工具，与之类似的工具有sed和awk，它们分别适用于不同的场景。同时要想很好的使用grep等文本处理工具，需要对正则表达式有一定的了解。 grep vs sed vs awkgrep主要用于对文本、文件进行搜索，查找出符合要求的字符串并输出相关的内容。 sed和awk则是更强大文本处理工具，适用于更复杂的场景。sed是一个基于字符流的处理工具（stre">
 
     
     <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
@@ -57,8 +59,6 @@
 						<li><a href="/">主页</a></li>
 					
 						<li><a href="/archives">归档</a></li>
-					
-						<li><a href="/douban">读书</a></li>
 					
 						<li><a href="/about">关于我</a></li>
 					
@@ -100,83 +100,83 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景知识"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#grep-vs-sed-vs-awk"><span class="toc-number">1.1.</span> <span class="toc-text">grep vs sed vs awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.2.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep的种类"><span class="toc-number">1.3.</span> <span class="toc-text">grep的种类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例学习"><span class="toc-number">3.</span> <span class="toc-text">案例学习</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">grep vs sed vs awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">grep的种类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">案例学习</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"><a href="#&#x80CC;&#x666F;&#x77E5;&#x8BC6;" class="headerlink" title="&#x80CC;&#x666F;&#x77E5;&#x8BC6;"></a>&#x80CC;&#x666F;&#x77E5;&#x8BC6;</h2><p>grep&#x662F;linux&#x4E2D;&#x5E38;&#x7528;&#x7684;&#x6587;&#x672C;&#x5904;&#x7406;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x4E0E;&#x4E4B;&#x7C7B;&#x4F3C;&#x7684;&#x5DE5;&#x5177;&#x6709;sed&#x548C;awk&#xFF0C;&#x5B83;&#x4EEC;&#x5206;&#x522B;&#x9002;&#x7528;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x573A;&#x666F;&#x3002;&#x540C;&#x65F6;&#x8981;&#x60F3;&#x5F88;&#x597D;&#x7684;&#x4F7F;&#x7528;grep&#x7B49;&#x6587;&#x672C;&#x5904;&#x7406;&#x5DE5;&#x5177;&#xFF0C;&#x9700;&#x8981;&#x5BF9;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x4E86;&#x89E3;&#x3002;</p>
-<h3 id="grep-vs-sed-vs-awk"><a href="#grep-vs-sed-vs-awk" class="headerlink" title="grep vs sed vs awk"></a>grep vs sed vs awk</h3><p>grep&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5BF9;&#x6587;&#x672C;&#x3001;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#xFF0C;&#x67E5;&#x627E;&#x51FA;&#x7B26;&#x5408;&#x8981;&#x6C42;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x5E76;&#x8F93;&#x51FA;&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#x3002;</p>
-<p>sed&#x548C;awk&#x5219;&#x662F;&#x66F4;&#x5F3A;&#x5927;&#x6587;&#x672C;&#x5904;&#x7406;&#x5DE5;&#x5177;&#xFF0C;&#x9002;&#x7528;&#x4E8E;&#x66F4;&#x590D;&#x6742;&#x7684;&#x573A;&#x666F;&#x3002;sed&#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;&#x5B57;&#x7B26;&#x6D41;&#x7684;&#x5904;&#x7406;&#x5DE5;&#x5177;&#xFF08;stream editor&#xFF09;&#xFF0C;&#x4E0D;&#x4EC5;&#x53EF;&#x4EE5;&#x67E5;&#x627E;&#x6587;&#x5B57;&#x8FD8;&#x53EF;&#x4EE5;&#x5BF9;&#x6587;&#x672C;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x4FEE;&#x6539;&#x3001;&#x5220;&#x9664;&#x3001;&#x63D2;&#x5165;&#x7B49;&#x3002;awk&#x5219;&#x662F;&#x66F4;&#x52A0;&#x5F3A;&#x5927;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x5B83;&#x672C;&#x8EAB;&#x662F;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x5BF9;&#x6570;&#x636E;&#x7684;&#x63D0;&#x53D6;&#x5904;&#x7406;&#x7136;&#x540E;&#x751F;&#x6210;&#x4E00;&#x4E9B;&#x62A5;&#x8868;&#xFF0C;&#x4E3B;&#x8981;&#x9488;&#x5BF9;&#x7C7B;csv&#x683C;&#x5F0F;&#x7684;&#x6587;&#x4EF6;&#x3002;</p>
-<h3 id="&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;"><a href="#&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;" class="headerlink" title="&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;"></a>&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</h3><p>to be written</p>
-<h3 id="grep&#x7684;&#x79CD;&#x7C7B;"><a href="#grep&#x7684;&#x79CD;&#x7C7B;" class="headerlink" title="grep&#x7684;&#x79CD;&#x7C7B;"></a>grep&#x7684;&#x79CD;&#x7C7B;</h3><ul>
-<li><strong>grep</strong> | grep&#x4F7F;&#x7528;&#x7B80;&#x5355;&#x7684;&#x6A21;&#x5F0F;&#x548C;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#x3002;</li>
-<li><strong>egrep</strong> | egrep&#x4F7F;&#x7528;&#x62D3;&#x5C55;&#x7248;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5305;&#x542B;&#x66F4;&#x591A;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x529F;&#x80FD;&#x3002;</li>
-<li><strong>fgrep</strong> | fgrep&#x662F;&#x52A0;&#x901F;&#x7248;&#x7684;grep&#xFF0C;&#x4E3B;&#x8981;&#x9002;&#x7528;&#x4E8E;&#x7B80;&#x5355;&#x7684;&#x6A21;&#x5F0F;&#x5339;&#x914D;&#x3002;</li>
-<li><strong>zgrep, zegrep, zfgrep</strong> | &#x4E0E;grep, egrep, fgrep &#x6548;&#x679C;&#x76F8;&#x540C;&#xFF0C;&#x53EA;&#x662F;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x4E00;&#x4E2A;&#x7531;compress&#x6216;gzip&#x538B;&#x7F29;&#x51FA;&#x6765;&#x7684;&#x538B;&#x7F29;&#x5305;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#x3002;&#x5728;&#x73B0;&#x5728;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x591A;&#x79CD;&#x7684;grep&#x4F7F;&#x7528;&#x7684;&#x662F;&#x540C;&#x4E00;&#x4E2A;binary&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4E0D;&#x540C;&#x7684;binary&#x3002;&#x6BD4;&#x5982;&#x8BF4;<code>grep -E</code>&#x5176;&#x5B9E;&#x7B49;&#x6548;&#x4E8E;egrep&#xFF0C;<code>grep -F</code>&#x7B49;&#x6548;&#x4E8E;fgrep&#x3002;</li>
+		<h2><span id="背景知识">背景知识</span></h2><p>grep是linux中常用的文本处理的工具，与之类似的工具有sed和awk，它们分别适用于不同的场景。同时要想很好的使用grep等文本处理工具，需要对正则表达式有一定的了解。</p>
+<h3><span id="grep-vs-sed-vs-awk">grep vs sed vs awk</span></h3><p>grep主要用于对文本、文件进行搜索，查找出符合要求的字符串并输出相关的内容。</p>
+<p>sed和awk则是更强大文本处理工具，适用于更复杂的场景。sed是一个基于字符流的处理工具（stream editor），不仅可以查找文字还可以对文本进行操作，比如说修改、删除、插入等。awk则是更加强大的工具，它本身是一个完整的编程语言，可用于对数据的提取处理然后生成一些报表，主要针对类csv格式的文件。</p>
+<h3><span id="正则表达式">正则表达式</span></h3><p>to be written</p>
+<h3><span id="grep的种类">grep的种类</span></h3><ul>
+<li><strong>grep</strong> | grep使用简单的模式和正则表达式进行搜索。</li>
+<li><strong>egrep</strong> | egrep使用拓展版的正则表达式，包含更多的正则表达式功能。</li>
+<li><strong>fgrep</strong> | fgrep是加速版的grep，主要适用于简单的模式匹配。</li>
+<li><strong>zgrep, zegrep, zfgrep</strong> | 与grep, egrep, fgrep 效果相同，只是可以接受一个由compress或gzip压缩出来的压缩包进行搜索。在现在的操作系统中，多种的grep使用的是同一个binary，而不是不同的binary。比如说<code>grep -E</code>其实等效于egrep，<code>grep -F</code>等效于fgrep。</li>
 </ul>
-<h2 id="&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>&#x5E38;&#x7528;&#x53C2;&#x6570;</h2><p><code>-A num, --after-context=num</code> - &#x6253;&#x5370;&#x51FA;&#x627E;&#x5230;&#x7684;&#x5339;&#x914D;&#x884C;&#x540E;num&#x884C;&#x3002;&#x8FD9;&#x4E2A;&#x8DDF;<code>-B</code>&#xFF0C;<code>-C</code>&#x7C7B;&#x4F3C;&#x529F;&#x80FD;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x67E5;&#x770B;&#x4E0A;&#x4E0B;&#x6587;&#x3002;</p>
-<p><code>-B num, --before-context=num</code> - &#x6253;&#x5370;&#x51FA;&#x627E;&#x5230;&#x7684;&#x5339;&#x914D;&#x884C;&#x524D;num&#x884C;&#x3002;</p>
-<p><code>-C[num, --context=num]</code> - &#x6253;&#x5370;&#x51FA;&#x627E;&#x5230;&#x7684;&#x5339;&#x914D;&#x884C;&#x524D;&#x540E;num&#x884C;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;<code>-A num -B num</code>&#x3002;</p>
-<p><code>-c, --count</code> - &#x7EDF;&#x8BA1;&#x51FA;&#x5339;&#x914D;&#x7684;&#x603B;&#x884C;&#x6570;&#xFF0C;&#x540C;&#x4E00;&#x884C;&#x6709;&#x4E24;&#x4E2A;&#x5339;&#x914D;&#x4E5F;&#x53EA;&#x7B97;&#x4E00;&#x884C;&#x3002;</p>
-<p><code>--colour=[when, --color=[when]]</code> - &#x5C06;&#x5339;&#x914D;&#x7684;&#x5B57;&#x7B26;&#x6807;&#x8BB0;&#x4E3A;&#x5F69;&#x8272;&#xFF0C;when&#x53EF;&#x4EE5;&#x662F;&#x2019;never&#x2019;&#xFF0C;&#x2018;auto&#x2019;&#x6216;&#x2019;always&#x2019;&#x3002;</p>
-<p><code>-e pattern, --regexp=pattern</code> - &#x5236;&#x5B9A;&#x5728;&#x641C;&#x7D22;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#xFF0C;&#x591A;&#x7528;&#x4E8E;&#x6307;&#x5B9A;&#x591A;&#x4E2A;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<p><code>-H</code> - &#x5728;&#x6BCF;&#x4E00;&#x884C;&#x524D;&#x9762;&#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5728;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x8FD9;&#x4E2A;&#x662F;&#x9ED8;&#x8BA4;&#x9009;&#x9879;&#x3002;</p>
-<p><code>-h</code> - &#x5728;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x4E0D;&#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x3002;</p>
-<p><code>-n</code> - &#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x6240;&#x5728;&#x884C;&#x7684;&#x884C;&#x6570;&#x3002;</p>
-<p><code>-i, --ignore-case</code> - &#x67E5;&#x627E;&#x65F6;&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;&#x3002;</p>
-<p><code>-R, -r, --recursive</code> - &#x9012;&#x5F52;&#x7684;&#x53BB;&#x67E5;&#x627E;&#x5B50;&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#x3002;</p>
-<p><code>-v, --invert-match</code> - &#x6253;&#x5370;&#x51FA;&#x4E0D;&#x5339;&#x914D;&#x7684;&#x884C;&#x3002;</p>
-<p><code>-w, --word-regexp</code> - &#x53EA;&#x5339;&#x914D;&#x6574;&#x4E2A;&#x5355;&#x8BCD;&#x3002;</p>
-<h2 id="&#x6848;&#x4F8B;&#x5B66;&#x4E60;"><a href="#&#x6848;&#x4F8B;&#x5B66;&#x4E60;" class="headerlink" title="&#x6848;&#x4F8B;&#x5B66;&#x4E60;"></a>&#x6848;&#x4F8B;&#x5B66;&#x4E60;</h2><p>&#x5B9E;&#x9A8C;&#x6587;&#x4EF6;&#xFF0C;&#x968F;&#x4FBF;&#x627E;&#x4E86;&#x4E00;&#x4E2A;&#x838E;&#x58EB;&#x6BD4;&#x4E9A;&#x7684;&#x5341;&#x56DB;&#x884C;&#x8BD7;&#xFF1A;</p>
+<h2><span id="常用参数">常用参数</span></h2><p><code>-A num, --after-context=num</code> - 打印出找到的匹配行后num行。这个跟<code>-B</code>，<code>-C</code>类似功能，主要用于查看上下文。</p>
+<p><code>-B num, --before-context=num</code> - 打印出找到的匹配行前num行。</p>
+<p><code>-C[num, --context=num]</code> - 打印出找到的匹配行前后num行，相当于<code>-A num -B num</code>。</p>
+<p><code>-c, --count</code> - 统计出匹配的总行数，同一行有两个匹配也只算一行。</p>
+<p><code>--colour=[when, --color=[when]]</code> - 将匹配的字符标记为彩色，when可以是’never’，‘auto’或’always’。</p>
+<p><code>-e pattern, --regexp=pattern</code> - 制定在搜索中使用的匹配模式，多用于指定多个匹配模式的情况。</p>
+<p><code>-H</code> - 在每一行前面打印出匹配的文件名，在多个文件的情况下这个是默认选项。</p>
+<p><code>-h</code> - 在多个文件的情况下不打印出匹配的文件名。</p>
+<p><code>-n</code> - 打印出匹配所在行的行数。</p>
+<p><code>-i, --ignore-case</code> - 查找时忽略大小写。</p>
+<p><code>-R, -r, --recursive</code> - 递归的去查找子目录下的文件。</p>
+<p><code>-v, --invert-match</code> - 打印出不匹配的行。</p>
+<p><code>-w, --word-regexp</code> - 只匹配整个单词。</p>
+<h2><span id="案例学习">案例学习</span></h2><p>实验文件，随便找了一个莎士比亚的十四行诗：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ cat demofile</span><br><span class="line">sonnet 18</span><br><span class="line"></span><br><span class="line">Shall I compare thee to a summer&apos;s day? </span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">Rough winds do shake the darling buds of May, </span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line"></span><br><span class="line">Sometime too hot the eye of heaven shines, </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d </span><br><span class="line"></span><br><span class="line">But thy eternal summer shall not fade </span><br><span class="line">Nor lose possession of that fair thou owest; </span><br><span class="line">Nor shall Death brag thou wander&apos;st in his shade, </span><br><span class="line">When in eternal lines to time thou growest: </span><br><span class="line"></span><br><span class="line">So long as men can breathe or eyes can see, </span><br><span class="line">So long lives this and this gives life to thee.</span><br><span class="line">$ cp demofile demofile2</span><br></pre></td></tr></table></figure>
 <ol>
-<li><p>&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x641C;&#x7D22;&#x67D0;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<li><p>在文件中搜索某个字符串。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">Nor shall Death brag thou wander&apos;st in his shade, </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x5339;&#x914D;&#x6574;&#x4E2A;&#x5355;&#x8BCD;&#x3002;</p>
-<p> &#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#x641C;&#x7D22;and&#x8FD9;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x5339;&#x914D;&#x4E86;wander&#x8FD9;&#x4E2A;&#x5355;&#x8BCD;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x53EA;&#x60F3;&#x641C;and&#x8FD9;&#x4E2A;&#x5355;&#x8BCD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>-w</code>&#x53C2;&#x6570;&#x3002;</p>
+<li><p>匹配整个单词。</p>
+<p> 上面的例子中搜索and这个字符串匹配了wander这个单词，如果我们只想搜and这个单词可以使用<code>-w</code>参数。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -w &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;</p>
+<li><p>忽略大小写</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ grep -i -w &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x4F7F;&#x7528;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</p>
-<p> &#x53EA;&#x8981;&#x628A;&#x5339;&#x914D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x6362;&#x6210;&#x9700;&#x8981;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x5373;&#x53EF;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#x9700;&#x8981;&#x641C;&#x7D22;&#x4EE5;And&#x5F00;&#x5934;&#x7684;&#x884C;&#x3002;</p>
+<li><p>使用正则表达式</p>
+<p> 只要把匹配的字符串换成需要的正则表达式即可。比如说需要搜索以And开头的行。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;^And&quot; demofile</span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines,</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x663E;&#x793A;&#x4E0A;&#x4E0B;&#x6587;</p>
-<p> &#x6709;&#x65F6;&#x5019;&#x641C;&#x51FA;&#x6765;&#x9700;&#x8981;&#x770B;&#x770B;&#x4E0A;&#x4E0B;&#x6587;&#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x4E0A;&#x9762;&#x63D0;&#x5230;&#x7684;<code>-B</code>&#xFF0C;<code>-A</code>&#x548C;<code>-C</code>&#x6765;&#x5B9E;&#x73B0;&#x3002;</p>
-<p> &#x6BD4;&#x5982;&#x60F3;&#x8981;&#x627E;&#x51FA;&#x5305;&#x542B;&#x201D;nature&#x201D;&#x7684;&#x53E5;&#x5B50;&#x5E76;&#x6253;&#x5370;&#x51FA;&#x4E0A;&#x4E0B;&#x4E24;&#x884C;&#x3002;</p>
+<li><p>显示上下文</p>
+<p> 有时候搜出来需要看看上下文，可以利用上面提到的<code>-B</code>，<code>-A</code>和<code>-C</code>来实现。</p>
+<p> 比如想要找出包含”nature”的句子并打印出上下两行。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ grep -C2 &quot;nature&quot; demofile</span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d </span><br><span class="line"></span><br><span class="line">But thy eternal summer shall not fade</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x7EDF;&#x8BA1;&#x51FA;&#x5339;&#x914D;&#x7684;&#x603B;&#x884C;&#x6570;</p>
-<p> &#x6BD4;&#x5982;&#x8BF4;&#x60F3;&#x8981;&#x7EDF;&#x8BA1;&#x51FA;&#x73B0;&#x201D;to&#x201D;&#x7684;&#x884C;&#x6570;</p>
+<li><p>统计出匹配的总行数</p>
+<p> 比如说想要统计出现”to”的行数</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -c &quot;to&quot; demofile</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
-<p>&#x5982;&#x679C;&#x60F3;&#x8981;&#x7EDF;&#x8BA1;&#x51FA;&#x73B0;&#x7684;&#x603B;&#x6B21;&#x6570;&#x7684;&#x8BDD;&#xFF0C;grep&#x672C;&#x8EAB;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x6EE1;&#x8DB3;&#x8FD9;&#x4E2A;&#x9700;&#x6C42;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;sed&#x6216;awk&#x6765;&#x5B9E;&#x73B0;&#x3002;&#x6216;&#x8005;&#x7ED3;&#x5408;wc&#x6765;&#x5B9E;&#x73B0;&#x3002;</p>
+<p>如果想要统计出现的总次数的话，grep本身没有办法满足这个需求，需要使用sed或awk来实现。或者结合wc来实现。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -o &quot;to&quot; demofile| wc -l</span><br><span class="line">       5</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x9AD8;&#x4EAE;&#x5339;&#x914D;&#x6587;&#x5B57;</p>
-<p> &#x9AD8;&#x4EAE;&#x5339;&#x914D;&#x6587;&#x5B57;&#x53EF;&#x4EE5;&#x8BA9;&#x8089;&#x773C;&#x53EF;&#x4EE5;&#x7B2C;&#x4E00;&#x65F6;&#x95F4;&#x7684;&#x770B;&#x5230;&#x5339;&#x914D;&#x7ED3;&#x679C;&#xFF0C;&#x5229;&#x7528;&#x2013;color=auto/always&#x6765;&#x5B9E;&#x73B0;&#x3002;&#x6B64;&#x5904;nature&#x9AD8;&#x4EAE;&#x72B6;&#x3002;</p>
+<li><p>高亮匹配文字</p>
+<p> 高亮匹配文字可以让肉眼可以第一时间的看到匹配结果，利用–color=auto/always来实现。此处nature高亮状。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep --color=auto &quot;nature&quot; demofile</span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x7B80;&#x5355;&#x5339;&#x914D;&#x591A;&#x4E2A;&#x6A21;&#x5F0F;</p>
-<p> &#x67E5;&#x627E;&#x591A;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>|</code>&#x5B57;&#x7B26;&#x6765;&#x8FDB;&#x884C;&#x7B80;&#x5355;&#x7684;&#x5339;&#x914D;&#x3002;&#x6BD4;&#x5982;&#x8BF4;<code>&quot;heaven|nature&quot;</code>&#x8868;&#x793A;&#x5339;&#x914D;heaven&#x6216;&#x8005;nature&#x3002;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x662F;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x62D3;&#x5C55;&#x90E8;&#x5206;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x4F7F;&#x7528;<code>-E</code>&#x6216;&#x8005;egrep&#x3002;</p>
+<li><p>简单匹配多个模式</p>
+<p> 查找多个字符串可以使用<code>|</code>字符来进行简单的匹配。比如说<code>&quot;heaven|nature&quot;</code>表示匹配heaven或者nature。因为这个是正则表达式的拓展部分，所以需要使用<code>-E</code>或者egrep。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -E &quot;heaven|nature&quot; demofile</span><br><span class="line">Sometime too hot the eye of heaven shines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x590D;&#x6742;&#x5339;&#x914D;&#x591A;&#x4E2A;&#x6A21;&#x5F0F;</p>
-<p> &#x9700;&#x8981;&#x627E;&#x51FA;&#x7B26;&#x5408;&#x591A;&#x4E2A;&#x6A21;&#x5F0F;&#x7684;&#x5339;&#x914D;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;&#x627E;&#x51FA;&#x4EE5;&#x201D;When&#x201D;&#x5F00;&#x5934;&#x6216;&#x8005;&#x5305;&#x542B;&#x201D;fade&#x201D;&#x7684;&#x884C;&#x3002;</p>
+<li><p>复杂匹配多个模式</p>
+<p> 需要找出符合多个模式的匹配。比如说，找出以”When”开头或者包含”fade”的行。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; demofile</span><br><span class="line">But thy eternal summer shall not fade </span><br><span class="line">When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x627E;&#x51FA;&#x4E0D;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;&#x5339;&#x914D;</p>
-<p>&#x5728;&#x4E00;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x627E;&#x51FA;&#x4E0D;&#x6EE1;&#x8DB3;&#x67D0;&#x4E2A;&#x6761;&#x4EF6;&#x7684;&#x884C;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5C31;&#x53EF;&#x4EE5;&#x7528;<code>-v</code>&#x6765;&#x5B9E;&#x73B0;&#x4E86;&#x3002;</p>
-<p>&#x6BD4;&#x5982;&#x8BF4;&#x60F3;&#x627E;&#x51FA;&#x9996;&#x5B57;&#x6BCD;&#x4E0D;&#x662F;&#x5927;&#x5199;&#x5B57;&#x6BCD;&#x7684;&#x884C;&#x3002;</p>
+<li><p>找出不满足条件的匹配</p>
+<p>在一些情况下我们需要找出不满足某个条件的行，这个时候就可以用<code>-v</code>来实现了。</p>
+<p>比如说想找出首字母不是大写字母的行。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -v &quot;^[A-Z]&quot; demofile</span><br><span class="line">sonnet 18</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x6253;&#x5370;&#x51FA;&#x5339;&#x914D;&#x6240;&#x5728;&#x884C;&#x7684;&#x884C;&#x6570;</p>
+<li><p>打印出匹配所在行的行数</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; -n demofile</span><br><span class="line">13:But thy eternal summer shall not fade </span><br><span class="line">16:When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>&#x6253;&#x5370;&#x51FA;&#x6587;&#x4EF6;&#x540D;</p>
-<p>&#x8FDB;&#x884C;&#x591A;&#x4E2A;&#x6587;&#x4EF6;&#x641C;&#x7D22;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x9ED8;&#x8BA4;&#x4F1A;&#x6253;&#x5370;&#x51FA;&#x6587;&#x4EF6;&#x540D;&#x3002;</p>
+<li><p>打印出文件名</p>
+<p>进行多个文件搜索的情况下，默认会打印出文件名。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; demofile demofile2</span><br><span class="line">demofile:But thy eternal summer shall not fade </span><br><span class="line">demofile:When in eternal lines to time thou growest: </span><br><span class="line">demofile2:But thy eternal summer shall not fade </span><br><span class="line">demofile2:When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
@@ -203,7 +203,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://zhengyi.me/2016/06/06/learning-shell-grep/" data-title="Mac 命令学习 - grep | yi&#39;s weblog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://zhengyi.me/2016/06/06/learning-shell-grep/" data-title="Mac 命令学习 - grep | yi&#39;s weblog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -249,7 +249,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景知识"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#grep-vs-sed-vs-awk"><span class="toc-number">1.1.</span> <span class="toc-text">grep vs sed vs awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">1.2.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep的种类"><span class="toc-number">1.3.</span> <span class="toc-text">grep的种类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用参数"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例学习"><span class="toc-number">3.</span> <span class="toc-text">案例学习</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">背景知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">grep vs sed vs awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">grep的种类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">案例学习</span></a></li></ol>
  
   </div>
 
@@ -336,7 +336,11 @@
 			
 		
 			
-				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
 			
 		
 			
@@ -344,15 +348,11 @@
 			
 		
 			
-				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
 			
 		
 			
@@ -372,15 +372,15 @@
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/行动/" title="行动">行动<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Udacity/" title="Udacity">Udacity<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端/" title="前端">前端<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -405,9 +405,6 @@
         
     </ul>
 </div>
-
-  
-
 
 </aside>
 </div>
@@ -436,7 +433,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/about" target="_blank" title="Yi">Yi</a>
 		
