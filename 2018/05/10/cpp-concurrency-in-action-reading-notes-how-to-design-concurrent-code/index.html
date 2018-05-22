@@ -1,0 +1,661 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《C++ Concurrency In Action》读书笔记 - 如何设计并发代码 | yi&#39;s weblog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Yi">
+    
+
+    <meta name="keywords" content="C++并发编程实战,C++11,并发编程，cache-line">
+    <meta name="description" content="这本书前面几章介绍了C++并发编程中使用到的一些具体工具，掌握了这些具体工具并不能够保证你能够写出优秀的并发代码。 这章就是介绍如何设计你的并发代码、在写并发代码的时候需要考虑的一些因素和注意的地方。从一个更高的角度去思考如何写并发代码。 如何给线程分配工作当我们起多个线程去做并行计算的时候我们需要把原来一个线程处理的数据分配给不同的线程。那么如何切分数据就有很多种选择： 简单粗暴的根据数量切分">
+<meta name="keywords" content="C++并发编程实战,C++11,并发编程，cache-line">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《C++ Concurrency In Action》读书笔记 - 如何设计并发代码">
+<meta property="og:url" content="http://zhengyi.me/2018/05/10/cpp-concurrency-in-action-reading-notes-how-to-design-concurrent-code/index.html">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="这本书前面几章介绍了C++并发编程中使用到的一些具体工具，掌握了这些具体工具并不能够保证你能够写出优秀的并发代码。 这章就是介绍如何设计你的并发代码、在写并发代码的时候需要考虑的一些因素和注意的地方。从一个更高的角度去思考如何写并发代码。 如何给线程分配工作当我们起多个线程去做并行计算的时候我们需要把原来一个线程处理的数据分配给不同的线程。那么如何切分数据就有很多种选择： 简单粗暴的根据数量切分">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://zhengyi.me/img/cpp_concurrency_in_action_f_81.png">
+<meta property="og:image" content="http://zhengyi.me/img/cpp_concurrency_in_action_f_82.png">
+<meta property="og:updated_time" content="2018-05-22T13:58:55.265Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《C++ Concurrency In Action》读书笔记 - 如何设计并发代码">
+<meta name="twitter:description" content="这本书前面几章介绍了C++并发编程中使用到的一些具体工具，掌握了这些具体工具并不能够保证你能够写出优秀的并发代码。 这章就是介绍如何设计你的并发代码、在写并发代码的时候需要考虑的一些因素和注意的地方。从一个更高的角度去思考如何写并发代码。 如何给线程分配工作当我们起多个线程去做并行计算的时候我们需要把原来一个线程处理的数据分配给不同的线程。那么如何切分数据就有很多种选择： 简单粗暴的根据数量切分">
+<meta name="twitter:image" content="http://zhengyi.me/img/cpp_concurrency_in_action_f_81.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="yi&#39;s weblog" title="yi&#39;s weblog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="yi&#39;s weblog">yi&#39;s weblog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/atom.xml">RSS</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:zhengyi.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/10/cpp-concurrency-in-action-reading-notes-how-to-design-concurrent-code/" title="《C++ Concurrency In Action》读书笔记 - 如何设计并发代码" itemprop="url">《C++ Concurrency In Action》读书笔记 - 如何设计并发代码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-05-10T14:21:37.000Z" itemprop="datePublished"> 发表于 2018-05-10</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">如何给线程分配工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">影响并发代码性能的因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">设计数据结构的时候需要注意什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">设计多线程代码其他注意事项</span></a></li></ol>
+		
+		</div>
+		
+		<p>这本书前面几章介绍了C++并发编程中使用到的一些具体工具，掌握了这些具体工具并不能够保证你能够写出优秀的并发代码。</p>
+<p>这章就是介绍如何设计你的并发代码、在写并发代码的时候需要考虑的一些因素和注意的地方。从一个更高的角度去思考如何写并发代码。</p>
+<h2><span id="如何给线程分配工作">如何给线程分配工作</span></h2><p>当我们起多个线程去做并行计算的时候我们需要把原来一个线程处理的数据分配给不同的线程。那么如何切分数据就有很多种选择：</p>
+<p><strong>简单粗暴的根据数量切分</strong></p>
+<p>比如有100个数据，我们起了m个线程那么每个线程处理100/m个数据。如果有必要的话最后将处理的结果进行合并。打个比方，我们现在要洗n个碗，那么我们可以把线程想象成洗碗工，如何给洗碗工分配工作，假设每个洗碗工洗碗速度差不多，那么只需要把盘子分成若干份分配给各个洗碗工即可。（当然你要有足够多的洗碗池）</p>
+<p><img src="/img/cpp_concurrency_in_action_f_81.png" alt="Alt text"></p>
+<p><strong>递归的切分</strong></p>
+<p>有很多算法无法在一开始就很好的对数据进行切分，那么我们就可以用递归的方法。但是递归的话就不能暴力的去起线程，而是可以用<code>std::async</code>让线程库去决定是否在另外线程执行。</p>
+<p><img src="/img/cpp_concurrency_in_action_f_82.png" alt="Alt text"></p>
+<p><strong>按照任务类型进行切分</strong></p>
+<p>还是用厨房打比方，如果现在收到了一个订单需要做100份宫保鸡丁。如果按照第一种方法的话就是把100道分给n个厨师，每个厨师负责做100/n份。那么这个有什么问题呢？每个厨师都需要去洗菜、切菜、炒菜、装盘等。每一道工具之间会浪费厨师的时间，而且如果厨房不是足够大的话，厨师之间可能会出现竞争关系，比如说只有3个炒锅、那么有一些厨师可能需要排队才能用到炒锅。</p>
+<p>现实中的厨房肯定不是这样的，每一个环节都是有专门的人负责的。洗菜工、打荷、厨师。这样流水线的工作可以提高效率。</p>
+<p>按照任务类型的切分方法跟厨房的这个思想是一样的，每个线程都有自己的指责，接受输入处理相对独立的功能。</p>
+<h2><span id="影响并发代码性能的因素">影响并发代码性能的因素</span></h2><p>在说影响性能的因素之前，先来看一张表<a href="https://gist.github.com/jboner/2841832" target="_blank" rel="external">Latency Numbers Every Programmer Should Know</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Latency Comparison Numbers</span><br><span class="line">--------------------------</span><br><span class="line">L1 cache reference                           0.5 ns</span><br><span class="line">Branch mispredict                            5   ns</span><br><span class="line">L2 cache reference                           7   ns                      14x L1 cache</span><br><span class="line">Mutex lock/unlock                           25   ns</span><br><span class="line">Main memory reference                      100   ns                      20x L2 cache, 200x L1 cache</span><br><span class="line">Compress 1K bytes with Zippy             3,000   ns        3 us</span><br><span class="line">Send 1K bytes over 1 Gbps network       10,000   ns       10 us</span><br><span class="line">Read 4K randomly from SSD*             150,000   ns      150 us          ~1GB/sec SSD</span><br><span class="line">Read 1 MB sequentially from memory     250,000   ns      250 us</span><br><span class="line">Round trip within same datacenter      500,000   ns      500 us</span><br><span class="line">Read 1 MB sequentially from SSD*     1,000,000   ns    1,000 us    1 ms  ~1GB/sec SSD, 4X memory</span><br><span class="line">Disk seek                           10,000,000   ns   10,000 us   10 ms  20x datacenter roundtrip</span><br><span class="line">Read 1 MB sequentially from disk    20,000,000   ns   20,000 us   20 ms  80x memory, 20X SSD</span><br><span class="line">Send packet CA-&gt;Netherlands-&gt;CA    150,000,000   ns  150,000 us  150 ms</span><br></pre></td></tr></table></figure>
+<p>计算机的计算发生在CPU，而数据则来自内存、磁盘甚至网络上。从上表可以看到，CPU访问的数据来源对于它的访问速度差距巨大。从最快的L1缓存到网络访问，差距有3亿倍之巨。</p>
+<p>下面要说的几点，基本上可以理解为需要经常从“很远的”读取数据。</p>
+<p><strong>线程数量</strong></p>
+<p>线程数量并非越多越好，当线程的数量太多，而且都有实际运算需要进行的时候。操作系统会进行调度来保证线程之间的公平，而切换线程的时候会出现上下文切换。也就是说要把当前线程相关的上下文存下来，然后把另一个线程的上下文载入，这回带来一定的开销。当线程数量增加的时候，带来的开销也就越来越大。</p>
+<p><strong>Data Contention（数据竞争）</strong></p>
+<p>可以理解为多个线程同时去操作一个内存，至少有一个去写这块内存。如果所有的操作都是只读的话就没有问题，因为数据从内存载入CPU以后会一直有效。但是，当其他核/CPU去操作这块内存的时候，载入的数据就会失效，当前的核就需要重新去内存中载入这块内存。</p>
+<p>如果有多个核同时在操作某一个内存的时候，这将会是灾难性的。因为每一次写，其他所有用到这个数据的核都需要重新载入这块内存。而多个核频繁写的话，就会让用到数据的和核频繁去载入内存。而我们知道从内存读数据是很慢的。这个现象可以很形象的称为cache-pingpong。</p>
+<p><strong>False Sharing</strong></p>
+<p>CPU载入内存的时候是按照一个内存块载入的，而不是具体单个内存地址，这块内存又称为cache-line。这个机制会带来什么问题呢？如果我们需要的是一个小块数据，但是cache-line在如何很多我们不需要的数据。我们不需要不要紧，麻烦的是这些数据可能被其他线程用到而且需要修改，当他们改了这块内存以后我们就莫名的躺枪了。因为我们载入的这块cache-line失效了。</p>
+<p><strong>Data Proximity</strong></p>
+<p>如果你需要处理的数据不再同一个cache-line里面也会带来问题，就是你需要载入很多内存块去用到你的数据。</p>
+<h2><span id="设计数据结构的时候需要注意什么">设计数据结构的时候需要注意什么</span></h2><p>针对上面这几个可能会影响性能的地方，我们再设计数据结构的时候需要注意一下几点：</p>
+<ol>
+<li>给不同线程分配数据的时候要考虑他们之间的数据不要靠的太近避免false sharing。</li>
+<li>单个线程需要的数据尽量挨得近一点，从而不用去载入太多cache-line。</li>
+<li>尽量减少线程对于数据的需求。</li>
+</ol>
+<h2><span id="设计多线程代码其他注意事项">设计多线程代码其他注意事项</span></h2><p><strong>异常安全</strong></p>
+<p>如果你起的线程有未处理的异常，程序将会退出(C++调用<code>std::terminate</code>)。当然你可以在线程代码内部处理掉异常，但是你需要将这个异常告诉外部从而外部能够知道错误状态来进行一些善后。</p>
+<p>C++11里面可以用<code>std::future</code>的方式自然地实现这个，因为在<code>std::future::get</code>的时候如果线程有未处理的异常，会在调用的地方重新抛出来。</p>
+<p><strong>可扩展性</strong></p>
+<p>可扩展性的意思是当处理器数量增加的时候，程序能够在更短的时间内完成任务或者在相同时间内能够处理更多的数据。</p>
+<p>一个程序内部可以分为两部分，一部分为串行部分，而另一部分则是可以被并行的部分。有一个Amdahl定律简单地描述了并发代码的性能，给出的公式如下：</p>
+<p>$$    P = \dfrac{1}{f_s+\frac{1-f_s}{N}} $$</p>
+<p>P为整体性能，$f_s$表示程序中串行的部分，N为处理器的数量。所以当试图优化代码的时候最好权衡一下优化能够带来的效益。应该让代码尽量的能够并行，这样能够充分利用好处理器增加带来的好处。另外如果串行的部分比例很大，比如说80%，那么优先去优化串行部分显然是比较划算的。</p>
+<p><strong>提高响应速度</strong></p>
+<p>在GUI应用中尽量将一些好使的操作放在非UI线程去做，这样子能够提高UI的响应速度从而提高用户体验。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zhengyi.me/2018/05/10/cpp-concurrency-in-action-reading-notes-how-to-design-concurrent-code/" data-title="《C++ Concurrency In Action》读书笔记 - 如何设计并发代码 | yi&#39;s weblog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/05/22/what-is-argument-dependent-lookup/" title="什么是Argument Dependent Lookup">
+  <strong>上一篇：</strong><br/>
+  <span>
+  什么是Argument Dependent Lookup</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/04/25/cpp-concurrency-in-action-reading-notes-cpp-memory-model/"  title="《C++ Concurrency In Action》读书笔记 - C++内存模型">
+ <strong>下一篇：</strong><br/> 
+ <span>《C++ Concurrency In Action》读书笔记 - C++内存模型
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">如何给线程分配工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">影响并发代码性能的因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">设计数据结构的时候需要注意什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">设计多线程代码其他注意事项</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  <div class="linkslist">
+  <p class="asidetitle">公众号</p>
+  <img width="100%" src="/img/wechat.logo.jpg" alt="ArmstrongNotes"/> 
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/思考讨论/" title="思考讨论">思考讨论<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/阅读相关/" title="阅读相关">阅读相关<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考方法/" title="思考方法">思考方法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考/" title="思考">思考<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码阅读/" title="源码阅读">源码阅读<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.vicoder.com/" target="_blank" title="Victor Jiang">Victor Jiang</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.cnblogs.com/imjustice/" target="_blank" title="博客园主页">博客园主页</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m 10000000000 <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Yi">Yi</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = '2power10';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-8661588-8', 'zhengyi.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -2,6 +2,69 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhengyi.me/2018/05/22/what-is-argument-dependent-lookup/</loc>
+    
+    <lastmod>2018-05-22T14:04:09.907Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/04/11/what-is-lock-hierarchy/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.267Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/04/17/what-is-memory-model/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.267Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/03/20/learning-tcp-01/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.266Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/04/10/cpp-concurrency-in-action-reading-notes-sharing-data/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.266Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/04/20/cpp-concurrency-in-action-reading-notes-sync-between-threads/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.266Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/03/29/cpp-concurrency-in-action-reading-notes-thread-management/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.266Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/05/10/cpp-concurrency-in-action-reading-notes-how-to-design-concurrent-code/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.265Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://zhengyi.me/2018/04/25/cpp-concurrency-in-action-reading-notes-cpp-memory-model/</loc>
+    
+    <lastmod>2018-05-22T13:58:55.265Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://zhengyi.me/2017/12/28/how-shared-ptr-void-works/</loc>
     
     <lastmod>2018-02-23T14:45:09.000Z</lastmod>

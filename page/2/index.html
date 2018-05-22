@@ -84,493 +84,284 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/06/effective-cpp-reading-notes-3/" title="《Effective C++》读书笔记(3)" itemprop="url">《Effective C++》读书笔记(3)</a>
+      <a href="/2018/04/11/what-is-lock-hierarchy/" title="层级锁 - Lock Hierarchies" itemprop="url">层级锁 - Lock Hierarchies</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-06T13:13:10.000Z" itemprop="datePublished"> 发表于 2016-07-06</time>
+    <time datetime="2018-04-11T14:43:02.000Z" itemprop="datePublished"> 发表于 2018-04-11</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款05了解c默默编写并调用哪些函数">条款05：了解C++默默编写并调用哪些函数</span></h3><blockquote>
-<p>编译器可以暗自为class创建<em>default</em>构造函数、<em>copy</em>构造函数、<em>copy assignment</em>操作符，以及析构函数。</p>
-</blockquote>
-<p>定义一个啥也没有的类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123; &#125;</span><br></pre></td></tr></table></figure>
-<p>编译器有可能会帮你生成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123;</span><br><span class="line">public:</span><br><span class="line">  Empty() &#123;...&#125;     //默认构造函数</span><br><span class="line">  Empty(const Empty&amp; rhs) &#123;...&#125; //拷贝构造函数</span><br><span class="line">  ~Empty()&#123;...&#125;     //析构函数</span><br><span class="line">  Empty&amp; operator=(const Empty&amp; rhs) &#123;...&#125; // copy assignment操作符</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>是否生成这些方法取决于使用的时候是否需要，比如下面这段代码就用到了这些函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Empty e1;		//默认构造函数</span><br><span class="line">				//析构函数</span><br><span class="line">Empty e2(e1);	//拷贝构造函数</span><br><span class="line">e2 = e1;		//copy assignment操作符</span><br></pre></td></tr></table></figure>
-<h3><span id="条款06若不想使用编译器自动生成的函数就该明确拒绝">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></h3><blockquote>
+        <p>《C++ Concurrency in Action》(CCIA)第三章中提到一个Lock Hierarchy的办法能够有效地避免死锁。这里结合Herb Sutter的这篇文章<a href="http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/DDJ/2008/0801/071201hs01/071201hs01.html" target="_blank" rel="external">Use Lock Hierarchies to Avoid Deadlock</a>简单得了解一下这个Lock Hierarchy。</p>
+<p>一个典型的死锁会发生在如下的场景中：</p>
 <ul>
-<li>为驳回编译器自动（暗自）提供的机能，可将相应的成员函数声明为private并且不予实现。使用像<code>Uncopyable</code>这样的base class也是一种做法。</li>
+<li>一段代码试图去同时独占地去获取两个共享资源（mutex或者其他）a和b，按照先a后b的顺序。</li>
+<li>另一段代码试图去同时独占的去获取两个共享资源a和b，但是获取顺序是相反，先b后a。</li>
+<li>这两段代码可能同时执行。</li>
 </ul>
-</blockquote>
-<p>正如条款5中提到的，即使你自己没有显示定义，编译器默认会为我们创建一些函数。而在某一些条件下，这些函数所带来的行为并不是你想要的。</p>
-<p>那么这个时候你就应该把你想要隐藏的方法声明为private并不提供任何的定义，这样任何尝试去使用的人都会收到一个链接错误。</p>
-<p><strong><em>什么的场景下可能需要使用这种方法？</em></strong></p>
-<ul>
-<li>private 构造函数<br>当你希望用户不能够随意的自己去创建实例而是通过某种方法获得一个实例的时候。比如说单例模式。</li>
-<li>private 析构函数<br>当你希望一个实例的生命周期由另一个类来管理的时候使用。比如说，你需要你的实例使用引用计数，如果不是0则不能够析构。这个时候你就需要提供比如说：Acquire，Release的方法。我觉得如果只是reference count的话，利用shared_ptr也能够实现类似的功能。<br>参考链接：<a href="https://blogs.msdn.microsoft.com/larryosterman/2005/07/01/private-destructors/" target="_blank" rel="external">Private Destructors</a></li>
-<li>private 拷贝构造函数和copy assignment 操作符<br>当你希望一个对象是不可拷贝的时候。<br>Example: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Class Uncopyable &#123;</span><br><span class="line">...</span><br><span class="line">private:</span><br><span class="line">    Uncopyable(const Uncopyable&amp;);</span><br><span class="line">    ~Uncopyable&amp; operator=(const Uncopyable&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3><span id="条款07为多态基类声明virtual析构函数">条款07：为多态基类声明virtual析构函数</span></h3><blockquote>
-<ul>
-<li>polymoriphic（带多态性质的）base classes应该声明一个virtual析构函数。如果class带有任何virtual函数，它就应该拥有一个virtual析构函数</li>
-<li>Classes的设计目的如果不是作为base classes使用，或者不是为了具备多态性（polymorphically），就不该声明virtual析构函数。</li>
-</ul>
-</blockquote>
-<p><strong><em>为什么带有多态性质的基类应该声明一个virtual析构函数？</em></strong></p>
-<p>带有多态性质的基类意味着一个基类的指针可能存放着子类的实例。在这种情况下如果析构函数没有声明为virtual的话，delete一个基类指针不能够正确的调用到子类的析构函数。这就意味着会造成资源的泄露。</p>
-<p>但是如果一个类设计的时候没有想让别的类继承，如果另一个类继承了，就可能会出现资源的泄露。因为C++在语言层面没有提供类似于C# seal的语法，所以没有办法杜绝这种情况。如果发现一个类的析构函数不是virtual的那么就不应该去继承它。</p>
-<p>反过来看就更简单了，如果一个类设计的目的不是作为基类使用，也就意味着它的指针不可能指向一个子类的对象。那么声明成virtual的就没有太大必要，反而会因为virtual而增长了这个对象的内存大小。</p>
-<h3><span id="条款08别让异常逃离析构函数">条款08：别让异常逃离析构函数</span></h3><blockquote>
-<ul>
-<li>析构函数绝对不要吐出异常。如果一个被析构函数调用的函数可能抛出异常，析构函数应该捕捉任何异常，然后吞下它们（不传播）或者结束程序。</li>
-<li>如果客户需要对某个操作函数运行期间抛出的异常做出反应，那么class应该提供一个普通函数（而非在析构函数中）执行该操作。</li>
-</ul>
-</blockquote>
-<p><strong><em>为什么析构函数中抛出异常不好？</em></strong></p>
+<p>这种情况下就会出现个两个代码块互相等待对方资源的情况，造成死锁。并非所有的情况都是很明确的能看到两个获取两个资源，有可能是你占有一个资源的时候调用了其他方法，也有可能是因为一些回调函数。所以这个问题可能会隐藏的很深。</p>
+<p>普遍的建议就是永远按照同样的顺序去获取多个锁，但是正如上面所说的有时候多个锁可能是在不同的地方获取的，并没有那么明显。</p>
+<p>有一个方法可以破这个就是Lock Hierarchies。每一个mutex都分配一个层级号码，并且严格按照下面两个规则：</p>
 <ol>
-<li>析构函数被调用的地方不好控制，而且不好对其进行处理。因为任何对象都有析构函数，你不可能在任何地方对异常进行捕捉。（自己补充的）</li>
-<li>如果析构函数中所抛出异常未处理会导致未定义行为。</li>
+<li>当占有层级为N的mutex的时候，只能去获取层次&lt; N的mutex</li>
+<li>当试图同时占有多个同层级的mutex的时候，这些锁必须一次性获取，通过类似于<code>std::lock</code>的方法去保证顺序。</li>
 </ol>
-<p>所以如果在析构函数中有可能执行到一些会抛异常的方法，需要对其进行捕捉。如果你认为异常可以忍受则默默吞下，记下log，否则记下log然后直接结束程序。</p>
-<p><strong><em>有什么更好的办法？</em></strong></p>
-<p>如果在析构函数里需要进行某个可能抛出异常的方法，那么就应该提供一个普通方法允许用户自己调用。这样子用户就有机会自己对其进行处理。</p>
+<p>Herb给了一张很形象的图来描述这个方案。</p>
+<p><img src="/img/layer-lock.gif" alt="Layer lock"></p>
+<p><strong>实现细节</strong></p>
+<p>实现一个hierarchical mutex也很简单，原理和细节如下：</p>
+<ul>
+<li>提供一个mutex wrapper，并且在所有的地方都是用这个wrapper来进行对mutex的操作，并且能够设置一个层次号</li>
+<li>在wrapper内部放一个thread local的变量currentLevel来保存当前线程的层次号并将其初始化为大于所有level的号码</li>
+<li>提供一些方法，比如<code>lock</code>, <code>unlock</code>，<code>try_lock</code></li>
+<li><code>lock</code>方法只有当currentLevel大于mutex wrapper的层次号才去上锁，否则抛出异常。如果上锁，则保存currentLevel并将currentLevel设置为当前的mutex 的层次号</li>
+<li><code>unlock</code>的时候讲currentLevel重置会原来的层次号</li>
+</ul>
+<p><strong>代码</strong></p>
+<p><em>CCIA</em>书中给出了一个很简单的<code>hierarchical_mutex</code>的实现。大家可以自己看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;mutex&gt;</span><br><span class="line">#include &lt;stdexcept&gt;</span><br><span class="line">#include &lt;climits&gt;</span><br><span class="line"></span><br><span class="line">class hierarchical_mutex</span><br><span class="line">&#123;</span><br><span class="line">    std::mutex internal_mutex;</span><br><span class="line">    unsigned long const hierarchy_value;</span><br><span class="line">    unsigned long previous_hierarchy_value;</span><br><span class="line">    static thread_local unsigned long this_thread_hierarchy_value;</span><br><span class="line"></span><br><span class="line">    void check_for_hierarchy_violation()</span><br><span class="line">    &#123;</span><br><span class="line">        if(this_thread_hierarchy_value &lt;= hierarchy_value)</span><br><span class="line">        &#123;</span><br><span class="line">            throw std::logic_error(&quot;mutex hierarchy violated&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    void update_hierarchy_value()</span><br><span class="line">    &#123;</span><br><span class="line">        previous_hierarchy_value=this_thread_hierarchy_value;</span><br><span class="line">        this_thread_hierarchy_value=hierarchy_value;</span><br><span class="line">    &#125;</span><br><span class="line">public:</span><br><span class="line">    explicit hierarchical_mutex(unsigned long value):</span><br><span class="line">        hierarchy_value(value),</span><br><span class="line">        previous_hierarchy_value(0)</span><br><span class="line">    &#123;&#125;</span><br><span class="line">    hierarchical_mutex(const hierarchical_mutex&amp;) = delete;</span><br><span class="line">    hierarchical_mutex&amp; operator=(const hierarchical_mutex&amp;) = delete;</span><br><span class="line">    void lock()</span><br><span class="line">    &#123;</span><br><span class="line">        check_for_hierarchy_violation();</span><br><span class="line">        internal_mutex.lock();</span><br><span class="line">        update_hierarchy_value();</span><br><span class="line">    &#125;</span><br><span class="line">    void unlock()</span><br><span class="line">    &#123;</span><br><span class="line">        this_thread_hierarchy_value=previous_hierarchy_value;</span><br><span class="line">        internal_mutex.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    bool try_lock()</span><br><span class="line">    &#123;</span><br><span class="line">        check_for_hierarchy_violation();</span><br><span class="line">        if(!internal_mutex.try_lock())</span><br><span class="line">            return false;</span><br><span class="line">        update_hierarchy_value();</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">thread_local unsigned long</span><br><span class="line">    hierarchical_mutex::this_thread_hierarchy_value(ULONG_MAX);       </span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    hierarchical_mutex m1(42);</span><br><span class="line">    hierarchical_mutex m2(2000);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/并发编程/">并发编程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/04/11/what-is-lock-hierarchy/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/04/10/cpp-concurrency-in-action-reading-notes-sharing-data/" title="《C++ Concurrency In Action》读书笔记 - 线程间共享数据" itemprop="url">《C++ Concurrency In Action》读书笔记 - 线程间共享数据</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-04-10T14:21:37.000Z" itemprop="datePublished"> 发表于 2018-04-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2><span id="多个线程间共享数据会出现什么问题">多个线程间共享数据会出现什么问题？</span></h2><p>如果所有的数据都是只读的，那么多线程之间同时访问是不会有问题的。但是如果有人要读的同时有人要改就会出现问题。因为并非所有操作都能在一步完成，一般的操作会是先去读取数据，然后做一些其他的运算或者判断，然后回写数据。那么可能发生以下一些情况：</p>
+<ul>
+<li>但是如果多个线程同时做这个操作的话，可能某一个线程回写的时候，当时判断的逻辑已经不成立了。</li>
+<li>如果两个线程同时尝试去修改同一份数据，就会出问题。</li>
+<li>其他更复杂的情况</li>
+</ul>
+<p>当多个线程共享内存并且去尝试修改内存里的内容的时候，就会出现race condition。这会让代码出现一些无法预料的情况。比如说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (x == 5)</span><br><span class="line">&#123;</span><br><span class="line">	y = x * 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码在单线程下，如果x等于5，有一定等于10。但是如果多于一个线程运行这段代码，则y的值依赖于两个线程之间的执行顺序。如果还有一些线程在修改x的值，情况就更复杂了。</p>
+<p>更糟糕的是在C++中，如果并发的修改同一个对象，会出现未定义的行为(undefined behavior)。</p>
+<h3><span id="解决方案">解决方案</span></h3><p>应对<em>race condition</em>的解决方案有以下几种：</p>
+<ol>
+<li>通过某种保护机制来确保同一时间只有一个线程能够对某一个数据进行访问。</li>
+<li>通过<em>lock-free</em>的形式进行编程。主要指的是将对于数据的修改变成一系列不可分割的操作，C++中通常利用<em>atomic</em>来实现。具体会在<em>lock-free</em>一章中进行介绍。</li>
+<li>通过STM(software transaction memory)。这个方式是将内存的修改处理成跟数据库事务类似的机制，当修改完成commit到内存中，要么成功要么失败，不会存在中间状态。目前C++语言层面没有对这个功能的直接支持。</li>
+</ol>
+<p>C++中主要使用#1和#2。#1的话主要是通过<em>mutex</em>为核心来实现。</p>
+<h2><span id="利用mutex来保护数据">利用Mutex来保护数据</span></h2><p>Mutex是<strong>mut</strong>ual <strong>ex</strong>clusion（互斥）的意思。提供了<code>lock</code>和<code>unlock</code>两个方法，<code>std::mutex</code>同一时间值能有一个线程获得lock，当有一个线程拥有<code>mutex</code>的时候，其余调用<code>lock</code>尝试获得锁的线程会处于等待状态。</p>
+<p>mutex本质上是一种资源，所以在C++中一般使用RAII来进行封装，避免出现<code>lock</code>和<code>unlock</code>调用不配对的情况。</p>
+<p>C++11中提供了<code>std::lock_guard&lt;class Mutex&gt;</code>和<code>std::unique_lock&lt;class Mutex&gt;</code>封装。这两个类可以接受任何符合<a href="http://en.cppreference.com/w/cpp/concept/BasicLockable" target="_blank" rel="external">BasicLockable</a>的mutex类型。</p>
+<p>除了<code>std::mutex</code>以外，C++17中还提供了以下几种mutex：</p>
+<ul>
+<li><code>std::mutex</code> (since <em>C++11</em>) 同时只能有一个线程获得锁，并且一个线程之只能lock一次。</li>
+<li><code>std::recursive_mutex</code> (since <em>C++11</em>) 可重入锁，一个线程可以多次去lock同一个recursive_mutex。</li>
+<li><code>std::timed_mutex</code> (since <em>C++11</em>)。在<code>std::mutex</code>的基础上提供了 <code>try_lock_for</code>和<code>try_lock_until</code>，允许在超时的情况下返回。</li>
+<li><code>std::recursive_timed_mutex</code> (since <em>C++11</em>)。在<code>std::recursive_mutex</code>的基础上提供了 <code>try_lock_for</code>和<code>try_lock_until</code>，允许在超时的情况下返回。</li>
+<li><code>std::shared_mutex</code>  (since <em>C++17</em>)。传说中的读写锁。提供<code>lock</code>和<code>shared_lock</code>两套方法。<code>lock</code>即获得排他锁(exclusive lock)，<code>shared_lock</code>即获得共享锁(shared lock)</li>
+</ul>
+<h3><span id="使用mutex时候需要注意的事情">使用mutex时候需要注意的事情</span></h3><p> 当我们用mutex将我们需要保护的数据保护起来以后是不是就可以高枕无忧了呢？这只是“噩梦”的开始。。。。</p>
+<p>你需要注意一下若干点：</p>
+<ul>
+<li>不要将你保护的数据当做以引用或指针形式传入“不知名”的外部函数；</li>
+<li>同样也不要将你要保护的数据作为指针或引用返回函数外部；</li>
+<li>当你有多个锁要锁的时候，需要注意死锁；</li>
+<li>如果你提供一个类型需要保证线程安全，确保你在设计api的时候精心考量；</li>
+<li>控制锁的粒度，避免一些耗时的无必要的操作放在mutex保护范围内；</li>
+</ul>
+<h3><span id="死锁">死锁</span></h3><p>当你试图获取一个以上的锁的时候，如果姿势不对就可能产生死锁。解决死锁的通用的方法是，在所有需要同时获得多个锁的地方都按照一样的顺序去获取锁。当你需要同时获取两个锁的时候，<code>std::lock</code>可以帮你避免死锁的问题。</p>
+<p>但是如果你的锁是在不同地方分别获得的，你还是有可能死锁。</p>
+<p>关于如何避免死锁，有一些通用的建议：</p>
+<ul>
+<li>避免在一个锁的内部嵌套另外一个锁；</li>
+<li>不要在拥有一个锁的时候去调用其他方法，因为你不知道其他方法会做一些什么事情；</li>
+<li>用固定的顺序去获取锁；</li>
+<li>利用Lock Hierarchy，这个核心思想是保证固定顺序去获得锁。每一个锁都分配一个层次号，锁的获取顺序只能是从高层到底层。反向则不行。书中给的例子很好，值得好好去理解。</li>
+<li>死锁并不一定发生在有锁的地方，任何需要等待其他线程的地方都可能发生死锁。</li>
+</ul>
+<h3><span id="控制锁的粒度">控制锁的粒度</span></h3><blockquote>
+<p>In general, a lock should be held for only the minimun possible time needed to perform the required operations.</p>
+</blockquote>
+<p>不要多、不要少、够用最好。</p>
+<h2><span id="其他保护共享数据的方法">其他保护共享数据的方法</span></h2><ul>
+<li><code>static</code>初始化。C++11开始，<code>static</code>初始化变量保证是线程安全的。对于一些只需要初始化一次的静态变量使用。</li>
+<li>利用<code>std::recursive</code>来避免一些可重入的情况，但是大部分情况需要可重入的锁意味着代码设计可能有问题。最好通过调整代码来避免这种情况。</li>
+<li>利用<code>std::shared_lock</code>来提高性能，针对大部分情况都是读，只有少数情况下会去修改的数据。</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/04/10/cpp-concurrency-in-action-reading-notes-sharing-data/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/03/29/cpp-concurrency-in-action-reading-notes-thread-management/" title="《C++ Concurrency In Action》读书笔记 - 线程管理" itemprop="url">《C++ Concurrency In Action》读书笔记 - 线程管理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-29T15:20:12.000Z" itemprop="datePublished"> 发表于 2018-03-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>C++11标准中加入了对多线程编程的支持，主要添加了下面一些方面：</p>
+<ul>
+<li>定义了内存模型</li>
+<li><code>&lt;thread&gt;</code>，引入<code>std::thread</code>来管理、控制线程。</li>
+<li><code>&lt;atomic&gt;</code>，原子操作相关类。</li>
+<li><code>&lt;mutex&gt;</code>，引入<code>mutex</code>，以及相关的类，用于锁等互斥操作。</li>
+<li><code>&lt;condition_variable&gt;</code>，引入<code>condition_variable</code>以及相关类，用于线程间同步。</li>
+<li><code>&lt;future&gt;</code>，引入<code>future</code>, <code>promise</code>以及相关的一些类，主要用于线程间同步和通信的一些机制。</li>
+</ul>
+<p>这篇主要介绍对于线程管理的相关话题，对书中的内容进行总结并适当扩展。</p>
+<ul>
+<li>如何创建一个线程</li>
+<li>如何销毁一个线程</li>
+<li><code>std::thread</code>的所有权(owenership)</li>
+<li>如何控制线程数量</li>
+<li>线程ID</li>
+</ul>
+<h2><span id="如何创建一个线程">如何创建一个线程</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template&lt; class Function, class... Args &gt; </span><br><span class="line">explicit thread( Function&amp;&amp; f, Args&amp;&amp;... args );</span><br></pre></td></tr></table></figure>
+<p><code>std::thread</code>构造函数如上，它可以接受任何callable的类型，包括全局方法、成员方法、<code>std::function</code>、仿函数、lambda表达式等。并且后面可以带参数，用来传递给方法。</p>
 <p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     db.close();   //bad, may throw exception</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   void close() &#123;</span><br><span class="line">     db.close();</span><br><span class="line">     closed = true;</span><br><span class="line">   &#125;</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     if (!closed) &#123;</span><br><span class="line">       try &#123;</span><br><span class="line">	     db.close();   //good, catch exception and provide normal method to close</span><br><span class="line">	   &#125;</span><br><span class="line">	   catch (...) &#123;</span><br><span class="line">		   //log</span><br><span class="line">	   &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/06/effective-cpp-reading-notes-3/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/28/effective-cpp-reading-notes-2/" title="《Effective C++》读书笔记(2)" itemprop="url">《Effective C++》读书笔记(2)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-28T13:55:42.000Z" itemprop="datePublished"> 发表于 2016-06-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3><span id="条款4确定对象被使用前已先被初始化">条款4：确定对象被使用前已先被初始化</span></h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void func1() &#123;&#125;</span><br><span class="line">class A &#123;</span><br><span class="line">public:</span><br><span class="line">    void func2()&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct B &#123;</span><br><span class="line">public:</span><br><span class="line">    void operator()() &#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    A obja;</span><br><span class="line">    B objb;</span><br><span class="line">    A obja;</span><br><span class="line">    B objb;</span><br><span class="line">    std::thread t1(func1);          //全局方法</span><br><span class="line">    std::thread t2(&amp;A::func2, obja);//成员方法</span><br><span class="line">    std::thread t3(objb);           //functor</span><br><span class="line">    std::thread t4([]()&#123;&#125;);         //lambda</span><br></pre></td></tr></table></figure>
+<p>注意事项：</p>
 <ul>
-<li>为内置型对象进行手工初始化，因为C++不保证初始化它们。</li>
-<li>构造函数最好使用成员初值列（member initialization list），而不是在构造函数本体内使用赋值操作（assignment）。初值列列出的成员变量，起排序次序应该和它们在class中的声明次序相同。</li>
-<li>为了免除“跨编译单元之初始化次序”问题，请以local static对象替换non-local static对象。</li>
+<li><code>std::thread</code>对象一旦创建，线程马上就起来了，没有办法延迟启动。</li>
+<li><code>std::thread</code>一旦起来以后没有办法通过api它杀掉，除非通过<code>native_handle</code>拿到平台相关的线程句柄进行操作。这个非C++提供而是操作系统提供。</li>
 </ul>
+<h3><span id="传参">传参</span></h3><p>启动线程的时候可以传递参数，传参的形式默认为拷贝，如果有类型转换则是在线程启动时进行。所以需要保证传递的参数不依赖于方法栈上的其他内存。</p>
+<p>如果不满足于默认的按值拷贝，可以通过<code>std::ref</code>或<code>std::move</code>进行传引用或转成右值进行move操作。下面给出几个例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void pass_by_val(int i) &#123;&#125;</span><br><span class="line">void pass_by_ref(int &amp;i) &#123;&#125;</span><br><span class="line">void pass_by_move(std::unique_ptr&lt;big_obj&gt; bigObj)&#123;&#125;</span><br><span class="line"></span><br><span class="line">    int i;</span><br><span class="line">    std::thread t1(pass_by_val, i);</span><br><span class="line">    std::thread t2(pass_by_ref, std::ref(i));</span><br><span class="line">    std::thread t3(pass_by_move, std::make_unique&lt;big_obj&gt;());</span><br></pre></td></tr></table></figure>
+<p>注意事项：</p>
+<ul>
+<li><code>std::ref</code> 注意引用的生命周期和线程的生命周期的关系。</li>
+</ul>
+<h2><span id="如何销毁一个线程">如何销毁一个线程</span></h2><p>你没法销毁一个线程，你只能等它跑完或者让他在后台运行并且把其管理权移交给C++运行库。</p>
+<p>下面介绍一组和线程结束相关的api：</p>
+<ul>
+<li><code>bool jionable()</code>： 如果是默认线程(即<code>std::thread t;</code>)则是<code>false</code>。只要一个线程被<code>join</code>过一次以后则变为<code>false</code>，即使一个线程已经结束了，但是没有被<code>join</code>过，还是会返回<code>true</code>。</li>
+<li><code>void join()</code>。等待线程结束运行，一个线程只能被调用一次，如果在<code>jioinable</code>为<code>false</code>的情况下调用，会直接抛出<code>std::system_error</code>。</li>
+<li><code>void detach()</code>。将线程放到后台运行，并且将管理权转给C++运行库。</li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li>一个线程在析构前必须调用<code>join</code>或者<code>detach</code>来显示的处理它的生命周期，否则的话会析构时直接抛出异常。</li>
+<li><code>join</code>本身并非线程安全，如果多个线程在没有保护的情况下同时<code>join</code>同一个<code>std::thread</code>会<code>undefined behavior</code></li>
+</ul>
+<h2><span id="stdthread的所有权owenership"><code>std::thread</code>的所有权(owenership)</span></h2><blockquote>
+<p>No two std::thread objects may represent the same thread of execution; std::thread is not CopyConstructible or CopyAssignable, although it is MoveConstructible and MoveAssignable.<br><em><a href="http://en.cppreference.com/w/cpp/thread/thread" target="_blank" rel="external">http://en.cppreference.com/w/cpp/thread/thread</a></em></p>
 </blockquote>
-<p>内置对象指的是C++自带的类似于int，double的类型。这些类型变量如果没有进行初始化，其值是未定义的，如果对其进行读取会导致不明确的行为（undefined behavior）。所以必须要保证读取内置对象前，其被初始化过。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int x; 		// bad code</span><br><span class="line">int x = 0; 	// good code</span><br></pre></td></tr></table></figure>
-<p>对于非内置类型，初始化的任务则是由构造函数负责的。包括STL库里的一些类。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::string str;		//it&apos;s ok</span><br><span class="line">std::string str = &quot;&quot;; 	//it&apos;s also ok</span><br><span class="line">Class1 obj;</span><br></pre></td></tr></table></figure>
-<p><strong>类成员变量初始化 vs 赋值</strong></p>
-<p>类的成员变量在进入构造函数之前已经已经被初始化，所以如果在构造函数内进行”初始化“的的话其实是进行赋值，会带来额外的开销。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Entry &#123;</span><br><span class="line">public:</span><br><span class="line">	Entry();</span><br><span class="line">private:</span><br><span class="line">	std::string name;</span><br><span class="line">	int value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Entry::Entry() &#123;</span><br><span class="line">	name = &quot;default&quot;; //</span><br><span class="line">	value = 0;        // not good </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Entry::Entry()</span><br><span class="line">  : name(&quot;default&quot;)</span><br><span class="line">  , value(0)</span><br></pre></td></tr></table></figure>
-<p>至于作者提到的初值列中的顺序需要与class内变量声明的顺序保持一致是因为c++总是按照class内变量声明的顺序对变量，所以为了避免带来迷惑以及容易检查是否漏掉变量未初始化，最好将初值列顺序与class内变量声明顺序保持一致。</p>
-<p><strong>non-local static 对象的初始化</strong></p>
-<p>不同<strong>编译单元</strong>内定义的<strong>non-local static</strong>对象初始化次序未定义。</p>
-<p><em>编译单元</em></p>
-<p>编译单元是指产出单一目标文件（object file）的那些源码，基本上是它的源文件加上其所含入的头文件。</p>
-<p><em>non-local static 对象</em></p>
-<p>除了定义在函数内的static变量，其他的static变量均是non-local static对象，包括global对象、定义域namespace作用域内的对象、class内的、文件作用域内的static对象。</p>
-<p>次序未定义会导致一个问题，就是如果你需要在一个编译单元内使用另一个编译单元的静态变量，则很有可能你在调用的时候其还没有初始化。这种情况你可以通过使用返回一个local static变量的reference的方法来得到，这个方法就是单例的常见使用场景。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FileSystem &amp;tfs() &#123;</span><br><span class="line">   static FileSystem fs;</span><br><span class="line">   return &amp;fs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但这个还有一个问题就是static在多线程的情况下会出现不确定性，所以最好在程序启动时先以单线程的方式调用一遍。</p>
-<p><strong>总之</strong>，non-local static对象最好只在一个编译单元内使用，如果需要跨编译单元使用，则使用单的方法替代。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/28/effective-cpp-reading-notes-2/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/24/effective-cpp-reading-notes-1/" title="《Effective C++》读书笔记(1)" itemprop="url">《Effective C++》读书笔记(1)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-24T12:31:22.000Z" itemprop="datePublished"> 发表于 2016-06-24</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="让自己习惯c">让自己习惯C++</span></h2><h3><span id="条款01视c为一个语言联邦">条款01：视C++为一个语言联邦</span></h3><blockquote>
-<ul>
-<li>C++ 高效编程守则是状况而变化，取决于你使用C++的哪一个部分。</li>
-</ul>
-</blockquote>
-<p>C++并不是一个单一范式编程语言，它同时支持过程形式（procedural），面向对象设计（object-oriented）、函数形式（functional）、泛型形式（generic），元编程形式（meta-programming）。</p>
-<p>所以作者认为并不是每一个规则都是适用于所有的这些范式的，那么我们可以将C++语言分为一下几种次语言：</p>
-<ul>
-<li>C</li>
-<li>Object-Oriented C++</li>
-<li>Template C++</li>
-<li>STL</li>
-</ul>
-<h3><span id="条款02尽量以constenuminline替换define">条款02：尽量以const，enum，inline替换#define</span></h3><blockquote>
-<ul>
-<li>对于单纯常量，最好以const对象或enums替换#define</li>
-<li>对于形似函数的宏（macros），最好改用inline函数替换#define</li>
-</ul>
-</blockquote>
-<p><strong>#define的缺点：</strong></p>
-<ol>
-<li>define 定义的值无法被编译器和调试器看到，出问题了很麻烦。</li>
-<li>没有良好的封装新，不能控制作用域。</li>
-</ol>
-<p><strong>const</strong></p>
-<p>使用const我可以这样声明一个常量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const std::string ProductName(&quot;Mango Game&quot;);</span><br><span class="line">const double Pi = 3.1415;</span><br></pre></td></tr></table></figure>
-<p>还可以声明一个类的专属常量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//Header</span><br><span class="line">class Game &#123;</span><br><span class="line">private:</span><br><span class="line">	static const int MaxGamePlayer ;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//cpp file</span><br><span class="line">const int Game::MaxGamePlayer = 5;</span><br></pre></td></tr></table></figure>
-<p><strong>enum hack</strong></p>
-<p>如果需要编译时使用到常量就需要enum hack这个技巧，实现如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class GamePlayer &#123;</span><br><span class="line">private:</span><br><span class="line">    enum &#123; NumTurns = 5&#125;</span><br><span class="line">    int scores[NumTruns];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>inline function</strong></p>
-<p>有一些宏长得很像函数，这种宏有类型安全问题和不可预料行为两个问题。可以使用inline function来替代。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//这个MAX宏很不好，会出现奇怪的一些问题且无法调试</span><br><span class="line">#define MAX(a,b) ((a) &gt; (b) ? (a) : (b))</span><br><span class="line"></span><br><span class="line">//Good</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">inline T Max(const T&amp; a, const T&amp; b)</span><br><span class="line">&#123;</span><br><span class="line">    return (a &gt; b ? a : b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3><span id="条款3尽可能使用const">条款3：尽可能使用const</span></h3><blockquote>
-<ul>
-<li>将某些东西声明为const可帮助编译器侦测出错误用法。const可被施加于任何作用域内的对象、函数参数、函数返回类型、成员函数本体。</li>
-<li>编译器强制实施bitwise constness，但你编写程序时应该使用“概念上的常量性”（conceptual constness）。</li>
-<li>当const和non-const成员函数有着实质等价的实现时，令non-const版本调用const版本可避免代码重复。</li>
-</ul>
-</blockquote>
-<p>const提供一种语义上的约束，它能够约束变量使用者的行为。当它作用于针、智能指针、迭代器上的时候可以指向指针本身也可以是指针指向物。作者提出了一个识别的技巧：<em>如果关键字const出现在星号左边，表示被指物是常量；如果出现在星号右边，表示指针本身是常量。</em></p>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">char greeting[] = &quot;Hello&quot;</span><br><span class="line">char *p = greeting;			//non const point, const data</span><br><span class="line">const char * p = greeting;	//non const point, const data </span><br><span class="line">char const * p = greeting;	//non const point, const data</span><br><span class="line">char * const p = greeting;	//const point, non const data</span><br><span class="line">const char* const p = greeting; //const point, const data</span><br><span class="line"></span><br><span class="line">const std::vector&lt;int&gt;::iterator it;		// --&gt; T * const p</span><br><span class="line">*it = 10; 	//合法</span><br><span class="line">it++;		//不合法</span><br><span class="line">std::vector&lt;int&gt;::const_iterator it;		// --&gt; const T * p</span><br><span class="line">it = 10;	//不合法</span><br><span class="line">it++;		//合法</span><br><span class="line"></span><br><span class="line">std::shared&lt;T&gt; p1;</span><br><span class="line">std::shared&lt;const T&gt; p;	// --&gt; const T *p</span><br><span class="line">p = p1;			//合法</span><br><span class="line">*p.get() = x;	//不合法</span><br><span class="line">const std::shared&lt;T&gt; p; // --&gt; T* const p</span><br><span class="line">p = p1;			//不合法</span><br><span class="line">*p.get() = x;	//合法</span><br></pre></td></tr></table></figure>
-<p>有点头晕，我有一个不是很恰当地记忆方法。可以把<code>const</code>看成修饰它右边所有内容的，以<code>const char* p</code>为例，把<code>p</code>看成一个指针，而<code>*p</code>则是数据，所以<code>const</code>是修饰数据的。而<code>char * const p</code>中，<code>const</code>右边只有<code>p</code>，所以它只是限制指针本身的。</p>
-<h4><span id="bitwise-constness-vs-logical-constness">bitwise constness vs logical constness</span></h4><p>当限制一个成员函数为const，编译器会执行bitwise constness，即检查函数内部是否修改了类的成员变量。但是写代码的时候应该注意逻辑上的常量限制，比如说一个你返回了一个指向内部变量的指针，这个函数虽然符合编译器的const限制但却不是很好的一个写法。</p>
-<p>[to be continued]</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/24/effective-cpp-reading-notes-1/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/06/learning-shell-grep/" title="Mac 命令学习 - grep" itemprop="url">Mac 命令学习 - grep</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-06T13:45:02.000Z" itemprop="datePublished"> 发表于 2016-06-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="背景知识">背景知识</span></h2><p>grep是linux中常用的文本处理的工具，与之类似的工具有sed和awk，它们分别适用于不同的场景。同时要想很好的使用grep等文本处理工具，需要对正则表达式有一定的了解。</p>
-<h3><span id="grep-vs-sed-vs-awk">grep vs sed vs awk</span></h3><p>grep主要用于对文本、文件进行搜索，查找出符合要求的字符串并输出相关的内容。</p>
-<p>sed和awk则是更强大文本处理工具，适用于更复杂的场景。sed是一个基于字符流的处理工具（stream editor），不仅可以查找文字还可以对文本进行操作，比如说修改、删除、插入等。awk则是更加强大的工具，它本身是一个完整的编程语言，可用于对数据的提取处理然后生成一些报表，主要针对类csv格式的文件。</p>
-<h3><span id="正则表达式">正则表达式</span></h3><p>to be written</p>
-<h3><span id="grep的种类">grep的种类</span></h3><ul>
-<li><strong>grep</strong> | grep使用简单的模式和正则表达式进行搜索。</li>
-<li><strong>egrep</strong> | egrep使用拓展版的正则表达式，包含更多的正则表达式功能。</li>
-<li><strong>fgrep</strong> | fgrep是加速版的grep，主要适用于简单的模式匹配。</li>
-<li><strong>zgrep, zegrep, zfgrep</strong> | 与grep, egrep, fgrep 效果相同，只是可以接受一个由compress或gzip压缩出来的压缩包进行搜索。在现在的操作系统中，多种的grep使用的是同一个binary，而不是不同的binary。比如说<code>grep -E</code>其实等效于egrep，<code>grep -F</code>等效于fgrep。</li>
-</ul>
-<h2><span id="常用参数">常用参数</span></h2><p><code>-A num, --after-context=num</code> - 打印出找到的匹配行后num行。这个跟<code>-B</code>，<code>-C</code>类似功能，主要用于查看上下文。</p>
-<p><code>-B num, --before-context=num</code> - 打印出找到的匹配行前num行。</p>
-<p><code>-C[num, --context=num]</code> - 打印出找到的匹配行前后num行，相当于<code>-A num -B num</code>。</p>
-<p><code>-c, --count</code> - 统计出匹配的总行数，同一行有两个匹配也只算一行。</p>
-<p><code>--colour=[when, --color=[when]]</code> - 将匹配的字符标记为彩色，when可以是’never’，‘auto’或’always’。</p>
-<p><code>-e pattern, --regexp=pattern</code> - 制定在搜索中使用的匹配模式，多用于指定多个匹配模式的情况。</p>
-<p><code>-H</code> - 在每一行前面打印出匹配的文件名，在多个文件的情况下这个是默认选项。</p>
-<p><code>-h</code> - 在多个文件的情况下不打印出匹配的文件名。</p>
-<p><code>-n</code> - 打印出匹配所在行的行数。</p>
-<p><code>-i, --ignore-case</code> - 查找时忽略大小写。</p>
-<p><code>-R, -r, --recursive</code> - 递归的去查找子目录下的文件。</p>
-<p><code>-v, --invert-match</code> - 打印出不匹配的行。</p>
-<p><code>-w, --word-regexp</code> - 只匹配整个单词。</p>
-<h2><span id="案例学习">案例学习</span></h2><p>实验文件，随便找了一个莎士比亚的十四行诗：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ cat demofile</span><br><span class="line">sonnet 18</span><br><span class="line"></span><br><span class="line">Shall I compare thee to a summer&apos;s day? </span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">Rough winds do shake the darling buds of May, </span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line"></span><br><span class="line">Sometime too hot the eye of heaven shines, </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d </span><br><span class="line"></span><br><span class="line">But thy eternal summer shall not fade </span><br><span class="line">Nor lose possession of that fair thou owest; </span><br><span class="line">Nor shall Death brag thou wander&apos;st in his shade, </span><br><span class="line">When in eternal lines to time thou growest: </span><br><span class="line"></span><br><span class="line">So long as men can breathe or eyes can see, </span><br><span class="line">So long lives this and this gives life to thee.</span><br><span class="line">$ cp demofile demofile2</span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>在文件中搜索某个字符串。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">Nor shall Death brag thou wander&apos;st in his shade, </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>匹配整个单词。</p>
-<p> 上面的例子中搜索and这个字符串匹配了wander这个单词，如果我们只想搜and这个单词可以使用<code>-w</code>参数。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -w &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>忽略大小写</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ grep -i -w &quot;and&quot; demofile</span><br><span class="line">Thou art more lovely and more temperate: </span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">So long lives this and this gives life to thee.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用正则表达式</p>
-<p> 只要把匹配的字符串换成需要的正则表达式即可。比如说需要搜索以And开头的行。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;^And&quot; demofile</span><br><span class="line">And summer&apos;s lease hath all too short a date: </span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines,</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>显示上下文</p>
-<p> 有时候搜出来需要看看上下文，可以利用上面提到的<code>-B</code>，<code>-A</code>和<code>-C</code>来实现。</p>
-<p> 比如想要找出包含”nature”的句子并打印出上下两行。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ grep -C2 &quot;nature&quot; demofile</span><br><span class="line">And often is his gold complexion dimm&apos;d; </span><br><span class="line">And every fair from fair sometime declines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d </span><br><span class="line"></span><br><span class="line">But thy eternal summer shall not fade</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>统计出匹配的总行数</p>
-<p> 比如说想要统计出现”to”的行数</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -c &quot;to&quot; demofile</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
-<p>如果想要统计出现的总次数的话，grep本身没有办法满足这个需求，需要使用sed或awk来实现。或者结合wc来实现。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -o &quot;to&quot; demofile| wc -l</span><br><span class="line">       5</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>高亮匹配文字</p>
-<p> 高亮匹配文字可以让肉眼可以第一时间的看到匹配结果，利用–color=auto/always来实现。此处nature高亮状。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep --color=auto &quot;nature&quot; demofile</span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>简单匹配多个模式</p>
-<p> 查找多个字符串可以使用<code>|</code>字符来进行简单的匹配。比如说<code>&quot;heaven|nature&quot;</code>表示匹配heaven或者nature。因为这个是正则表达式的拓展部分，所以需要使用<code>-E</code>或者egrep。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -E &quot;heaven|nature&quot; demofile</span><br><span class="line">Sometime too hot the eye of heaven shines, </span><br><span class="line">By chance or nature&apos;s changing course untrimm&apos;d</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>复杂匹配多个模式</p>
-<p> 需要找出符合多个模式的匹配。比如说，找出以”When”开头或者包含”fade”的行。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; demofile</span><br><span class="line">But thy eternal summer shall not fade </span><br><span class="line">When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>找出不满足条件的匹配</p>
-<p>在一些情况下我们需要找出不满足某个条件的行，这个时候就可以用<code>-v</code>来实现了。</p>
-<p>比如说想找出首字母不是大写字母的行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ grep -v &quot;^[A-Z]&quot; demofile</span><br><span class="line">sonnet 18</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打印出匹配所在行的行数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; -n demofile</span><br><span class="line">13:But thy eternal summer shall not fade </span><br><span class="line">16:When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打印出文件名</p>
-<p>进行多个文件搜索的情况下，默认会打印出文件名。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ grep -e &quot;^When&quot; -e &quot;fade&quot; demofile demofile2</span><br><span class="line">demofile:But thy eternal summer shall not fade </span><br><span class="line">demofile:When in eternal lines to time thou growest: </span><br><span class="line">demofile2:But thy eternal summer shall not fade </span><br><span class="line">demofile2:When in eternal lines to time thou growest:</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>[EOF]</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/06/learning-shell-grep/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/03/learning-shell-rm-mv-mkdir/" title="Mac 命令学习 - mv, rm, mkdir" itemprop="url">Mac 命令学习 - mv, rm, mkdir</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-03T14:25:48.000Z" itemprop="datePublished"> 发表于 2016-06-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="mv-move">mv （move）</span></h2><p>mv是用于移动文件的命令，mac下没有重命名的命令，所以很多时候mv也用来重命名文件。</p>
-<p><strong>常用参数</strong></p>
-<p><code>-f</code> - 强制覆盖不提醒<br><code>-i</code> - 覆盖目标文件前提醒<br><code>-n</code> - 不覆盖目标文件</p>
-<p><strong>将n个文件移动到某个目录下</strong></p>
-<p><code>mv file1 file2 file3 dir</code></p>
-<p>如果目录不存在，会报错</p>
-<p><strong>重命名/移动文件</strong></p>
-<p><code>mv file1 file2</code></p>
-<p>如果file2不存在则重命名为file2，如果存在则覆盖</p>
-<p><strong>移动目录</strong></p>
-<p><code>mv dir1 dir2</code></p>
-<p>将dir1移动到dir2目录下，如果dir2不存在则是一个重命名的效果</p>
-<h2><span id="rmremove">rm（remove）</span></h2><p>此命令用于删除文件和目录，与通配符结合使用时破坏很大，稍有不慎将酿成大错后悔莫及。</p>
-<p>普通的删除只是将文件从文件系统中移除，磁盘上的那块空间并不会去动它。所以如果误删除的话，通过某一些还原工具是有可能找回来的。</p>
+<p><code>std::thread</code> 只能move不能被拷贝，所以如果想要把<code>std::thread</code>放进容器的话必须确保是右值。直接构造出来或者用<code>std::move</code>进行转换都可以。</p>
+<p>比如下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void calc_something(int i)&#123; std::cout &lt;&lt; i; &#125;</span><br><span class="line"></span><br><span class="line">   std::vector&lt;std::thread&gt; thread_vec;</span><br><span class="line">   for (int i = 0 ; i &lt; 3; i++)</span><br><span class="line">   &#123;</span><br><span class="line">       std::thread t(calc_something, i);</span><br><span class="line">       thread_vec.push_back(std::move(t));                   // use std::move</span><br><span class="line">       thread_vec.push_back(std::thread(calc_something, i)); // 直接构建为右值</span><br><span class="line">       thread_vec.emplace_back(calc_something, i);           // 用emplace_back</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   for(auto &amp; t : thread_vec)</span><br><span class="line">   &#123;</span><br><span class="line">       if (t.joinable()) t.join();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="如何控制线程数量">如何控制线程数量</span></h2><p>线程数量并非越多越好，数量太多会导致CPU的频繁上下文切换，反而会适得其反。<code>std::thread::hardware_concurrency</code>静态方法可以获得。</p>
 <blockquote>
-<p>Linux并没有撤销删除命令，一旦你用<code>rm</code>命令将某个文件删除，你将很难恢复（mac可以通过特殊的数据还原工具）。如果错误的使用<code>rm</code>，特别是跟通配符结合使用的时候，将有可能造成极大的危害。<br>在<code>rm</code>中使用通配符之前，有一个有用的小诀窍：先将你的通配符用<code>ls</code>命令试试看，看一下所影响的文件。当你用<code>ls</code>测试过没问题以后，你可以直接把<code>ls</code>特换成<code>rm</code>。<sup><strong>[1]</strong></sup></p>
+<p>Returns the number of concurrent threads supported by the implementation. The value should be considered only a hint.<br><em><a href="http://en.cppreference.com/w/cpp/thread/thread/hardware_concurrency" target="_blank" rel="external">http://en.cppreference.com/w/cpp/thread/thread/hardware_concurrency</a></em></p>
 </blockquote>
-<h3><span id="基本用法">基本用法</span></h3><p><code>rm [-dfiPRrvW] file ...</code></p>
-<p><code>-f</code> - 强制删除，没有提示<br><code>-i</code> - 删除某个文件前请求确认<br><code>-P</code> - 粉碎性删除。删除文件前重新复写整个文件，往文件里不停写入<code>0xff</code>和<code>0x00</code>。这样删除的文件无法恢复。<br><code>-R</code> - 递归删除。如果指定的文件为目录，则删除目录下所有的文件及其子目录。</p>
-<h2><span id="rmdirremove-directory">rmdir（remove directory）</span></h2><p>不要被这货的名字迷惑了，这个命令唯一的用途就是删除一个空白的文件夹。如果文件夹非空还是要用<code>rm -r</code>来删除，不知道它存在的意义是什么。</p>
-<h2><span id="mkdirmake-directory">mkdir（make directory）</span></h2><p>顾名思义，创建文件夹使用。</p>
-<h3><span id="基本用法">基本用法</span></h3><p><code>-p</code> 创建中间目录，比如<code>mkdir /path/with/many/layer</code>会帮你吧layer之前的所有层级的目录都创建出来。<br><code>-m</code> 制定文件夹的权限，详见chmod。</p>
-<h2><span id="参考资料">参考资料</span></h2><ol>
-<li><a href="http://linuxcommand.org/lc3_lts0050.php" target="_blank" rel="external">Manipulating Files</a></li>
-</ol>
-<p><strong>阅读更多</strong></p>
-<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux 命令学习">Mac/Linux 命令学习</a>
+<p>但是这个数量仅供参考，因为依赖于不同编译器和平台的实现。有可能会返回0，表示这个数量未定义，也就是说不知道在这个硬件上有多少个并发线程可以执行。</p>
+<h2><span id="线程id">线程ID</span></h2><p>通过 <code>std::thread::id  std::thraed::get_id()</code>可以拿到一个线程的id。这个id主要的用途是用来打印log和作为关系容器的key。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::map&lt;std::thread::id, std::thread&gt; thread_map;</span><br><span class="line">for (int i = 0 ; i &lt; 3; i++)</span><br><span class="line">&#123;</span><br><span class="line">    std::thread t(calc_something, i);</span><br><span class="line">    thread_map[t.get_id()] = std::move(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         
         
@@ -583,13 +374,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
   </div>
 
 </div>
@@ -600,7 +391,198 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/03/learning-shell-rm-mv-mkdir/#disqus_thread" class="comments-count-link">Comments</a>
+		<a href="/2018/03/29/cpp-concurrency-in-action-reading-notes-thread-management/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/03/20/learning-tcp-01/" title="TCP协议学习 - 1 / TCP协议初窥" itemprop="url">TCP协议学习 - 1 / TCP协议初窥</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-20T14:12:22.000Z" itemprop="datePublished"> 发表于 2018-03-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>这个系列主要学习TCP协议，主要以阅读<a href="https://book.douban.com/subject/3571433/" target="_blank" rel="external">TCP/IP Illustrated, Volume 1 (2nd Edition)</a>和<a href="https://book.douban.com/subject/1088054/" target="_blank" rel="external">TCP/IP详解 卷1：协议</a>为主，并结合一些网上的资料。</p>
+<p>这章标题为：TCP: The Transmission Control Protocol (Preliminaries)，主要是介绍一些TCP协议要解决的问题，以及大致的设计思路。具体的技术细节要在之后的章节进行详细的阐述。</p>
+<h2><span id="简单设计一个协议">简单设计一个协议</span></h2><p>TCP协议下层的协议都不是“可靠”的，它们不保证传输的可靠性。所以要建立一个可靠地传输协议需要克服一下几个问题：</p>
+<ol>
+<li>包内部的数据错误(packet bit errrors)。在传输的过程中有可能导致传输的数据中的bit有错误。</li>
+<li>丢包(packet erasure)</li>
+<li>包的顺序不对(packet reordering)。</li>
+<li>重复的包(packet duplication)。</li>
+</ol>
+<p>解决1和2可以用重传的机制，发送端发送包给接收端，接收端接收到以后确认没有错误返回一个确认信息（ACK/acknowledge）。如果发送端没有及时收到确认信息，则重传直到收到确认信息。</p>
+<p>解决3和4可以假如序列号（sequence number），这样接收端就可以直到收到的包的顺序和是否重复。</p>
+<p>上面的两个简单地解决方案可以解决我们提到的四个问题。但是这个方案本身还有一些悬而未决和不足的地方：</p>
+<ol>
+<li>发送端应该等待多久才认为是超时了？（这个问题比较复杂，会在十四章详述）</li>
+<li>如果接收端发出来的ACK信息丢失了怎么办？（可以归类为第一个问题）</li>
+<li>如果接收端收到包但是有错误怎么处理？（假如checksum校验，如果发现有错误则不确认，即可归类为第一个问题）</li>
+<li>这个方案只能一个一个包发送，大部分情况下发送端处于空闲状态，效率低下。（下面会引入窗口概念）</li>
+</ol>
+<h2><span id="窗口和滑动">窗口和滑动</span></h2><p>解决上述方案中的第四个问题，我们可以引入一个窗口的概念。一次不是只发送一个包，而是发送一组包。可以想象成一个窗口，当前面发送的包已经被确认以后，则可以将窗口往下进行滑动去发送更多的包。窗口的基本意思可以看书上的插图，比较直观。</p>
+<p><img src="/img/learning_tcp/sliding-windows.png" alt="Sliding Widnows"></p>
+<p>可以看到窗口的大小会直接影响到同时发出多少个包，这个大小的设置就直接影响到了接收端和中途的网络设备。如果太大的话可能会导致接收端无法处理，也可能导致中途的网络设备无法处理造成丢包，从而影响发送效率。太小的话则无法很好地充分利用网络资源和接收端的资源。</p>
+<p>这里会引入两个概念。流量控制（flow control）和阻塞控制（congestion control）。</p>
+<p>接收端可以根据自己的情况告诉发送端自己合适的窗口大小是多少，一般通过ACK包一起发送回去。这个属于流量控制，又称显式控制（explicit signaling）。</p>
+<p>网络设备的拥堵情况则没有办法通过显式的控制，而是需要通过一些算法来计算出来一个比较合适的窗口大小。这个可以称为隐式控制（implicit signaling）。这个会在十五章里面详细讨论。</p>
+<p><strong>如何设置超时？</strong></p>
+<p>对于每一个包的传输时间（round-trip-time），即从发送到收到确认的时间，我们可以知道。我们能通过一些统计来估算出一个大概的时间当做超时。很显然平均值不是一个很好的选择，因为如果用平均值的话可能会有很多请求直接被超时了。如何设置超时也是一个需要深入讨论的问题，会在十四章中进行讨论。</p>
+<h2><span id="介绍tcp">介绍TCP</span></h2><p>TCP协议是一个面向连接（connection-oriented）的协议，这个意思是两个应用必须先建立连接，然后才能进行通行。</p>
+<p>TCP是一个可靠的协议，它具备以下几个特点确保其其可靠性：</p>
+<ul>
+<li>强制checksum校验，保证数据传输是对的。如果传输的数据块太大则需要引入其他的中间层来保证。</li>
+<li>有timer来保证超时会重发。</li>
+<li>有ACK来保证接收端确认收到包。并且ACK的确认是累加性的，如果接收端收到了x+2 返送了ACK x+3，但ACK x+3丢了。下次接收端接收到x+3的时候会返回ACK x+4，这样就可以避免x+2重传。</li>
+<li>TCP有序列号来解决乱序和重复包的问题。</li>
+<li>TCP为全双工，两边都可以进行传输。</li>
+</ul>
+<h2><span id="tcp头部和封装">TCP头部和封装</span></h2><p>插两张图</p>
+<p><img src="/img/learning_tcp/tcp-header1.png" alt="TCP Header 1"></p>
+<p><img src="/img/learning_tcp/tcp-header.png" alt="TCP Header 2"></p>
+<p>图中可以看到有8个比特位用来控制TCP的一些flag，用于不同的请求。可能会多于一个比特位被置成1。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/TCP/">TCP</a><a href="/tags/网络/">网络</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/03/20/learning-tcp-01/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/12/28/how-shared-ptr-void-works/" title="std::shared_ptr&lt;void&gt;的工作原理" itemprop="url">std::shared_ptr&lt;void&gt;的工作原理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2017-12-28T15:13:59.000Z" itemprop="datePublished"> 发表于 2017-12-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2><span id="前戏">前戏</span></h2><p>先抛出两个问题</p>
+<ul>
+<li>如果<code>delete</code>一个指针，但是它真实的类型和指针类型不一样会发生什么？</li>
+<li>是谁调用了析构函数？ </li>
+</ul>
+<p>下面这段代码会发生什么有趣的事情？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// delete_diff_type.cpp</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Foo() &#123; cout &lt;&lt; &quot;Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~Foo() &#123; cout &lt;&lt; &quot;~Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class FakeFoo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    FakeFoo() &#123; cout &lt;&lt; &quot;FakeFoo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~FakeFoo() &#123; cout &lt;&lt; &quot;~FakeFoo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    </span><br><span class="line">    void* vptr = new Foo();</span><br><span class="line">    delete vptr;    // warning</span><br><span class="line">    </span><br><span class="line">//    FakeFoo* ffptr = static_cast&lt;FakeFoo*&gt;(new Foo()); // error</span><br><span class="line">    FakeFoo* ffptr = reinterpret_cast&lt;FakeFoo*&gt;(new Foo());</span><br><span class="line">    delete ffptr;</span><br><span class="line">    </span><br><span class="line">    Foo* fptr = new Foo();</span><br><span class="line">    delete fptr;</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输出:</span><br><span class="line">Foo()</span><br><span class="line">Foo()</span><br><span class="line">~FakeFoo()</span><br><span class="line">Foo()</span><br><span class="line">~Foo()</span><br></pre></td></tr></table></figure>
+<p>看一下汇编代码可以看到<code>main</code>函数主要做了下面这几件事</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br><span class="line"></span><br><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; FakeFoo::~FakeFoo at delete_diff_type.cpp:16</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br><span class="line"></span><br><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; Foo::~Foo at delete_diff_type.cpp:9</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br></pre></td></tr></table></figure>
+<p>从汇编中可以看出，构造造函数和析构函数是编译器根据指针的类型生成的调用代码。而且编译器是不允许没有继承关系的指针之间进行转换的，<code>void*</code> 是个例外，只要不作死用<code>reinterpret_cast</code>把指针转换成不相关的类型是不会有问题的。</p>
+<p>所以上面两个问题大概就有答案了。<code>delete</code>语句会至少产生两个动作，一个是调用指针对应类型的析构函数，然后去调用<code>operator delete</code>释放内存。所以如果<code>delete</code>的指针和其指向的真实类型不一样的时候，编译器只会调用指针类型的析构函数，这也就为什么基类的析构函数需要声明称虚函数才能够保证<code>delete</code>基类指针的时候子类析构函数能够被正确的调用。<br><code>operator delete</code>是都会被调用到的，所以指针指向的那块内存是能够“正常的”被释放掉用。</p>
+<h2><span id="stdshared_ptrltvoidgt-的行为"><code>std::shared_ptr&lt;void&gt;</code> 的行为</span></h2><p>那么这个跟<code>std::shared_ptr&lt;void&gt;</code> 有什么关系呢？</p>
+<p>先看一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Foo() &#123; cout &lt;&lt; &quot;Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~Foo() &#123; cout &lt;&lt; &quot;~Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    shared_ptr&lt;void&gt; vptr = shared_ptr&lt;Foo&gt;(new Foo);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出：</span><br><span class="line">Foo()</span><br><span class="line">~Foo()</span><br></pre></td></tr></table></figure>
+<p>与第一段代码中类似，不过把<code>void*</code>换成了<code>std::shared_ptr&lt;void&gt;</code>，那么<code>shared_ptr&lt;void&gt;</code>为什么能够调用到正确的析构函数呢？一定是<code>shared_ptr</code>里面搞了什么鬼。</p>
+<h2><span id="stdshared_ptrltvoidgt-为啥能正常工作"><code>std::shared_ptr&lt;void&gt;</code> 为啥能正常工作</span></h2><p>那么就看看源代码看看到底为啥这货能够工作，下面是<em>libcxx</em>中<code>shared_ptr</code>的部分源码，把关键的部分抠出来了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">/** C1. shared_ptr 构造函数 **/</span><br><span class="line"></span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">template&lt;class _Yp&gt;</span><br><span class="line">shared_ptr&lt;_Tp&gt;::shared_ptr(_Yp* __p,</span><br><span class="line">                            typename enable_if&lt;is_convertible&lt;_Yp*, element_type*&gt;::value, __nat&gt;::type)</span><br><span class="line">    : __ptr_(__p)</span><br><span class="line">&#123;</span><br><span class="line">    unique_ptr&lt;_Yp&gt; __hold(__p);</span><br><span class="line">    typedef typename __shared_ptr_default_allocator&lt;_Yp&gt;::type _AllocT;</span><br><span class="line">    typedef __shared_ptr_pointer&lt;_Yp*, default_delete&lt;_Yp&gt;, _AllocT &gt; _CntrlBlk;</span><br><span class="line">    __cntrl_ = new _CntrlBlk(__p, default_delete&lt;_Yp&gt;(), _AllocT());</span><br><span class="line">    __hold.release();</span><br><span class="line">    __enable_weak_this(__p, __p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C2. shared_ptr 拷贝构造 **/</span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">inline</span><br><span class="line">shared_ptr&lt;_Tp&gt;::shared_ptr(const shared_ptr&amp; __r) _NOEXCEPT</span><br><span class="line">    : __ptr_(__r.__ptr_),</span><br><span class="line">      __cntrl_(__r.__cntrl_)</span><br><span class="line">&#123;</span><br><span class="line">    if (__cntrl_)</span><br><span class="line">        __cntrl_-&gt;__add_shared();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C3. shared_ptr::__cntrl_ 类型 **/</span><br><span class="line">__shared_weak_count* __cntrl_;</span><br><span class="line"></span><br><span class="line">/** C4. shared_ptr 析构函数 **/</span><br><span class="line"></span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">shared_ptr&lt;_Tp&gt;::~shared_ptr()</span><br><span class="line">&#123;</span><br><span class="line">    if (__cntrl_)</span><br><span class="line">        __cntrl_-&gt;__release_shared();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C5. __shared_weak_count::__release_shared **/</span><br><span class="line"></span><br><span class="line">bool __release_shared() _NOEXCEPT &#123;</span><br><span class="line">    if (__libcpp_atomic_refcount_decrement(__shared_owners_) == -1) &#123;</span><br><span class="line">    __on_zero_shared();</span><br><span class="line">    return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C6. __shared_ptr_pointer::__release_shared **/</span><br><span class="line">template &lt;class _Tp, class _Dp, class _Alloc&gt;</span><br><span class="line">/* 重点 !!! virtual !!! */</span><br><span class="line">void</span><br><span class="line">__shared_ptr_pointer&lt;_Tp, _Dp, _Alloc&gt;::__on_zero_shared() _NOEXCEPT</span><br><span class="line">&#123;</span><br><span class="line">    // __data__ 是 内部工具类__compressed_pair</span><br><span class="line">    // __data_.first().second()是 deleter</span><br><span class="line">    // __data_.first().first() 是 shared_ptr&lt;T&gt; 中T类型的指针</span><br><span class="line">    __data_.first().second()(__data_.first().first());</span><br><span class="line">    __data_.first().second().~_Dp();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/** C7. default deleter **/</span><br><span class="line"></span><br><span class="line">template &lt;class _Tp&gt;</span><br><span class="line">struct _LIBCPP_TEMPLATE_VIS default_delete &#123;</span><br><span class="line">    // ... 此处省略若干行</span><br><span class="line">  void operator()(_Tp* __ptr) const _NOEXCEPT &#123;</span><br><span class="line">    delete __ptr;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>不要慌，给你慢慢道来。</p>
+<p>这个故事简单得说是这样的：</p>
+<ul>
+<li>每一个<code>shared_ptr</code> 内部有一个<code>control block</code>，里面会存放一个要维护的指针，一个计数，一个删除器(<code>deleter</code>)，一个分配(<code>allocator</code>)。这里我们要关心的是删除器。顾名思义，它是用来删除指针的。</li>
+<li><code>shared_ptr</code>中的 有一个<code>__cntrl_</code>即<code>control block</code>。字段的类型是<code>__shared_weak_count</code>指针，这个类是一个非模板类。<code>shared_ptr&lt;T&gt;</code>创建的<code>control block</code>的类型是一个类模板<code>template &lt;class _Tp, class _Dp, class _Alloc&gt; __shared_ptr_pointer</code>继承自<code>__shared_weak_count</code>。 见<strong>代码C3</strong>。</li>
+<li>当创建一个新的<code>shared_ptr</code>的时候，构建一个新的<code>control block</code>。见<strong>代码C1</strong>。</li>
+<li>当一个<code>shared_ptr</code> A赋值或者拷贝构造给另一个<code>shared_ptr</code>B的时候（当然是在类型能够转换的前提下），B会把A的<code>__cntrl_</code>拷一份，同时将其引用加一。注意，这个时候拷贝的是指针，<code>__cntrl_</code>还是指向最初创建的那个对象。见<strong>代码C2</strong>。</li>
+<li>当<code>shared_ptr</code>被析构或者重置的时候会调用<code>__cntrl_-&gt;__release_shared()</code>。见<strong>代码C4</strong>。</li>
+<li><code>__cntrl_-&gt;__release_shared()</code>如果发现当前的计数为-1的时候，调用<code>__on_zero_shared()</code>。见<strong>代码C5</strong>。</li>
+<li><code>__on_zero_shared</code>是一个虚方法，那么它就会调用到最初创建的<code>__shared_ptr_pointer</code>的实现。</li>
+<li><code>__shared_ptr_pointer</code>的实现中是有完整的类型和删除器的信息的。见<strong>代码C6</strong>。</li>
+<li>默认的删除器很简单的执行了<code>delete __ptr</code>操作，因为类型是已知的所以能够正确的调用到析构函数。见<strong>代码C7</strong>。</li>
+</ul>
+<h2><span id="这种实现方式给shared_ptr带来额外好处">这种实现方式给<code>shared_ptr</code>带来额外好处</span></h2><p><em>Effective C++</em>  条款07告诉我们“要为多态基类声明 virtual 析构函数”。当然我认为建议依然有效，但是用了<code>shared_ptr</code>以后带来的一个额外好处就是即便你的析构函数忘记写成<code>virtual</code>也能帮你正确的调用析构函数。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/C/">C++</a><a href="/tags/源码阅读/">源码阅读</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/12/28/how-shared-ptr-void-works/#disqus_thread" class="comments-count-link">Comments</a>
 	
 </div>
 
@@ -616,7 +598,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
   </nav>
 
 </div>
@@ -640,6 +622,10 @@
 		<ul>
 		
 		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
 		  
 		
@@ -652,7 +638,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
 		  
 		
 		  
@@ -673,7 +659,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
 			
 		
 			
@@ -685,11 +671,19 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
 			
 		
 			
@@ -709,15 +703,15 @@
 			
 		
 			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
 			
 		
 			
@@ -725,7 +719,11 @@
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 			
@@ -738,18 +736,6 @@
 		
 			
 				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -774,6 +760,8 @@
         
     </ul>
 </div>
+
+  
 
 </aside>
 </div>

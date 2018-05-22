@@ -84,373 +84,52 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/12/28/how-shared-ptr-void-works/" title="std::shared_ptr&lt;void&gt;的工作原理" itemprop="url">std::shared_ptr&lt;void&gt;的工作原理</a>
+      <a href="/2018/05/22/what-is-argument-dependent-lookup/" title="什么是Argument Dependent Lookup" itemprop="url">什么是Argument Dependent Lookup</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
 		
   <p class="article-time">
-    <time datetime="2017-12-28T15:13:59.000Z" itemprop="datePublished"> 发表于 2017-12-28</time>
+    <time datetime="2018-05-22T14:00:23.000Z" itemprop="datePublished"> 发表于 2018-05-22</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h2><span id="前戏">前戏</span></h2><p>先抛出两个问题</p>
+        <h2><span id="引子">引子</span></h2><p>先看一段C++初学者都会写的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    std::string str = &quot;Hello, World!\n&quot;;</span><br><span class="line">    std::cout &lt;&lt; str;   // 1</span><br><span class="line">    std::cout &lt;&lt; &quot;Hello, World!\n&quot;; // 2</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>试着回答下面几个问题：</p>
 <ul>
-<li>如果<code>delete</code>一个指针，但是它真实的类型和指针类型不一样会发生什么？</li>
-<li>是谁调用了析构函数？ </li>
+<li>如果之前学过其他语言但是没接触过C++，代码中<code>&lt;&lt;</code>的写法看起来很怪异，它是怎么工作的？</li>
+<li>1 &amp; 2 的写法有什么不同？它们调用的是同一个方法么？</li>
 </ul>
-<p>下面这段代码会发生什么有趣的事情？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// delete_diff_type.cpp</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Foo() &#123; cout &lt;&lt; &quot;Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~Foo() &#123; cout &lt;&lt; &quot;~Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class FakeFoo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    FakeFoo() &#123; cout &lt;&lt; &quot;FakeFoo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~FakeFoo() &#123; cout &lt;&lt; &quot;~FakeFoo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    </span><br><span class="line">    void* vptr = new Foo();</span><br><span class="line">    delete vptr;    // warning</span><br><span class="line">    </span><br><span class="line">//    FakeFoo* ffptr = static_cast&lt;FakeFoo*&gt;(new Foo()); // error</span><br><span class="line">    FakeFoo* ffptr = reinterpret_cast&lt;FakeFoo*&gt;(new Foo());</span><br><span class="line">    delete ffptr;</span><br><span class="line">    </span><br><span class="line">    Foo* fptr = new Foo();</span><br><span class="line">    delete fptr;</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输出:</span><br><span class="line">Foo()</span><br><span class="line">Foo()</span><br><span class="line">~FakeFoo()</span><br><span class="line">Foo()</span><br><span class="line">~Foo()</span><br></pre></td></tr></table></figure>
-<p>看一下汇编代码可以看到<code>main</code>函数主要做了下面这几件事</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br><span class="line"></span><br><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; FakeFoo::~FakeFoo at delete_diff_type.cpp:16</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br><span class="line"></span><br><span class="line">; symbol stub for: operator new(unsigned long)</span><br><span class="line">; Foo::Foo at delete_diff_type.cpp:8</span><br><span class="line">; Foo::~Foo at delete_diff_type.cpp:9</span><br><span class="line">; symbol stub for: operator delete(void*)</span><br></pre></td></tr></table></figure>
-<p>从汇编中可以看出，构造造函数和析构函数是编译器根据指针的类型生成的调用代码。而且编译器是不允许没有继承关系的指针之间进行转换的，<code>void*</code> 是个例外，只要不作死用<code>reinterpret_cast</code>把指针转换成不相关的类型是不会有问题的。</p>
-<p>所以上面两个问题大概就有答案了。<code>delete</code>语句会至少产生两个动作，一个是调用指针对应类型的析构函数，然后去调用<code>operator delete</code>释放内存。所以如果<code>delete</code>的指针和其指向的真实类型不一样的时候，编译器只会调用指针类型的析构函数，这也就为什么基类的析构函数需要声明称虚函数才能够保证<code>delete</code>基类指针的时候子类析构函数能够被正确的调用。<br><code>operator delete</code>是都会被调用到的，所以指针指向的那块内存是能够“正常的”被释放掉用。</p>
-<h2><span id="stdshared_ptrltvoidgt-的行为"><code>std::shared_ptr&lt;void&gt;</code> 的行为</span></h2><p>那么这个跟<code>std::shared_ptr&lt;void&gt;</code> 有什么关系呢？</p>
-<p>先看一段代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Foo</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Foo() &#123; cout &lt;&lt; &quot;Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">    ~Foo() &#123; cout &lt;&lt; &quot;~Foo()&quot; &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, const char * argv[]) &#123;</span><br><span class="line">    shared_ptr&lt;void&gt; vptr = shared_ptr&lt;Foo&gt;(new Foo);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出：</span><br><span class="line">Foo()</span><br><span class="line">~Foo()</span><br></pre></td></tr></table></figure>
-<p>与第一段代码中类似，不过把<code>void*</code>换成了<code>std::shared_ptr&lt;void&gt;</code>，那么<code>shared_ptr&lt;void&gt;</code>为什么能够调用到正确的析构函数呢？一定是<code>shared_ptr</code>里面搞了什么鬼。</p>
-<h2><span id="stdshared_ptrltvoidgt-为啥能正常工作"><code>std::shared_ptr&lt;void&gt;</code> 为啥能正常工作</span></h2><p>那么就看看源代码看看到底为啥这货能够工作，下面是<em>libcxx</em>中<code>shared_ptr</code>的部分源码，把关键的部分抠出来了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">/** C1. shared_ptr 构造函数 **/</span><br><span class="line"></span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">template&lt;class _Yp&gt;</span><br><span class="line">shared_ptr&lt;_Tp&gt;::shared_ptr(_Yp* __p,</span><br><span class="line">                            typename enable_if&lt;is_convertible&lt;_Yp*, element_type*&gt;::value, __nat&gt;::type)</span><br><span class="line">    : __ptr_(__p)</span><br><span class="line">&#123;</span><br><span class="line">    unique_ptr&lt;_Yp&gt; __hold(__p);</span><br><span class="line">    typedef typename __shared_ptr_default_allocator&lt;_Yp&gt;::type _AllocT;</span><br><span class="line">    typedef __shared_ptr_pointer&lt;_Yp*, default_delete&lt;_Yp&gt;, _AllocT &gt; _CntrlBlk;</span><br><span class="line">    __cntrl_ = new _CntrlBlk(__p, default_delete&lt;_Yp&gt;(), _AllocT());</span><br><span class="line">    __hold.release();</span><br><span class="line">    __enable_weak_this(__p, __p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C2. shared_ptr 拷贝构造 **/</span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">inline</span><br><span class="line">shared_ptr&lt;_Tp&gt;::shared_ptr(const shared_ptr&amp; __r) _NOEXCEPT</span><br><span class="line">    : __ptr_(__r.__ptr_),</span><br><span class="line">      __cntrl_(__r.__cntrl_)</span><br><span class="line">&#123;</span><br><span class="line">    if (__cntrl_)</span><br><span class="line">        __cntrl_-&gt;__add_shared();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C3. shared_ptr::__cntrl_ 类型 **/</span><br><span class="line">__shared_weak_count* __cntrl_;</span><br><span class="line"></span><br><span class="line">/** C4. shared_ptr 析构函数 **/</span><br><span class="line"></span><br><span class="line">template&lt;class _Tp&gt;</span><br><span class="line">shared_ptr&lt;_Tp&gt;::~shared_ptr()</span><br><span class="line">&#123;</span><br><span class="line">    if (__cntrl_)</span><br><span class="line">        __cntrl_-&gt;__release_shared();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C5. __shared_weak_count::__release_shared **/</span><br><span class="line"></span><br><span class="line">bool __release_shared() _NOEXCEPT &#123;</span><br><span class="line">    if (__libcpp_atomic_refcount_decrement(__shared_owners_) == -1) &#123;</span><br><span class="line">    __on_zero_shared();</span><br><span class="line">    return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** C6. __shared_ptr_pointer::__release_shared **/</span><br><span class="line">template &lt;class _Tp, class _Dp, class _Alloc&gt;</span><br><span class="line">/* 重点 !!! virtual !!! */</span><br><span class="line">void</span><br><span class="line">__shared_ptr_pointer&lt;_Tp, _Dp, _Alloc&gt;::__on_zero_shared() _NOEXCEPT</span><br><span class="line">&#123;</span><br><span class="line">    // __data__ 是 内部工具类__compressed_pair</span><br><span class="line">    // __data_.first().second()是 deleter</span><br><span class="line">    // __data_.first().first() 是 shared_ptr&lt;T&gt; 中T类型的指针</span><br><span class="line">    __data_.first().second()(__data_.first().first());</span><br><span class="line">    __data_.first().second().~_Dp();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/** C7. default deleter **/</span><br><span class="line"></span><br><span class="line">template &lt;class _Tp&gt;</span><br><span class="line">struct _LIBCPP_TEMPLATE_VIS default_delete &#123;</span><br><span class="line">    // ... 此处省略若干行</span><br><span class="line">  void operator()(_Tp* __ptr) const _NOEXCEPT &#123;</span><br><span class="line">    delete __ptr;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>不要慌，给你慢慢道来。</p>
-<p>这个故事简单得说是这样的：</p>
-<ul>
-<li>每一个<code>shared_ptr</code> 内部有一个<code>control block</code>，里面会存放一个要维护的指针，一个计数，一个删除器(<code>deleter</code>)，一个分配(<code>allocator</code>)。这里我们要关心的是删除器。顾名思义，它是用来删除指针的。</li>
-<li><code>shared_ptr</code>中的 有一个<code>__cntrl_</code>即<code>control block</code>。字段的类型是<code>__shared_weak_count</code>指针，这个类是一个非模板类。<code>shared_ptr&lt;T&gt;</code>创建的<code>control block</code>的类型是一个类模板<code>template &lt;class _Tp, class _Dp, class _Alloc&gt; __shared_ptr_pointer</code>继承自<code>__shared_weak_count</code>。 见<strong>代码C3</strong>。</li>
-<li>当创建一个新的<code>shared_ptr</code>的时候，构建一个新的<code>control block</code>。见<strong>代码C1</strong>。</li>
-<li>当一个<code>shared_ptr</code> A赋值或者拷贝构造给另一个<code>shared_ptr</code>B的时候（当然是在类型能够转换的前提下），B会把A的<code>__cntrl_</code>拷一份，同时将其引用加一。注意，这个时候拷贝的是指针，<code>__cntrl_</code>还是指向最初创建的那个对象。见<strong>代码C2</strong>。</li>
-<li>当<code>shared_ptr</code>被析构或者重置的时候会调用<code>__cntrl_-&gt;__release_shared()</code>。见<strong>代码C4</strong>。</li>
-<li><code>__cntrl_-&gt;__release_shared()</code>如果发现当前的计数为-1的时候，调用<code>__on_zero_shared()</code>。见<strong>代码C5</strong>。</li>
-<li><code>__on_zero_shared</code>是一个虚方法，那么它就会调用到最初创建的<code>__shared_ptr_pointer</code>的实现。</li>
-<li><code>__shared_ptr_pointer</code>的实现中是有完整的类型和删除器的信息的。见<strong>代码C6</strong>。</li>
-<li>默认的删除器很简单的执行了<code>delete __ptr</code>操作，因为类型是已知的所以能够正确的调用到析构函数。见<strong>代码C7</strong>。</li>
-</ul>
-<h2><span id="这种实现方式给shared_ptr带来额外好处">这种实现方式给<code>shared_ptr</code>带来额外好处</span></h2><p><em>Effective C++</em>  条款07告诉我们“要为多态基类声明 virtual 析构函数”。当然我认为建议依然有效，但是用了<code>shared_ptr</code>以后带来的一个额外好处就是即便你的析构函数忘记写成<code>virtual</code>也能帮你正确的调用析构函数。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/C-11/">C++11</a><a href="/tags/源码阅读/">源码阅读</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/12/28/how-shared-ptr-void-works/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/10/05/udacity-responsive-web-design-notes/" title="[学习笔记] Udacity - Responsive Web Design Fundamentals?" itemprop="url">[学习笔记] Udacity - Responsive Web Design Fundamentals?</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-10-05T13:23:38.000Z" itemprop="datePublished"> 发表于 2016-10-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>这门课程(<a href="https://www.udacity.com/course/responsive-web-design-fundamentals--ud893" target="_blank" rel="external">Responsive Web Design Fundamentals</a>)主要介绍了关于响应式设计的基础概念，常用的技巧，常用的设计模式以及如何对网站进行优化的一些技巧。</p>
-<p>这个课程主要是提供一些思路，涉及到技术的部分也只是介绍了最基本用法，并不会深入某个技术去展开。通过这个课程的学习，我们应该能够对响应式设计有一个基本的了解，能够知道在设计响应式的页面时需要如何做和需要注意的一些地方。</p>
-<p>课程的大纲如下，比较基础，课程还有挺多的练习，通过练习能够掌握一些基本的用法。</p>
-<p><img src="/img/Udacity-RWD-Mindmap.png" alt="Course Structure"></p>
-<h2><span id="为什么要响应式设计why-responsive">为什么要响应式设计？(Why Responsive?)</span></h2><p>响应式设计（Responsive Web Design，通常缩写RWD）是一种网页设计的技术，让网站在不同的设备上能够良好的显示。这个“良好的显示”是指能够给浏览网页者一个好的的体验。在移动设备普及前，一个网站只需要在一定程度上考虑不同尺寸即可，但是移动设备的普及，会引入一些很小尺寸的屏幕而且比例也不确定。这就需要响应式设计。</p>
-<p><anchor>响应式设计除了是一门技术以外</anchor>，更多的是一门艺术，如何安排在不同尺寸上的显示方式很大程度上是设计相关的东西而不是技术相关的东西。</p>
-<p><strong>移动优先</strong></p>
-<p>移动优先的设计方式是指在设计的时候从移动端先开始设计，然后再慢慢的往大尺寸去增强。这样的设计方式能够帮助设计者更好的去思考对于一个网页来说什么是最重要的内容，如何把这些内容合理的摆放才能达到效果。</p>
-<h2><span id="从小开始starting-small">从小开始（Starting Small）</span></h2><p>既然涉及到不同的设备，那么关于尺寸的一些概念就需要在这里先搞清楚。</p>
-<ul>
-<li>设备分辨率（Hardware Resolution/Pixel）</li>
-<li>设备独立像素（Device Independent Pixel）</li>
-<li>CSS像素（CSS Pixel）</li>
-<li>Viewport</li>
-</ul>
-<h3><span id="设备分辨率">设备分辨率</span></h3><p>这个很好理解，指得是设备本身的实际分辨率，也就是说一个设备上事实上分布的像素点的个数。</p>
-<h3><span id="设备独立像素">设备独立像素</span></h3><p>设备独立像素是基于某一个系统的坐标系中的一个物理度量单位，系统会将设备独立的像素转换成设备上的实际像素。<sup>[1]</sup></p>
-<p>举个例子，iPhone 3G和iPhone 4S的物理尺寸都是3.5英寸，它们的设备分辨率分别是320 x 480和640 x 960。但是它们的设备独立分辨率是一样的，都是320 x 480<sup>[2]</sup><sup>[3]</sup>。</p>
-<p>课程中给出了一个很形象的图</p>
-<p><img src="/img/Udacity-RWD-DIP-vs-Hardware-Pixel.png" alt="Compare DIP and Hardware Pixels"></p>
-<h3><span id="css像素">CSS像素</span></h3><p>在浏览器没有缩放的情况下，1个CSS像素对应1个设备独立像素。</p>
-<h3><span id="viewport">Viewport</span></h3><p>Viewport指的是用户在设备上的可视区域，在移动设备上这个可视区域往往比网页上的区域小。所以在老的移动浏览器上，会把页面根据实际的大小渲染出来，如果那个尺寸比手机大，用户则需要通过移动，放大和缩小来进行操作。</p>
-<p>移动版Safari引入了“viewport meta”标签来允许开发控制viewpoint的尺寸和缩放比例，虽然这个不是标准，但是大多数的浏览器目前支持这种做法。</p>
-<p>典型的viewport的使用方法如下，将这个<code>meta</code>标签加到<code>&lt;head&gt;</code>中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>关于Viewport的内容还有很多，我会另起一篇文章进行深入的学习。</p>
-<h3><span id="从小开始">从“小”开始</span></h3><p>这里的从“小”开始指的是从小屏幕开始设计开发，这个跟上面提到的移动优先的概念是吻合的。</p>
-<div style="display: flex"><br>    <div style="width:50%"><br>    <img src="/img/Udacity-RWD-Big-to-Small.png" alt="Udacity-RWD-Big-to-Small"><br>    </div><br>    <div style="width:50%"><br>    <img src="/img/Udacity-RWD-Small-to-Big.png" alt="Udacity-RWD-Small-to-Big"><br>    </div><br></div>
-
-<p>作者给出了两个图来解释，我觉得挺形象的。从小到大设计和从大到小设计就如同图中的漏斗一样。从大到小，很可能会误把一些有用的内容给过滤掉，而从小到大则不会。</p>
-<p>另外从小开始设计还能够一开始就考虑到性能相关的问题。</p>
-<h2><span id="逐步构建building-up">逐步构建（Building Up）</span></h2><p>构建一个响应式的引用主要需要用到一下几个概念和技术：</p>
-<ul>
-<li>Media Query</li>
-<li>Breakpoint</li>
-<li>Flexbox</li>
-</ul>
-<h3><span id="media-query">Media Query</span></h3><p>Media query 是实现响应式编程使用的最重要的技术，这个是在CSS中根据某一些条件包含一些样式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@media screen and (min-width: 480px) &#123;</span><br><span class="line">    body &#123;</span><br><span class="line">        background-color: lightgreen;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Try it Yourself »</span><br><span class="line">The</span><br></pre></td></tr></table></figure>
-<p>这个是media query的语法定义，举个例子，比如我们想在viewport大于400px时将背景颜色改成红色。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@media screen and (min-width: 400px) &#123;</span><br><span class="line">    body &#123;</span><br><span class="line">        background-color: red;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3><span id="breakpoint">Breakpoint</span></h3><p>使用了media query以后会存在一个或多个点是的某一些样式被引用进来，比如上面的那个media query中400px就称为一个breakpoint（断点）。</p>
-<p>断点的设置也是根据设计而来，没有严格的要求。我们可以在一个断点进行大的UI调整，也可以在断点进行一些细微的调整。这个也是一门艺术，而不是一个技术。</p>
-<p>视频中提到了两个断点的例子，我觉得可以仔细观察一下：</p>
-<ul>
-<li><a href="http://skinnyties.com/" target="_blank" rel="external">http://skinnyties.com/</a></li>
-<li><a href="http://cnn.com" target="_blank" rel="external">http://cnn.com</a></li>
-</ul>
-<h3><span id="flexbox">Flexbox</span></h3><p>Flexbox是flexible box的缩写，是2009年W3C提出了一种新的布局解决方案。目前已经在所有的浏览器上得到支持<sup>[5]</sup>。Flex<br>布局的核心思想是让flex容器有能力去修改其子元素的宽度，高度还有顺序从而更好的使用可用的空间。</p>
-<p>课程中提到的不同响应式设计的模式都是使用flex技术实现的。</p>
-<h2><span id="common-responsive-patterns">Common Responsive Patterns</span></h2><p>课程中提供了四种比较通用的响应式模式，这几种模式只是提供了一种思路。可以根据具体的设计组合使用。</p>
-<h3><span id="column-drop">Column Drop</span></h3><p><img src="/img/Udacity-RWD-Column-Drop.png" alt="Column Drop"></p>
-<h3><span id="mostly-fluid">Mostly Fluid</span></h3><p><img src="/img/Udacity-RWD-Mostly-Fluid.png" alt="Mostly Fluid"></p>
-<h3><span id="layout-shifter">Layout Shifter</span></h3><p><img src="/img/Udacity-RWD-Layout-Shifter.png" alt="Layout Shifter"></p>
-<h3><span id="off-canvas">Off Canvas</span></h3><p><img src="/img/Udacity-RWD-Off-Canvas.png" alt="Off Canvas"></p>
-<h2><span id="optimizations">Optimizations</span></h2><p>课程提供了几个在响应式设计的时候可以注意的优化点，包括图片、字体和表格。</p>
-<h3><span id="图片">图片</span></h3><p>响应式的图片，不仅仅是要求图片的尺寸要正确，最关键的是要保证在不同的尺寸下图片显示出来的主体是一个合理的而不是只显示了一部分或者以不合理的缩放比例展示出来。在另一门<a href="https://www.udacity.com/course/responsive-images--ud882" target="_blank" rel="external">「Responsive Images」</a>有关于响应式图片的深入介绍。</p>
-<h3><span id="字体">字体</span></h3><p>在适当的时候需要调整字体的大小从而使其能够更好地适应当前的尺寸。<br>另外，一行的字数也要控制在一个合理的而范围之内，就英语而言，每行65个字符是比较合适的</p>
-<h3><span id="表格">表格</span></h3><p>表格在尺寸的屏幕上比较尴尬，因为表格的信息量比较大而且往往有比较多的列。对于表格我们可以采用一些策略：</p>
-<ul>
-<li>减少表格列，只显示最重要的信息。</li>
-<li>将列展平，用行的形式显示列。</li>
-<li>将表格放在一个container，将container的样式设置为<code>overflow-x: auto, width: 100%</code>。将滚动的区域控制在一个小范围内。</li>
-</ul>
-<h2><span id="references">References</span></h2><p>[1]: <a href="https://en.wikipedia.org/wiki/Device-independent_pixel" target="_blank" rel="external">Wikipedia - Device-independent pixel</a><br>[2]: <a href="http://www.phonearena.com/phones/compare/Apple-iPhone-4s,Apple-iPhone-3G/phones/5257%2C2962" target="_blank" rel="external">Apple iPhone 4s vs Apple iPhone 3G</a><br>[3]: <a href="http://viewportsizes.com/?filter=iphone" target="_blank" rel="external">Viewport Sizes</a><br>[4]: <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag" target="_blank" rel="external">Mozilla - Using the viewport meta tag to control layout on mobile browsers</a><br>[5]: <a href="http://caniuse.com/#search=flexbox" target="_blank" rel="external">Can I use Flexbox</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Udacity/">Udacity</a><a href="/tags/前端/">前端</a><a href="/tags/RWD/">RWD</a><a href="/tags/Design/">Design</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/10/05/udacity-responsive-web-design-notes/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/09/29/go-out-border/" title="去「界外」看看" itemprop="url">去「界外」看看</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-09-29T13:14:40.000Z" itemprop="datePublished"> 发表于 2016-09-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>很多人的生活大部分时间都是处于公司-家的两点一线的状态，不知道你有没有过这样的经历。某一天，你开车开错路或者坐公交坐过站了，突然惊奇的发现就在你附近的一个地方跟你想象的不大一样，有时候还能够发现一些很好玩的地方。</p>
-<p>某天晚上，在家附近吃完晚饭，突发奇想往从来都有去过的街的另一头散步走去。走出不到两公里，惊奇的发现原来离我家这么近的地方竟然还有一处迷你的公园。突然心生感慨，其实很多美好的东西可能就在你附近，只是你一直被一个隐形的边界限定住了你探索的脚步。</p>
-<p>有一种说法是“旅游就是从一个你熟悉的地方跑到你一个别人熟悉的地方”。为什么有人喜欢旅游？因为在一个陌生的地方，人们往往能够发现一些不一样的地方，你去的地方离你越远可能这种差异性更强，能够给你带来的冲击也就越强。反过来，其他地方的人到你所生活的地方也同样会受到类似的冲击。在一个陌生的地方，人们的各个感官都处在兴奋、焦虑的状态，它们会极力得去吸取尽可能多的信息然后在脑子里飞速的运算。走在一个异国的路上，可能路边的一个垃圾桶、一个流浪汉、一个普通的招牌都能够吸引你驻足去观察，因为你从来没见过这样的东西。但如果，你在这个地方待上一段时间，你会发现你变得跟本地人一样，把自己的“感官”关闭了，不再抱有极大的好奇心去观察周遭的事物。因为你养成了习惯，习惯可以让你省去很多的思考，让你很轻松的去完成一件事情。比如说，你从地铁站出来不用思考是往左走还是往右走，你的习惯会把你很自然的带回家。</p>
-<p>旅游只是一个简单的例子，除了旅游以外我们的生活中还有非常多的类似的例子。我认为在几乎所有你做的事情上，这种现象都是存在的。小到刷牙洗脸，大到公司决策，都或多或少的收到习惯的影响。</p>
-<p>我们的大脑很聪明也很懒，它帮我们养成了很多的习惯，这样我们就不需要处处进行思考，很多时候跟着熟悉的感觉就能够完成一件事情了。大脑的聪明是很有必要的，在多数情况下能够让我们变得更轻松。但是，这种聪明也为我们设立了一个无形的边界，一个我们不留意可能都不会去注意到的一个边界。在这个边界内，我们是”安全”的，因为某些路径已经被多次证明过是可行的。</p>
-<p>然而一条“安全”可行的路径不代表这条路径是最优的，即使在当下是最优的，也不代表它在外部条件变化的情况下依然是最优的。所以说这种安全是不可靠的，因为外界的条件不可能永远不变。而且习惯是有一定的惯性的，一个习惯你坚持的越久它的惯性就越大，你要改变它的难度及所带来的痛苦也就越大。</p>
-<p>所以，我的结论是<strong>要需要经常去「界外」看看，让我们拥有随时改变路径的能力</strong>。</p>
-<p>那么这个结论就引出了另外几个问题：</p>
-<ol>
-<li>作为一个身处于边界里面的人如何去发现自己的边界。都说要Think out of box，但是如何才能够发现自己的box？</li>
-<li>发现以后到外面看看，肯定不能是简单地看看就完了。如何保持一个开放的心态去看待界外的事物？</li>
-<li>如何才能够拓宽自己的边界？</li>
-</ol>
-<p>这几个问题，容我再想想。</p>
-<center><em>== end of  file ==</em></center>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/随想/">随想</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/09/29/go-out-border/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/09/06/effective-cpp-reading-notes-5/" title="《Effective C++》读书笔记(5)" itemprop="url">《Effective C++》读书笔记(5)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-09-06T13:15:57.000Z" itemprop="datePublished"> 发表于 2016-09-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="4-设计与声明">4. 设计与声明</span></h2><h3><span id="条款18让接口容易被使用不易被误用">条款18：让接口容易被使用，不易被误用</span></h3><blockquote>
-<ul>
-<li>好的借口很容易被正确使用，不容易被误用。你应该在你的所有接口中努力达成这些性质。</li>
-<li>“促进正确使用”的办法包括接口的一致性，以及与内置类型的行为兼容。</li>
-<li>“阻止误用”的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任。</li>
-<li>std::shared_ptr支持定制型删除器（custom deleter）。可防范DLL问题，可被用来自动解除互斥锁等等。</li>
-</ul>
-</blockquote>
-<p>这个条款的思想其实适用于所有的编程语言，只要你写的代码需要被其他地方调用，你都需要考虑接口的易用性。即使不暴露，良好的接口设计也能够提高代码的可读性。作者提出的这几点只是在C++这个语言的基础上需要注意的一些小点，我认为设计一个良好的易用的接口，仅仅做到这几点还远远不够。</p>
-<p><strong>接口一致性</strong></p>
-<p>作者认为除非有充分的理由，否则最好让类型与内置的类型的行为尽量一致。这个可以降低使用者错误使用的概率。</p>
-<p>我想补充的另外一点是，比如你提供一整套的接口，你需要让自己的接口相互保持一致的风格。包括但不仅限于：函数的命名风格、函数的行为尽量保持统一的风格。</p>
-<p><strong>防止误用</strong></p>
+<p><strong>回答</strong></p>
+<p>C++中有一个神奇的东西叫做操作符重载，这个操作允许用户针对某一些需要的类型自定义操作符。比如说下面这个数据类型就重载了<code>+</code>号操作符，从而允许更加简单的代码书写形式。这里先不讨论操作符重载带来的问题，但是这个确实是在标准库中被普遍使用的，这里看到的<code>&lt;&lt;</code>也是属于操作符重载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Data</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Data&amp; operator+(int i)&#123;std::cout &lt;&lt; &quot;Data+&quot; &lt;&lt; i; return *this;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Data d;</span><br><span class="line">d = d + 1;</span><br></pre></td></tr></table></figure>
+<p>我们可以在<code>&lt;ostream&gt;</code>中看到<code>basic_ostream</code>预定义了很多对于<code>operator&lt;&lt;</code>的操作符重载，可以简单的看一下，这里只摘录了一些，头文件中实际定义了更多类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 27.7.2.6 Formatted output:</span><br><span class="line">basic_ostream&amp; operator&lt;&lt;(basic_ostream&amp; (*pf)(basic_ostream&amp;));</span><br><span class="line">basic_ostream&amp; operator&lt;&lt;(basic_ios&lt;charT, traits&gt;&amp; (*pf)(basic_ios&lt;charT,traits&gt;&amp;));</span><br><span class="line">basic_ostream&amp; operator&lt;&lt;(ios_base&amp; (*pf)(ios_base&amp;));</span><br><span class="line">basic_ostream&amp; operator&lt;&lt;(bool n);</span><br><span class="line">basic_ostream&amp; operator&lt;&lt;(short n);</span><br><span class="line">basic_ostream&amp; operator&lt;&lt;(unsigned short n);</span><br><span class="line">basic_ostream&amp; operator&lt;&lt;(int n);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>那么1和2是否都调用了<code>basic_ostream</code>中预定的<code>&lt;&lt;</code>呢？2确实是调用了<code>basic_ostream</code>中的方法，2的代码可以改写成下面这种形式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::cout &lt;&lt; &quot;Hello, World!\n&quot;;</span><br><span class="line">// 相当于</span><br><span class="line">std::cout.operator&lt;&lt;(&quot;Hello, World!\n&quot;);</span><br></pre></td></tr></table></figure>
+<p>但1并不是调用<code>basic_ostream</code>中的方法。<code>basic_ostream</code>中预定义的都是系统自带的类型，而<code>std::string</code>则是标准库自定义的类型，<code>basic_ostream</code>并不知道它的存在。那么<code>std::cout &lt;&lt; str;</code>这行代码是怎么工作的呢？</p>
+<p>我这里先给出答案，然后在慢慢的解释是如何工作的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">std::string str = &quot;Hello, World!\n&quot;;</span><br><span class="line">std::cout &lt;&lt; str;</span><br><span class="line">// 相当于</span><br><span class="line">operator&lt;&lt;(std::cout, str);</span><br><span class="line">//</span><br></pre></td></tr></table></figure>
+<h2><span id="argument-dependent-lookup实参相关的查找">Argument-Dependent Lookup(实参相关的查找)</span></h2><p>中文翻译参考自C++ Primer，下面简称ADL。这个查找规则简单的可以归纳为：</p>
 <blockquote>
-<p>任何接口如果要求客户必须记得做某件事情，就是有着“不正确使用”的倾向，因为客户可能会忘记做那件事。</p>
+<p>当我们给函数传递一个类类型的对象时，出了在常规的作用域查找外还会查找实参类所属的命名空间。这个规则对于传递类的引用或指针的调用同样有效。    - 《C++ Primer 5th》</p>
 </blockquote>
-<h3><span id="条款19设计class犹如设计type">条款19：设计class犹如设计type</span></h3><blockquote>
-<p>Class 的设计就是type的设计。在定义一个新type之前，确保阅读了本条目的所有讨论主题。</p>
-</blockquote>
-<ul>
-<li><strong>新type的对象应该如何被创建和销毁？</strong> 这个涉及到构造函数、构造函数以及operator new, operator delete, operator new[], operator delete[]。</li>
-<li><strong>对象的初始化和对象的赋值该有什么样的差别？</strong>这个主要是要考虑构造函数和赋值操作符的行为。</li>
-<li><strong>新type的对象如果被passed by value，意味着什么？</strong></li>
-<li><strong>什么事新type的“合法值”？</strong>这点主要是要注意类型的成员变量和合法性检查。</li>
-<li><strong>你的新type需要配合某个继承图系吗？</strong>如果你继承其他的类，需要考虑它们的函数virtual和non-virtual性。如果你的类可能被继承就需要注意你声明的函数——尤其是析构函数。</li>
-<li><strong>你的新type需要什么样的转换？</strong>如果你的类型需要转换成其他的类型，需要考虑定义显式转换或者隐式转换的函数。</li>
-<li><strong>什么样的操作符和函数对此新type而言是合理的？</strong>参考条款23，24，26.</li>
-<li><strong>谁该取用新type的成员？</strong>这个可以使用者的角度来帮助你判断哪一些成员为public，哪个为protected。</li>
-<li><strong>你的新type有多么一般化（generic）？</strong>如果很一般化，可以考虑设计一个class template。</li>
-<li><strong>你真的需要一个新type吧？</strong>如果只是定义新的derived class以便为既有的class添加功能，那么说不定单纯定义一个或多个non-member函数或template更能够达到目标。</li>
+<p>举个例子就能够很直观的看到这个效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">namespace NS </span><br><span class="line">&#123;</span><br><span class="line">   class A &#123;&#125;;</span><br><span class="line">   void f( A &amp;a, int i) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">int main() </span><br><span class="line">&#123;</span><br><span class="line">   NS::A a;</span><br><span class="line">   f( a, 0 );    //calls NS::f</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这个规则以后我们就很好理解本文开头的第一个例子如何工作的。<code>&lt;string&gt;</code>头文件中定一个一个<code>operator&lt;&lt;</code>的操作符重载并且接受<code>basic_ostream</code>为第一个参数，<code>std::string</code>为第二个参数。当编译器在<code>basic_ostream</code>中找不到对应的函数的时候，它便开始在<code>std::string</code>的命名空间下查找对应的方法。然后它找到<string>中有一个符合要求的方法，然后就调用了这个方法。关于C++的命名查找规则是一个巨复杂的东西，有兴趣可以看看这个页面（<a href="http://en.cppreference.com/w/cpp/language/lookup" target="_blank" rel="external">Name Lookup</a>）</string></p>
+<p>同理，我们可以为我们自己的类型自定义这个操作符重载，这样我们在输出的时候就可以更加的方便。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Person</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    std::string name;</span><br><span class="line">    int age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os,</span><br><span class="line">                         const Person &amp;p)</span><br><span class="line">&#123;</span><br><span class="line">    os &lt;&lt; &quot;name: &quot; &lt;&lt; p.name &lt;&lt; &quot; age: &quot; &lt;&lt; p.age;</span><br><span class="line">    return os;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person p&#123;&quot;john&quot;, 100&#125;;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;</span><br></pre></td></tr></table></figure>
+<h2><span id="关于adl我们需要注意什么">关于ADL我们需要注意什么</span></h2><p>能够被ADL找到的非成员方法应该被视为类的设计的一部分，如果你考虑写类似的方法如果不是为了ADL的话应该避免这种写法。</p>
+<p>ADL能够极大的方便我们编码时候的方法调用，从而提高代码的可读性。STL库内使用的<code>swap</code>方法也广泛的使用了这个技术。关于swap的话题，改天单独讨论。</p>
+<h2><span id="参考资料">参考资料</span></h2><ul>
+<li><a href="https://stackoverflow.com/questions/8111677/what-is-argument-dependent-lookup-aka-adl-or-koenig-lookup" target="_blank" rel="external">Stackoverflow - What is “Argument-Dependent Lookup” (aka ADL, or “Koenig Lookup”)?</a></li>
+<li><a href="http://www.gotw.ca/gotw/030.htm" target="_blank" rel="external">GotW #30 - Name Lookup Herb Sutter</a></li>
+<li><a href="https://www.wikiwand.com/en/Argument-dependent_name_lookup" target="_blank" rel="external">Argument-dependent name lookup wikipedia</a><br>-</li>
 </ul>
-<p>这些问题并不是那么容易回答，在设计一个类型的时候尽量的去考虑这些问题能够更好地设计出一个易用合理的类型。</p>
-<h3><span id="条款20宁以-pass-by-reference-to-const-替换-pass-by-value">条款20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></h3><blockquote>
-<ul>
-<li>尽量以pass-by-reference-to-const 替换 pass-by-value。前者通常比较搞笑，并可以避免切割问题（slicing problem）。</li>
-<li>以上规则并不适用于内置类型，以及STL的迭代器和函数对象。对于它们而言，pass-by-value往往比较适当。</li>
-</ul>
-</blockquote>
-<p>C++默认的传递对象的方法是by-value的方式，当一个对象有很多的成员变量或者有很深的继承结构。那么对于这个对象的构造和销毁会带来很大的开销。这种情况下用pass by reference的方式就能够节省下这种开始。加上const是避免对传入的参数进行修改。</p>
-<p>Pass by value的另一个问题就是对象切割的问题。如果一个子类对象以pass-by-value的形式传递到一个函数中来，那么它的对象将会被切割而失去子类特有的成员变量，而且同时也会失去多态性。pass-by-reference可以解决这个问题，因为reference往往以指针实现，所以截断对象也同时会保有多态性。</p>
-<p>决定一个对象pass by value还是pass by reference的依据不是简单地类型的成员数量，还要考虑这个类型在拷贝的时候是否会做一些比较昂贵的操作。</p>
-<p>有一些例外，即内置类型，以及STL的迭代器和函数对象。除此之外 pass-by-reference-to-const 优于 pass-by-value。</p>
-<h3><span id="条款21必须返回对象是别妄想返回其reference">条款21：必须返回对象是，别妄想返回其reference</span></h3><blockquote>
-<ul>
-<li>绝不要返回pointer或reference指向一个local stack对象，或返回reference指向一个heap-allocated对象，或返回pointer或reference指向一个local static对象而有可能同时需要多个这样的对象。</li>
-</ul>
-</blockquote>
-<p>返回一个pointer或者reference指向一个local stack对象明显是不合理的，因为local stack的生命周期在函数返回的时候就已经结束了，那么返回的那个指针或者引用将会指向一块被销毁的对象的内存。</p>
-<p>指向一个heap-allocated的对象也是不合理的，因为你把销毁对象的任务移交给了使用函数的人，很多情况下人们会忘记。或者说所写的代码并没有让他有机会去销毁这个对象。比如说：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const Rational&amp; operator * (const Rational&amp; lhs,</span><br><span class="line">							const Rational&amp; rhs) &#123;</span><br><span class="line">	...</span><br><span class="line">	return *result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Rational w, x, y, z;</span><br><span class="line">w = x * y * z;</span><br></pre></td></tr></table></figure>
-<p>只有在类似于单例的情况下，返回一个reference指向一个static的对象是合理的。比如说条款4中FileSystem的例子。</p>
-<h3><span id="条款22将成员变量声明为private">条款22：将成员变量声明为private</span></h3><blockquote>
-<ul>
-<li>切记将成员变量声明为private，这可赋予客户访问数据的一致性、可细微划分访问控制、允诺约束条件获得保证，并提供class作者以充分的实现弹性。</li>
-<li>protected 并不比public更具封装性。</li>
-</ul>
-</blockquote>
-<p><strong>为什么public不好？</strong></p>
-<p>public的成员变量破坏了类的封装性，它将成员直接暴露给客户，那么在未来修改字段的时候就会影响到使用者。</p>
-<p><strong>为什么protected也不好？</strong></p>
-<p>有一个原则，即<em>某些东西的封装性与“其内容改变时可能造成的代码破坏量”成反比。</em>如果从这个原则出发的话，protected虽然比public好，但是也并没有好太多。因为如果说你这个类型是对外暴露的，你不能阻止用户继承你这个类型，然后去访问其中的成员变量（C++暂时没有类似于final class的概念）。所以说protected的成员变量也不好。</p>
 
         
         
@@ -469,7 +148,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a>
+  <span></span> <a href="/tags/编程语言/">编程语言</a><a href="/tags/C/">C++</a>
   </div>
 
 </div>
@@ -480,7 +159,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/09/06/effective-cpp-reading-notes-5/#disqus_thread" class="comments-count-link">Comments</a>
+		<a href="/2018/05/22/what-is-argument-dependent-lookup/#disqus_thread" class="comments-count-link">Comments</a>
 	
 </div>
 
@@ -500,111 +179,61 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/08/15/effective-cpp-reading-notes-4/" title="《Effective C++》读书笔记(4)" itemprop="url">《Effective C++》读书笔记(4)</a>
+      <a href="/2018/05/10/cpp-concurrency-in-action-reading-notes-how-to-design-concurrent-code/" title="《C++ Concurrency In Action》读书笔记 - 如何设计并发代码" itemprop="url">《C++ Concurrency In Action》读书笔记 - 如何设计并发代码</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
 		
   <p class="article-time">
-    <time datetime="2016-08-15T13:06:32.000Z" itemprop="datePublished"> 发表于 2016-08-15</time>
+    <time datetime="2018-05-10T14:21:37.000Z" itemprop="datePublished"> 发表于 2018-05-10</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款10令-operator-返回一个-reference-to-this">条款10：令 operator= 返回一个 reference to *this</span></h3><blockquote>
-<ul>
-<li>令赋值（assignment）操作符返回一个 reference to *this。</li>
-</ul>
-</blockquote>
-<p>有以下两个主要原因：</p>
+        <p>这本书前面几章介绍了C++并发编程中使用到的一些具体工具，掌握了这些具体工具并不能够保证你能够写出优秀的并发代码。</p>
+<p>这章就是介绍如何设计你的并发代码、在写并发代码的时候需要考虑的一些因素和注意的地方。从一个更高的角度去思考如何写并发代码。</p>
+<h2><span id="如何给线程分配工作">如何给线程分配工作</span></h2><p>当我们起多个线程去做并行计算的时候我们需要把原来一个线程处理的数据分配给不同的线程。那么如何切分数据就有很多种选择：</p>
+<p><strong>简单粗暴的根据数量切分</strong></p>
+<p>比如有100个数据，我们起了m个线程那么每个线程处理100/m个数据。如果有必要的话最后将处理的结果进行合并。打个比方，我们现在要洗n个碗，那么我们可以把线程想象成洗碗工，如何给洗碗工分配工作，假设每个洗碗工洗碗速度差不多，那么只需要把盘子分成若干份分配给各个洗碗工即可。（当然你要有足够多的洗碗池）</p>
+<p><img src="/img/cpp_concurrency_in_action_f_81.png" alt="Alt text"></p>
+<p><strong>递归的切分</strong></p>
+<p>有很多算法无法在一开始就很好的对数据进行切分，那么我们就可以用递归的方法。但是递归的话就不能暴力的去起线程，而是可以用<code>std::async</code>让线程库去决定是否在另外线程执行。</p>
+<p><img src="/img/cpp_concurrency_in_action_f_82.png" alt="Alt text"></p>
+<p><strong>按照任务类型进行切分</strong></p>
+<p>还是用厨房打比方，如果现在收到了一个订单需要做100份宫保鸡丁。如果按照第一种方法的话就是把100道分给n个厨师，每个厨师负责做100/n份。那么这个有什么问题呢？每个厨师都需要去洗菜、切菜、炒菜、装盘等。每一道工具之间会浪费厨师的时间，而且如果厨房不是足够大的话，厨师之间可能会出现竞争关系，比如说只有3个炒锅、那么有一些厨师可能需要排队才能用到炒锅。</p>
+<p>现实中的厨房肯定不是这样的，每一个环节都是有专门的人负责的。洗菜工、打荷、厨师。这样流水线的工作可以提高效率。</p>
+<p>按照任务类型的切分方法跟厨房的这个思想是一样的，每个线程都有自己的指责，接受输入处理相对独立的功能。</p>
+<h2><span id="影响并发代码性能的因素">影响并发代码性能的因素</span></h2><p>在说影响性能的因素之前，先来看一张表<a href="https://gist.github.com/jboner/2841832" target="_blank" rel="external">Latency Numbers Every Programmer Should Know</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Latency Comparison Numbers</span><br><span class="line">--------------------------</span><br><span class="line">L1 cache reference                           0.5 ns</span><br><span class="line">Branch mispredict                            5   ns</span><br><span class="line">L2 cache reference                           7   ns                      14x L1 cache</span><br><span class="line">Mutex lock/unlock                           25   ns</span><br><span class="line">Main memory reference                      100   ns                      20x L2 cache, 200x L1 cache</span><br><span class="line">Compress 1K bytes with Zippy             3,000   ns        3 us</span><br><span class="line">Send 1K bytes over 1 Gbps network       10,000   ns       10 us</span><br><span class="line">Read 4K randomly from SSD*             150,000   ns      150 us          ~1GB/sec SSD</span><br><span class="line">Read 1 MB sequentially from memory     250,000   ns      250 us</span><br><span class="line">Round trip within same datacenter      500,000   ns      500 us</span><br><span class="line">Read 1 MB sequentially from SSD*     1,000,000   ns    1,000 us    1 ms  ~1GB/sec SSD, 4X memory</span><br><span class="line">Disk seek                           10,000,000   ns   10,000 us   10 ms  20x datacenter roundtrip</span><br><span class="line">Read 1 MB sequentially from disk    20,000,000   ns   20,000 us   20 ms  80x memory, 20X SSD</span><br><span class="line">Send packet CA-&gt;Netherlands-&gt;CA    150,000,000   ns  150,000 us  150 ms</span><br></pre></td></tr></table></figure>
+<p>计算机的计算发生在CPU，而数据则来自内存、磁盘甚至网络上。从上表可以看到，CPU访问的数据来源对于它的访问速度差距巨大。从最快的L1缓存到网络访问，差距有3亿倍之巨。</p>
+<p>下面要说的几点，基本上可以理解为需要经常从“很远的”读取数据。</p>
+<p><strong>线程数量</strong></p>
+<p>线程数量并非越多越好，当线程的数量太多，而且都有实际运算需要进行的时候。操作系统会进行调度来保证线程之间的公平，而切换线程的时候会出现上下文切换。也就是说要把当前线程相关的上下文存下来，然后把另一个线程的上下文载入，这回带来一定的开销。当线程数量增加的时候，带来的开销也就越来越大。</p>
+<p><strong>Data Contention（数据竞争）</strong></p>
+<p>可以理解为多个线程同时去操作一个内存，至少有一个去写这块内存。如果所有的操作都是只读的话就没有问题，因为数据从内存载入CPU以后会一直有效。但是，当其他核/CPU去操作这块内存的时候，载入的数据就会失效，当前的核就需要重新去内存中载入这块内存。</p>
+<p>如果有多个核同时在操作某一个内存的时候，这将会是灾难性的。因为每一次写，其他所有用到这个数据的核都需要重新载入这块内存。而多个核频繁写的话，就会让用到数据的和核频繁去载入内存。而我们知道从内存读数据是很慢的。这个现象可以很形象的称为cache-pingpong。</p>
+<p><strong>False Sharing</strong></p>
+<p>CPU载入内存的时候是按照一个内存块载入的，而不是具体单个内存地址，这块内存又称为cache-line。这个机制会带来什么问题呢？如果我们需要的是一个小块数据，但是cache-line在如何很多我们不需要的数据。我们不需要不要紧，麻烦的是这些数据可能被其他线程用到而且需要修改，当他们改了这块内存以后我们就莫名的躺枪了。因为我们载入的这块cache-line失效了。</p>
+<p><strong>Data Proximity</strong></p>
+<p>如果你需要处理的数据不再同一个cache-line里面也会带来问题，就是你需要载入很多内存块去用到你的数据。</p>
+<h2><span id="设计数据结构的时候需要注意什么">设计数据结构的时候需要注意什么</span></h2><p>针对上面这几个可能会影响性能的地方，我们再设计数据结构的时候需要注意一下几点：</p>
 <ol>
-<li>允许连锁赋值。比如说，<code>int x, y, z; x = y = z;</code></li>
-<li>这个协议被普遍的遵守（包括标准库中的很多类型），为了保持类的行为与其他类一致性。</li>
+<li>给不同线程分配数据的时候要考虑他们之间的数据不要靠的太近避免false sharing。</li>
+<li>单个线程需要的数据尽量挨得近一点，从而不用去载入太多cache-line。</li>
+<li>尽量减少线程对于数据的需求。</li>
 </ol>
-<h3><span id="条款11在operator中处理自我赋值">条款11：在operator=中处理“自我赋值”</span></h3><blockquote>
-<ul>
-<li>确保当对象自我赋值时operator=有良好行为。其中技术包括比较“来源对象”和“目标对象”的地址、精心周到的语句顺序、以及copy-and-swap。</li>
-<li>确定任何函数如果操作一个以上的对象，而其中多个对象是同一个对象时，其行为为仍然正确。</li>
-</ul>
-</blockquote>
-<p>一个对象可能被自我赋值，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Widget w[];</span><br><span class="line">// some operation</span><br><span class="line">w[i] = w[j];	//w[i]和w[j]指向同一个对象</span><br></pre></td></tr></table></figure></p>
-<p>可以在operator= 操作中做一下简单的指针比较来避免不必要的操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Widget&amp; Widget::operator=(const Widget&amp; rhs) &#123;</span><br><span class="line">    if (this == &amp;rhs) return *this;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当你需要在赋值操作中做一些复杂的控制逻辑，你不仅需要保证起“自我赋值安全性”还要保证“异常安全性”。这个会在条款xx中具体进行说明。</p>
-<h3><span id="条款12复制对象时勿忘其每一个成分">条款12：复制对象时勿忘其每一个成分</span></h3><blockquote>
-<ul>
-<li>Copying 函数应该确保复制“对象内的所有成员变量”及“所有base class成分”</li>
-<li>不要尝试以某个copying函数实现另一个copying函数。应该将共同机能放进第三个函数中，并由两个copying函数共同调用。</li>
-</ul>
-</blockquote>
-<p>copy构造函数和copy assignment操作符我们统称为copying函数。当我们自己定义copying务必要确保所有的字段都进行了复制，同事如果有基类要保证相对应的copying函数被正确得调用。</p>
-<p>作者认为虽然说copy构造函数和copy assignment操作符做的操作绝大多数是相同的，但是不应该尝试以某一个copying函数实现调用另一个copying函数。这样的操作并不合理。</p>
-<h2><span id="3-资源管理">3. 资源管理</span></h2><h3><span id="条款13-以对象管理资源">条款13： 以对象管理资源</span></h3><blockquote>
-<ul>
-<li>为防止资源泄露，请使用RAII对象，它们在构造函数中获得资源并在析构函数中释放资源。</li>
-<li>两个常被使用的RAII classes分别是<code>tr1::shared_ptr</code>和<code>auto_ptr</code>(C++ 11 中有<code>std::shared_ptr</code>和<code>std::auto_ptr</code>)</li>
-</ul>
-</blockquote>
-<p>内存泄漏和资源泄露很多情况都是因为一个内存/资源分配在堆上，被用于一个函数内，然后在控制流离开函数的时候没有得到正确的释放。对于这种情况引起的资源泄露，可以把资源包装成对象来实现合理的释放。</p>
-<p>“以对象管理资源” 通常也被称为”资源取得时机便是初始化时机”（<em>Resource Acquisition Is Initialization: RAII</em>）。RAII的两个核心思想：</p>
-<ul>
-<li>获得资源后立刻放进管理对象内。</li>
-<li>管理对象运用析构函数确保资源得到释放。</li>
-</ul>
-<p>我们可以根据自己的需求定制RAII类，同时也可以使用系统提供的智能指针可以用来作为管理对象。</p>
-<ul>
-<li><code>auto_ptr</code> - <code>auto_ptr</code>被销毁时会自动删除它所指之物。它的缺点是，如果多个<code>auto_ptr</code>指向同一个对象，那么那个对象会被删除一次以上。另外通过copy构造函数或copy assignment操作符复制它们的时候，它们会变成null。</li>
-<li><code>shared_ptr</code> -  <code>shared_ptr</code>是一个引用计数原理的智能指针。它能够持续追踪有多少个对象指向某个资源，而且它的复制行为也看上去正常许多。它的缺点是，它无法打破循环引用的问题。</li>
-</ul>
-<h3><span id="条款14在资源管理类中小心copying行为">条款14：在资源管理类中小心copying行为</span></h3><blockquote>
-<ul>
-<li>复制RAII对象必须一并复制它所管理的资源，所以资源的copying行为决定RAII对象的copying行为。</li>
-<li>普遍而常见的RAII class copying行为是：禁止copying、施行引用计数法（reference counting）。不过其他行为也都可能被实现。</li>
-</ul>
-</blockquote>
-<p>当我们定制RAII对象的时候，需要根据具体的需求来控制其拷贝的行为。不然可能会出现一些“不愉快”的事情。</p>
-<p>拷贝的行为基本有下面几种：</p>
-<ul>
-<li><p><strong>禁止复制。</strong> 很多情况对RAII对象进行复制是不合理的，比如说一个Lock类，保存着一个锁。合理的行为是禁止这个类型的复制行为。</p>
-</li>
-<li><p><strong>对底层资源祭出“引用计数法”。</strong> 如果我们希望保有资源，知道它的最后一个使用者被销毁。这种情况我们就应该在内部使用一个引用计数来管理资源，我们可以用<code>shared_ptr</code>来做引用计数。</p>
-</li>
-<li><p><strong>复制底部资源。</strong>  拷贝时将内部的资源进行一个完整的深层拷贝。比如说，一个字符串被复制的时候，它不仅要复制指向内存中字符串的指针，同时也应该复制对应的字符串内存。</p>
-</li>
-<li><p><strong>转移底层资源的拥有权</strong> 在一些比较特殊的场合可能希望只有一个RAII对象指向一个资源，当被复制的时候，资源的拥有权将会进行转移。这个行为跟<code>auto_ptr</code>的行为是一样的。</p>
-</li>
-</ul>
-<h3><span id="条款15在资源管理类中提供对原始资源的访问">条款15：在资源管理类中提供对原始资源的访问</span></h3><blockquote>
-<ul>
-<li>APIs 往往要求访问原始资源（raw resources），所以每一个RAII classes应该提供一个“取得其所管理之资源”的办法。</li>
-<li>对原始资源的访问可能经由显式转换或隐式转换。一般而言显示转换比较安全，但是隐式转换对客户比较方便。</li>
-</ul>
-</blockquote>
-<p>在一些情况下我们的需要访问资源管理类中的原始资源，这个时候我们就应该提供一个能够获得原始资源的方法。</p>
-<p>这个看上去破坏了封装性，但是资源管理类设计的初衷是为了更好地管理资源的申请和释放，并非对资源进行完全的封装。所以提供获取原始资源的方法也还是比较合理的做法。</p>
-<p>可以通过显式和隐式转换两种方法。</p>
-<p><strong>显式转换</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font &#123;</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    FontHandle get() const &#123; return f; &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>隐式转换</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font &#123;</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    operator FontHandle() const &#123; return f; &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>虽然两种方式都可行，但个人认为显式的这种方式更好一些。因为这个可以避免很多不小心进行的转换，只有在需要的时候进行显式的调用。</p>
-<h3><span id="条款16成对使用new和delete时要采用相同形式">条款16：成对使用new和delete时要采用相同形式</span></h3><blockquote>
-<p>如果你在new表达式中使用[]，必须在相对应的delete表达式中也使用[]。如果你在new表达式中不使用[]，一定不要在相对应的delete表达式中使用[]</p>
-</blockquote>
-<h3><span id="条款17以独立语句将newed对象置入智能指针">条款17：以独立语句将newed对象置入智能指针</span></h3><blockquote>
-<p>以独立语句将newed对象存储于智能指针内。如果不这么做，一旦异常被抛出，有可能导致难以察觉的资源泄露。</p>
-</blockquote>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int priority();</span><br><span class="line">void processWidget(std::shared_ptr&lt;Widget&gt; pw, int p);</span><br><span class="line"></span><br><span class="line">// Bad</span><br><span class="line">processWidget(std::shared_ptr&lt;Widget&gt;(new Widget), priority());</span><br><span class="line"></span><br><span class="line">// Good</span><br><span class="line">std::shared_ptr&lt;Widget&gt; pw(new Widget)</span><br><span class="line">processWidget(pw, priority());</span><br></pre></td></tr></table></figure>
-<p>为什么第一个例子有问题？因为在C++编译器生成代码的时候有可能会出现以下这种情况：</p>
-<ol>
-<li>执行”new Widget”</li>
-<li>调用priority()</li>
-<li>调用std::shared_ptr构造函数</li>
-</ol>
-<p>如果第二部抛出异常，那么第一步申请出来的资源还未放入智能指针内，所以没有人去释放它。于是就造成了资源泄露。</p>
+<h2><span id="设计多线程代码其他注意事项">设计多线程代码其他注意事项</span></h2><p><strong>异常安全</strong></p>
+<p>如果你起的线程有未处理的异常，程序将会退出(C++调用<code>std::terminate</code>)。当然你可以在线程代码内部处理掉异常，但是你需要将这个异常告诉外部从而外部能够知道错误状态来进行一些善后。</p>
+<p>C++11里面可以用<code>std::future</code>的方式自然地实现这个，因为在<code>std::future::get</code>的时候如果线程有未处理的异常，会在调用的地方重新抛出来。</p>
+<p><strong>可扩展性</strong></p>
+<p>可扩展性的意思是当处理器数量增加的时候，程序能够在更短的时间内完成任务或者在相同时间内能够处理更多的数据。</p>
+<p>一个程序内部可以分为两部分，一部分为串行部分，而另一部分则是可以被并行的部分。有一个Amdahl定律简单地描述了并发代码的性能，给出的公式如下：</p>
+<p>$$    P = \dfrac{1}{f_s+\frac{1-f_s}{N}} $$</p>
+<p>P为整体性能，$f_s$表示程序中串行的部分，N为处理器的数量。所以当试图优化代码的时候最好权衡一下优化能够带来的效益。应该让代码尽量的能够并行，这样能够充分利用好处理器增加带来的好处。另外如果串行的部分比例很大，比如说80%，那么优先去优化串行部分显然是比较划算的。</p>
+<p><strong>提高响应速度</strong></p>
+<p>在GUI应用中尽量将一些好使的操作放在非UI线程去做，这样子能够提高UI的响应速度从而提高用户体验。</p>
 
         
         
@@ -623,7 +252,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a>
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
   </div>
 
 </div>
@@ -634,7 +263,308 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/08/15/effective-cpp-reading-notes-4/#disqus_thread" class="comments-count-link">Comments</a>
+		<a href="/2018/05/10/cpp-concurrency-in-action-reading-notes-how-to-design-concurrent-code/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/04/25/cpp-concurrency-in-action-reading-notes-cpp-memory-model/" title="《C++ Concurrency In Action》读书笔记 - C++内存模型" itemprop="url">《C++ Concurrency In Action》读书笔记 - C++内存模型</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-04-25T13:21:00.000Z" itemprop="datePublished"> 发表于 2018-04-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>本书第五章讲的是C++内存模型和原子操作。如果没有了解过内存模型，可能会在读这一章的时候云里雾里，不知道内存模型到底是干什么的。可以先通过这篇文章科普一下<a href="/2018/04/17/what-is-memory-model/" title="什么是内存模型">什么是内存模型</a>)。简单的理解C++内存模型就是，C++规定的跟程序员之间的一个协议，协议内容主要是保证在data race的情况下程序的行为是什么样的。</p>
+<h2><span id="c内存模型">C++内存模型</span></h2><p>在谈具体的C++内存模型之前，需要先了解一下什么是重排(reordering)，以及重排会给我们带来什么样的问题。</p>
+<p>重排主要存在于两个阶段，一个阶段是编译时，当C++代码编译成指令的时候编译器会在不影响程序的前提下对程序进行重排和优化。另一个是运行时，处理器会在对结果没有影响的情况下对指令进行重排。两个重排的目的都是为了提升性能。这两个重拍的前提都是它们认为对结果不会产生影响，这个推导在单线程的情况下是成立的。但是当这段代码涉及到多线程，情况可能就会不如你所愿。举个很简单的例子， <code>y==42</code>乍看之下不可能为false，但是这个是不能够100%保证的。为什么？因为重排。而重排按照以下这种写法是无法控制的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int x = 0;</span><br><span class="line">int y = 0;</span><br><span class="line">// run at thread 1</span><br><span class="line">void M1() &#123;</span><br><span class="line">    y = 42;           // 1</span><br><span class="line">    x = 1;            // 2</span><br><span class="line">&#125;</span><br><span class="line">// run at thread 2</span><br><span class="line">void M2() &#123;</span><br><span class="line">    while (x!=1);     // 1</span><br><span class="line">    assert(y+x==42);    // 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这也就是内存模型所要解决最大的问题：对抗重排。更加具体一点，C++内存模型主要要解决的问题是：</p>
+<ul>
+<li>对抗重排，让程序能够按照我们想要的顺序去执行，能够在任何情况下都保证结果正确，而是不靠运气；</li>
+<li>上面代码除了重排以外还存在的问题就是，在访问同一块内存的时候没有加保护，而这个是会导致未定义的行为的，内存模型需要解决data race的情况下给出一套可预期的行为。</li>
+</ul>
+<h3><span id="通俗版本">通俗版本</span></h3><p>那么对抗重排不可能说让整个程序都不允许任何重排，这个是不可能的。准确的讲，我们其实是不想看到会影响我们预期效果的重排。拿上面那个程序举个例子，上面的M1和M2之间其实存在着某种依赖关系。当M2.1中<code>x!=1</code>不成立的时候，我们期望看到的是M1.1已经完成执行了，我们可以理解成M2.2依赖于M1.1的操作。</p>
+<p>那么对抗重排的武器是什么，是fence，又叫memory barrier。我们可以在M1.2处设置一个边界，清楚地告诉编译器和处理器你们在这个边界上面乱搞可以，但是请不要跑到下面来。然后在M2.1处也设置一个边界，告诉编译器和处理器你们在这行下面乱搞可以，但是请不要跑到上面来。</p>
+<p>既然是边界，那么就有两个方向，根据不同的规则可以定义以下四种边界：CAN_UP_CAN_DOWN(能上能下)，CAN_UP_NO_DOWN(能上不能下)，NO_UP_NO_DOWN(不能上不能下)，NO_UP_CAN_DOWN(不能上能下)。</p>
+<p>那么我们改写一下上面的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// run at thread 1</span><br><span class="line">void M1() &#123;</span><br><span class="line">    y = 42;           // 1</span><br><span class="line">    CAN_UP_NO_DOWN</span><br><span class="line">    x = 1;            // 2</span><br><span class="line">&#125;</span><br><span class="line">// run at thread 2</span><br><span class="line">void M2() &#123;</span><br><span class="line">    while (x!=1);     // 1</span><br><span class="line">    NO_UP_CAN_DOWN</span><br><span class="line">    assert(y+x==43);    // 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么对应到C++中的内存模型的话可以用下面这幅图来理解</p>
+<p><img src="/img/explain_memory_order_using_fence.png" alt="explain_memory_order_using_fence"></p>
+<p>用这种通俗的理解方法，这四种内存模型(<em>memory_order_relaxed</em>, <em>memory_order_acquire</em>, <em>memory_order_release</em>,  <em>memory_order_seq_cst</em>)应该就不难理解了。还有一种比较特殊的是<em>memory_order_consume</em>，这个是上面第四个的一个弱化版。还是拿我们这个程序来举例，我们这个例子中M2.2其实只依赖于M1.1这一行，而不依赖于其他行的代码。所以我们只需要保证M1.1在CAN_UP_NO_DOWN以上，M2.2在NO_UP_CAN_DOWN以下就能够保证正确性了，没有必要一竿子把所有的操作都限制住。可以让更多的表达式通过fence，自由自在的优化。</p>
+<h3><span id="专业版本">专业版本</span></h3><p>上面用我自己理解的通俗版本介绍了这几种内存模型的区别，专业版的话需要搞清楚两个概念：<em>Happens-Before</em>和 <em>Synchronizes-With</em>。推荐大家直接阅读参考资料中的两篇文章，讲得很好，以我目前的理解水平还不能够比这两篇文章更好更通俗的去解释这两个概念。读完就基本知道是怎么回事了。</p>
+<h2><span id="c-atomic注意事项">C++ atomic注意事项</span></h2><p>使用C++中的atomic有以下一些注意事项：</p>
+<ul>
+<li>预定义的<code>atomic</code>类型基本都重载了常用的操作符，所以你如果用起来的话可以跟普通基础类型一样。但是默认用的memory order是最强的<code>memory_order_seq_cst</code>。所以你在理解memory oder的情况下应该尽可能的使用相对较弱的memory order。特别是如果你的代码可能跑在ARM等弱内存序的处理器上。</li>
+<li>如果要使用一个自定义的类型扩展<code>std::atomic</code> ，那么这个类型必须满足一下两个条件：这个类型及其所有父类和非静态的成员都必须有trival copy-assignment操作符，简单地说就是能够用<code>memcpy</code>直接进行拷贝；二，必须是在字节层面能够直接比较的，可以理解为能够用<code>memcmp</code>进行比较</li>
+</ul>
+<h2><span id="参考">参考</span></h2><ul>
+<li><a href="http://preshing.com/20130702/the-happens-before-relation/" target="_blank" rel="external">The Happens-Before Relation</a></li>
+<li><a href="http://preshing.com/20130823/the-synchronizes-with-relation/" target="_blank" rel="external">The Synchronizes-With Relation</a></li>
+<li><a href="http://preshing.com/20140709/the-purpose-of-memory_order_consume-in-cpp11/" target="_blank" rel="external">The Purpose of memory_order_consume in C++11</a></li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/04/25/cpp-concurrency-in-action-reading-notes-cpp-memory-model/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/04/20/cpp-concurrency-in-action-reading-notes-sync-between-threads/" title="《C++ Concurrency In Action》读书笔记 - 线程间同步机制" itemprop="url">《C++ Concurrency In Action》读书笔记 - 线程间同步机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-04-20T14:22:22.000Z" itemprop="datePublished"> 发表于 2018-04-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>前面介绍了<a href="/2018/04/10/cpp-concurrency-in-action-reading-notes-sharing-data/" title="线程间如何安全的共享数据">线程间如何安全的共享数据</a>，主要是通过互斥量和锁来实现。除了共享数据以外，线程间还需要进行同步的操作，比如说有某个事件需要通知。C++11引入了两个基本的机制来实现线程间的通信：<em>condition variables</em> 和<em>futures</em>。</p>
+<h2><span id="condition-variables">condition variables</span></h2><p>condition variables主要是用来等待某个事件的通知，比如说线程1专门负责处理数据，线程2则是从IO读取数据放到队列里。这个时候线程1就需要等队列空闲的时候等待新的数据，而线程2则需要在数据放入队列以后通知线程1。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">// Thread 1</span><br><span class="line"></span><br><span class="line">std::mutex mtx;</span><br><span class="line">std::queue&lt;data&gt; data_queue;</span><br><span class="line">std::condition_variable cond;</span><br><span class="line"></span><br><span class="line">void process_data()</span><br><span class="line">&#123;</span><br><span class="line">	while (true)</span><br><span class="line">	&#123;</span><br><span class="line">		std::unique_lock&lt;mtx&gt; lk;</span><br><span class="line">		cond.wait(lk, []&#123;return !data_queue.empty();&#125;); // 1</span><br><span class="line">		auto data = data_queue.front();</span><br><span class="line">		data_queue.pop();</span><br><span class="line">		lk.unlock();                                    // 2</span><br><span class="line">		process(data);</span><br><span class="line">		if (is_last_chunk(data))</span><br><span class="line">			break;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void prepare_data()</span><br><span class="line">&#123;</span><br><span class="line">	while(more_data_to_prepare())</span><br><span class="line">	&#123;</span><br><span class="line">		auto data = prepare_data();</span><br><span class="line">		std::unique_lock&lt;mtx&gt; lk;</span><br><span class="line">		data_queue.push(data);</span><br><span class="line">		cond.notify_one();                               // 3</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码有几个关键的知识点：</p>
+<ul>
+<li>为什么#1处<code>condition_variable</code> wait的时候需要传一个<code>unique_lock</code>？</li>
+<li>为什么#1处，需要判断<code>data_queue.empty</code>？</li>
+<li>#1，除了<code>wait</code>以外还有没有其他方式？</li>
+<li>为什么#2处要显式<code>unlock</code>？</li>
+<li>#3 处是否还有其他notify的方式，并且有何区别？</li>
+</ul>
+<p><strong>为什么#1处<code>condition_variable</code> wait的时候需要传一个<code>unique_lock</code>？</strong></p>
+<p>第一次看到<code>condition_variable</code>会比较奇怪为什么需要传入一个锁。这个是因为，<code>condition_variable</code>需要运行pred来检查是否满足等待条件，而这个往往是需要访问共享数据的，这个锁是用来保护这段共享数据的。</p>
+<p>这个是其中一个原因，但是你会发现有一个<code>wait</code>函数是不需要传入predicate的。这个时候这个lock的意义则在于保护<code>condition_variable</code>本身内部的信号。因为多个线程会同时访问这个<code>condition_variable</code>，所以需要某种机制来对其内部的数据结构进行保护。<sup>[1]</sup></p>
+<p><strong>为什么#1处，需要判断<code>data_queue.empty</code>？</strong></p>
+<p>有一种wake up叫做<em>spurious wakeup</em>。简单地说就是，被notify了但是其实有可能它需要等待的那个条件已经不满足了，在这个例子中就是data_queue可能在它被唤醒的时候是empty。那么为什么会出现这种情况呢？</p>
+<p>我们可以想一下<code>condition_variable</code>内部是怎么实现的，下面这段伪代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void</span><br><span class="line">condition_variable::wait(unique_lock&lt;mutex&gt; &amp;lock)</span><br><span class="line">&#123;</span><br><span class="line">	lock.unlock();</span><br><span class="line">	// some system call to wait for event</span><br><span class="line">	lock.lock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，<code>wait</code>的开始的时候应该会先把把mutex给释放掉，然后等待系统事件。当收到事件以后则会再次尝试去获取mutex。可以看到在收到系统事件和获取mutex这期间是没有任何mutex做为保护的。在这个时候很有可能外部的条件已经被另外的线程给修改掉了，所以之后再次获取到mutex并不能保证一定满足所需要等待的条件。</p>
+<p>看了一下<em>libcxx</em>内部的实现，它其实是直接调用了pthread的<code>pthread_cond_wait</code>。而在<code>pthread_cond_wait</code>的内部实现则不是我上面说的那么简单，还有很多其他的操作。这个具体代码我也没有完全看明白，就不在这里详述，有机会另外再研究。（我看的是glibc里面pthread的实现）。</p>
+<p><strong>除了<code>wait</code>以外还有没有其他方式？</strong></p>
+<p>除了<code>wait</code>以外还提供了<code>wait_until</code>和<code>wait_for</code>两个api，主要是用来避免等待太久。内部实现的话<code>wait_until</code>其实是转换成了<code>wait_for</code>，所以一个比较有意思的事情是如果你在等待期间去修改系统的时间的话，对于最终等待的时间是不会产生影响的，它内部开始的时候已经换算成时间差了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">std::condition_variable cv;</span><br><span class="line">std::mutex mtx;</span><br><span class="line">std::unique_lock&lt;std::mutex&gt; lk(mtx);</span><br><span class="line">auto now = std::chrono::system_clock::now();</span><br><span class="line">std::time_t now_c = std::chrono::system_clock::to_time_t(now);</span><br><span class="line">std::cout &lt;&lt; std::put_time(std::localtime(&amp;now_c), &quot;%T&quot;) &lt;&lt; std::endl;</span><br><span class="line">cv.wait_until(lk, now + std::chrono::seconds(10));</span><br><span class="line">now = std::chrono::system_clock::now();</span><br><span class="line">now_c = std::chrono::system_clock::to_time_t(now);</span><br><span class="line">std::cout &lt;&lt; std::put_time(std::localtime(&amp;now_c), &quot;%T&quot;) &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">// output:</span><br><span class="line">20:57:19</span><br><span class="line">20:52:27</span><br></pre></td></tr></table></figure>
+<p><strong>为什么#2处要显式<code>unlock</code>？</strong></p>
+<p>拿到数据以后，data_queue已经不需要保护，而且处理数据可能会比较耗时。没有必要在这个地方去一直拿着mutex。</p>
+<p><strong>#3 处是否还有其他<code>notify</code>的方式，并且有何区别？</strong></p>
+<p>可以选择<code>notify_one</code>和<code>notify_all</code>，顾名思义。两个的区别是唤醒的等待线程数量不一样。notify方法调用的时候是需要去获取mutex的。</p>
+<h2><span id="stdfuture">std::future</span></h2><p>一个异步方法如何返回一个结果，C/C++程序员的第一反应应该是用回调函数。回调函数确实可以解决这个问题，但是回调函数本身也有着诸多的问题。C++11中引入lambda和闭包，能够让这个问题有所缓解。但是使用回调的方法并非一个优雅的解决方法。</p>
+<p>举个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void CalcSomething()</span><br><span class="line">&#123;</span><br><span class="line">    std::mutex mtx;</span><br><span class="line">    std::condition_variable cv;</span><br><span class="line">    </span><br><span class="line">    int result = 0;</span><br><span class="line">    doSomethingAsync(11, [&amp;result, &amp;cv](int r)&#123;</span><br><span class="line">        result = r;</span><br><span class="line">        cv.notify_one();</span><br><span class="line">    &#125;);</span><br><span class="line">    // Do other things</span><br><span class="line">    std::unique_lock&lt;std::mutex&gt; lk(mtx);</span><br><span class="line">    cv.wait(lk);</span><br><span class="line">    // use result to do more calculation</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看着就蛋疼。那么future就是可以帮我们解决这个问题。有了它我们可以这么写代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void CalcSomething()</span><br><span class="line">&#123;</span><br><span class="line">    auto f = doSomethingAsync(11);</span><br><span class="line">    // Do other things</span><br><span class="line">    f.wait();</span><br><span class="line">    int result = f.get();</span><br><span class="line">    // use result to do more calculation</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>确实可以大大简化我们原来的代码，其实隐约看到另外一种编程的方法。但是在很多时候还是不够用，比如说CalcSomething也是一个异步方法，我想让结果等待以后继续做事情但不想同步的等。那么我们可以起一个线程去执行上述代码，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void CalcSomethingUseThread()</span><br><span class="line">&#123;</span><br><span class="line">    std::thread t([]&#123;</span><br><span class="line">        auto f = doSomethingAsync(11);</span><br><span class="line">        // Do other things</span><br><span class="line">        f.wait();</span><br><span class="line">        int result = f.get();</span><br><span class="line">        // use result to do more calculation</span><br><span class="line">        &#125;);</span><br><span class="line">    t.detach();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是很显然随随便便起一个线程只为做这么简单的事情未免开销太大了，而且很多项目里是有类似线程池来统一管理线程的。目前的future还不能够很好地处理这种需求，要么用独立线程运行，要么通过注册回调来做。</p>
+<p>不过<code>Folly::Future</code>对<code>std::future</code>做了极大的扩充，提供了类似的解决方案。有兴趣的可以去了解一下。</p>
+<p>实际运用中C++11中的<code>std::future</code>有点鸡肋的感觉，除非在C++20以后能够加入更加多的功能，否则并没有很大的吸引力去用这套机制。</p>
+<h2><span id="参考">参考</span></h2><ol>
+<li><a href="https://stackoverflow.com/questions/2763714/why-do-pthreads-condition-variable-functions-require-a-mutex" target="_blank" rel="external">Stackoverflow - Why do pthreads’ condition variable functions require a mutex?</a></li>
+<li><a href="https://stackoverflow.com/questions/1461913/does-c-sharp-monitor-wait-suffer-from-spurious-wakeups/1461956#1461956" target="_blank" rel="external">Jon Skeet - Does C# Monitor.Wait() suffer from spurious wakeups?</a></li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/04/20/cpp-concurrency-in-action-reading-notes-sync-between-threads/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/04/17/what-is-memory-model/" title="什么是内存模型（Memory Consistency Model）" itemprop="url">什么是内存模型（Memory Consistency Model）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-04-17T12:59:46.000Z" itemprop="datePublished"> 发表于 2018-04-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近在看 <em>《C++ Concurrency in Action》</em>第五章C++内存模型的时候，对于其中提到的一些知识点有点理解困难。所以另外找了一些资料先了解一些什么是内存模型，先对与内存模型有一个整体的概念然后再深入去了解C++的内存模型。</p>
+<h2><span id="什么是内存模型">什么是内存模型</span></h2><blockquote>
+<p>In computing, a memory model describes the interactions of threads through memory and their shared use of the data.<br><em>Wikipedia</em></p>
+</blockquote>
+<p>有点抽象，似乎还是没有很好地定义出内存模型是什么，下面这段是摘自<em>A Primer on Memory Consistency and Cache Coherence</em>(<em>APMCCC</em>)<sup>1</sup>第三章。</p>
+<blockquote>
+<p>A memory consistency model, or, more simply, a memory model, is a specification of the allowed behavior of multithreaded programs executing with shared memory. For a multithreaded program executing with specific input data, it specifies what values dynamic loads may return and what the final state of memory is.</p>
+</blockquote>
+<p>简单的说，内存模型可以理解为一套协议，定义多个处理器/线程在在操作内存的时候需要遵循的一套协议。什么是允许的什么是不允许的。</p>
+<p>可以看到这里的内存模型和内存一致性模型指的是同一个概念。</p>
+<p>内存一致性模型的很多概念可以推广到一致性模型，一致性模型则是在分布式系统中很重要的一个概念。从某一个角度来说，多(核)处理器与内存的关系也是一种分布式系统。</p>
+<h2><span id="内存模型的分类">内存模型的分类</span></h2><p>内存模型可以分为硬件内存模型(hardware memory model)和软件内存模型(software memory model) <sup>3</sup>。</p>
+<p>硬件内存模型可以理解为硬件与软件之间的一套协议(contract between the hardware and software) <sup>2</sup>，硬件会在协议中说明会在什么情况下进行重排什么情况下不会。这里的硬件一般指的是处理器，而软件指的是操作处理器的指令。</p>
+<p>软件内存模型可以理解为程序员和编程语言之间的一套协议(contract between programmer and programming language)，编程语言会规定一套规则来说明什么情况下会对代码进行重排，并且提供一些机制能够让程序员对一些操作进行控制。</p>
+<p>从硬件和软件的角度是看内存模型的一个维度，另一个维度则是一致性的强度。一致性可以是强一致性也可以是弱一致性。</p>
+<p><img src="/img/what-is-memory-model/category.png" alt="Category"></p>
+<p>这张不严谨的图参考自<a href="http://preshing.com/20120930/weak-vs-strong-memory-models/" target="_blank" rel="external">Weak vs. Strong Memory Models</a>，稍微做了一下变换。</p>
+<p>大部分程序员关心的是软件维度的内存模型，即程序员和编程语言之间的协议。内存模型的强度与软硬件无管，是抽象层面的一个东西即适用于硬件也适用于软件。</p>
+<p>在<a href="https://en.wikipedia.org/wiki/Consistency_model" target="_blank" rel="external">wikipedia</a>上我们可以看到有很多不同的一致性模型分类，这里对于C++中的内存模型比较相关的是：Sequential Consistency、Release consistency。</p>
+<h3><span id="sequential-consistency">Sequential Consistency</span></h3><p>Sequential Consistency(SC)是最符合直觉的一种内存模型也是很关键的一种。是由Leslie Lamport在<a href="https://www.microsoft.com/en-us/research/publication/make-multiprocessor-computer-correctly-executes-multiprocess-programs/?from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fum%2Fpeople%2Flamport%2Fpubs%2Fmulti.pdf" target="_blank" rel="external">1979年提出来的</a>。</p>
+<p>理解这个模型有两个关键点：</p>
+<ol>
+<li>程序的执行顺序按照代码顺序</li>
+<li>代码中对于内存的访问不会被乱序</li>
+</ol>
+<p>#1 很好理解，即执行顺序不会随意重排，尊重代码顺序。#2则不是很好实现，</p>
+<p><img src="/img/what-is-memory-model/switch.png" alt="Memory access as switch"></p>
+<p>上图为<em>APMCCC</em>中的截图。把内存操作想象成都需要通过一个开关，每次内存都挑选一个核允许其进行内存访问。这样就可以保证所有的内存访问不会被乱序。不难发现这个模型最大的问题就是同一时间只能有一个核对内存进行访问，这个很大程度上削弱了多核带来的提升。</p>
+<h3><span id="release-consistency">Release consistency</span></h3><p>在Release consistency中进入critical section(关键区)称为acquire，离开critical section称为release。Acquire操作是读操作，release是写操作。</p>
+<p>简单的理解就是acquire操作会阻止所有在此操作以下的内存读取操作被重排到此操作前。release会保证所有操作之前的内存读取操作不会被重排到release操作后。下图可以很清晰的表达这个关系(<a href="http://preshing.com/20140709/the-purpose-of-memory_order_consume-in-cpp11/" target="_blank" rel="external">The Purpose of memory_order_consume in C++11</a>)：</p>
+<p><img src="/img/what-is-memory-model/release_consistency.png" alt="Release Consistency"></p>
+<h2><span id="总结">总结</span></h2><p>对于理解C++的内存模型，上面的这些预备知识就差不多足够了。强烈推荐阅读Preshing关于Lock-free的一系列博客，还有这本小书<em>A Primer on Memory Consistency and Cache Coherence</em>。</p>
+<p>Preshing的Lock-free的系列博客，没有列全，可以顺藤摸瓜找到相关文章。</p>
+<ul>
+<li><a href="http://preshing.com/20120710/memory-barriers-are-like-source-control-operations/" target="_blank" rel="external">Memory Barriers Are Like Source Control Operations</a></li>
+<li><a href="http://preshing.com/20120930/weak-vs-strong-memory-models/" target="_blank" rel="external">Weak vs. Strong Memory Models</a></li>
+<li><a href="http://preshing.com/20120913/acquire-and-release-semantics/" target="_blank" rel="external">Acquire and Release Semantics</a></li>
+<li><a href="http://preshing.com/20140709/the-purpose-of-memory_order_consume-in-cpp11/" target="_blank" rel="external">The Purpose of memory_order_consume in C++11</a></li>
+</ul>
+<h2><span id="参考">参考</span></h2><ol>
+<li><a href="https://www.morganclaypool.com/doi/abs/10.2200/S00346ED1V01Y201104CAC016" target="_blank" rel="external"><em>A Primer on Memory Consistency and Cache Coherence</em>, Daniel J. Sorin, Mark D. Hill, David A. Wood</a></li>
+<li><a href="https://homes.cs.washington.edu/~bornholt/post/memory-models.html" target="_blank" rel="external"><em>Memory Consistency Models: A Primer</em>, James Bornholt</a></li>
+<li><a href="http://preshing.com/20120930/weak-vs-strong-memory-models/" target="_blank" rel="external"><em>Weak vs. Strong Memory Models</em>, Jeff Preshing</a></li>
+<li><a href="http://preshing.com/20120913/acquire-and-release-semantics/" target="_blank" rel="external">Acquire and Release Semantics</a></li>
+<li><a href="https://herbsutter.com/2012/08/02/strong-and-weak-hardware-memory-models/" target="_blank" rel="external">“Strong” and “weak” hardware memory models</a></li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/并发编程/">并发编程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/并发编程/">并发编程</a><a href="/tags/系统架构/">系统架构</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/04/17/what-is-memory-model/#disqus_thread" class="comments-count-link">Comments</a>
 	
 </div>
 
@@ -650,7 +580,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -674,6 +604,10 @@
 		<ul>
 		
 		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
 		  
 		
@@ -686,7 +620,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
 		  
 		
 		  
@@ -707,7 +641,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
 			
 		
 			
@@ -719,11 +653,19 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
 			
 		
 			
@@ -743,15 +685,15 @@
 			
 		
 			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
 			
 		
 			
@@ -759,7 +701,11 @@
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 			
@@ -772,18 +718,6 @@
 		
 			
 				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -808,6 +742,8 @@
         
     </ul>
 </div>
+
+  
 
 </aside>
 </div>

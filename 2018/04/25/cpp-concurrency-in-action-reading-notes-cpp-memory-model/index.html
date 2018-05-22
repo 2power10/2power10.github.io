@@ -1,0 +1,617 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《C++ Concurrency In Action》读书笔记 - C++内存模型 | yi&#39;s weblog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Yi">
+    
+
+    <meta name="keywords" content="C++并发编程实战,C++11,并发编程,内存模型">
+    <meta name="description" content="本书第五章讲的是C++内存模型和原子操作。如果没有了解过内存模型，可能会在读这一章的时候云里雾里，不知道内存模型到底是干什么的。可以先通过这篇文章科普一下什么是内存模型)。简单的理解C++内存模型就是，C++规定的跟程序员之间的一个协议，协议内容主要是保证在data race的情况下程序的行为是什么样的。 C++内存模型在谈具体的C++内存模型之前，需要先了解一下什么是重排(reordering)">
+<meta name="keywords" content="C++并发编程实战,C++11,并发编程,内存模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《C++ Concurrency In Action》读书笔记 - C++内存模型">
+<meta property="og:url" content="http://zhengyi.me/2018/04/25/cpp-concurrency-in-action-reading-notes-cpp-memory-model/index.html">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="本书第五章讲的是C++内存模型和原子操作。如果没有了解过内存模型，可能会在读这一章的时候云里雾里，不知道内存模型到底是干什么的。可以先通过这篇文章科普一下什么是内存模型)。简单的理解C++内存模型就是，C++规定的跟程序员之间的一个协议，协议内容主要是保证在data race的情况下程序的行为是什么样的。 C++内存模型在谈具体的C++内存模型之前，需要先了解一下什么是重排(reordering)">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://zhengyi.me/img/explain_memory_order_using_fence.png">
+<meta property="og:updated_time" content="2018-05-22T13:58:55.265Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《C++ Concurrency In Action》读书笔记 - C++内存模型">
+<meta name="twitter:description" content="本书第五章讲的是C++内存模型和原子操作。如果没有了解过内存模型，可能会在读这一章的时候云里雾里，不知道内存模型到底是干什么的。可以先通过这篇文章科普一下什么是内存模型)。简单的理解C++内存模型就是，C++规定的跟程序员之间的一个协议，协议内容主要是保证在data race的情况下程序的行为是什么样的。 C++内存模型在谈具体的C++内存模型之前，需要先了解一下什么是重排(reordering)">
+<meta name="twitter:image" content="http://zhengyi.me/img/explain_memory_order_using_fence.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="yi&#39;s weblog" title="yi&#39;s weblog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="yi&#39;s weblog">yi&#39;s weblog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/atom.xml">RSS</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:zhengyi.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/04/25/cpp-concurrency-in-action-reading-notes-cpp-memory-model/" title="《C++ Concurrency In Action》读书笔记 - C++内存模型" itemprop="url">《C++ Concurrency In Action》读书笔记 - C++内存模型</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-04-25T13:21:00.000Z" itemprop="datePublished"> 发表于 2018-04-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">C++内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">通俗版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">专业版本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">C++ atomic注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>本书第五章讲的是C++内存模型和原子操作。如果没有了解过内存模型，可能会在读这一章的时候云里雾里，不知道内存模型到底是干什么的。可以先通过这篇文章科普一下<a href="/2018/04/17/what-is-memory-model/" title="什么是内存模型">什么是内存模型</a>)。简单的理解C++内存模型就是，C++规定的跟程序员之间的一个协议，协议内容主要是保证在data race的情况下程序的行为是什么样的。</p>
+<h2><span id="c内存模型">C++内存模型</span></h2><p>在谈具体的C++内存模型之前，需要先了解一下什么是重排(reordering)，以及重排会给我们带来什么样的问题。</p>
+<p>重排主要存在于两个阶段，一个阶段是编译时，当C++代码编译成指令的时候编译器会在不影响程序的前提下对程序进行重排和优化。另一个是运行时，处理器会在对结果没有影响的情况下对指令进行重排。两个重排的目的都是为了提升性能。这两个重拍的前提都是它们认为对结果不会产生影响，这个推导在单线程的情况下是成立的。但是当这段代码涉及到多线程，情况可能就会不如你所愿。举个很简单的例子， <code>y==42</code>乍看之下不可能为false，但是这个是不能够100%保证的。为什么？因为重排。而重排按照以下这种写法是无法控制的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int x = 0;</span><br><span class="line">int y = 0;</span><br><span class="line">// run at thread 1</span><br><span class="line">void M1() &#123;</span><br><span class="line">    y = 42;           // 1</span><br><span class="line">    x = 1;            // 2</span><br><span class="line">&#125;</span><br><span class="line">// run at thread 2</span><br><span class="line">void M2() &#123;</span><br><span class="line">    while (x!=1);     // 1</span><br><span class="line">    assert(y+x==42);    // 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这也就是内存模型所要解决最大的问题：对抗重排。更加具体一点，C++内存模型主要要解决的问题是：</p>
+<ul>
+<li>对抗重排，让程序能够按照我们想要的顺序去执行，能够在任何情况下都保证结果正确，而是不靠运气；</li>
+<li>上面代码除了重排以外还存在的问题就是，在访问同一块内存的时候没有加保护，而这个是会导致未定义的行为的，内存模型需要解决data race的情况下给出一套可预期的行为。</li>
+</ul>
+<h3><span id="通俗版本">通俗版本</span></h3><p>那么对抗重排不可能说让整个程序都不允许任何重排，这个是不可能的。准确的讲，我们其实是不想看到会影响我们预期效果的重排。拿上面那个程序举个例子，上面的M1和M2之间其实存在着某种依赖关系。当M2.1中<code>x!=1</code>不成立的时候，我们期望看到的是M1.1已经完成执行了，我们可以理解成M2.2依赖于M1.1的操作。</p>
+<p>那么对抗重排的武器是什么，是fence，又叫memory barrier。我们可以在M1.2处设置一个边界，清楚地告诉编译器和处理器你们在这个边界上面乱搞可以，但是请不要跑到下面来。然后在M2.1处也设置一个边界，告诉编译器和处理器你们在这行下面乱搞可以，但是请不要跑到上面来。</p>
+<p>既然是边界，那么就有两个方向，根据不同的规则可以定义以下四种边界：CAN_UP_CAN_DOWN(能上能下)，CAN_UP_NO_DOWN(能上不能下)，NO_UP_NO_DOWN(不能上不能下)，NO_UP_CAN_DOWN(不能上能下)。</p>
+<p>那么我们改写一下上面的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// run at thread 1</span><br><span class="line">void M1() &#123;</span><br><span class="line">    y = 42;           // 1</span><br><span class="line">    CAN_UP_NO_DOWN</span><br><span class="line">    x = 1;            // 2</span><br><span class="line">&#125;</span><br><span class="line">// run at thread 2</span><br><span class="line">void M2() &#123;</span><br><span class="line">    while (x!=1);     // 1</span><br><span class="line">    NO_UP_CAN_DOWN</span><br><span class="line">    assert(y+x==43);    // 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么对应到C++中的内存模型的话可以用下面这幅图来理解</p>
+<p><img src="/img/explain_memory_order_using_fence.png" alt="explain_memory_order_using_fence"></p>
+<p>用这种通俗的理解方法，这四种内存模型(<em>memory_order_relaxed</em>, <em>memory_order_acquire</em>, <em>memory_order_release</em>,  <em>memory_order_seq_cst</em>)应该就不难理解了。还有一种比较特殊的是<em>memory_order_consume</em>，这个是上面第四个的一个弱化版。还是拿我们这个程序来举例，我们这个例子中M2.2其实只依赖于M1.1这一行，而不依赖于其他行的代码。所以我们只需要保证M1.1在CAN_UP_NO_DOWN以上，M2.2在NO_UP_CAN_DOWN以下就能够保证正确性了，没有必要一竿子把所有的操作都限制住。可以让更多的表达式通过fence，自由自在的优化。</p>
+<h3><span id="专业版本">专业版本</span></h3><p>上面用我自己理解的通俗版本介绍了这几种内存模型的区别，专业版的话需要搞清楚两个概念：<em>Happens-Before</em>和 <em>Synchronizes-With</em>。推荐大家直接阅读参考资料中的两篇文章，讲得很好，以我目前的理解水平还不能够比这两篇文章更好更通俗的去解释这两个概念。读完就基本知道是怎么回事了。</p>
+<h2><span id="c-atomic注意事项">C++ atomic注意事项</span></h2><p>使用C++中的atomic有以下一些注意事项：</p>
+<ul>
+<li>预定义的<code>atomic</code>类型基本都重载了常用的操作符，所以你如果用起来的话可以跟普通基础类型一样。但是默认用的memory order是最强的<code>memory_order_seq_cst</code>。所以你在理解memory oder的情况下应该尽可能的使用相对较弱的memory order。特别是如果你的代码可能跑在ARM等弱内存序的处理器上。</li>
+<li>如果要使用一个自定义的类型扩展<code>std::atomic</code> ，那么这个类型必须满足一下两个条件：这个类型及其所有父类和非静态的成员都必须有trival copy-assignment操作符，简单地说就是能够用<code>memcpy</code>直接进行拷贝；二，必须是在字节层面能够直接比较的，可以理解为能够用<code>memcmp</code>进行比较</li>
+</ul>
+<h2><span id="参考">参考</span></h2><ul>
+<li><a href="http://preshing.com/20130702/the-happens-before-relation/" target="_blank" rel="external">The Happens-Before Relation</a></li>
+<li><a href="http://preshing.com/20130823/the-synchronizes-with-relation/" target="_blank" rel="external">The Synchronizes-With Relation</a></li>
+<li><a href="http://preshing.com/20140709/the-purpose-of-memory_order_consume-in-cpp11/" target="_blank" rel="external">The Purpose of memory_order_consume in C++11</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zhengyi.me/2018/04/25/cpp-concurrency-in-action-reading-notes-cpp-memory-model/" data-title="《C++ Concurrency In Action》读书笔记 - C++内存模型 | yi&#39;s weblog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/05/10/cpp-concurrency-in-action-reading-notes-how-to-design-concurrent-code/" title="《C++ Concurrency In Action》读书笔记 - 如何设计并发代码">
+  <strong>上一篇：</strong><br/>
+  <span>
+  《C++ Concurrency In Action》读书笔记 - 如何设计并发代码</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/04/20/cpp-concurrency-in-action-reading-notes-sync-between-threads/"  title="《C++ Concurrency In Action》读书笔记 - 线程间同步机制">
+ <strong>下一篇：</strong><br/> 
+ <span>《C++ Concurrency In Action》读书笔记 - 线程间同步机制
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">C++内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">通俗版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">专业版本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">C++ atomic注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  <div class="linkslist">
+  <p class="asidetitle">公众号</p>
+  <img width="100%" src="/img/wechat.logo.jpg" alt="ArmstrongNotes"/> 
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/思考讨论/" title="思考讨论">思考讨论<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/阅读相关/" title="阅读相关">阅读相关<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考方法/" title="思考方法">思考方法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考/" title="思考">思考<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码阅读/" title="源码阅读">源码阅读<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.vicoder.com/" target="_blank" title="Victor Jiang">Victor Jiang</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.cnblogs.com/imjustice/" target="_blank" title="博客园主页">博客园主页</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m 10000000000 <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Yi">Yi</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = '2power10';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-8661588-8', 'zhengyi.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

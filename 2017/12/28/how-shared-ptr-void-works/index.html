@@ -12,7 +12,7 @@
 
     
     <meta name="description" content="前戏先抛出两个问题  如果delete一个指针，但是它真实的类型和指针类型不一样会发生什么？ 是谁调用了析构函数？   下面这段代码会发生什么有趣的事情？ 123456789101112131415161718192021222324252627282930313233// delete_diff_type.cpp#include &amp;lt;iostream&amp;gt;using namespace s">
-<meta name="keywords" content="C++,编程语言,C++11,源码阅读">
+<meta name="keywords" content="C++11,编程语言,C++,源码阅读">
 <meta property="og:type" content="article">
 <meta property="og:title" content="std::shared_ptr&lt;void&gt;的工作原理">
 <meta property="og:url" content="http://zhengyi.me/2017/12/28/how-shared-ptr-void-works/index.html">
@@ -150,7 +150,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/C/">C++</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/C-11/">C++11</a><a href="/tags/源码阅读/">源码阅读</a>
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/C/">C++</a><a href="/tags/源码阅读/">源码阅读</a>
   </div>
 
 </div>
@@ -172,6 +172,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2018/03/20/learning-tcp-01/" title="TCP协议学习 - 1 / TCP协议初窥">
+  <strong>上一篇：</strong><br/>
+  <span>
+  TCP协议学习 - 1 / TCP协议初窥</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2016/10/05/udacity-responsive-web-design-notes/"  title="[学习笔记] Udacity - Responsive Web Design Fundamentals?">
@@ -219,6 +227,10 @@
 		<ul>
 		
 		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
 		  
 		
@@ -231,7 +243,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
 		  
 		
 		  
@@ -252,7 +264,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
 			
 		
 			
@@ -264,11 +276,19 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
 			
 		
 			
@@ -288,15 +308,15 @@
 			
 		
 			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
 			
 		
 			
@@ -304,7 +324,11 @@
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 			
@@ -317,18 +341,6 @@
 		
 			
 				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -353,6 +365,8 @@
         
     </ul>
 </div>
+
+  
 
 </aside>
 </div>

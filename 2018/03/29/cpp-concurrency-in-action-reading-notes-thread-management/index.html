@@ -1,0 +1,645 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《C++ Concurrency In Action》读书笔记 - 线程管理 | yi&#39;s weblog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Yi">
+    
+
+    <meta name="keywords" content="C++并发编程实战,C++11,并发编程,std::thread,C++11创建线程,线程">
+    <meta name="description" content="C++11标准中加入了对多线程编程的支持，主要添加了下面一些方面：  定义了内存模型 &amp;lt;thread&amp;gt;，引入std::thread来管理、控制线程。 &amp;lt;atomic&amp;gt;，原子操作相关类。 &amp;lt;mutex&amp;gt;，引入mutex，以及相关的类，用于锁等互斥操作。 &amp;lt;condition_variable&amp;gt;，引入condition_variable以及相关类，用于线">
+<meta name="keywords" content="C++并发编程实战,C++11,并发编程,std::thread,C++11创建线程,线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《C++ Concurrency In Action》读书笔记 - 线程管理">
+<meta property="og:url" content="http://zhengyi.me/2018/03/29/cpp-concurrency-in-action-reading-notes-thread-management/index.html">
+<meta property="og:site_name" content="yi&#39;s weblog">
+<meta property="og:description" content="C++11标准中加入了对多线程编程的支持，主要添加了下面一些方面：  定义了内存模型 &amp;lt;thread&amp;gt;，引入std::thread来管理、控制线程。 &amp;lt;atomic&amp;gt;，原子操作相关类。 &amp;lt;mutex&amp;gt;，引入mutex，以及相关的类，用于锁等互斥操作。 &amp;lt;condition_variable&amp;gt;，引入condition_variable以及相关类，用于线">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-22T13:58:55.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《C++ Concurrency In Action》读书笔记 - 线程管理">
+<meta name="twitter:description" content="C++11标准中加入了对多线程编程的支持，主要添加了下面一些方面：  定义了内存模型 &amp;lt;thread&amp;gt;，引入std::thread来管理、控制线程。 &amp;lt;atomic&amp;gt;，原子操作相关类。 &amp;lt;mutex&amp;gt;，引入mutex，以及相关的类，用于锁等互斥操作。 &amp;lt;condition_variable&amp;gt;，引入condition_variable以及相关类，用于线">
+
+    
+    <link rel="alternative" href="/atom.xml" title="yi&#39;s weblog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="yi&#39;s weblog" title="yi&#39;s weblog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="yi&#39;s weblog">yi&#39;s weblog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/atom.xml">RSS</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:zhengyi.me">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/03/29/cpp-concurrency-in-action-reading-notes-thread-management/" title="《C++ Concurrency In Action》读书笔记 - 线程管理" itemprop="url">《C++ Concurrency In Action》读书笔记 - 线程管理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-29T15:20:12.000Z" itemprop="datePublished"> 发表于 2018-03-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">如何创建一个线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">传参</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">如何销毁一个线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">std::thread的所有权(owenership)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">如何控制线程数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">线程ID</span></a></li></ol>
+		
+		</div>
+		
+		<p>C++11标准中加入了对多线程编程的支持，主要添加了下面一些方面：</p>
+<ul>
+<li>定义了内存模型</li>
+<li><code>&lt;thread&gt;</code>，引入<code>std::thread</code>来管理、控制线程。</li>
+<li><code>&lt;atomic&gt;</code>，原子操作相关类。</li>
+<li><code>&lt;mutex&gt;</code>，引入<code>mutex</code>，以及相关的类，用于锁等互斥操作。</li>
+<li><code>&lt;condition_variable&gt;</code>，引入<code>condition_variable</code>以及相关类，用于线程间同步。</li>
+<li><code>&lt;future&gt;</code>，引入<code>future</code>, <code>promise</code>以及相关的一些类，主要用于线程间同步和通信的一些机制。</li>
+</ul>
+<p>这篇主要介绍对于线程管理的相关话题，对书中的内容进行总结并适当扩展。</p>
+<ul>
+<li>如何创建一个线程</li>
+<li>如何销毁一个线程</li>
+<li><code>std::thread</code>的所有权(owenership)</li>
+<li>如何控制线程数量</li>
+<li>线程ID</li>
+</ul>
+<h2><span id="如何创建一个线程">如何创建一个线程</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template&lt; class Function, class... Args &gt; </span><br><span class="line">explicit thread( Function&amp;&amp; f, Args&amp;&amp;... args );</span><br></pre></td></tr></table></figure>
+<p><code>std::thread</code>构造函数如上，它可以接受任何callable的类型，包括全局方法、成员方法、<code>std::function</code>、仿函数、lambda表达式等。并且后面可以带参数，用来传递给方法。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void func1() &#123;&#125;</span><br><span class="line">class A &#123;</span><br><span class="line">public:</span><br><span class="line">    void func2()&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct B &#123;</span><br><span class="line">public:</span><br><span class="line">    void operator()() &#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    A obja;</span><br><span class="line">    B objb;</span><br><span class="line">    A obja;</span><br><span class="line">    B objb;</span><br><span class="line">    std::thread t1(func1);          //全局方法</span><br><span class="line">    std::thread t2(&amp;A::func2, obja);//成员方法</span><br><span class="line">    std::thread t3(objb);           //functor</span><br><span class="line">    std::thread t4([]()&#123;&#125;);         //lambda</span><br></pre></td></tr></table></figure>
+<p>注意事项：</p>
+<ul>
+<li><code>std::thread</code>对象一旦创建，线程马上就起来了，没有办法延迟启动。</li>
+<li><code>std::thread</code>一旦起来以后没有办法通过api它杀掉，除非通过<code>native_handle</code>拿到平台相关的线程句柄进行操作。这个非C++提供而是操作系统提供。</li>
+</ul>
+<h3><span id="传参">传参</span></h3><p>启动线程的时候可以传递参数，传参的形式默认为拷贝，如果有类型转换则是在线程启动时进行。所以需要保证传递的参数不依赖于方法栈上的其他内存。</p>
+<p>如果不满足于默认的按值拷贝，可以通过<code>std::ref</code>或<code>std::move</code>进行传引用或转成右值进行move操作。下面给出几个例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void pass_by_val(int i) &#123;&#125;</span><br><span class="line">void pass_by_ref(int &amp;i) &#123;&#125;</span><br><span class="line">void pass_by_move(std::unique_ptr&lt;big_obj&gt; bigObj)&#123;&#125;</span><br><span class="line"></span><br><span class="line">    int i;</span><br><span class="line">    std::thread t1(pass_by_val, i);</span><br><span class="line">    std::thread t2(pass_by_ref, std::ref(i));</span><br><span class="line">    std::thread t3(pass_by_move, std::make_unique&lt;big_obj&gt;());</span><br></pre></td></tr></table></figure>
+<p>注意事项：</p>
+<ul>
+<li><code>std::ref</code> 注意引用的生命周期和线程的生命周期的关系。</li>
+</ul>
+<h2><span id="如何销毁一个线程">如何销毁一个线程</span></h2><p>你没法销毁一个线程，你只能等它跑完或者让他在后台运行并且把其管理权移交给C++运行库。</p>
+<p>下面介绍一组和线程结束相关的api：</p>
+<ul>
+<li><code>bool jionable()</code>： 如果是默认线程(即<code>std::thread t;</code>)则是<code>false</code>。只要一个线程被<code>join</code>过一次以后则变为<code>false</code>，即使一个线程已经结束了，但是没有被<code>join</code>过，还是会返回<code>true</code>。</li>
+<li><code>void join()</code>。等待线程结束运行，一个线程只能被调用一次，如果在<code>jioinable</code>为<code>false</code>的情况下调用，会直接抛出<code>std::system_error</code>。</li>
+<li><code>void detach()</code>。将线程放到后台运行，并且将管理权转给C++运行库。</li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li>一个线程在析构前必须调用<code>join</code>或者<code>detach</code>来显示的处理它的生命周期，否则的话会析构时直接抛出异常。</li>
+<li><code>join</code>本身并非线程安全，如果多个线程在没有保护的情况下同时<code>join</code>同一个<code>std::thread</code>会<code>undefined behavior</code></li>
+</ul>
+<h2><span id="stdthread的所有权owenership"><code>std::thread</code>的所有权(owenership)</span></h2><blockquote>
+<p>No two std::thread objects may represent the same thread of execution; std::thread is not CopyConstructible or CopyAssignable, although it is MoveConstructible and MoveAssignable.<br><em><a href="http://en.cppreference.com/w/cpp/thread/thread" target="_blank" rel="external">http://en.cppreference.com/w/cpp/thread/thread</a></em></p>
+</blockquote>
+<p><code>std::thread</code> 只能move不能被拷贝，所以如果想要把<code>std::thread</code>放进容器的话必须确保是右值。直接构造出来或者用<code>std::move</code>进行转换都可以。</p>
+<p>比如下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void calc_something(int i)&#123; std::cout &lt;&lt; i; &#125;</span><br><span class="line"></span><br><span class="line">   std::vector&lt;std::thread&gt; thread_vec;</span><br><span class="line">   for (int i = 0 ; i &lt; 3; i++)</span><br><span class="line">   &#123;</span><br><span class="line">       std::thread t(calc_something, i);</span><br><span class="line">       thread_vec.push_back(std::move(t));                   // use std::move</span><br><span class="line">       thread_vec.push_back(std::thread(calc_something, i)); // 直接构建为右值</span><br><span class="line">       thread_vec.emplace_back(calc_something, i);           // 用emplace_back</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   for(auto &amp; t : thread_vec)</span><br><span class="line">   &#123;</span><br><span class="line">       if (t.joinable()) t.join();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="如何控制线程数量">如何控制线程数量</span></h2><p>线程数量并非越多越好，数量太多会导致CPU的频繁上下文切换，反而会适得其反。<code>std::thread::hardware_concurrency</code>静态方法可以获得。</p>
+<blockquote>
+<p>Returns the number of concurrent threads supported by the implementation. The value should be considered only a hint.<br><em><a href="http://en.cppreference.com/w/cpp/thread/thread/hardware_concurrency" target="_blank" rel="external">http://en.cppreference.com/w/cpp/thread/thread/hardware_concurrency</a></em></p>
+</blockquote>
+<p>但是这个数量仅供参考，因为依赖于不同编译器和平台的实现。有可能会返回0，表示这个数量未定义，也就是说不知道在这个硬件上有多少个并发线程可以执行。</p>
+<h2><span id="线程id">线程ID</span></h2><p>通过 <code>std::thread::id  std::thraed::get_id()</code>可以拿到一个线程的id。这个id主要的用途是用来打印log和作为关系容器的key。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::map&lt;std::thread::id, std::thread&gt; thread_map;</span><br><span class="line">for (int i = 0 ; i &lt; 3; i++)</span><br><span class="line">&#123;</span><br><span class="line">    std::thread t(calc_something, i);</span><br><span class="line">    thread_map[t.get_id()] = std::move(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C-11/">C++11</a><a href="/tags/编程语言/">编程语言</a><a href="/tags/并发编程/">并发编程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://zhengyi.me/2018/03/29/cpp-concurrency-in-action-reading-notes-thread-management/" data-title="《C++ Concurrency In Action》读书笔记 - 线程管理 | yi&#39;s weblog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/04/10/cpp-concurrency-in-action-reading-notes-sharing-data/" title="《C++ Concurrency In Action》读书笔记 - 线程间共享数据">
+  <strong>上一篇：</strong><br/>
+  <span>
+  《C++ Concurrency In Action》读书笔记 - 线程间共享数据</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/03/20/learning-tcp-01/"  title="TCP协议学习 - 1 / TCP协议初窥">
+ <strong>下一篇：</strong><br/> 
+ <span>TCP协议学习 - 1 / TCP协议初窥
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">如何创建一个线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">传参</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">如何销毁一个线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">std::thread的所有权(owenership)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">如何控制线程数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">线程ID</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  <div class="linkslist">
+  <p class="asidetitle">公众号</p>
+  <img width="100%" src="/img/wechat.logo.jpg" alt="ArmstrongNotes"/> 
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/思考讨论/" title="思考讨论">思考讨论<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程工具/" title="编程工具">编程工具<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/阅读相关/" title="阅读相关">阅读相关<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/shell/" title="shell">shell<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mac/" title="mac">mac<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/心理学/" title="心理学">心理学<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考方法/" title="思考方法">思考方法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/思考/" title="思考">思考<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/源码阅读/" title="源码阅读">源码阅读<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随想/" title="随想">随想<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/写作/" title="写作">写作<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.vicoder.com/" target="_blank" title="Victor Jiang">Victor Jiang</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.cnblogs.com/imjustice/" target="_blank" title="博客园主页">博客园主页</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m 10000000000 <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		
+		<a href="/about" target="_blank" title="Yi">Yi</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+<script type="text/javascript">
+
+var disqus_shortname = '2power10';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-8661588-8', 'zhengyi.me');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

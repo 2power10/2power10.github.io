@@ -84,261 +84,432 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/02/learning-shell-chflags/" title="Mac 命令学习 - chflags" itemprop="url">Mac 命令学习 - chflags</a>
+      <a href="/2016/10/05/udacity-responsive-web-design-notes/" title="[学习笔记] Udacity - Responsive Web Design Fundamentals?" itemprop="url">[学习笔记] Udacity - Responsive Web Design Fundamentals?</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
 		
   <p class="article-time">
-    <time datetime="2016-06-02T15:20:25.000Z" itemprop="datePublished"> 发表于 2016-06-02</time>
+    <time datetime="2016-10-05T13:23:38.000Z" itemprop="datePublished"> 发表于 2016-10-05</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h2><span id="背景知识">背景知识</span></h2><p>在<a href="/2016/05/24/learning-shell-in-mac-ls/" title="ls">ls</a>命令中有出现过一个<code>-O</code>的选项，即列出文件的file flag。这个File flag所为何物？</p>
-<p>File flag是在BSD Unix中的概念，跟Linux系统中的attr是差不多的一个概念，是文件的一些标志位来存放文件的某些属性。chflags就是来修改这个file flag的。这个文件属性是跟文件系统相关的，所以这个命令在不同的文件系统上的支持程度不一样，体现在某一些flag在一些特定的文件系统上没有。<sup>[1]</sup></p>
-<p>所有的属性都可以被超级管理员修改，有一些可以被文件的所有者修改。以下列出比较常用的几个属性<sup>[1]</sup>。</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>ls中显示</th>
-<th>chflags中使用</th>
-<th>文件所有者能否修改？</th>
-<th>详述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>隐藏</td>
-<td>hidden</td>
-<td>hidden</td>
-<td>能</td>
-<td>设置以后在GUI上看不到，ls依然可以看到d</td>
-</tr>
-<tr>
-<td>系统级只能添加</td>
-<td>sappnd</td>
-<td>sappnd, sappend</td>
-<td>否</td>
-<td>设置以后此文件不能够截断或者复写(overwrite)，只能通过append模式添加内容</td>
-</tr>
-<tr>
-<td>用户级只能添加</td>
-<td>uappnd</td>
-<td>uappnd, uappend</td>
-<td>能</td>
-<td>设置以后此文件不能够截断或者复写(overwrite)，只能通过append模式添加内容</td>
-</tr>
-<tr>
-<td>系统级只读</td>
-<td>schg</td>
-<td>schg, schange, simmutable</td>
-<td>否</td>
-<td>不能够重命名、移动、删除、更改内容</td>
-</tr>
-<tr>
-<td>用户级只读</td>
-<td>uchg</td>
-<td>uchg, uchange, uimmutable</td>
-<td>能</td>
-<td>不能够更改内容</td>
-</tr>
-</tbody>
-</table>
-<h2><span id="基本用法">基本用法</span></h2><p><code>chflags [-fhv] [-R [-H | -L | -P]] flags file</code></p>
-<h2><span id="常用参数">常用参数</span></h2><p><code>-R</code> 递归修改参数中文件夹下面的所有文件和文件夹的属性</p>
-<h2><span id="具体案例">具体案例</span></h2><p><strong>为一个文件添加一个属性</strong></p>
-<p><code>chflags uchg file</code></p>
-<p><strong>为一个文件删除一个属性</strong></p>
-<p><code>chflags nouchg file</code></p>
-<p>在属性名字前面添加no就可以将属性删除，如果这个属性本身已no开头（比如nodump）则去掉no。</p>
-<p><strong>将文件夹及其文件夹下所有文件属性进行修改</strong></p>
-<p><code>chflags -R uchg directory</code></p>
-<h2><span id="参考资料">参考资料</span></h2><ol>
-<li><a href="https://en.wikipedia.org/wiki/Chattr" target="_blank" rel="external">chattr - Wikipedia</a></li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/02/learning-shell-chflags/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="Mac 命令学习 - cd, pwd, pushd, popd" itemprop="url">Mac 命令学习 - cd, pwd, pushd, popd</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-02T13:43:06.000Z" itemprop="datePublished"> 发表于 2016-06-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="cd-change-directory">cd (change directory)</span></h2><p><strong>切换到某个目录</strong></p>
-<p><code>cd /to/path</code></p>
-<p><strong>回到用户主目录</strong></p>
-<p><code>cd</code></p>
-<p><strong>返回前一个目录</strong></p>
-<p>只会记录一个前一个目录的记录，并不会记录所有的记录。</p>
-<p><code>cd -</code></p>
-<h2><span id="pwd-present-working-directory">pwd (present working directory)</span></h2><p>查看当前目录</p>
-<h2><span id="pushd-amp-popd-push-to-directory-pop-back">pushd &amp; popd (push to directory, pop back)</span></h2><p><code>cd</code>有一个缺点就是它无法保存导航的记录，如果切换到某几个文件夹之后想回到之前的路径就有点困难。特别是在写某一些脚本的时候，切换到某个目录下执行一些任务以后希望能够回到之前的目录。</p>
-<p><code>pushd</code>可以很简单的解决这个问题。<code>pushd</code>命令将导航的历史记录利用栈的数据结构进行存储，可以push n层目录，然后逐级的pop出来。</p>
-<p><strong>push到某个目录</strong></p>
-<p><code>pushd /to/path</code></p>
-<p><strong>pop会导航栈中上一个目录</strong></p>
-<p><code>popd</code></p>
-<p><strong>交换栈上最上面的两个路劲</strong></p>
-<p><code>pushd</code></p>
-<p><strong>旋转导航栈</strong><sup>[1]</sup></p>
-<p><code>pushd +2</code></p>
-<h2><span id="参考资料">参考资料</span></h2><ol>
-<li><a href="https://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29" target="_blank" rel="external">Stack Wikipedia</a></li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/31/unix-standard-input-output-redirection/" title="Mac 命令学习 - 标准输入输出重定向" itemprop="url">Mac 命令学习 - 标准输入输出重定向</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-31T15:00:02.000Z" itemprop="datePublished"> 发表于 2016-05-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2><span id="预备知识">预备知识</span></h2><h3><span id="文件描述符-file-descriptor">文件描述符( File Descriptor )</span></h3><p>在Unix 系统中文件描述符是用于访问文件、输入输出、管道、网络套接字的一个抽象概念<sup>[3]</sup>。文件描述符是一个非负的正整数，每一个Unix进程中都会有三个与<a href="https://www.wikiwand.com/en/Standard_streams" target="_blank" rel="external">标准流</a>所对应的的POSIX文件描述符，分别为：</p>
-<ol>
-<li><code>stdin</code> - 标准输入，提供给应用的标准输入。文件描述符为<strong>0</strong>。</li>
-<li><code>stdout</code> - 标准输出，程序的输出，在非重定向的情况下为终端。文件描述符为<strong>1</strong>。</li>
-<li><code>stderr</code> - 标准错误输出，程序的错误输出。文件描述符为<strong>2</strong>。</li>
-</ol>
-<p>关于文件描述符的详细，见文章</p>
-<h2><span id="输出重定向">输出重定向</span></h2><p>有两种方式可以将输出重定向：</p>
+        <p>这门课程(<a href="https://www.udacity.com/course/responsive-web-design-fundamentals--ud893" target="_blank" rel="external">Responsive Web Design Fundamentals</a>)主要介绍了关于响应式设计的基础概念，常用的技巧，常用的设计模式以及如何对网站进行优化的一些技巧。</p>
+<p>这个课程主要是提供一些思路，涉及到技术的部分也只是介绍了最基本用法，并不会深入某个技术去展开。通过这个课程的学习，我们应该能够对响应式设计有一个基本的了解，能够知道在设计响应式的页面时需要如何做和需要注意的一些地方。</p>
+<p>课程的大纲如下，比较基础，课程还有挺多的练习，通过练习能够掌握一些基本的用法。</p>
+<p><img src="/img/Udacity-RWD-Mindmap.png" alt="Course Structure"></p>
+<h2><span id="为什么要响应式设计why-responsive">为什么要响应式设计？(Why Responsive?)</span></h2><p>响应式设计（Responsive Web Design，通常缩写RWD）是一种网页设计的技术，让网站在不同的设备上能够良好的显示。这个“良好的显示”是指能够给浏览网页者一个好的的体验。在移动设备普及前，一个网站只需要在一定程度上考虑不同尺寸即可，但是移动设备的普及，会引入一些很小尺寸的屏幕而且比例也不确定。这就需要响应式设计。</p>
+<p><anchor>响应式设计除了是一门技术以外</anchor>，更多的是一门艺术，如何安排在不同尺寸上的显示方式很大程度上是设计相关的东西而不是技术相关的东西。</p>
+<p><strong>移动优先</strong></p>
+<p>移动优先的设计方式是指在设计的时候从移动端先开始设计，然后再慢慢的往大尺寸去增强。这样的设计方式能够帮助设计者更好的去思考对于一个网页来说什么是最重要的内容，如何把这些内容合理的摆放才能达到效果。</p>
+<h2><span id="从小开始starting-small">从小开始（Starting Small）</span></h2><p>既然涉及到不同的设备，那么关于尺寸的一些概念就需要在这里先搞清楚。</p>
 <ul>
-<li><p><strong>n</strong>&gt; file<br>将文件描述符n重定向到文件file中，如果文件不存在则会创建文件，如果存在的话将会覆盖原有内容。</p>
+<li>设备分辨率（Hardware Resolution/Pixel）</li>
+<li>设备独立像素（Device Independent Pixel）</li>
+<li>CSS像素（CSS Pixel）</li>
+<li>Viewport</li>
+</ul>
+<h3><span id="设备分辨率">设备分辨率</span></h3><p>这个很好理解，指得是设备本身的实际分辨率，也就是说一个设备上事实上分布的像素点的个数。</p>
+<h3><span id="设备独立像素">设备独立像素</span></h3><p>设备独立像素是基于某一个系统的坐标系中的一个物理度量单位，系统会将设备独立的像素转换成设备上的实际像素。<sup>[1]</sup></p>
+<p>举个例子，iPhone 3G和iPhone 4S的物理尺寸都是3.5英寸，它们的设备分辨率分别是320 x 480和640 x 960。但是它们的设备独立分辨率是一样的，都是320 x 480<sup>[2]</sup><sup>[3]</sup>。</p>
+<p>课程中给出了一个很形象的图</p>
+<p><img src="/img/Udacity-RWD-DIP-vs-Hardware-Pixel.png" alt="Compare DIP and Hardware Pixels"></p>
+<h3><span id="css像素">CSS像素</span></h3><p>在浏览器没有缩放的情况下，1个CSS像素对应1个设备独立像素。</p>
+<h3><span id="viewport">Viewport</span></h3><p>Viewport指的是用户在设备上的可视区域，在移动设备上这个可视区域往往比网页上的区域小。所以在老的移动浏览器上，会把页面根据实际的大小渲染出来，如果那个尺寸比手机大，用户则需要通过移动，放大和缩小来进行操作。</p>
+<p>移动版Safari引入了“viewport meta”标签来允许开发控制viewpoint的尺寸和缩放比例，虽然这个不是标准，但是大多数的浏览器目前支持这种做法。</p>
+<p>典型的viewport的使用方法如下，将这个<code>meta</code>标签加到<code>&lt;head&gt;</code>中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>关于Viewport的内容还有很多，我会另起一篇文章进行深入的学习。</p>
+<h3><span id="从小开始">从“小”开始</span></h3><p>这里的从“小”开始指的是从小屏幕开始设计开发，这个跟上面提到的移动优先的概念是吻合的。</p>
+<div style="display: flex"><br>    <div style="width:50%"><br>    <img src="/img/Udacity-RWD-Big-to-Small.png" alt="Udacity-RWD-Big-to-Small"><br>    </div><br>    <div style="width:50%"><br>    <img src="/img/Udacity-RWD-Small-to-Big.png" alt="Udacity-RWD-Small-to-Big"><br>    </div><br></div>
+
+<p>作者给出了两个图来解释，我觉得挺形象的。从小到大设计和从大到小设计就如同图中的漏斗一样。从大到小，很可能会误把一些有用的内容给过滤掉，而从小到大则不会。</p>
+<p>另外从小开始设计还能够一开始就考虑到性能相关的问题。</p>
+<h2><span id="逐步构建building-up">逐步构建（Building Up）</span></h2><p>构建一个响应式的引用主要需要用到一下几个概念和技术：</p>
+<ul>
+<li>Media Query</li>
+<li>Breakpoint</li>
+<li>Flexbox</li>
+</ul>
+<h3><span id="media-query">Media Query</span></h3><p>Media query 是实现响应式编程使用的最重要的技术，这个是在CSS中根据某一些条件包含一些样式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@media screen and (min-width: 480px) &#123;</span><br><span class="line">    body &#123;</span><br><span class="line">        background-color: lightgreen;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Try it Yourself »</span><br><span class="line">The</span><br></pre></td></tr></table></figure>
+<p>这个是media query的语法定义，举个例子，比如我们想在viewport大于400px时将背景颜色改成红色。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@media screen and (min-width: 400px) &#123;</span><br><span class="line">    body &#123;</span><br><span class="line">        background-color: red;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="breakpoint">Breakpoint</span></h3><p>使用了media query以后会存在一个或多个点是的某一些样式被引用进来，比如上面的那个media query中400px就称为一个breakpoint（断点）。</p>
+<p>断点的设置也是根据设计而来，没有严格的要求。我们可以在一个断点进行大的UI调整，也可以在断点进行一些细微的调整。这个也是一门艺术，而不是一个技术。</p>
+<p>视频中提到了两个断点的例子，我觉得可以仔细观察一下：</p>
+<ul>
+<li><a href="http://skinnyties.com/" target="_blank" rel="external">http://skinnyties.com/</a></li>
+<li><a href="http://cnn.com" target="_blank" rel="external">http://cnn.com</a></li>
+</ul>
+<h3><span id="flexbox">Flexbox</span></h3><p>Flexbox是flexible box的缩写，是2009年W3C提出了一种新的布局解决方案。目前已经在所有的浏览器上得到支持<sup>[5]</sup>。Flex<br>布局的核心思想是让flex容器有能力去修改其子元素的宽度，高度还有顺序从而更好的使用可用的空间。</p>
+<p>课程中提到的不同响应式设计的模式都是使用flex技术实现的。</p>
+<h2><span id="common-responsive-patterns">Common Responsive Patterns</span></h2><p>课程中提供了四种比较通用的响应式模式，这几种模式只是提供了一种思路。可以根据具体的设计组合使用。</p>
+<h3><span id="column-drop">Column Drop</span></h3><p><img src="/img/Udacity-RWD-Column-Drop.png" alt="Column Drop"></p>
+<h3><span id="mostly-fluid">Mostly Fluid</span></h3><p><img src="/img/Udacity-RWD-Mostly-Fluid.png" alt="Mostly Fluid"></p>
+<h3><span id="layout-shifter">Layout Shifter</span></h3><p><img src="/img/Udacity-RWD-Layout-Shifter.png" alt="Layout Shifter"></p>
+<h3><span id="off-canvas">Off Canvas</span></h3><p><img src="/img/Udacity-RWD-Off-Canvas.png" alt="Off Canvas"></p>
+<h2><span id="optimizations">Optimizations</span></h2><p>课程提供了几个在响应式设计的时候可以注意的优化点，包括图片、字体和表格。</p>
+<h3><span id="图片">图片</span></h3><p>响应式的图片，不仅仅是要求图片的尺寸要正确，最关键的是要保证在不同的尺寸下图片显示出来的主体是一个合理的而不是只显示了一部分或者以不合理的缩放比例展示出来。在另一门<a href="https://www.udacity.com/course/responsive-images--ud882" target="_blank" rel="external">「Responsive Images」</a>有关于响应式图片的深入介绍。</p>
+<h3><span id="字体">字体</span></h3><p>在适当的时候需要调整字体的大小从而使其能够更好地适应当前的尺寸。<br>另外，一行的字数也要控制在一个合理的而范围之内，就英语而言，每行65个字符是比较合适的</p>
+<h3><span id="表格">表格</span></h3><p>表格在尺寸的屏幕上比较尴尬，因为表格的信息量比较大而且往往有比较多的列。对于表格我们可以采用一些策略：</p>
+<ul>
+<li>减少表格列，只显示最重要的信息。</li>
+<li>将列展平，用行的形式显示列。</li>
+<li>将表格放在一个container，将container的样式设置为<code>overflow-x: auto, width: 100%</code>。将滚动的区域控制在一个小范围内。</li>
+</ul>
+<h2><span id="references">References</span></h2><p>[1]: <a href="https://en.wikipedia.org/wiki/Device-independent_pixel" target="_blank" rel="external">Wikipedia - Device-independent pixel</a><br>[2]: <a href="http://www.phonearena.com/phones/compare/Apple-iPhone-4s,Apple-iPhone-3G/phones/5257%2C2962" target="_blank" rel="external">Apple iPhone 4s vs Apple iPhone 3G</a><br>[3]: <a href="http://viewportsizes.com/?filter=iphone" target="_blank" rel="external">Viewport Sizes</a><br>[4]: <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag" target="_blank" rel="external">Mozilla - Using the viewport meta tag to control layout on mobile browsers</a><br>[5]: <a href="http://caniuse.com/#search=flexbox" target="_blank" rel="external">Can I use Flexbox</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Udacity/">Udacity</a><a href="/tags/前端/">前端</a><a href="/tags/RWD/">RWD</a><a href="/tags/Design/">Design</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/10/05/udacity-responsive-web-design-notes/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/09/29/go-out-border/" title="去「界外」看看" itemprop="url">去「界外」看看</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-09-29T13:14:40.000Z" itemprop="datePublished"> 发表于 2016-09-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>很多人的生活大部分时间都是处于公司-家的两点一线的状态，不知道你有没有过这样的经历。某一天，你开车开错路或者坐公交坐过站了，突然惊奇的发现就在你附近的一个地方跟你想象的不大一样，有时候还能够发现一些很好玩的地方。</p>
+<p>某天晚上，在家附近吃完晚饭，突发奇想往从来都有去过的街的另一头散步走去。走出不到两公里，惊奇的发现原来离我家这么近的地方竟然还有一处迷你的公园。突然心生感慨，其实很多美好的东西可能就在你附近，只是你一直被一个隐形的边界限定住了你探索的脚步。</p>
+<p>有一种说法是“旅游就是从一个你熟悉的地方跑到你一个别人熟悉的地方”。为什么有人喜欢旅游？因为在一个陌生的地方，人们往往能够发现一些不一样的地方，你去的地方离你越远可能这种差异性更强，能够给你带来的冲击也就越强。反过来，其他地方的人到你所生活的地方也同样会受到类似的冲击。在一个陌生的地方，人们的各个感官都处在兴奋、焦虑的状态，它们会极力得去吸取尽可能多的信息然后在脑子里飞速的运算。走在一个异国的路上，可能路边的一个垃圾桶、一个流浪汉、一个普通的招牌都能够吸引你驻足去观察，因为你从来没见过这样的东西。但如果，你在这个地方待上一段时间，你会发现你变得跟本地人一样，把自己的“感官”关闭了，不再抱有极大的好奇心去观察周遭的事物。因为你养成了习惯，习惯可以让你省去很多的思考，让你很轻松的去完成一件事情。比如说，你从地铁站出来不用思考是往左走还是往右走，你的习惯会把你很自然的带回家。</p>
+<p>旅游只是一个简单的例子，除了旅游以外我们的生活中还有非常多的类似的例子。我认为在几乎所有你做的事情上，这种现象都是存在的。小到刷牙洗脸，大到公司决策，都或多或少的收到习惯的影响。</p>
+<p>我们的大脑很聪明也很懒，它帮我们养成了很多的习惯，这样我们就不需要处处进行思考，很多时候跟着熟悉的感觉就能够完成一件事情了。大脑的聪明是很有必要的，在多数情况下能够让我们变得更轻松。但是，这种聪明也为我们设立了一个无形的边界，一个我们不留意可能都不会去注意到的一个边界。在这个边界内，我们是”安全”的，因为某些路径已经被多次证明过是可行的。</p>
+<p>然而一条“安全”可行的路径不代表这条路径是最优的，即使在当下是最优的，也不代表它在外部条件变化的情况下依然是最优的。所以说这种安全是不可靠的，因为外界的条件不可能永远不变。而且习惯是有一定的惯性的，一个习惯你坚持的越久它的惯性就越大，你要改变它的难度及所带来的痛苦也就越大。</p>
+<p>所以，我的结论是<strong>要需要经常去「界外」看看，让我们拥有随时改变路径的能力</strong>。</p>
+<p>那么这个结论就引出了另外几个问题：</p>
+<ol>
+<li>作为一个身处于边界里面的人如何去发现自己的边界。都说要Think out of box，但是如何才能够发现自己的box？</li>
+<li>发现以后到外面看看，肯定不能是简单地看看就完了。如何保持一个开放的心态去看待界外的事物？</li>
+<li>如何才能够拓宽自己的边界？</li>
+</ol>
+<p>这几个问题，容我再想想。</p>
+<center><em>== end of  file ==</em></center>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随想/">随想</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/09/29/go-out-border/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/09/06/effective-cpp-reading-notes-5/" title="《Effective C++》读书笔记(5)" itemprop="url">《Effective C++》读书笔记(5)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-09-06T13:15:57.000Z" itemprop="datePublished"> 发表于 2016-09-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2><span id="4-设计与声明">4. 设计与声明</span></h2><h3><span id="条款18让接口容易被使用不易被误用">条款18：让接口容易被使用，不易被误用</span></h3><blockquote>
+<ul>
+<li>好的借口很容易被正确使用，不容易被误用。你应该在你的所有接口中努力达成这些性质。</li>
+<li>“促进正确使用”的办法包括接口的一致性，以及与内置类型的行为兼容。</li>
+<li>“阻止误用”的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任。</li>
+<li>std::shared_ptr支持定制型删除器（custom deleter）。可防范DLL问题，可被用来自动解除互斥锁等等。</li>
+</ul>
+</blockquote>
+<p>这个条款的思想其实适用于所有的编程语言，只要你写的代码需要被其他地方调用，你都需要考虑接口的易用性。即使不暴露，良好的接口设计也能够提高代码的可读性。作者提出的这几点只是在C++这个语言的基础上需要注意的一些小点，我认为设计一个良好的易用的接口，仅仅做到这几点还远远不够。</p>
+<p><strong>接口一致性</strong></p>
+<p>作者认为除非有充分的理由，否则最好让类型与内置的类型的行为尽量一致。这个可以降低使用者错误使用的概率。</p>
+<p>我想补充的另外一点是，比如你提供一整套的接口，你需要让自己的接口相互保持一致的风格。包括但不仅限于：函数的命名风格、函数的行为尽量保持统一的风格。</p>
+<p><strong>防止误用</strong></p>
+<blockquote>
+<p>任何接口如果要求客户必须记得做某件事情，就是有着“不正确使用”的倾向，因为客户可能会忘记做那件事。</p>
+</blockquote>
+<h3><span id="条款19设计class犹如设计type">条款19：设计class犹如设计type</span></h3><blockquote>
+<p>Class 的设计就是type的设计。在定义一个新type之前，确保阅读了本条目的所有讨论主题。</p>
+</blockquote>
+<ul>
+<li><strong>新type的对象应该如何被创建和销毁？</strong> 这个涉及到构造函数、构造函数以及operator new, operator delete, operator new[], operator delete[]。</li>
+<li><strong>对象的初始化和对象的赋值该有什么样的差别？</strong>这个主要是要考虑构造函数和赋值操作符的行为。</li>
+<li><strong>新type的对象如果被passed by value，意味着什么？</strong></li>
+<li><strong>什么事新type的“合法值”？</strong>这点主要是要注意类型的成员变量和合法性检查。</li>
+<li><strong>你的新type需要配合某个继承图系吗？</strong>如果你继承其他的类，需要考虑它们的函数virtual和non-virtual性。如果你的类可能被继承就需要注意你声明的函数——尤其是析构函数。</li>
+<li><strong>你的新type需要什么样的转换？</strong>如果你的类型需要转换成其他的类型，需要考虑定义显式转换或者隐式转换的函数。</li>
+<li><strong>什么样的操作符和函数对此新type而言是合理的？</strong>参考条款23，24，26.</li>
+<li><strong>谁该取用新type的成员？</strong>这个可以使用者的角度来帮助你判断哪一些成员为public，哪个为protected。</li>
+<li><strong>你的新type有多么一般化（generic）？</strong>如果很一般化，可以考虑设计一个class template。</li>
+<li><strong>你真的需要一个新type吧？</strong>如果只是定义新的derived class以便为既有的class添加功能，那么说不定单纯定义一个或多个non-member函数或template更能够达到目标。</li>
+</ul>
+<p>这些问题并不是那么容易回答，在设计一个类型的时候尽量的去考虑这些问题能够更好地设计出一个易用合理的类型。</p>
+<h3><span id="条款20宁以-pass-by-reference-to-const-替换-pass-by-value">条款20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></h3><blockquote>
+<ul>
+<li>尽量以pass-by-reference-to-const 替换 pass-by-value。前者通常比较搞笑，并可以避免切割问题（slicing problem）。</li>
+<li>以上规则并不适用于内置类型，以及STL的迭代器和函数对象。对于它们而言，pass-by-value往往比较适当。</li>
+</ul>
+</blockquote>
+<p>C++默认的传递对象的方法是by-value的方式，当一个对象有很多的成员变量或者有很深的继承结构。那么对于这个对象的构造和销毁会带来很大的开销。这种情况下用pass by reference的方式就能够节省下这种开始。加上const是避免对传入的参数进行修改。</p>
+<p>Pass by value的另一个问题就是对象切割的问题。如果一个子类对象以pass-by-value的形式传递到一个函数中来，那么它的对象将会被切割而失去子类特有的成员变量，而且同时也会失去多态性。pass-by-reference可以解决这个问题，因为reference往往以指针实现，所以截断对象也同时会保有多态性。</p>
+<p>决定一个对象pass by value还是pass by reference的依据不是简单地类型的成员数量，还要考虑这个类型在拷贝的时候是否会做一些比较昂贵的操作。</p>
+<p>有一些例外，即内置类型，以及STL的迭代器和函数对象。除此之外 pass-by-reference-to-const 优于 pass-by-value。</p>
+<h3><span id="条款21必须返回对象是别妄想返回其reference">条款21：必须返回对象是，别妄想返回其reference</span></h3><blockquote>
+<ul>
+<li>绝不要返回pointer或reference指向一个local stack对象，或返回reference指向一个heap-allocated对象，或返回pointer或reference指向一个local static对象而有可能同时需要多个这样的对象。</li>
+</ul>
+</blockquote>
+<p>返回一个pointer或者reference指向一个local stack对象明显是不合理的，因为local stack的生命周期在函数返回的时候就已经结束了，那么返回的那个指针或者引用将会指向一块被销毁的对象的内存。</p>
+<p>指向一个heap-allocated的对象也是不合理的，因为你把销毁对象的任务移交给了使用函数的人，很多情况下人们会忘记。或者说所写的代码并没有让他有机会去销毁这个对象。比如说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const Rational&amp; operator * (const Rational&amp; lhs,</span><br><span class="line">							const Rational&amp; rhs) &#123;</span><br><span class="line">	...</span><br><span class="line">	return *result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Rational w, x, y, z;</span><br><span class="line">w = x * y * z;</span><br></pre></td></tr></table></figure>
+<p>只有在类似于单例的情况下，返回一个reference指向一个static的对象是合理的。比如说条款4中FileSystem的例子。</p>
+<h3><span id="条款22将成员变量声明为private">条款22：将成员变量声明为private</span></h3><blockquote>
+<ul>
+<li>切记将成员变量声明为private，这可赋予客户访问数据的一致性、可细微划分访问控制、允诺约束条件获得保证，并提供class作者以充分的实现弹性。</li>
+<li>protected 并不比public更具封装性。</li>
+</ul>
+</blockquote>
+<p><strong>为什么public不好？</strong></p>
+<p>public的成员变量破坏了类的封装性，它将成员直接暴露给客户，那么在未来修改字段的时候就会影响到使用者。</p>
+<p><strong>为什么protected也不好？</strong></p>
+<p>有一个原则，即<em>某些东西的封装性与“其内容改变时可能造成的代码破坏量”成反比。</em>如果从这个原则出发的话，protected虽然比public好，但是也并没有好太多。因为如果说你这个类型是对外暴露的，你不能阻止用户继承你这个类型，然后去访问其中的成员变量（C++暂时没有类似于final class的概念）。所以说protected的成员变量也不好。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/编程语言/">编程语言</a><a href="/tags/C/">C++</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/09/06/effective-cpp-reading-notes-5/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/15/effective-cpp-reading-notes-4/" title="《Effective C++》读书笔记(4)" itemprop="url">《Effective C++》读书笔记(4)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-15T13:06:32.000Z" itemprop="datePublished"> 发表于 2016-08-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款10令-operator-返回一个-reference-to-this">条款10：令 operator= 返回一个 reference to *this</span></h3><blockquote>
+<ul>
+<li>令赋值（assignment）操作符返回一个 reference to *this。</li>
+</ul>
+</blockquote>
+<p>有以下两个主要原因：</p>
+<ol>
+<li>允许连锁赋值。比如说，<code>int x, y, z; x = y = z;</code></li>
+<li>这个协议被普遍的遵守（包括标准库中的很多类型），为了保持类的行为与其他类一致性。</li>
+</ol>
+<h3><span id="条款11在operator中处理自我赋值">条款11：在operator=中处理“自我赋值”</span></h3><blockquote>
+<ul>
+<li>确保当对象自我赋值时operator=有良好行为。其中技术包括比较“来源对象”和“目标对象”的地址、精心周到的语句顺序、以及copy-and-swap。</li>
+<li>确定任何函数如果操作一个以上的对象，而其中多个对象是同一个对象时，其行为为仍然正确。</li>
+</ul>
+</blockquote>
+<p>一个对象可能被自我赋值，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Widget w[];</span><br><span class="line">// some operation</span><br><span class="line">w[i] = w[j];	//w[i]和w[j]指向同一个对象</span><br></pre></td></tr></table></figure></p>
+<p>可以在operator= 操作中做一下简单的指针比较来避免不必要的操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Widget&amp; Widget::operator=(const Widget&amp; rhs) &#123;</span><br><span class="line">    if (this == &amp;rhs) return *this;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当你需要在赋值操作中做一些复杂的控制逻辑，你不仅需要保证起“自我赋值安全性”还要保证“异常安全性”。这个会在条款xx中具体进行说明。</p>
+<h3><span id="条款12复制对象时勿忘其每一个成分">条款12：复制对象时勿忘其每一个成分</span></h3><blockquote>
+<ul>
+<li>Copying 函数应该确保复制“对象内的所有成员变量”及“所有base class成分”</li>
+<li>不要尝试以某个copying函数实现另一个copying函数。应该将共同机能放进第三个函数中，并由两个copying函数共同调用。</li>
+</ul>
+</blockquote>
+<p>copy构造函数和copy assignment操作符我们统称为copying函数。当我们自己定义copying务必要确保所有的字段都进行了复制，同事如果有基类要保证相对应的copying函数被正确得调用。</p>
+<p>作者认为虽然说copy构造函数和copy assignment操作符做的操作绝大多数是相同的，但是不应该尝试以某一个copying函数实现调用另一个copying函数。这样的操作并不合理。</p>
+<h2><span id="3-资源管理">3. 资源管理</span></h2><h3><span id="条款13-以对象管理资源">条款13： 以对象管理资源</span></h3><blockquote>
+<ul>
+<li>为防止资源泄露，请使用RAII对象，它们在构造函数中获得资源并在析构函数中释放资源。</li>
+<li>两个常被使用的RAII classes分别是<code>tr1::shared_ptr</code>和<code>auto_ptr</code>(C++ 11 中有<code>std::shared_ptr</code>和<code>std::auto_ptr</code>)</li>
+</ul>
+</blockquote>
+<p>内存泄漏和资源泄露很多情况都是因为一个内存/资源分配在堆上，被用于一个函数内，然后在控制流离开函数的时候没有得到正确的释放。对于这种情况引起的资源泄露，可以把资源包装成对象来实现合理的释放。</p>
+<p>“以对象管理资源” 通常也被称为”资源取得时机便是初始化时机”（<em>Resource Acquisition Is Initialization: RAII</em>）。RAII的两个核心思想：</p>
+<ul>
+<li>获得资源后立刻放进管理对象内。</li>
+<li>管理对象运用析构函数确保资源得到释放。</li>
+</ul>
+<p>我们可以根据自己的需求定制RAII类，同时也可以使用系统提供的智能指针可以用来作为管理对象。</p>
+<ul>
+<li><code>auto_ptr</code> - <code>auto_ptr</code>被销毁时会自动删除它所指之物。它的缺点是，如果多个<code>auto_ptr</code>指向同一个对象，那么那个对象会被删除一次以上。另外通过copy构造函数或copy assignment操作符复制它们的时候，它们会变成null。</li>
+<li><code>shared_ptr</code> -  <code>shared_ptr</code>是一个引用计数原理的智能指针。它能够持续追踪有多少个对象指向某个资源，而且它的复制行为也看上去正常许多。它的缺点是，它无法打破循环引用的问题。</li>
+</ul>
+<h3><span id="条款14在资源管理类中小心copying行为">条款14：在资源管理类中小心copying行为</span></h3><blockquote>
+<ul>
+<li>复制RAII对象必须一并复制它所管理的资源，所以资源的copying行为决定RAII对象的copying行为。</li>
+<li>普遍而常见的RAII class copying行为是：禁止copying、施行引用计数法（reference counting）。不过其他行为也都可能被实现。</li>
+</ul>
+</blockquote>
+<p>当我们定制RAII对象的时候，需要根据具体的需求来控制其拷贝的行为。不然可能会出现一些“不愉快”的事情。</p>
+<p>拷贝的行为基本有下面几种：</p>
+<ul>
+<li><p><strong>禁止复制。</strong> 很多情况对RAII对象进行复制是不合理的，比如说一个Lock类，保存着一个锁。合理的行为是禁止这个类型的复制行为。</p>
 </li>
-<li><p><strong>n</strong>&gt;&gt; file<br>将文件描述符n重定向到文件file中，如果文件不存在将会创建文件，如果存在则会在文件的结尾开始写入输出。</p>
+<li><p><strong>对底层资源祭出“引用计数法”。</strong> 如果我们希望保有资源，知道它的最后一个使用者被销毁。这种情况我们就应该在内部使用一个引用计数来管理资源，我们可以用<code>shared_ptr</code>来做引用计数。</p>
+</li>
+<li><p><strong>复制底部资源。</strong>  拷贝时将内部的资源进行一个完整的深层拷贝。比如说，一个字符串被复制的时候，它不仅要复制指向内存中字符串的指针，同时也应该复制对应的字符串内存。</p>
+</li>
+<li><p><strong>转移底层资源的拥有权</strong> 在一些比较特殊的场合可能希望只有一个RAII对象指向一个资源，当被复制的时候，资源的拥有权将会进行转移。这个行为跟<code>auto_ptr</code>的行为是一样的。</p>
 </li>
 </ul>
-<p>如果我们没有指定文件描述符，则默认为1，即标准输出。</p>
-<h3><span id="重定向到不同的文件">重定向到不同的文件</span></h3><p>我们可以把<code>stdout</code>和<code>stderr</code>输出到不同的文件，例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ ls</span><br><span class="line">	file1 file2 file3</span><br><span class="line">zhengyi$ ls f* e* 1&gt;out.txt 2&gt;err.txt</span><br><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br><span class="line">zhengyi$ cat err.txt </span><br><span class="line">	ls: e*: No such file or directory</span><br></pre></td></tr></table></figure>
-<h3><span id="重定向到一个文件">重定向到一个文件</span></h3><p>很多情况下我们需要将<code>stdout</code>和<code>stderr</code>输出到同一个文件中，这个时候我们可以使用 <code>&amp;&gt;</code> or <code>&amp;&gt;&gt;</code>，它们会把标准输出和标准错误输出到一起。</p>
-<p>另外一种方法是利用<code>m&gt;&amp;n</code>，将某一个输出重定向到另一个输出中来。这个时候需要注意的是使用它们的顺序，比如下面这个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ ls f* z* 1&gt;out.txt 2&gt;&amp;1</span><br><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	ls: z*: No such file or directory</span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br><span class="line">zhengyi$ ls f* z* 2&gt;&amp;1 1&gt;out.txt </span><br><span class="line">	ls: z*: No such file or directory</span><br><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br></pre></td></tr></table></figure></p>
-<p><code>ls f* z* 1&gt;out.txt 2&gt;&amp;1</code>这个例子是先将标准输出重定向到文件out.txt中，然后将标准错误重定向到标准输出中，这个是可以工作的。<code>ls f* z* 2&gt;&amp;1 1&gt;out.txt</code>这个例子中，先将标准错误重定向到了标准输入，这个时候的标准输入指向的是默认的标准输入，而当后面将标准输入重定向到文件out.txt时，并不会改变标准错误的输出目标。</p>
-<h3><span id="忽略某一些输出">忽略某一些输出</span></h3><p>比如说我们想要过滤输出中的错误，那么我们可以将标准错误输出到<code>/dev/null</code>中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ ls f* z*</span><br><span class="line">	ls: z*: No such file or directory</span><br><span class="line">	file1 file2 file3</span><br><span class="line">zhengyi$ ls f* z* 2&gt;/dev/null </span><br><span class="line">	file1 file2 file3</span><br></pre></td></tr></table></figure>
-<h2><span id="输入重定向">输入重定向</span></h2><p>与输出重定向相反，输入重定向是利用”&lt;”符号来表达的。例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	err.txt</span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br><span class="line">	out.txt</span><br><span class="line">zhengyi$ sort -r &lt; out.txt </span><br><span class="line">	out.txt</span><br><span class="line">	file3</span><br><span class="line">	file2</span><br><span class="line">	file1</span><br><span class="line">	err.txt</span><br></pre></td></tr></table></figure>
-<p>输出重定向可以和输入重定向组合起来一起使用，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ sort -r &lt; out.txt &gt; sorted.txt</span><br></pre></td></tr></table></figure>
-<p>这个是将out.txt作为输入，然后把sort的结果重定向到sorted.txt中。同时使用输入和输出重定向的时候需要注意一点就是尽量避免使用同一个文件。比如说上面这个sort的例子，如果指向同一个文件，那么一开始输出重定向会先把out.txt文件清空。</p>
-<h2><span id="参考资料">参考资料</span></h2><ol>
-<li><a href="http://www.ibm.com/developerworks/library/l-lpic1-v3-103-4/l-lpic1-v3-103-4-pdf.pdf" target="_blank" rel="external">Learn Linux, 101: Streams, pipes, and redirects</a></li>
-<li><a href="http://linuxcommand.org/lc3_lts0070.php" target="_blank" rel="external">I/O Redirection</a></li>
-<li><a href="https://www.wikiwand.com/en/File_descriptor" target="_blank" rel="external">Wikipedia - File Descriptor</a></li>
+<h3><span id="条款15在资源管理类中提供对原始资源的访问">条款15：在资源管理类中提供对原始资源的访问</span></h3><blockquote>
+<ul>
+<li>APIs 往往要求访问原始资源（raw resources），所以每一个RAII classes应该提供一个“取得其所管理之资源”的办法。</li>
+<li>对原始资源的访问可能经由显式转换或隐式转换。一般而言显示转换比较安全，但是隐式转换对客户比较方便。</li>
+</ul>
+</blockquote>
+<p>在一些情况下我们的需要访问资源管理类中的原始资源，这个时候我们就应该提供一个能够获得原始资源的方法。</p>
+<p>这个看上去破坏了封装性，但是资源管理类设计的初衷是为了更好地管理资源的申请和释放，并非对资源进行完全的封装。所以提供获取原始资源的方法也还是比较合理的做法。</p>
+<p>可以通过显式和隐式转换两种方法。</p>
+<p><strong>显式转换</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font &#123;</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    FontHandle get() const &#123; return f; &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>隐式转换</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Font &#123;</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line">    operator FontHandle() const &#123; return f; &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然两种方式都可行，但个人认为显式的这种方式更好一些。因为这个可以避免很多不小心进行的转换，只有在需要的时候进行显式的调用。</p>
+<h3><span id="条款16成对使用new和delete时要采用相同形式">条款16：成对使用new和delete时要采用相同形式</span></h3><blockquote>
+<p>如果你在new表达式中使用[]，必须在相对应的delete表达式中也使用[]。如果你在new表达式中不使用[]，一定不要在相对应的delete表达式中使用[]</p>
+</blockquote>
+<h3><span id="条款17以独立语句将newed对象置入智能指针">条款17：以独立语句将newed对象置入智能指针</span></h3><blockquote>
+<p>以独立语句将newed对象存储于智能指针内。如果不这么做，一旦异常被抛出，有可能导致难以察觉的资源泄露。</p>
+</blockquote>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int priority();</span><br><span class="line">void processWidget(std::shared_ptr&lt;Widget&gt; pw, int p);</span><br><span class="line"></span><br><span class="line">// Bad</span><br><span class="line">processWidget(std::shared_ptr&lt;Widget&gt;(new Widget), priority());</span><br><span class="line"></span><br><span class="line">// Good</span><br><span class="line">std::shared_ptr&lt;Widget&gt; pw(new Widget)</span><br><span class="line">processWidget(pw, priority());</span><br></pre></td></tr></table></figure>
+<p>为什么第一个例子有问题？因为在C++编译器生成代码的时候有可能会出现以下这种情况：</p>
+<ol>
+<li>执行”new Widget”</li>
+<li>调用priority()</li>
+<li>调用std::shared_ptr构造函数</li>
 </ol>
-<p><strong>阅读更多</strong></p>
-<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux 命令学习">Mac/Linux 命令学习</a>
+<p>如果第二部抛出异常，那么第一步申请出来的资源还未放入智能指针内，所以没有人去释放它。于是就造成了资源泄露。</p>
 
         
         
@@ -351,13 +522,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a><a href="/tags/linux/">linux</a><a href="/tags/操作系统/">操作系统</a>
+  <span></span> <a href="/tags/编程语言/">编程语言</a><a href="/tags/C/">C++</a>
   </div>
 
 </div>
@@ -368,7 +539,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/05/31/unix-standard-input-output-redirection/#disqus_thread" class="comments-count-link">Comments</a>
+		<a href="/2016/08/15/effective-cpp-reading-notes-4/#disqus_thread" class="comments-count-link">Comments</a>
 	
 </div>
 
@@ -388,29 +559,68 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/30/learning-shell-in-mac-cat/" title="Mac 命令学习-每日一贴之cat" itemprop="url">Mac 命令学习-每日一贴之cat</a>
+      <a href="/2016/07/06/effective-cpp-reading-notes-3/" title="《Effective C++》读书笔记(3)" itemprop="url">《Effective C++》读书笔记(3)</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-30T15:05:40.000Z" itemprop="datePublished"> 发表于 2016-05-30</time>
+    <time datetime="2016-07-06T13:13:10.000Z" itemprop="datePublished"> 发表于 2016-07-06</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h2><span id="基本">基本</span></h2><p>cat基本用途是把指定文件读取出来，并输出到STDOUT中。</p>
-<p><code>cat [-benstuv] [file ...]</code></p>
-<h2><span id="常用功能">常用功能</span></h2><p><code>-b</code> 打印出行数，不包含空白行，从1开始<br><code>-n</code> 打印出行数，包括空白航，从1开始<br><code>-e</code> 显示不能打印的字符，每行结尾打印<code>$</code>符号<br><code>-t</code> 显示不能打印的字符，制表符显示为<code>^I</code></p>
-<h2><span id="使用场景">使用场景</span></h2><p><strong>打印一个文件到终端来查看其中内容</strong></p>
-<p><code>cat file</code></p>
-<p><strong>打印文件到另一个文件中</strong></p>
-<p><code>cat file1 &gt; file2</code></p>
-<p><strong>打印文件到另一个文件结尾</strong></p>
-<p><code>cat file1 &gt;&gt; file2</code></p>
-<p>参考<a href="/2016/05/31/unix-standard-input-output-redirection/" title="输入输出重定向">输入输出重定向</a></p>
+        <h2><span id="2-构造析构赋值运算">2 构造/析构/赋值运算</span></h2><h3><span id="条款05了解c默默编写并调用哪些函数">条款05：了解C++默默编写并调用哪些函数</span></h3><blockquote>
+<p>编译器可以暗自为class创建<em>default</em>构造函数、<em>copy</em>构造函数、<em>copy assignment</em>操作符，以及析构函数。</p>
+</blockquote>
+<p>定义一个啥也没有的类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>编译器有可能会帮你生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Empty &#123;</span><br><span class="line">public:</span><br><span class="line">  Empty() &#123;...&#125;     //默认构造函数</span><br><span class="line">  Empty(const Empty&amp; rhs) &#123;...&#125; //拷贝构造函数</span><br><span class="line">  ~Empty()&#123;...&#125;     //析构函数</span><br><span class="line">  Empty&amp; operator=(const Empty&amp; rhs) &#123;...&#125; // copy assignment操作符</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是否生成这些方法取决于使用的时候是否需要，比如下面这段代码就用到了这些函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Empty e1;		//默认构造函数</span><br><span class="line">				//析构函数</span><br><span class="line">Empty e2(e1);	//拷贝构造函数</span><br><span class="line">e2 = e1;		//copy assignment操作符</span><br></pre></td></tr></table></figure>
+<h3><span id="条款06若不想使用编译器自动生成的函数就该明确拒绝">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></h3><blockquote>
+<ul>
+<li>为驳回编译器自动（暗自）提供的机能，可将相应的成员函数声明为private并且不予实现。使用像<code>Uncopyable</code>这样的base class也是一种做法。</li>
+</ul>
+</blockquote>
+<p>正如条款5中提到的，即使你自己没有显示定义，编译器默认会为我们创建一些函数。而在某一些条件下，这些函数所带来的行为并不是你想要的。</p>
+<p>那么这个时候你就应该把你想要隐藏的方法声明为private并不提供任何的定义，这样任何尝试去使用的人都会收到一个链接错误。</p>
+<p><strong><em>什么的场景下可能需要使用这种方法？</em></strong></p>
+<ul>
+<li>private 构造函数<br>当你希望用户不能够随意的自己去创建实例而是通过某种方法获得一个实例的时候。比如说单例模式。</li>
+<li>private 析构函数<br>当你希望一个实例的生命周期由另一个类来管理的时候使用。比如说，你需要你的实例使用引用计数，如果不是0则不能够析构。这个时候你就需要提供比如说：Acquire，Release的方法。我觉得如果只是reference count的话，利用shared_ptr也能够实现类似的功能。<br>参考链接：<a href="https://blogs.msdn.microsoft.com/larryosterman/2005/07/01/private-destructors/" target="_blank" rel="external">Private Destructors</a></li>
+<li>private 拷贝构造函数和copy assignment 操作符<br>当你希望一个对象是不可拷贝的时候。<br>Example: <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Class Uncopyable &#123;</span><br><span class="line">...</span><br><span class="line">private:</span><br><span class="line">    Uncopyable(const Uncopyable&amp;);</span><br><span class="line">    ~Uncopyable&amp; operator=(const Uncopyable&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3><span id="条款07为多态基类声明virtual析构函数">条款07：为多态基类声明virtual析构函数</span></h3><blockquote>
+<ul>
+<li>polymoriphic（带多态性质的）base classes应该声明一个virtual析构函数。如果class带有任何virtual函数，它就应该拥有一个virtual析构函数</li>
+<li>Classes的设计目的如果不是作为base classes使用，或者不是为了具备多态性（polymorphically），就不该声明virtual析构函数。</li>
+</ul>
+</blockquote>
+<p><strong><em>为什么带有多态性质的基类应该声明一个virtual析构函数？</em></strong></p>
+<p>带有多态性质的基类意味着一个基类的指针可能存放着子类的实例。在这种情况下如果析构函数没有声明为virtual的话，delete一个基类指针不能够正确的调用到子类的析构函数。这就意味着会造成资源的泄露。</p>
+<p>但是如果一个类设计的时候没有想让别的类继承，如果另一个类继承了，就可能会出现资源的泄露。因为C++在语言层面没有提供类似于C# seal的语法，所以没有办法杜绝这种情况。如果发现一个类的析构函数不是virtual的那么就不应该去继承它。</p>
+<p>反过来看就更简单了，如果一个类设计的目的不是作为基类使用，也就意味着它的指针不可能指向一个子类的对象。那么声明成virtual的就没有太大必要，反而会因为virtual而增长了这个对象的内存大小。</p>
+<h3><span id="条款08别让异常逃离析构函数">条款08：别让异常逃离析构函数</span></h3><blockquote>
+<ul>
+<li>析构函数绝对不要吐出异常。如果一个被析构函数调用的函数可能抛出异常，析构函数应该捕捉任何异常，然后吞下它们（不传播）或者结束程序。</li>
+<li>如果客户需要对某个操作函数运行期间抛出的异常做出反应，那么class应该提供一个普通函数（而非在析构函数中）执行该操作。</li>
+</ul>
+</blockquote>
+<p><strong><em>为什么析构函数中抛出异常不好？</em></strong></p>
+<ol>
+<li>析构函数被调用的地方不好控制，而且不好对其进行处理。因为任何对象都有析构函数，你不可能在任何地方对异常进行捕捉。（自己补充的）</li>
+<li>如果析构函数中所抛出异常未处理会导致未定义行为。</li>
+</ol>
+<p>所以如果在析构函数中有可能执行到一些会抛异常的方法，需要对其进行捕捉。如果你认为异常可以忍受则默默吞下，记下log，否则记下log然后直接结束程序。</p>
+<p><strong><em>有什么更好的办法？</em></strong></p>
+<p>如果在析构函数里需要进行某个可能抛出异常的方法，那么就应该提供一个普通方法允许用户自己调用。这样子用户就有机会自己对其进行处理。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     db.close();   //bad, may throw exception</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class DBConn &#123;</span><br><span class="line">public:</span><br><span class="line">   void close() &#123;</span><br><span class="line">     db.close();</span><br><span class="line">     closed = true;</span><br><span class="line">   &#125;</span><br><span class="line">   ~DBConn() &#123;</span><br><span class="line">     if (!closed) &#123;</span><br><span class="line">       try &#123;</span><br><span class="line">	     db.close();   //good, catch exception and provide normal method to close</span><br><span class="line">	   &#125;</span><br><span class="line">	   catch (...) &#123;</span><br><span class="line">		   //log</span><br><span class="line">	   &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">private:</span><br><span class="line">  DBConnection db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         
         
@@ -423,13 +633,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+  <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
+  <span></span> <a href="/tags/编程语言/">编程语言</a><a href="/tags/C/">C++</a>
   </div>
 
 </div>
@@ -440,72 +650,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/05/30/learning-shell-in-mac-cat/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/28/africa-30-kilo-metre-reading-note/" title="《非洲三万里》读书笔记" itemprop="url">《非洲三万里》读书笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-28T12:16:36.000Z" itemprop="datePublished"> 发表于 2016-05-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><img src="https://img3.doubanio.com/lpic/s28383445.jpg" alt="非洲三万里-封面"></p>
-<h2 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h2><p>毕淑敏对于我来说是一个既熟悉又陌生的作家，熟悉是因为在初高中的时候语文老师经常会将其散文、短文给我们当做阅读材料。陌生呢，是因为我记不起来任何一篇她的作品，也没有主动地去读过她任何一本书。非洲加上毕淑敏，这个组合吸引了我去阅读这本书，我想看看一位作家是如何写她的游记的。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/05/28/africa-30-kilo-metre-reading-note/#more">阅读全文</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/读书笔记/">读书笔记</a><a href="/tags/非洲/">非洲</a><a href="/tags/旅行/">旅行</a><a href="/tags/毕淑敏/">毕淑敏</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/28/africa-30-kilo-metre-reading-note/#disqus_thread" class="comments-count-link">Comments</a>
+		<a href="/2016/07/06/effective-cpp-reading-notes-3/#disqus_thread" class="comments-count-link">Comments</a>
 	
 </div>
 
@@ -521,7 +666,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
@@ -545,6 +690,10 @@
 		<ul>
 		
 		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
 		  
 		
@@ -557,7 +706,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
 		  
 		
 		  
@@ -578,7 +727,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
 			
 		
 			
@@ -590,11 +739,19 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
 			
 		
 			
@@ -614,15 +771,15 @@
 			
 		
 			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
 			
 		
 			
@@ -630,7 +787,11 @@
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 			
@@ -643,18 +804,6 @@
 		
 			
 				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -679,6 +828,8 @@
         
     </ul>
 </div>
+
+  
 
 </aside>
 </div>

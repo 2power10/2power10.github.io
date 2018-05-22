@@ -84,220 +84,40 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/05/learning-how-to-learn-module-2-note/" title="Learning how to learn 第二周学习笔记" itemprop="url">Learning how to learn 第二周学习笔记</a>
+      <a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/" title="Mac 命令学习 - cd, pwd, pushd, popd" itemprop="url">Mac 命令学习 - cd, pwd, pushd, popd</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-05T13:23:02.000Z" itemprop="datePublished"> 发表于 2016-05-05</time>
+    <time datetime="2016-06-02T13:43:06.000Z" itemprop="datePublished"> 发表于 2016-06-02</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>Coursera经典课程<a href="https://www.coursera.org/learn/learning-how-to-learn/" target="_blank" rel="external"><em>Learning how to learn</em></a>第二周学习笔记。</p>
-<p>第二周所有内容都是围绕着Chunking这个概念所展开的，chunk这个单词中文为组块，感觉没有英文来的形象。</p>
-<p>下面回顾几个我认为比较重要的点。</p>
-<h2><span id="什么是chunk及其作用">什么是Chunk及其作用</span></h2><p>Chunk可以理解成某一个知识在你大脑中形成的一个记忆块，这个记忆块是对于一些具体的知识进行压缩过的一个结果。课程中将这个chunk比喻为一个压缩文件，我倒是认为这个chunk理解成某一些具体知识的概要/精华更加的妥当。</p>
-<p>当你把一些复杂的知识压缩成一个相对较小的概念的时候，你就可以思考更多的问题。举个实际的例子，就是当你需要选择一个排序算法的时候，你考虑的是各个排序算法的特征、优缺点、局限性。而这些信息我认为就是一个具体排序算法的chunk，当你需要实现某一个算法的时候你只需要顺着这个chunk往下思考一下，或者推理一下就可以把具体的算法细节推理出来了。我认为只有你对一个排序算法有深刻的理解以后才会产生这种chunk，否则这些优缺点对于你来说并不会显得那么的自然。</p>
-<p>正如上面的例子中看到的，chunk最大的作用就是可以允许你在一个更高对问题进行思考而不需要在意一些细节。当一些小的chunk进行重新整合的时候你可能就会得到一个更高层次的chunk，从而可以帮助你从更高的层面去考虑问题。这个就是思考问题的高度。</p>
-<h2><span id="如何形成一个chunk">如何形成一个chunk</span></h2><p>以下几个步骤可以帮助形成一个chunk：</p>
-<ol>
-<li>高度集中注意力的情况下进行学习。（focused attention）</li>
-<li>理解问题。（understanding of the basic idea）</li>
-<li>刻意练习。（practice）</li>
-<li>注意知识的上下文，而非仅仅关注知识点本身。（sense of big picture）</li>
+        <h2><span id="cd-change-directory">cd (change directory)</span></h2><p><strong>切换到某个目录</strong></p>
+<p><code>cd /to/path</code></p>
+<p><strong>回到用户主目录</strong></p>
+<p><code>cd</code></p>
+<p><strong>返回前一个目录</strong></p>
+<p>只会记录一个前一个目录的记录，并不会记录所有的记录。</p>
+<p><code>cd -</code></p>
+<h2><span id="pwd-present-working-directory">pwd (present working directory)</span></h2><p>查看当前目录</p>
+<h2><span id="pushd-amp-popd-push-to-directory-pop-back">pushd &amp; popd (push to directory, pop back)</span></h2><p><code>cd</code>有一个缺点就是它无法保存导航的记录，如果切换到某几个文件夹之后想回到之前的路径就有点困难。特别是在写某一些脚本的时候，切换到某个目录下执行一些任务以后希望能够回到之前的目录。</p>
+<p><code>pushd</code>可以很简单的解决这个问题。<code>pushd</code>命令将导航的历史记录利用栈的数据结构进行存储，可以push n层目录，然后逐级的pop出来。</p>
+<p><strong>push到某个目录</strong></p>
+<p><code>pushd /to/path</code></p>
+<p><strong>pop会导航栈中上一个目录</strong></p>
+<p><code>popd</code></p>
+<p><strong>交换栈上最上面的两个路劲</strong></p>
+<p><code>pushd</code></p>
+<p><strong>旋转导航栈</strong><sup>[1]</sup></p>
+<p><code>pushd +2</code></p>
+<h2><span id="参考资料">参考资料</span></h2><ol>
+<li><a href="https://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29" target="_blank" rel="external">Stack Wikipedia</a></li>
 </ol>
-<p>这几个步骤应该都不会陌生，这里特别强调一下最后两个的重要性。做练习是测试自己是不是真的理解的一个重要途径。对于一些特殊的领域比如编程，自己写一遍代码绝对是会对问题的理解程度上一个台阶的。前提是你要合上材料，靠自己的理解和记忆写一个出来，这能够帮助你重新思考和推理一遍这个过程。</p>
-<p>最后一个是说要注意只是的上下文，这个更多的是帮助我们把这个知识放在一个更大的层面去考虑，将其与其他的一些已有的知识进行比较、联系从而增加这个知识的理解深度。</p>
-<h2><span id="几种错误的学习方法">几种错误的学习方法</span></h2><p>课程中提到了几个比较错误的学习方法，这些学习方法往往会让学习者产生一种自己已经掌握了这些知识的错觉。这几个方法包括：</p>
-<ul>
-<li>在课本上划出很多很多的重点</li>
-<li>反复的去读一段材料</li>
-<li>学习完以后做一个概念导图</li>
-</ul>
-<p>这些方法其实更多的是在形式层面进行重复和巩固的，而不是从思维上进行巩固。</p>
-<h2><span id="集中高效的学习方法">集中高效的学习方法</span></h2><p>应对上面错误的方法，下面这些方法可以帮助我们更好地学习掌握一门知识。</p>
-<ul>
-<li>在学习完一段材料以后，在不看笔记和材料的情况下尽可能的去回想学过的知识，在脑子里过一遍自己记住的一些知识点。尽力回顾完以后，再去巩固那些你已经忘记或不确定的知识点。反复几次。</li>
-<li>在不同的地方回想会帮助你摆脱一些环境上的暗示。</li>
-<li>着重去练习那些自己不熟悉的知识点，而不是反复做那些已经会的练习。</li>
-<li>Interleaving learning。这个概念是说在学习一个领域的知识的时候，可以选择多个知识点交替的学习。这样会让你拥有更高的学习效率，虽然说学习者本身可能没发觉。比如说，学习羽毛球的时候，不需要说学习完发球以后再学习扣杀，可以学一段时间发球，然后去学扣杀，接着再回来学发球。这会让你能够在不同点之间的经验共享。</li>
-</ul>
-<h2><span id="关于思维导图个人观点">关于思维导图(个人观点)</span></h2><p>上面的错误的学习方法中提到了一个concept mapping的东西，这个我觉得跟思维导图很像。思维导图看上去是一个帮助记忆的方法，但是我觉得如果用得不对的话其实也是错误的。</p>
-<p>我觉得正确的方法是在看完一本书，或学习完一段知识以后。脱离开来材料，靠脑子回想知识点以及知识点之间的联系，然后借助思维导图这个工具把这些联系个表达出来。这就是上面我所说的回想的那个过程，只是说把脑子里的“chunk”通过思维导图的形式表达出来而已。思维导图中各个点之间的联系可以跟书本上的联系不一样，但是一定是要你脑子里真实的联系，否则的话下次你看到这个思维导图就不能够快速回想起这些内容。</p>
-<h2><span id="几个问题">几个问题</span></h2><p>依然有以下几个问题没有得到很好的答案。</p>
-<ol>
-<li>如何克服思维定势？</li>
-<li>如何利用好diffuse mode？</li>
-</ol>
-<p><img src="/img/learning_how_to_learn_week_2.png" alt="Learning how to learn week 2 mindmap"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/心理学/">心理学</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/心理学/">心理学</a><a href="/tags/思考方法/">思考方法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/05/learning-how-to-learn-module-2-note/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/04/27/learning-how-to-learn-module-1-note/" title="Learning how to learn 第一周笔记" itemprop="url">Learning how to learn 第一周笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-04-27T14:34:26.000Z" itemprop="datePublished"> 发表于 2016-04-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Coursera 上经典课程<a href="https://www.coursera.org/learn/learning-how-to-learn/home/welcome" target="_blank" rel="external">Learning how to learn</a> 第一周。</p>
-<p>第一周的内容总体框架总结了一下，见思维导图。另外有几个点想要着重的记录一下。</p>
-<h3><span id="重复练习">重复/练习</span></h3><p>课程中提到了大脑有两种主要的记忆系统，一种是工作记忆，一种是长期记忆。工作记忆存在的时间非常短，并且容量很小。当我们解决思考一些问题的时候，我们一般会在工作记忆中进行操作，有可能在这个过程中从长期记忆中载入一些以前学会的知识或模式。</p>
-<p>跟工作记忆相比，长期记忆的有巨大的容量，能够存储非常多的内容。当我们尝试把一个短期记忆转化成长期记忆的时候，一开始记忆在长期记忆中行程的模式是比较弱的。我们需要重复的去访问长期记忆来加深这个模式，来提高这个模式以后被记住的概率。这个就是我们所谓的熟能生巧。</p>
-<p>长期记忆的行程有点像肌肉的形成，需要的不是短时间内的大量训练。而是训练一次，然后休息一段时间，在训练，在休息。这个叫做<a href="https://www.wikiwand.com/en/Spaced_repetition" target="_blank" rel="external">Spaced Repetition</a>。</p>
-<p>从某个角度来说，长期记忆基本上就是一个人所掌握的知识和技巧所存储的区域。当我们学习一件事情的时候，如果说不能够做到把这些技能和知识存储到长期记忆里，那么就意味着以后需要用的时候你很有可能会想不起来，可能会重新经历一遍短期学习的过程。这个不就完全浪费了之前的时间了么？</p>
-<p>所以我认为，当我们决定去学习一样东西的时候，就要做出把这个东西学透，让它成为自己大脑的一部分。否则就不要学了，反正学了也忘记了。另外一种方法，我觉得可以通过学习以后多次作总结来帮助把自己的记忆通过文字的形式持久化下来，从而加速下次回忆的过程。</p>
-<p> &lt;!– more —&gt;</p>
-<h3><span id="锻炼休息">锻炼/休息</span></h3><p>课程中提到，当我们做一些创造性或学习新事物的时候，大脑处于发散状况会更加的有助于我们的学习。而让大脑切换到发散状况的方法主要是放松、锻炼等方式达到的。同时锻炼还能够帮助我们的大脑产生新的神经元，这也会帮助我们保持一个清醒的大脑。</p>
-<p><img src="/img/learning_how_to_learn_module_1_mindmap.png" alt="笔记思维导图"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/心理学/">心理学</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/心理学/">心理学</a><a href="/tags/思考方法/">思考方法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/04/27/learning-how-to-learn-module-1-note/#disqus_thread" class="comments-count-link">Comments</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/04/05/some-thought-about-git-workflow/" title="Git workflow的一些想法" itemprop="url">Git workflow的一些想法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
-		
-  <p class="article-time">
-    <time datetime="2016-04-05T15:19:09.000Z" itemprop="datePublished"> 发表于 2016-04-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>今天读到了一篇文章<a href="http://insights.thoughtworkers.org/gitflow-consider-harmful/" target="_blank" rel="external">《Gitflow有害论》</a>， 虽然文章的标题有点极端，但是其中的观点还是很有价值的。结合工作中使用git的一些感想，谈一谈我对于使用git的workflow的一些想法。</p>
-<h2><span id="gitflow">Gitflow</span></h2><p><img src="https://farm2.staticflickr.com/1627/26186579461_61597a4f0d_b.jpg" alt="gitflow"></p>
-<p>在这篇文章之前并没有认真的看过Gitflow的整个流程，一开始使用git的时候看到过这个流程，但是由于过于复杂而且大家对git都不大熟悉，所以没有采用这个流程。</p>
-<p>从我个人的经验来看这个Gitflow，有下面几个很明显的坑。</p>
-<ol>
-<li>某一些feature分支的时间跨度太大，这会导致一个很严重的问题就是当这个feature分支回到develop的时候可能会产生很多冲突。而且这些冲突可能涉及到业务逻辑层面，需要额外的工作量去fix。而且这个过程往往很纠结且容易出错。2. </li>
-<li>feature时间跨度太大的另一个坏处就是pull request会变得很大，一个很大的pull request往往会让review的人很头疼。很容易让代码review的人忽略其中隐藏的一些问题。</li>
-</ol>
-<p>除了这两个比较大的坑以外，关于release branch和master branch的分工，我觉得添加了很多工作量和复杂度，但并没有带来明显的好处。</p>
-<h2><span id="github-的flow">Github 的flow</span></h2><p>github的flow其实非常的简单，详见：<a href="https://guides.github.com/introduction/flow/" target="_blank" rel="external">Understanding the GitHub Flow</a>，<a href="http://scottchacon.com/2011/08/31/github-flow.html" target="_blank" rel="external">GitHub Flow</a>。</p>
-<p>从文中可以看出，这个workflow里只有两种分支。一种是master 分支，这个分支是高质量可以随时部署的分支。另一种则是feature分支，即功能开发的分支。开发完以后直接通过Pull Request的形式回到master。</p>
-<p>可以看出github的flow非常的简洁明了。但是我觉得采用这种flow有两个大前提：</p>
-<ol>
-<li><p>CI能够在Pull Request阶段覆盖大部分的测试案例。</p>
-</li>
-<li><p>项目必须是类似于github这种web的项目，可以进行频繁的产品部署。并且能够迅速的修复发现的问题。</p>
-</li>
-</ol>
-<h2><span id="我认为理想的git-workflow">我认为理想的git workflow</span></h2><p>我认为没有一种放之四海而皆准的workflow，一个项目所采用的workflow其实主要取决于组织的文化和产品的特点。</p>
-<p>我认为一个好的workflow应该满足一下几个条件：</p>
-<ol>
-<li>只有一个master分支，不需要develop分支。</li>
-<li>有一个良好的持续集成环境，能够对每一个pull request进行验证，确保其通过所有的测试。</li>
-<li>feature分支要尽可能的小，如果没办法确实需要做很多改动的话。那么就当完成一部分可以work的代码的时候，发出Pull Request。将这一部分先回到master。这个主要是为了让Pull Request更精简，让代码冲突更早的暴露并解决。</li>
-<li>对于客户端的应用，release分支不可避免。拉出release分支的时候如果有一些不需要的功能或未完成的功能通过一些技术（Feature Toggle，Branch by Abstraction）来将其屏蔽。</li>
-<li>当release分支中有bug的时候，在master上做修复，并cherry pick到release分支。如果无法cherry pick，则手动修改。</li>
-<li>release版本后在release分支上打上tag以便日后的hotfix。</li>
-</ol>
-<p>我这里提到的这些点跟<a href="http://insights.thoughtworkers.org/gitflow-consider-harmful/" target="_blank" rel="external">《Gitflow有害论》</a>文中提到的Trunk Based Development工作流其实有点像。但是我对于这个Trunk Based Development还没有研究透，不敢妄下结论。</p>
-<p>文中还提到了一下技术：Feature Toggle，Branch by Abstraction。看了给出的链接，有点粗浅的认识，改天深入的去仔细阅读一些这些技术。</p>
 
         
         
@@ -316,7 +136,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/git/">git</a><a href="/tags/gitflow/">gitflow</a><a href="/tags/项目控制/">项目控制</a>
+  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
   </div>
 
 </div>
@@ -327,7 +147,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/04/05/some-thought-about-git-workflow/#disqus_thread" class="comments-count-link">Comments</a>
+		<a href="/2016/06/02/learning-shell-cd-pwd-pushd-popd/#disqus_thread" class="comments-count-link">Comments</a>
 	
 </div>
 
@@ -347,22 +167,268 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/04/restart-bloging/" title="重新开始写博客" itemprop="url">重新开始写博客</a>
+      <a href="/2016/05/31/unix-standard-input-output-redirection/" title="Mac 命令学习 - 标准输入输出重定向" itemprop="url">Mac 命令学习 - 标准输入输出重定向</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-04T15:13:44.000Z" itemprop="datePublished"> 发表于 2016-04-04</time>
+    <time datetime="2016-05-31T15:00:02.000Z" itemprop="datePublished"> 发表于 2016-05-31</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>离上次写博客已经是很久的事情了，记得很早以前就看过关于写博客的好处，也自己写过文章阐述过写作的各种好处。但是最终还是没有坚持下来，其实回头想想但是也并没有说想要坚持写作，只是觉得写文章确实是一个帮助整理思路的好办法。</p>
-<p>这个时代是信息泛滥的一个时代，很多道理我没会在各种各样不一样的场合看到，但是并没有卵用，为什么？因为道理往往很简单，你其实做不到。这个跟旅游很像，当你还没去一个地方的时候看过很多照片，看过很多游记，你可能觉得你已经很了解这个地方了，但是当你真正去到那个地方的时候你会你自己的感受。这种感受不是你看再多照片，读再多游记能够感受到的。这就跟你看再多别人总结出来的道理和经验都是没用的，因为你没有自己亲身实践过那些道理和经验就不是你自己的。</p>
-<p>废话不多说，也不做无用的计划，just do it。接下来我会坚持写一些技术上的学习心得，翻译一些有趣的外文文章，读书笔记，生活上的一些想法等等。通过输出的方式倒逼自己做更多的输入，做更多的思考，把一些无序的思考转化成有效的思考，让自己的思考更加的有深度。</p>
+        <h2><span id="预备知识">预备知识</span></h2><h3><span id="文件描述符-file-descriptor">文件描述符( File Descriptor )</span></h3><p>在Unix 系统中文件描述符是用于访问文件、输入输出、管道、网络套接字的一个抽象概念<sup>[3]</sup>。文件描述符是一个非负的正整数，每一个Unix进程中都会有三个与<a href="https://www.wikiwand.com/en/Standard_streams" target="_blank" rel="external">标准流</a>所对应的的POSIX文件描述符，分别为：</p>
+<ol>
+<li><code>stdin</code> - 标准输入，提供给应用的标准输入。文件描述符为<strong>0</strong>。</li>
+<li><code>stdout</code> - 标准输出，程序的输出，在非重定向的情况下为终端。文件描述符为<strong>1</strong>。</li>
+<li><code>stderr</code> - 标准错误输出，程序的错误输出。文件描述符为<strong>2</strong>。</li>
+</ol>
+<p>关于文件描述符的详细，见文章</p>
+<h2><span id="输出重定向">输出重定向</span></h2><p>有两种方式可以将输出重定向：</p>
+<ul>
+<li><p><strong>n</strong>&gt; file<br>将文件描述符n重定向到文件file中，如果文件不存在则会创建文件，如果存在的话将会覆盖原有内容。</p>
+</li>
+<li><p><strong>n</strong>&gt;&gt; file<br>将文件描述符n重定向到文件file中，如果文件不存在将会创建文件，如果存在则会在文件的结尾开始写入输出。</p>
+</li>
+</ul>
+<p>如果我们没有指定文件描述符，则默认为1，即标准输出。</p>
+<h3><span id="重定向到不同的文件">重定向到不同的文件</span></h3><p>我们可以把<code>stdout</code>和<code>stderr</code>输出到不同的文件，例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ ls</span><br><span class="line">	file1 file2 file3</span><br><span class="line">zhengyi$ ls f* e* 1&gt;out.txt 2&gt;err.txt</span><br><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br><span class="line">zhengyi$ cat err.txt </span><br><span class="line">	ls: e*: No such file or directory</span><br></pre></td></tr></table></figure>
+<h3><span id="重定向到一个文件">重定向到一个文件</span></h3><p>很多情况下我们需要将<code>stdout</code>和<code>stderr</code>输出到同一个文件中，这个时候我们可以使用 <code>&amp;&gt;</code> or <code>&amp;&gt;&gt;</code>，它们会把标准输出和标准错误输出到一起。</p>
+<p>另外一种方法是利用<code>m&gt;&amp;n</code>，将某一个输出重定向到另一个输出中来。这个时候需要注意的是使用它们的顺序，比如下面这个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ ls f* z* 1&gt;out.txt 2&gt;&amp;1</span><br><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	ls: z*: No such file or directory</span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br><span class="line">zhengyi$ ls f* z* 2&gt;&amp;1 1&gt;out.txt </span><br><span class="line">	ls: z*: No such file or directory</span><br><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br></pre></td></tr></table></figure></p>
+<p><code>ls f* z* 1&gt;out.txt 2&gt;&amp;1</code>这个例子是先将标准输出重定向到文件out.txt中，然后将标准错误重定向到标准输出中，这个是可以工作的。<code>ls f* z* 2&gt;&amp;1 1&gt;out.txt</code>这个例子中，先将标准错误重定向到了标准输入，这个时候的标准输入指向的是默认的标准输入，而当后面将标准输入重定向到文件out.txt时，并不会改变标准错误的输出目标。</p>
+<h3><span id="忽略某一些输出">忽略某一些输出</span></h3><p>比如说我们想要过滤输出中的错误，那么我们可以将标准错误输出到<code>/dev/null</code>中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ ls f* z*</span><br><span class="line">	ls: z*: No such file or directory</span><br><span class="line">	file1 file2 file3</span><br><span class="line">zhengyi$ ls f* z* 2&gt;/dev/null </span><br><span class="line">	file1 file2 file3</span><br></pre></td></tr></table></figure>
+<h2><span id="输入重定向">输入重定向</span></h2><p>与输出重定向相反，输入重定向是利用”&lt;”符号来表达的。例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ cat out.txt </span><br><span class="line">	err.txt</span><br><span class="line">	file1</span><br><span class="line">	file2</span><br><span class="line">	file3</span><br><span class="line">	out.txt</span><br><span class="line">zhengyi$ sort -r &lt; out.txt </span><br><span class="line">	out.txt</span><br><span class="line">	file3</span><br><span class="line">	file2</span><br><span class="line">	file1</span><br><span class="line">	err.txt</span><br></pre></td></tr></table></figure>
+<p>输出重定向可以和输入重定向组合起来一起使用，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zhengyi$ sort -r &lt; out.txt &gt; sorted.txt</span><br></pre></td></tr></table></figure>
+<p>这个是将out.txt作为输入，然后把sort的结果重定向到sorted.txt中。同时使用输入和输出重定向的时候需要注意一点就是尽量避免使用同一个文件。比如说上面这个sort的例子，如果指向同一个文件，那么一开始输出重定向会先把out.txt文件清空。</p>
+<h2><span id="参考资料">参考资料</span></h2><ol>
+<li><a href="http://www.ibm.com/developerworks/library/l-lpic1-v3-103-4/l-lpic1-v3-103-4-pdf.pdf" target="_blank" rel="external">Learn Linux, 101: Streams, pipes, and redirects</a></li>
+<li><a href="http://linuxcommand.org/lc3_lts0070.php" target="_blank" rel="external">I/O Redirection</a></li>
+<li><a href="https://www.wikiwand.com/en/File_descriptor" target="_blank" rel="external">Wikipedia - File Descriptor</a></li>
+</ol>
+<p><strong>阅读更多</strong></p>
+<a href="/2016/05/23/learning-shell-in-mac/" title="Mac/Linux 命令学习">Mac/Linux 命令学习</a>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a><a href="/tags/linux/">linux</a><a href="/tags/操作系统/">操作系统</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/31/unix-standard-input-output-redirection/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/30/learning-shell-in-mac-cat/" title="Mac 命令学习-每日一贴之cat" itemprop="url">Mac 命令学习-每日一贴之cat</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-30T15:05:40.000Z" itemprop="datePublished"> 发表于 2016-05-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2><span id="基本">基本</span></h2><p>cat基本用途是把指定文件读取出来，并输出到STDOUT中。</p>
+<p><code>cat [-benstuv] [file ...]</code></p>
+<h2><span id="常用功能">常用功能</span></h2><p><code>-b</code> 打印出行数，不包含空白行，从1开始<br><code>-n</code> 打印出行数，包括空白航，从1开始<br><code>-e</code> 显示不能打印的字符，每行结尾打印<code>$</code>符号<br><code>-t</code> 显示不能打印的字符，制表符显示为<code>^I</code></p>
+<h2><span id="使用场景">使用场景</span></h2><p><strong>打印一个文件到终端来查看其中内容</strong></p>
+<p><code>cat file</code></p>
+<p><strong>打印文件到另一个文件中</strong></p>
+<p><code>cat file1 &gt; file2</code></p>
+<p><strong>打印文件到另一个文件结尾</strong></p>
+<p><code>cat file1 &gt;&gt; file2</code></p>
+<p>参考<a href="/2016/05/31/unix-standard-input-output-redirection/" title="输入输出重定向">输入输出重定向</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/shell/">shell</a><a href="/tags/mac/">mac</a><a href="/tags/terminal/">terminal</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/30/learning-shell-in-mac-cat/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/28/africa-30-kilo-metre-reading-note/" title="《非洲三万里》读书笔记" itemprop="url">《非洲三万里》读书笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-28T12:16:36.000Z" itemprop="datePublished"> 发表于 2016-05-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><img src="https://img3.doubanio.com/lpic/s28383445.jpg" alt="非洲三万里-封面"></p>
+<h2 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h2><p>毕淑敏对于我来说是一个既熟悉又陌生的作家，熟悉是因为在初高中的时候语文老师经常会将其散文、短文给我们当做阅读材料。陌生呢，是因为我记不起来任何一篇她的作品，也没有主动地去读过她任何一本书。非洲加上毕淑敏，这个组合吸引了我去阅读这本书，我想看看一位作家是如何写她的游记的。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/05/28/africa-30-kilo-metre-reading-note/#more">阅读全文</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/读书笔记/">读书笔记</a><a href="/tags/非洲/">非洲</a><a href="/tags/旅行/">旅行</a><a href="/tags/毕淑敏/">毕淑敏</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/28/africa-30-kilo-metre-reading-note/#disqus_thread" class="comments-count-link">Comments</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/27/unity-of-knowlede-and-action/" title="“知行合一”" itemprop="url">“知行合一”</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Yi" target="_blank" itemprop="author">Yi</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-27T12:50:23.000Z" itemprop="datePublished"> 发表于 2016-05-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>知识对于一个人有三种状态，不知道的，知道的，做到的。本文不讨论不知道的情况。</p>
+<p><img src="/img/know_vs_action.png" alt="知行合一"></p>
+<p>我认为大多数的知识停留在知道这个层面。我们可以通过很多途径学习、吸收知识，但是我们在做一件事情的时候，驱动我们的不是这些知识，而是习惯和潜意识。比如说学打羽毛球，一个新手通过看视频、看动作要领等学习到了很多关于打羽毛球的要领，但是这跟打好羽毛球其实并没有直接的关系。只能说掌握了这些知识可能能让你学打羽毛球的过程变得简单一些，等你最终学会了打羽毛球的时候，你脑子里想的绝对不是动作要领，因为这些复杂的动作已经转化成你脑子里的一个memory chunk。所以从小到大从书本上学到了很多大道理，知道了很多励志的故事，但绝大多数仅仅只是停留在知道的层面上。</p>
+<p>我们做一件事情的时候，很多时候是带着一种惯性去做的。一个在某一方面很牛逼的人，你如果问他你为什么这么牛？他可能会跟你说出很多点，但是这并不意味着你知道了这些点你就能成为跟他一样的人。一是因为你觉的很牛逼事情，在他看来可能只是一件随随便便就能做到的事情，他背后包含的是他长期以来形成的惯性。而他给出的一些点往往只是他做出来的一个不完全的总结，你不可能完全重复他的成长轨迹。</p>
+<p>往往越高层次的人给出的一些建议约精炼。如果你问你的manager让他给你一些建议，他可能会跟你说一堆如果在工作中做好的一些技巧。如果你问你们公司老板，他可能会跟你说一些人生小建议，而不涉及到一些具体的东西。而如果你去问乔布斯，他可能就跟你说一句话，“Stay Hungry Stay Foolish”。</p>
+<p>从知道到做到是有一个巨大的鸿沟的，而从做到到知道往往只有咫尺之遥。</p>
+<p>那是不是说知道这个层面就不重要呢？并不然。我们的行为系统是需要知识系统支撑的，如果你什么都不知道你能做的事情其实很少。我们需要做的就是尽可能的把我们知道的内化成我们自己的一部分，融入到我们的行为当中。届时，即使你可以把所有的技巧知识都忘了，你依然可能随时从你的大脑深处召唤出来。这就像倚天屠龙记里面张三丰教张无忌太极剑法，教完问其记得么？当张无忌说全忘了的时候，也就是他全部融会贯通的时候。</p>
+<p>纵然我们没有张无忌这般天赋异禀，但我们也可以通过多练习和思考慢慢的去忘掉那些讨人厌的各种技巧、各种道理。 我觉得可以通过以下几种方法进行修炼：</p>
+<ol>
+<li>当你在做一件你需要提高的事情的时候，给自己提一些更高的要求，并尽可能的去思考如何才能做得更好。可以观察自身的一些特点习惯中找到进步的点，也可以尽可能的去回想你所知道的知识中有哪一些可以帮助你提高。</li>
+<li>在做的过程中，以及做完之后要经常的用一个“上帝视角”看看你做的事情。有哪些做的不好？为什么做不好？是因为旧的习惯还是说某些知识的缺乏。</li>
+<li>通过阅读等方法拓宽自己知识体系，并积极将其跟自己的实践结合起来思考。如果你在下一次做这个事情的时候能够注意到这个点这就够了。何况这样可以让我们站在前人的肩膀上，为什么不呢？</li>
+</ol>
+<p>我不知道王阳明当时提出“知行合一”的原意是什么，但是我理解的“知行合一”是通过行动将你知道的和你能做到的进行统一，从而达到一个”忘记”的境界。</p>
+<p>[end]</p>
+<hr>
 
         
         
@@ -381,7 +447,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/写作/">写作</a>
+  <span></span> <a href="/tags/思考/">思考</a><a href="/tags/行动/">行动</a>
   </div>
 
 </div>
@@ -392,7 +458,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/04/04/restart-bloging/#disqus_thread" class="comments-count-link">Comments</a>
+		<a href="/2016/05/27/unity-of-knowlede-and-action/#disqus_thread" class="comments-count-link">Comments</a>
 	
 </div>
 
@@ -408,7 +474,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
   </nav>
 
 </div>
@@ -432,6 +498,10 @@
 		<ul>
 		
 		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/心理学/" title="心理学">心理学<sup>2</sup></a></li>
 		  
 		
@@ -444,7 +514,7 @@
 		  
 		
 		  
-			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+			<li><a href="/categories/编程语言/" title="编程语言">编程语言<sup>12</sup></a></li>
 		  
 		
 		  
@@ -465,7 +535,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
+				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>13</sup></a></li>
 			
 		
 			
@@ -477,11 +547,19 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>6</sup></a></li>
+				<li><a href="/tags/terminal/" title="terminal">terminal<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程语言/" title="编程语言">编程语言<sup>6</sup></a></li>
+				<li><a href="/tags/C-11/" title="C++11">C++11<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/并发编程/" title="并发编程">并发编程<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>7</sup></a></li>
 			
 		
 			
@@ -501,15 +579,15 @@
 			
 		
 			
+				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/毕淑敏/" title="毕淑敏">毕淑敏<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/旅行/" title="旅行">旅行<sup>1</sup></a></li>
+				<li><a href="/tags/系统架构/" title="系统架构">系统架构<sup>1</sup></a></li>
 			
 		
 			
@@ -517,7 +595,11 @@
 			
 		
 			
-				<li><a href="/tags/非洲/" title="非洲">非洲<sup>1</sup></a></li>
+				<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
 			
 		
 			
@@ -530,18 +612,6 @@
 		
 			
 				<li><a href="/tags/gitflow/" title="gitflow">gitflow<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/项目控制/" title="项目控制">项目控制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/阅读/" title="阅读">阅读<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C-11/" title="C++11">C++11<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -566,6 +636,8 @@
         
     </ul>
 </div>
+
+  
 
 </aside>
 </div>
